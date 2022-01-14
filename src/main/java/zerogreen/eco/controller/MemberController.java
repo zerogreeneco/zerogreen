@@ -28,7 +28,6 @@ public class MemberController {
         return "member/register";
     }
 
-    // 회원가입
     @PostMapping("/add")
     public String addMember(Member member) {
         log.info("member={}", member);
