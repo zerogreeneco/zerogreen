@@ -14,7 +14,7 @@ public class MemberServiceImpl implements MemberService{
     private final UserRepository userRepository;
 
     public Long save(Member member) {
-        //
+        // TEST
         return userRepository.save(new Member(member.getUsername(), member.getNickname(), member.getPhoneNumber(), member.getPassword(),
                 UserRole.USER, member.getVegetarianGrade())).getId();
     }
