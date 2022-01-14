@@ -9,4 +9,6 @@ import zerogreen.eco.repository.UserRepository;
 public interface MemberService {
 
     public Long save(Member member);
+
+    public void memberUpdate(Long id, Member member);
 }

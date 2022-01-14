@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @DiscriminatorValue("FOOD")
 @Table(name = "FOOD_STORE")
-public class FoodStoreUser extends User {
+public class FoodStoreUser extends BasicUser {
 
     @Embedded
     private StoreInfo storeInfo;

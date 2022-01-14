@@ -1,6 +1,5 @@
 package zerogreen.eco.repository;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +24,7 @@ public class MemberRepositoryTest {
         Member member = new Member("test", "test2", "000000", "135", UserRole.USER, VegetarianGrade.LACTO);
 
         userRepository.save(member);
-        Optional<User> findMember = userRepository.findById(member.getId());
+        Optional<BasicUser> findMember = userRepository.findById(member.getId());
         assertThat(member).isEqualTo(findMember.get());
     }
 
