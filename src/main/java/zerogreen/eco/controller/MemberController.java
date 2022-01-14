@@ -31,8 +31,13 @@ public class MemberController {
     }
 
     @PostMapping("/add")
-    public String addMember(@Validated @ModelAttribute("member") MemberJoinDto member) {
+    public String addMember(@Validated @ModelAttribute("member") MemberJoinDto member, BindingResult bindingResult, Model model) {
         log.info("member={}", member);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("vegan", VegetarianGrade.values());
+            return "member/register";
+        }
 
         Member joinMember = member.toMember(member);
 
