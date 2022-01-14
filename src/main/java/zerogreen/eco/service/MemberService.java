@@ -6,16 +6,9 @@ import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.UserRepository;
 
-@Service
-@RequiredArgsConstructor
-public class MemberService {
+public interface MemberService {
 
-    private final UserRepository userRepository;
+    public Long save(Member member);
 
-    public Long save(Member member) {
-
-        return userRepository.save(new Member(member.getUsername(), member.getNickname(), member.getPhoneNumber(), member.getPassword(),
-                UserRole.USER, member.getVegetarianGrade())).getId();
-    }
-
+    public void memberUpdate(Long id, Member member);
 }

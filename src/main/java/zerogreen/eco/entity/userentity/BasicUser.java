@@ -1,20 +1,18 @@
 package zerogreen.eco.entity.userentity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "User_Type")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class User extends BaseTimeEntity {
+public class BasicUser extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -29,18 +27,23 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    public User(String username, String nickname, String phoneNumber, String password) {
+    public BasicUser(String username, String nickname, String phoneNumber, String password) {
         this.username = username;
         this.nickname = nickname;
         this.phoneNumber = phoneNumber;
         this.password = password;
     }
 
-    public User(String username, String nickname, String phoneNumber, String password, UserRole userRole) {
+    public BasicUser(String username, String nickname, String phoneNumber, String password, UserRole userRole) {
         this.username = username;
         this.nickname = nickname;
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.userRole = userRole;
+    }
+
+    public BasicUser(String nickname, String phoneNumber) {
+        this.nickname = nickname;
+        this.phoneNumber = phoneNumber;
     }
 }

@@ -30,21 +30,31 @@
         <div>
             <label for="loginId">로그인 ID</label>
             <input type="text" id="loginId" th:field="*{username}" class="form-control">
+            <div th:errors="*{username}">
+                아이디 오류
+            </div>
 
         </div>
         <div>
             <label for="password">비밀번호</label>
-            <input type="password" id="password" th:field="*{password}" class="form-control"
-                   >
+            <input type="password" id="password" th:field="*{password}" class="form-control">
+            <div th:errors="*{password}">
+                비번 오류
+            </div>
         </div>
         <div>
             <label for="name">nickname</label>
-            <input type="text" id="nickanme" th:field="*{nickname}" class="form-control"
-                   >
+            <input type="text" id="nickanme" th:field="*{nickname}" class="form-control">
+            <div th:errors="*{nickname}">
+                닉네임 오류
+            </div>
         </div>
         <div>
             <label for="name">phoneNumber</label>
-            <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control"                   >
+            <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control">
+            <div th:errors="*{phoneNumber}">
+                전화 오류
+            </div>
         </div>
 
         <div th:each="vegan : ${vegan}">
@@ -52,6 +62,13 @@
             <label th:for="${#ids.prev('vegetarianGrade')}" th:text="${vegan.vegetarian}"></label>
 
         </div>
+
+<!--/*        <div>
+            <select th:field="*{vegetarianGrade}">
+                <option value="">==베지테리언 등급==</option>
+                <option th:each="vegan : ${vegan}" th:value="${vegan.name()}" th:text="${vegan.vegetarian}"></option>
+            </select>
+        </div>*/-->
 
 
         <hr class="my-4">

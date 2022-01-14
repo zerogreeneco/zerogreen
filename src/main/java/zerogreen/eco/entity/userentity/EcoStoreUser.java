@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @DiscriminatorValue("ECO")
 @Table(name = "ECO_STORE")
-public class EcoStoreUser extends User {
+public class EcoStoreUser extends BasicUser {
 
     private String storeRegNum;
 
