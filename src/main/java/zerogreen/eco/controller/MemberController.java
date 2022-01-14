@@ -24,8 +24,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/add")
-    public String addForm(@ModelAttribute("member") Member member, BindingResult result,Model model) {
-        model.addAttribute("model", member);
+    public String addForm(@ModelAttribute("member") MemberJoinDto member, Model model) {
         model.addAttribute("vegan", VegetarianGrade.values());
         return "member/register";
     }
