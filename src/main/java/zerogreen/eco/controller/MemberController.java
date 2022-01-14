@@ -24,15 +24,19 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/add")
-    public String addForm(@ModelAttribute("member") Member member, BindingResult result,Model model) {
-        model.addAttribute("model", member);
+    public String addForm(@ModelAttribute("member") MemberJoinDto member, Model model) {
         model.addAttribute("vegan", VegetarianGrade.values());
         return "member/register";
     }
 
     @PostMapping("/add")
-    public String addMember(@Validated @ModelAttribute("member") MemberJoinDto member) {
+    public String addMember(@Validated @ModelAttribute("member") MemberJoinDto member, BindingResult bindingResult, Model model) {
         log.info("member={}", member);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("vegan", VegetarianGrade.values());
+            return "member/register";
+        }
 
         Member joinMember = member.toMember(member);
 

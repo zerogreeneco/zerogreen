@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 public class MemberJoinDto {
 
     @NotBlank
-    @Email
+    @Email // @ 없으면 에러 발생 마지막 .com 등이 빠져도 로직 진행 Ok
     private String username;
 
     @NotBlank
