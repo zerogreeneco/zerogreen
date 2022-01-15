@@ -1,14 +1,14 @@
 package zerogreen.eco.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import zerogreen.eco.entity.userentity.Member;
-import zerogreen.eco.entity.userentity.UserRole;
-import zerogreen.eco.repository.UserRepository;
+
+import java.util.Optional;
 
 public interface MemberService {
 
     public Long save(Member member);
 
     public void memberUpdate(Long id, Member member);
+
+    public Optional<Member> findById(Long id);
 }

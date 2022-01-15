@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Rollback(false)
 public class MemberRepositoryTest {
     @Autowired
-    UserRepository userRepository;
+    BasicUserRepository userRepository;
 
     @Test
     public void 회원저장() {

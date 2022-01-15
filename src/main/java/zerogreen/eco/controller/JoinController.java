@@ -6,20 +6,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.MemberJoinDto;
+import zerogreen.eco.dto.MemberUpdateDto;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
+import zerogreen.eco.repository.MemberRepository;
 import zerogreen.eco.service.MemberService;
+
+import java.util.Optional;
 
 @Controller
 @Slf4j
-@RequestMapping("/")
+@RequestMapping("/members")
 @RequiredArgsConstructor
-public class MemberController {
+public class JoinController {
 
     private final MemberService memberService;
 
@@ -39,9 +40,10 @@ public class MemberController {
         }
 
         Member joinMember = member.toMember(member);
-
         memberService.save(joinMember);
-        return "redirect:add";
+        log.info("joinMember={}",joinMember);
+
+        return "redirect:/login";
     }
 
 }
