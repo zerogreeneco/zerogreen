@@ -9,6 +9,7 @@ import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.repository.MemberRepository;
 import zerogreen.eco.repository.BasicUserRepository;
+import zerogreen.eco.service.user.MemberService;
 
 import java.util.Optional;
 

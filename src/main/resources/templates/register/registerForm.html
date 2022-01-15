@@ -57,18 +57,12 @@
             </div>
         </div>
 
-        <div th:each="vegan : ${vegan}">
-            <input type="radio" th:field="*{vegetarianGrade}" th:value="${vegan.name()}">
-            <label th:for="${#ids.prev('vegetarianGrade')}" th:text="${vegan.vegetarian}"></label>
-
-        </div>
-
-<!--/*        <div>
+        <div>
             <select th:field="*{vegetarianGrade}">
                 <option value="">==베지테리언 등급==</option>
                 <option th:each="vegan : ${vegan}" th:value="${vegan.name()}" th:text="${vegan.vegetarian}"></option>
             </select>
-        </div>*/-->
+        </div>
 
 
         <hr class="my-4">

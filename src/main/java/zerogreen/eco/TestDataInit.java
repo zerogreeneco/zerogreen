@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
-import zerogreen.eco.service.MemberService;
+import zerogreen.eco.service.user.MemberService;
 
 import javax.annotation.PostConstruct;
 

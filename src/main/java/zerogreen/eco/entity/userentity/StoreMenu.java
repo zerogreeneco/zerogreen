@@ -1,6 +1,8 @@
 package zerogreen.eco.entity.userentity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
 
@@ -11,6 +13,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @ToString(exclude = {"foodStore", "ecoStore"})
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StoreMenu extends BaseTimeEntity {
 
     @Id

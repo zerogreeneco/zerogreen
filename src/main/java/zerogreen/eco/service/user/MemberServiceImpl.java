@@ -1,4 +1,4 @@
-package zerogreen.eco.service;
+package zerogreen.eco.service.user;
 
 
 import lombok.RequiredArgsConstructor;
