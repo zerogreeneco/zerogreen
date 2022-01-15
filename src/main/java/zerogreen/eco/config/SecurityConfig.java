@@ -20,16 +20,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.csrf().ignoringAntMatchers("/h2-console/**").disable();
         http.authorizeRequests()
-                .antMatchers("/users/**").authenticated()
-                .antMatchers("/store/**").access("hasRole('STORE') or hasRole('ADMIN')")
-                .antMatchers("/admin/**").access("hasRole('ADMIN')")
-                .antMatchers("/h2-console/**").permitAll()
-                .anyRequest().permitAll()
+                    .antMatchers("/users/**").authenticated()
+                    .antMatchers("/store/**").access("hasRole('STORE') or hasRole('ADMIN')")
+                    .antMatchers("/admin/**").access("hasRole('ADMIN')")
+                    .antMatchers("/h2-console/**").permitAll()
+                    .anyRequest().permitAll()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/login") // /login 주소가 호출이 되면 시큐리티가 대신 로그인을 진행
-                .defaultSuccessUrl("/");
+                    .formLogin()
+                    .loginPage("/login")
+                    .loginProcessingUrl("/login") // /login 주소가 호출이 되면 시큐리티가 대신 로그인을 진행
+                .and()
+                    .logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/login")
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID");
+
     }
 
     @Override

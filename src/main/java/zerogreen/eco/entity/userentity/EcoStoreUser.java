@@ -1,6 +1,8 @@
 package zerogreen.eco.entity.userentity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +13,7 @@ import java.util.List;
 @Getter
 @DiscriminatorValue("ECO")
 @Table(name = "ECO_STORE")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EcoStoreUser extends BasicUser {
 
     private String storeRegNum;

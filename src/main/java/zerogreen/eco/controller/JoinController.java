@@ -8,13 +8,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.MemberJoinDto;
-import zerogreen.eco.dto.MemberUpdateDto;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
-import zerogreen.eco.repository.MemberRepository;
-import zerogreen.eco.service.MemberService;
-
-import java.util.Optional;
+import zerogreen.eco.service.user.MemberService;
 
 @Controller
 @Slf4j
@@ -27,7 +23,7 @@ public class JoinController {
     @GetMapping("/add")
     public String addForm(@ModelAttribute("member") MemberJoinDto member, Model model) {
         model.addAttribute("vegan", VegetarianGrade.values());
-        return "member/register";
+        return "register/registerForm";
     }
 
     @PostMapping("/add")
@@ -36,7 +32,7 @@ public class JoinController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("vegan", VegetarianGrade.values());
-            return "member/register";
+            return "register/registerForm";
         }
 
         Member joinMember = member.toMember(member);
