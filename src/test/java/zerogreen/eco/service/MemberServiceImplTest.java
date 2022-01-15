@@ -1,28 +1,25 @@
 package zerogreen.eco.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.repository.MemberRepository;
-import zerogreen.eco.repository.UserRepository;
+import zerogreen.eco.repository.BasicUserRepository;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
 class MemberServiceImplTest {
 
     @Autowired
-    UserRepository userRepository;
+    BasicUserRepository userRepository;
     @Autowired
     MemberRepository memberRepository;
     @Autowired

@@ -12,6 +12,8 @@ import java.util.List;
 @Table(name = "FOOD_STORE")
 public class FoodStoreUser extends BasicUser {
 
+    private String storeRegNum;
+
     @Embedded
     private StoreInfo storeInfo;
 

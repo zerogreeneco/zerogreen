@@ -2,13 +2,12 @@ package zerogreen.eco.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.entity.userentity.Member;
-import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.MemberRepository;
-import zerogreen.eco.repository.UserRepository;
 
 import java.util.Optional;
 
@@ -18,23 +17,31 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
     public Long save(Member member) {
+        String encPassword = passwordEncoder.encode(member.getPassword());
+
         return memberRepository.save(new Member(member.getUsername(), member.getNickname(),
-                member.getPhoneNumber(), member.getPassword(), UserRole.USER, member.getVegetarianGrade()) )
+                member.getPhoneNumber(), encPassword, UserRole.USER, member.getVegetarianGrade()) )
                 .getId();
     }
 
     @Transactional
     @Override
     public void memberUpdate(Long id, Member member) {
-        Optional<Member> updateMember = memberRepository.findById(id);
+        Optional<Member> findeMember = memberRepository.findById(id);
 
-        BasicUser user = updateMember.get();
-        user.setNickname(member.getNickname());
-        user.setPhoneNumber(member.getPhoneNumber());
-        member.setVegetarianGrade(member.getVegetarianGrade());
+        Member updateMember  = findeMember.get();
+        updateMember.setNickname(member.getNickname());
+        updateMember.setPhoneNumber(member.getPhoneNumber());
+        updateMember.setVegetarianGrade(member.getVegetarianGrade());
+    }
+
+    @Override
+    public Optional<Member> findById(Long id) {
+        return memberRepository.findById(id);
     }
 }
