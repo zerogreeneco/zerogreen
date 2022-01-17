@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.UserRole;
-import zerogreen.eco.repository.MemberRepository;
+import zerogreen.eco.repository.user.MemberRepository;
 
 import java.util.Optional;
 

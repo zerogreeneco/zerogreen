@@ -30,7 +30,7 @@
 
         <div>
             <label for="loginId">로그인 ID</label>
-            <input type="text" id="loginId" th:field="*{username}" class="form-control"><button class="sendMail">인증</button>
+            <input type="text" id="loginId" th:field="*{username}" class="form-control"><input type="button" class="sendMail" value="인증">
             <div th:errors="*{username}">
                 아이디 오류
             </div>
@@ -86,6 +86,7 @@
 <script th:inline="javascript">
     $(function() {
         var id = $("#loginId").val();
+        var key = "";
 
         $(".sendMail").click(function() {
             if(id == "") {
@@ -97,9 +98,12 @@
                     data: {
                         mail:id
                     },
-                    dataType: "json"
+                    dataType: "json",
+                    success: function(data) {
+                        key = data.key;
+                    }
                 });
-                alert("인증 번호가 전송되었습니다.");
+                alert("인증 번호가 전송되었습니다. >>> " + key);
                 isCertification = true;
             }
         });

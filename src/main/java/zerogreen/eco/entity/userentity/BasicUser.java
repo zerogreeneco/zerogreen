@@ -28,13 +28,6 @@ public class BasicUser extends BaseTimeEntity {
     private UserRole userRole;
     private boolean AuthState; // 이메일 인증 여부
 
-    public BasicUser(String username, String nickname, String phoneNumber, String password) {
-        this.username = username;
-        this.nickname = nickname;
-        this.phoneNumber = phoneNumber;
-        this.password = password;
-    }
-
     public BasicUser(String username, String nickname, String phoneNumber, String password, UserRole userRole) {
         this.username = username;
         this.nickname = nickname;
