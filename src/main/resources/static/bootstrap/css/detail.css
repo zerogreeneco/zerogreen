@@ -1,0 +1,26 @@
+.temp1 {
+    background: #cbced4;
+    height: 200px;
+}
+.temp2 {
+    background: #898c91;
+    height: 200px;
+}
+
+.top, .sec {
+    display: inline-block;
+    background: #7e9cd9;
+}
+
+.rv-images {
+    background: #5187e0;
+}
+
+.rv-list {
+    background: #3d5885;
+}
+
+#rv-textarea {
+    width: 900px;
+    height: 60px;
+}
