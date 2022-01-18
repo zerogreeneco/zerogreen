@@ -1,4 +1,4 @@
-package zerogreen.eco.config;
+package zerogreen.eco.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import zerogreen.eco.security.handler.CustomAuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터 체인에 등록
@@ -29,6 +30,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .formLogin()
                     .loginPage("/login")
                     .loginProcessingUrl("/login") // /login 주소가 호출이 되면 시큐리티가 대신 로그인을 진행
+                    .failureUrl("/login?error=true")
+                    .failureHandler(failureHandler())
+                    .usernameParameter("username")
+                    .passwordParameter("password")
                 .and()
                     .logout()
                     .logoutUrl("/logout")
@@ -46,5 +51,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler failureHandler() {
+        return new CustomAuthenticationFailureHandler();
     }
 }

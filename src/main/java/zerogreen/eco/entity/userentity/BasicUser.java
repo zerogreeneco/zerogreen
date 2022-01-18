@@ -26,7 +26,19 @@ public class BasicUser extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+    private String authKey; // 회원 가입 인증 번호
     private boolean AuthState; // 이메일 인증 여부
+
+    public BasicUser(String username, String nickname, String phoneNumber,
+                     String password, UserRole userRole, String authKey, boolean authState) {
+        this.username = username;
+        this.nickname = nickname;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.userRole = userRole;
+        this.authKey = authKey;
+        AuthState = authState;
+    }
 
     public BasicUser(String username, String nickname, String phoneNumber, String password, UserRole userRole) {
         this.username = username;

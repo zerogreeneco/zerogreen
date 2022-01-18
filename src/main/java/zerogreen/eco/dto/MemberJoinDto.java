@@ -27,10 +27,12 @@ public class MemberJoinDto {
     @NotBlank
     private String password;
 
+    private String authKey;
+
     private VegetarianGrade vegetarianGrade;
 
     public Member toMember(MemberJoinDto memberJoinDto) {
         return new Member(memberJoinDto.username, memberJoinDto.nickname,
-                memberJoinDto.phoneNumber, memberJoinDto.password, UserRole.USER, memberJoinDto.vegetarianGrade);
+                memberJoinDto.phoneNumber, memberJoinDto.password, UserRole.USER, authKey, false, memberJoinDto.vegetarianGrade);
     }
 }

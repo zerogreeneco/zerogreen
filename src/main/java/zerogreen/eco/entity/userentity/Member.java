@@ -18,14 +18,21 @@ public class Member extends BasicUser {
     private VegetarianGrade vegetarianGrade;
 
     // 회원 가입용
-    public Member(String username, String nickname, String phoneNumber, String password, UserRole userRole, VegetarianGrade vegetarianGrade) {
-        super(username, nickname, phoneNumber, password, userRole);
+    public Member(String username, String nickname, String phoneNumber, String password,
+                  UserRole userRole, String authKey,Boolean authState,VegetarianGrade vegetarianGrade) {
+        super(username, nickname, phoneNumber, password, userRole,authKey,authState);
         this.vegetarianGrade = vegetarianGrade;
     }
 
     // 수정용
     public Member(String nickname, String phoneNumber, VegetarianGrade vegetarianGrade) {
         super(nickname, phoneNumber);
+        this.vegetarianGrade = vegetarianGrade;
+    }
+
+    // 테스트용
+    public Member(String username, String nickname, String phoneNumber, String password, UserRole userRole, VegetarianGrade vegetarianGrade) {
+        super(username, nickname, phoneNumber, password, userRole);
         this.vegetarianGrade = vegetarianGrade;
     }
 }
