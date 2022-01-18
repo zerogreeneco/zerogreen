@@ -47,7 +47,7 @@ public class TestDataInit {
 
             em.flush();
             em.clear();
-
+    // ㅅㄷㄴㄱ
             StoreMember updateEco = storeMemberRepository.findById(2L).get();
             updateEco.setStoreInfo(new StoreInfo("ECO STORE", "부산시 해운대구", "0517778888",
                     LocalDateTime.now(), LocalDateTime.now()));
