@@ -7,13 +7,31 @@
     height: 200px;
 }
 
+.detail-top {
+    height: 250px;
+}
+
+.rv {
+    height: auto;
+}
+
 .top, .sec {
     display: inline-block;
     background: #7e9cd9;
 }
 
+.detail-sec {
+    height: auto;
+    width: auto;
+}
+
+.sec {
+    height: 500px;
+}
+
 .rv-images {
     background: #5187e0;
+    height: 100px;
 }
 
 .rv-list {
