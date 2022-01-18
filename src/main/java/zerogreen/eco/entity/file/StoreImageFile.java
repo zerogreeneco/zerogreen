@@ -18,4 +18,6 @@ public class StoreImageFile {
 
     private String fileName;
     private String filePath;
+
+
 }

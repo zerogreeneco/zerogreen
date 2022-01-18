@@ -26,18 +26,13 @@ public class StoreMenu extends BaseTimeEntity {
     private VegetarianGrade vegetarianGrades;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "food_id")
-    private FoodStoreUser foodStore;
+    @JoinColumn(name = "store_id")
+    private StoreMember storeMember;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "eco_id")
-    private EcoStoreUser ecoStore;
-
-    public StoreMenu(String menuName, int menuPrice, VegetarianGrade vegetarianGrades, FoodStoreUser foodStore, EcoStoreUser ecoStore) {
+    public StoreMenu(String menuName, int menuPrice, VegetarianGrade vegetarianGrades, StoreMember storeMember) {
         this.menuName = menuName;
         this.menuPrice = menuPrice;
         this.vegetarianGrades = vegetarianGrades;
-        this.foodStore = foodStore;
-        this.ecoStore = ecoStore;
+        this.storeMember = storeMember;
     }
 }
