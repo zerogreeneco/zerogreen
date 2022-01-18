@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 public class IndexController {
 
     @GetMapping("/")
-    public String index(HttpServletRequest request) {
+    public String index() {
 
         return "index";
     }
