@@ -1,4 +1,4 @@
-package zerogreen.eco.auth;
+package zerogreen.eco.security.auth;
 
 /*
 * 시큐리티가 /login을 주소 요청을 낚아서 로그인 진행
@@ -10,7 +10,6 @@ package zerogreen.eco.auth;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import zerogreen.eco.entity.userentity.BasicUser;
-import zerogreen.eco.entity.userentity.Member;
 
 import java.util.ArrayList;
 import java.util.Collection;
