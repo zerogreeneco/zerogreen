@@ -12,7 +12,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@ToString(exclude = {"foodStore", "ecoStore"})
+@ToString(exclude = {"storeMember"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StoreMenu extends BaseTimeEntity {
 
@@ -26,7 +26,7 @@ public class StoreMenu extends BaseTimeEntity {
     private VegetarianGrade vegetarianGrades;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "store_id")
+    @JoinColumn(name = "user_id")
     private StoreMember storeMember;
 
     public StoreMenu(String menuName, int menuPrice, VegetarianGrade vegetarianGrades, StoreMember storeMember) {

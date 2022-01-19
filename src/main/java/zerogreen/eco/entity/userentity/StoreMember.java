@@ -23,14 +23,13 @@ public class StoreMember extends BasicUser{
     @Embedded
     private StoreInfo storeInfo;
 
-
     @OneToMany(mappedBy = "storeMember")
     private List<StoreMenu> menuList = new ArrayList<>();
 
     // 회원 가입
-    public StoreMember(String username, String nickname, String phoneNumber, String password, UserRole userRole,
+    public StoreMember(String username, String phoneNumber, String password, UserRole userRole,
                        String storeRegNum, String storeType) {
-        super(username, nickname, phoneNumber, password, userRole);
+        super(username, phoneNumber, password, userRole);
         this.storeRegNum = storeRegNum;
         this.storeType = storeType;
     }

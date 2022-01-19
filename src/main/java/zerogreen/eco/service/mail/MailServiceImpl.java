@@ -19,23 +19,15 @@ public class MailServiceImpl implements  MailService {
      * 회원가입 인증 번호
      * */
     @Override
-    public String sendAuthMail(String mail) {
-        Random random = new Random(); // 난수 생성
-        String key = ""; // 인증 번호
+    public void sendAuthMail(String mail, String key) {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(mail); // View에서 보낸 가입 이메일 주소
-        for (int i = 0; i < 3; i++) {
-            int index = random.nextInt(25) + 65; // A~Z 랜덤 알파벳
-            key += (char) index;
-        }
-        int numIndex = random.nextInt(8999) + 1000; // 4자리 랜덤 정수
-        key += numIndex;
+
 
         message.setSubject("ZEROGREEN 회원 가입을 위한 인증번호 메일");
         message.setText("인증번호 : " + key);
 
         javaMailSender.send(message);
-        return key;
     }
 }

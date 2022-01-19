@@ -45,10 +45,8 @@ public class MemberServiceImpl implements MemberService{
     public Long saveV2(Member member) {
         String encPassword = passwordEncoder.encode(member.getPassword());
 
-        String authKey = mailService.sendAuthMail(member.getUsername());
-
         return memberRepository.save(new Member(member.getUsername(), member.getNickname(), member.getPhoneNumber(),
-                        encPassword, UserRole.USER, authKey, false, member.getVegetarianGrade()) )
+                        encPassword, UserRole.USER,null, false, member.getVegetarianGrade()) )
                 .getId();
     }
 
