@@ -43,6 +43,11 @@
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg" th:onclick="|location.href='@{/}'|" type="button">취소</button>
             </div>
+            <div>
+                <a href="https://kauth.kakao.com/oauth/authorize?client_id=ed6be877b0d7d2dddcc441eaae07a48c&redirect_uri=http://localhost:8080/zerogreen/auth/kakao/callback&response_type=code">
+                    <img th:src="@{/bootstrap/images/loginButton/kakao_login_medium_narrow.png}">
+                </a>
+            </div>
         </div>
 
     </form>

@@ -31,19 +31,12 @@
         <div>
             <label for="username">로그인 ID</label>
             <input type="text" id="username" th:field="*{username}" class="form-control">
-            <button type="button" class="sendMail">인증</button>
             <div th:errors="*{username}">
                 아이디 오류
             </div>
 
         </div>
 
-        <div>
-            <label for="authKey">인증키</label>
-            <input type="text" id="authKey" class="form-control">
-            <input type="hidden" class="key">
-            <button type="button" id="authConfirm">인증 확인</button>
-        </div>
         <div>
             <label for="password">비밀번호</label>
             <input type="password" id="password" th:field="*{password}" class="form-control">
@@ -94,7 +87,6 @@
 <script th:inline="javascript">
     $(function() {
 
-        var isCertification = false;
         var key = "";
 
         $(".sendMail").click(function() {
@@ -114,8 +106,6 @@
                     }
                 });
                 alert("인증 번호가 전송되었습니다. >>> " + key);
-                isCertification = true;
-                key = $('.key').val();
             }
         });
 
