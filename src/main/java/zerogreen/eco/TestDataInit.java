@@ -35,8 +35,8 @@ public class TestDataInit {
         private final StoreMemberRepository storeMemberRepository;
 
         public void init() {
-            StoreMember ecoTest = new StoreMember("ecoTest", null, "01033334444", "1", UserRole.STORE, "1234567890", "ECO");
-            StoreMember foodTest = new StoreMember("foodTest", null, "01044445555", "1", UserRole.STORE, "0987654321", "FOOD");
+            StoreMember ecoTest = new StoreMember("ecoTest", "01033334444", "1", UserRole.STORE, "1234567890", "ECO");
+            StoreMember foodTest = new StoreMember("foodTest", "01044445555", "1", UserRole.STORE, "0987654321", "FOOD");
 
             ecoTest.setStoreInfo(new StoreInfo("ECO STORE","부산시 해운대구", "0519998888",
                     LocalDateTime.now(), LocalDateTime.now()));

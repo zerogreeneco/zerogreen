@@ -12,6 +12,7 @@ public class StoreInfo {
     private String storeName;
     private String storeAddress;
     private String storePhoneNumber;
+    private String storeDescription;
     private LocalDateTime openTime;
     private LocalDateTime closeTime;
 

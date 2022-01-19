@@ -2,6 +2,7 @@ package zerogreen.eco.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.json.JsonParser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import zerogreen.eco.service.user.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.net.http.HttpResponse;
 import java.util.*;
 
 @Controller
@@ -36,6 +38,7 @@ public class JoinController {
 
     @GetMapping("/add")
     public String addForm(@ModelAttribute("member") MemberJoinDto member, Model model) {
+
         model.addAttribute("vegan", VegetarianGrade.values());
         return "register/registerForm";
     }
@@ -60,18 +63,36 @@ public class JoinController {
         return "redirect:/members/authCheck";
     }
 
-/*    @PostMapping("/checkMail")
+    /*
+    * 이메일 인증
+    * */
+    @PostMapping("/checkMail")
     @ResponseBody
-    public String sendMail(String mail) {
+    public HashMap<String, String> sendMail(String mail) {
 
+        HashMap<String, String> keyMap = new HashMap<>();
 
         log.info("이메일 인증 컨트롤러 OK");
         log.info("EMAIL ={}", mail);
+        Random random = new Random(); // 난수 생성
 
-        String key = mailService.sendAuthMail(mail);
-        log.info("keyMap={}", key);
-        return key;
-    }*/
+        String key ="";
+
+        for (int i = 0; i < 3; i++) {
+            int index = random.nextInt(25) + 65; // A~Z 랜덤 알파벳
+            key += (char) index;
+        }
+
+        int numIndex = random.nextInt(8999) + 1000; // 4자리 랜덤 정수
+        key += numIndex;
+
+        keyMap.put("key", key);
+        log.info("Before Send Key={}", key);
+        mailService.sendAuthMail(mail, key);
+        log.info("key={}", key);
+
+        return keyMap;
+    }
 
     @GetMapping("/authCheck")
     public String authCheckForm() {
@@ -89,11 +110,10 @@ public class JoinController {
         Member findMember = memberService.findById(id).orElseGet(null);
 
         MemberAuthDto authMember = memberService.findAuthMember(findMember.getId());
-        log.info("DTO ={}", authMember.getNickname());
 
         if (findMember.getAuthKey().equals(inputKey)) {
             memberService.changeAuthState(id);
-            redirectAttributes.addAttribute("nickname", authMember.getNickname());
+            redirectAttributes.addAttribute("nickname", authMember);
             return "redirect:/members/welcome";
         }
 

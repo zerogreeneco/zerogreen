@@ -34,8 +34,8 @@ public class OAuthController {
 
         MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
         param.add("grant_type", "authorization_code");
-        param.add("client_id", "ed6be877b0d7d2dddcc441eaae07a48c");
-        param.add("redirect_uri", "http://localhost:8080/zerogreen/auth/kakao/callback");
+        param.add("client_id", KAKAO_CLIENT_ID);
+        param.add("redirect_uri", KAKAO_REDIRECT_URI);
         param.add("code", code);
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담기
@@ -49,6 +49,6 @@ public class OAuthController {
                 String.class // 응답받을 클래스
         );
 
-        return "카카오 토근 요청 완료" + response;
+        return "카카오 토큰 요청 완료" + response;
     }
 }

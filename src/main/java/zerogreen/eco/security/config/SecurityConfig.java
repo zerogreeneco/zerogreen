@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/h2-console/**").disable();
         http.authorizeRequests()
                     .antMatchers("/users/**").authenticated()
-                    .antMatchers("/store/**").access("hasRole('STORE') or hasRole('ADMIN')")
+                    .antMatchers("/storeUsers/**").access("hasRole('STORE') or hasRole('ADMIN')")
                     .antMatchers("/admin/**").access("hasRole('ADMIN')")
                     .antMatchers("/h2-console/**").permitAll()
                     .anyRequest().permitAll()
@@ -45,7 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/h2-console/**");
+        web.ignoring().antMatchers("/h2-console/**")
+                .antMatchers("/css/**", "/js/**","/img/**");
+
     }
 
     @Bean

@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 
 import static zerogreen.eco.entity.userentity.QBasicUser.basicUser;
 
-public class BasicUserRepositoryImpl implements BasicUserRepositoyCustom {
+public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
@@ -20,7 +20,6 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoyCustom {
     public MemberAuthDto findAuthMember(Long id) {
         return queryFactory
                 .select(Projections.bean(MemberAuthDto.class,
-                        basicUser.nickname,
                         basicUser.authKey))
                 .from(basicUser)
                 .where(basicUser.id.eq(id))

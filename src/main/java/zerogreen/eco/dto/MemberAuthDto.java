@@ -7,14 +7,12 @@ import lombok.Setter;
 @Setter
 public class MemberAuthDto {
 
-    private String nickname;
     private String authKey;
 
     public MemberAuthDto() {
     }
 
-    public MemberAuthDto(String nickname, String authKey) {
-        this.nickname = nickname;
+    public MemberAuthDto(String authKey) {
         this.authKey = authKey;
     }
 }
