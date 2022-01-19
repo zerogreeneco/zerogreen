@@ -1,10 +1,8 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{basic/basicJoinLayout :: layout(~{::article})}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
     <style>
         .container {
             max-width: 560px;
@@ -25,8 +23,8 @@
 
     <h4 class="mb-3">회원 정보 입력</h4>
 
-    <form action="" th:action th:object="${member}" method="post">
-
+    <article>
+    <form  th:action th:object="${member}" method="post">
 
         <div>
             <label for="username">로그인 ID</label>
@@ -36,10 +34,11 @@
             </div>
             <button type="button" class="sendMail">인증</button>
         </div>
-        <div>
+        <div style="display:none;" class="auth-box">
             <input type="text" class="authKey">
             <button type="button" id="authConfirm">인증 확인</button>
         </div>
+
         <div>
             <label for="password">비밀번호</label>
             <input type="password" id="password" th:field="*{password}" class="form-control">
@@ -74,7 +73,7 @@
 
         <div class="row">
             <div class="col">
-                <button  id="joinBtn" class="w-100 btn btn-primary btn-lg" type="submit" disabled="true">회원 가입</button>
+                <button id="joinBtn" class="w-100 btn btn-primary btn-lg" type="submit" disabled="true">회원 가입</button>
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg" th:onclick="|location.href='@{/}'|" type="button">
@@ -84,54 +83,7 @@
         </div>
 
     </form>
-
+    </article>
 </div>
 </body>
-<script th:inline="javascript">
-    $(function() {
-
-        var authKey = "";
-
-
-        $(".sendMail").click(function() {
-
-            var id = $("#username").val();
-
-            if(id == "") {
-                alert("메일 주소를 입력해주세요.");
-            } else {
-                $.ajax({
-                    url: "/zerogreen/members/checkMail",
-                    type: "post",
-                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                    dataType: "json",
-                    data: {
-                        mail:id
-                    },
-                    success: function(key) {
-                        alert("인증 번호가 전송되었습니다.");
-                        authKey = key.key;
-                    },
-                    error: function(xhr, status, error) {
-                        alert("Error" + status + ">>>> " + error);
-                    }
-                }); // ajax end.
-            }
-        });
-
-
-        $('#authConfirm').click(function() {
-            var key = $(".authKey").val();
-
-            if(key == authKey) {
-                alert("인증 성공");
-                $("#joinBtn").removeAttr("disabled");
-            } else {
-                alert("인증 실패");
-            }
-        });
-
-    });
-
-</script>
 </html>

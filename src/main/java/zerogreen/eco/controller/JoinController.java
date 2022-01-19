@@ -74,17 +74,7 @@ public class JoinController {
 
         log.info("이메일 인증 컨트롤러 OK");
         log.info("EMAIL ={}", mail);
-        Random random = new Random(); // 난수 생성
-
-        String key ="";
-
-        for (int i = 0; i < 3; i++) {
-            int index = random.nextInt(25) + 65; // A~Z 랜덤 알파벳
-            key += (char) index;
-        }
-
-        int numIndex = random.nextInt(8999) + 1000; // 4자리 랜덤 정수
-        key += numIndex;
+        String key = mailService.createAuthKey();
 
         keyMap.put("key", key);
         log.info("Before Send Key={}", key);
