@@ -15,17 +15,17 @@
     height: auto;
 }
 
-.top, .sec {
+.top, .thr {
     display: inline-block;
     background: #7e9cd9;
 }
 
-.detail-sec {
+.detail-thr {
     height: auto;
     width: auto;
 }
 
-.sec {
+.thr {
     height: 500px;
 }
 

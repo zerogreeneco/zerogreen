@@ -38,4 +38,10 @@ public class StoreMemberServiceImpl implements StoreMemberService{
         findMember.setStoreInfo(findMember.getStoreInfo());
 
     }
+
+    @Transactional
+    @Override
+    public void getStore(Long id) {
+        StoreMember getStoreMember = storeMemberRepository.getById(id);
+    }
 }
