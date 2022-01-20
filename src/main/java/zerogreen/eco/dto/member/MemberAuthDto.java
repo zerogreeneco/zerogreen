@@ -1,4 +1,4 @@
-package zerogreen.eco.dto;
+package zerogreen.eco.dto.member;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,8 +18,8 @@ public class MemberAuthDto {
     @NotBlank
     private String nickname;
 
-    @NotBlank
-    private String password;
-
-
+    public MemberAuthDto(String username, String nickname) {
+        this.username = username;
+        this.nickname = nickname;
+    }
 }

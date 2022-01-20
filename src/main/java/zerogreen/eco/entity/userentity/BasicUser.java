@@ -1,6 +1,7 @@
 package zerogreen.eco.entity.userentity;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
 
 import javax.persistence.*;

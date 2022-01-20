@@ -1,7 +1,6 @@
 package zerogreen.eco.service.user;
 
-import zerogreen.eco.dto.MemberAuthDto;
-import zerogreen.eco.entity.userentity.BasicUser;
+import zerogreen.eco.dto.member.MemberAuthDto;
 import zerogreen.eco.entity.userentity.Member;
 
 import java.util.Optional;
@@ -15,6 +14,8 @@ public interface MemberService {
     public void changeAuthState(Long id);
 
     public void memberUpdate(Long id, Member member);
+
+    public void kakaoMemberUpdate(Long id, Member member);
 
     public Optional<Member> findById(Long id);
 

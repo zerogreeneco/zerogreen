@@ -2,10 +2,11 @@ package zerogreen.eco.service.user;
 
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import zerogreen.eco.dto.MemberAuthDto;
+import zerogreen.eco.dto.member.MemberAuthDto;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.user.BasicUserRepository;
@@ -15,6 +16,7 @@ import zerogreen.eco.service.mail.MailService;
 import java.util.Optional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MemberServiceImpl implements MemberService{
@@ -64,12 +66,21 @@ public class MemberServiceImpl implements MemberService{
     @Transactional
     @Override
     public void memberUpdate(Long id, Member member) {
-        Optional<Member> findeMember = memberRepository.findById(id);
+        Member updateMember  = memberRepository.findById(id).orElseThrow();
 
-        Member updateMember  = findeMember.get();
         updateMember.setNickname(member.getNickname());
         updateMember.setPhoneNumber(member.getPhoneNumber());
         updateMember.setVegetarianGrade(member.getVegetarianGrade());
+    }
+
+    @Transactional
+    @Override
+    public void kakaoMemberUpdate(Long id, Member member) {
+        Member updateMember  = memberRepository.findById(id).orElseThrow();
+
+        updateMember.setPhoneNumber(member.getPhoneNumber());
+        updateMember.setVegetarianGrade(member.getVegetarianGrade());
+        updateMember.setSocialType("KAKAO");
     }
 
     @Override

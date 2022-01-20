@@ -62,7 +62,7 @@
                                         <button sec:authorize="isAuthenticated()" type="submit">로그아웃</button>
                                     </span>
                                     <span  >
-                                        <button type="button" th:href="@{/login}" sec:authorize="isAnonymous()">로그인</button>
+                                        <button type="button" sec:authorize="isAnonymous()">로그인</button>
                                     </span>
                                 </form>
                             </div>

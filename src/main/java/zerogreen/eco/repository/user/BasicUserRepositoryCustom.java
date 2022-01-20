@@ -1,6 +1,6 @@
 package zerogreen.eco.repository.user;
 
-import zerogreen.eco.dto.MemberAuthDto;
+import zerogreen.eco.dto.member.MemberAuthDto;
 
 public interface BasicUserRepositoryCustom {
 

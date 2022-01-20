@@ -3,15 +3,7 @@
 <head>
     <meta charset="utf-8">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <style>
-        .container {
-            max-width: 560px;
-        }
-        .field-error {
-            border-color: #dc3545;
-            color: #dc3545;
-        }
-    </style>
+
 </head>
 <body>
 
@@ -24,44 +16,45 @@
     <h4 class="mb-3">회원 정보 입력</h4>
 
     <article>
-    <form  th:action th:object="${member}" method="post">
+    <form th:action th:object="${member}" method="post">
 
         <div>
-            <label for="username">로그인 ID</label>
-            <input type="text" id="username" th:field="*{username}" class="form-control">
-            <div th:errors="*{username}">
+            <label for="username" class="join-label">로그인 ID</label>
+            <input type="text" id="username" th:field="*{username}" class="form-control input-box">
+            <button type="button" class="sendMail">인증</button>
+            <div th:errors="*{username}" class="field-error">
                 아이디 오류
             </div>
-            <button type="button" class="sendMail">인증</button>
         </div>
         <div style="display:none;" class="auth-box">
-            <input type="text" class="authKey">
+            <input type="text" class="authKey form-control">
             <button type="button" id="authConfirm">인증 확인</button>
         </div>
 
         <div>
-            <label for="password">비밀번호</label>
-            <input type="password" id="password" th:field="*{password}" class="form-control">
-            <div th:errors="*{password}">
+            <label for="password" class="join-label">비밀번호</label>
+            <input type="password" id="password" th:field="*{password}" class="form-control input-box">
+            <div th:errors="*{password}" class="field-error">
                 비번 오류
             </div>
         </div>
         <div>
-            <label for="name">nickname</label>
-            <input type="text" id="nickname" th:field="*{nickname}" class="form-control">
-            <div th:errors="*{nickname}">
+            <label for="name" class="join-label">닉네임</label>
+            <input type="text" id="nickname" th:field="*{nickname}" class="form-control input-box">
+            <div th:errors="*{nickname}" class="field-error">
                 닉네임 오류
             </div>
         </div>
         <div>
-            <label for="name">phoneNumber</label>
-            <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control">
-            <div th:errors="*{phoneNumber}">
+            <label for="name" class="join-label">전화번호</label>
+            <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control input-box">
+            <div th:errors="*{phoneNumber}" class="field-error">
                 전화 오류
             </div>
         </div>
 
         <div>
+            <label for="vegitarianGrade" class="join-label">베지터리언 등급</label>
             <select th:field="*{vegetarianGrade}">
                 <option value="">==베지테리언 등급==</option>
                 <option th:each="vegan : ${vegan}" th:value="${vegan.name()}" th:text="${vegan.vegetarian}"></option>

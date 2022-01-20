@@ -15,15 +15,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import zerogreen.eco.dto.MemberAuthDto;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import zerogreen.eco.dto.member.MemberAuthDto;
+import zerogreen.eco.dto.member.MemberJoinDto;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.UserRole;
+import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.oauth.security.KakaoProfile;
 import zerogreen.eco.oauth.security.OAuthToken;
 import zerogreen.eco.service.user.MemberService;
@@ -45,9 +49,8 @@ public class OAuthController {
     private final String KAKAO_REDIRECT_URI = "http://localhost:8080/zerogreen/auth/kakao/callback";
 
 
-
     @GetMapping("auth/kakao/callback")
-    public @ResponseBody String kakaoCallback(String code) { // Data를 리턴하는 컨트롤러 함수(@ResponseBody)
+    public String kakaoCallback(String code, RedirectAttributes redirectAttributes) { // Data를 리턴하는 컨트롤러 함수(@ResponseBody)
 
         // POST 방식으로 key=value 데이터를 카카오에 요청
         RestTemplate rt = new RestTemplate();
@@ -111,16 +114,17 @@ public class OAuthController {
         }
 
         String memberId = kakaoProfile.getKakao_account().getEmail() + "_" + "SOCIAL";
-        String password = passwordEncoder.encode(kakaoPwd);
 
         Member member = new Member(memberId, null, kakaoPwd, UserRole.USER,
                 kakaoProfile.getProperties().getNickname(), "KAKAO");
 
         MemberAuthDto joinedMember = memberService.findAuthMember(memberId);
-        log.info("JOIN={}",joinedMember);
+        log.info("JOIN={}", joinedMember);
         if (joinedMember == null) {
             log.info("자동 회원가입");
-            memberService.saveV2(member);
+            Long saveMember = memberService.saveV2(member);
+            redirectAttributes.addAttribute("memberId", saveMember);
+            log.info("memberId={}", saveMember);
         }
 
         // 아이디와 패스워드로 시큐리티가 알아볼 수 있는 token 객체로 변경
@@ -131,6 +135,35 @@ public class OAuthController {
         // 실ㅈ SecurityContext에 authentication 정보 등록
         SecurityContextHolder.getContext().setAuthentication(authentication);
         log.info("자동 로그인 완료");
+
+        return "redirect:/members/kakao/addData";
+    }
+
+    @GetMapping("/members/kakao/addData")
+    public String kakaoAddDateForm(@RequestParam("memberId")Long memberId, @ModelAttribute("member") MemberJoinDto joinDto, Model model) {
+        model.addAttribute("vegan", VegetarianGrade.values());
+        model.addAttribute("memberId", memberId);
+
+        return "register/kakaoAddDataForm";
+    }
+
+    @PostMapping("/members/kakao/addData")
+    @ResponseBody
+    public String kakaoAdd(@Validated @ModelAttribute("member") MemberJoinDto joinDto, BindingResult bindingResult, Model model,
+                           Long memberId,String phoneNumber,String vegetarianGrade) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("vegan", VegetarianGrade.values());
+        }
+
+        log.info("JOIN DTO={}",joinDto.getPhoneNumber() + "_" + phoneNumber);
+        log.info("JOIN DTO={}",joinDto.getVegetarianGrade() + "_" + vegetarianGrade);
+        log.info("<<<<<<MEMBERID={}", memberId);
+        Member member = joinDto.toMember(joinDto);
+        log.info("KAKAOMEMBER={}",member.getPhoneNumber());
+
+        memberService.kakaoMemberUpdate(memberId, member);
+        log.info(">>>>>>MEMBERID={}", memberId);
 
         return "redirect:/";
     }

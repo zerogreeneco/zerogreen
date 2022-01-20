@@ -2,7 +2,7 @@ package zerogreen.eco.repository.user;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import zerogreen.eco.dto.MemberAuthDto;
+import zerogreen.eco.dto.member.MemberAuthDto;
 
 import javax.persistence.EntityManager;
 
@@ -19,8 +19,9 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
     @Override
     public MemberAuthDto findByAuthUsername(String username) {
         return queryFactory
-                .select(Projections.fields(MemberAuthDto.class,
-                        basicUser.username))
+                .select(Projections.bean(MemberAuthDto.class,
+                        basicUser.username
+                ))
                 .from(basicUser)
                 .where(basicUser.username.eq(username))
                 .fetchFirst();

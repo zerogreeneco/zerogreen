@@ -17,10 +17,17 @@ public class RegisterFile {
     @Column(name = "file_id")
     private Long id;
 
-    private String filename;
+    private String uploadFileName;
+    private String storeFileName;
     private String filePath;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private BasicUser storeUser;
+
+    public RegisterFile(String uploadFileName, String storeFileName,String filePath) {
+        this.uploadFileName = uploadFileName;
+        this.storeFileName = storeFileName;
+        this.filePath = filePath;
+    }
 }
