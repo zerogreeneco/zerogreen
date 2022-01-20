@@ -18,17 +18,21 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Autowired
     private BasicUserRepository basicUserRepository;
 
-    // 시큐리티 세션 (Authentication (UserDetails))
+
+    /*
+    * 시큐리티 세션 (Authentication (UserDetails))
+    * 스프링이 로그인 요청을 할 때 username과 password 변수 2개를 가로채는데
+    * password 부분을 알아서 하기 때문에 username이 DB에 있는지 확인해주는 역할할
+   * */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        BasicUser findUser = basicUserRepository.findByUsername(username);
+        BasicUser principal = basicUserRepository.findByUsername(username)
+                .orElseThrow(() -> {
+                    return new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다." + username);
+                });
 
-        if (findUser != null) {
-            log.info("로그인 정보 >>> " + findUser);
-            return new PrincipalDetails(findUser);
-        }
-        return null;
+        return new PrincipalDetails(principal); // 시큐리티 세션에 유저 정보 저장
     }
 }
 

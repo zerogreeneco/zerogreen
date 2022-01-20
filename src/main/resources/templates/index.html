@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="UTF-8">
         <title>제로그린</title>
@@ -58,7 +58,12 @@
                                 <!-- Content -->
                                 <h1>MAIN</h1>
                                 <form method="post" th:action="@{/logout}">
-                                    <button type="submit">로그아웃</button>
+                                    <span >
+                                        <button sec:authorize="isAuthenticated()" type="submit">로그아웃</button>
+                                    </span>
+                                    <span  >
+                                        <button type="button" th:href="@{/login}" sec:authorize="isAnonymous()">로그인</button>
+                                    </span>
                                 </form>
                             </div>
                         </div>

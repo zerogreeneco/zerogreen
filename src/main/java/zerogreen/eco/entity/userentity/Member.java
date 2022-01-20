@@ -18,13 +18,22 @@ public class Member extends BasicUser {
     private VegetarianGrade vegetarianGrade;
     private String nickname;
 
+    private String socialType;
+
 
     // 회원 가입용
     public Member(String username, String nickname, String phoneNumber, String password,
-                  UserRole userRole, String authKey,Boolean authState,VegetarianGrade vegetarianGrade) {
-        super(username, phoneNumber, password, userRole,authKey,authState);
+                  UserRole userRole,Boolean authState,VegetarianGrade vegetarianGrade) {
+        super(username, phoneNumber, password, userRole,authState);
         this.vegetarianGrade = vegetarianGrade;
         this.nickname = nickname;
+    }
+
+    // 카카오 회원가입
+    public Member(String username, String phoneNumber, String password, UserRole userRole, String nickname, String socialType) {
+        super(username, phoneNumber, password, userRole);
+        this.nickname = nickname;
+        this.socialType = socialType;
     }
 
     // 수정용

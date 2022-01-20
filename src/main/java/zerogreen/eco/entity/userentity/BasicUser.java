@@ -25,21 +25,11 @@ public class BasicUser extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
-    private String authKey; // 회원 가입 인증 번호
     private boolean AuthState; // 이메일 인증 여부
 
+    // 회원가입
     public BasicUser(String username, String phoneNumber,
-                     String password, UserRole userRole, String authKey, boolean authState) {
-        this.username = username;
-
-        this.phoneNumber = phoneNumber;
-        this.password = password;
-        this.userRole = userRole;
-        this.authKey = authKey;
-        AuthState = authState;
-    }
-
-    public BasicUser(String username, String phoneNumber, String password, UserRole userRole, boolean authState) {
+                     String password, UserRole userRole, boolean authState) {
         this.username = username;
         this.phoneNumber = phoneNumber;
         this.password = password;
@@ -47,6 +37,16 @@ public class BasicUser extends BaseTimeEntity {
         AuthState = authState;
     }
 
+    // Kakao 회원가입
+
+
+    public BasicUser(String username, String password, UserRole userRole) {
+        this.username = username;
+        this.password = password;
+        this.userRole = userRole;
+    }
+
+    // 수정용
     public BasicUser(String username, String phoneNumber, String password, UserRole userRole) {
         this.username = username;
         this.phoneNumber = phoneNumber;
@@ -54,6 +54,7 @@ public class BasicUser extends BaseTimeEntity {
         this.userRole = userRole;
     }
 
+    // 수정용
     public BasicUser(String nickname, String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }

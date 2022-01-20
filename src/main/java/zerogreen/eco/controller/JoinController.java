@@ -84,32 +84,6 @@ public class JoinController {
         return keyMap;
     }
 
-    @GetMapping("/authCheck")
-    public String authCheckForm() {
-
-        return "register/authConfirm";
-    }
-
-    @PostMapping("/authCheck")
-    public String authForm(@RequestParam("memberId") Long id, @RequestParam("inputKey") String inputKey,
-                           RedirectAttributes redirectAttributes) {
-
-        log.info("JOIN MEMEBER ID >>> " + id);
-        log.info("INPUTKEY >>> " + inputKey);
-
-        Member findMember = memberService.findById(id).orElseGet(null);
-
-        MemberAuthDto authMember = memberService.findAuthMember(findMember.getId());
-
-        if (findMember.getAuthKey().equals(inputKey)) {
-            memberService.changeAuthState(id);
-            redirectAttributes.addAttribute("nickname", authMember);
-            return "redirect:/members/welcome";
-        }
-
-        return "register/authConfirm";
-    }
-
     @GetMapping("/welcome")
     public String welcome(@RequestParam("nickname") String nickname, Model model) {
 

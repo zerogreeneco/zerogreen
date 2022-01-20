@@ -46,7 +46,7 @@ public class MemberServiceImpl implements MemberService{
         String encPassword = passwordEncoder.encode(member.getPassword());
 
         return memberRepository.save(new Member(member.getUsername(), member.getNickname(), member.getPhoneNumber(),
-                        encPassword, UserRole.USER,null, false, member.getVegetarianGrade()) )
+                        encPassword, UserRole.USER, false, member.getVegetarianGrade()) )
                 .getId();
     }
 
@@ -78,7 +78,8 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberAuthDto findAuthMember(Long id) {
-        return basicUserRepository.findAuthMember(id);
+    public MemberAuthDto findAuthMember(String username) {
+        return basicUserRepository.findByAuthUsername(username);
     }
+
 }
