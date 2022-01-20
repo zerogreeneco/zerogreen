@@ -18,6 +18,7 @@ public interface MemberService {
 
     public Optional<Member> findById(Long id);
 
-    public MemberAuthDto findAuthMember(Long id);
+    public MemberAuthDto findAuthMember(String username);
+
 
 }

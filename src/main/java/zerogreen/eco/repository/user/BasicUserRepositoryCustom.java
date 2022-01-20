@@ -4,5 +4,5 @@ import zerogreen.eco.dto.MemberAuthDto;
 
 public interface BasicUserRepositoryCustom {
 
-    public MemberAuthDto findAuthMember(Long id);
+    public MemberAuthDto findByAuthUsername(String username);
 }

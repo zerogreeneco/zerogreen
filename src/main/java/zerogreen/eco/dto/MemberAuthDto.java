@@ -2,17 +2,24 @@ package zerogreen.eco.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import zerogreen.eco.entity.userentity.Member;
+import zerogreen.eco.entity.userentity.UserRole;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
 public class MemberAuthDto {
 
-    private String authKey;
+    @NotBlank
+    private String username;
 
-    public MemberAuthDto() {
-    }
+    @NotBlank
+    private String nickname;
 
-    public MemberAuthDto(String authKey) {
-        this.authKey = authKey;
-    }
+    @NotBlank
+    private String password;
+
+
 }

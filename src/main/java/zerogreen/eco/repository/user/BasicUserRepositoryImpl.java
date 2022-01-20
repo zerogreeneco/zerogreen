@@ -17,12 +17,12 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
     }
 
     @Override
-    public MemberAuthDto findAuthMember(Long id) {
+    public MemberAuthDto findByAuthUsername(String username) {
         return queryFactory
-                .select(Projections.bean(MemberAuthDto.class,
-                        basicUser.authKey))
+                .select(Projections.fields(MemberAuthDto.class,
+                        basicUser.username))
                 .from(basicUser)
-                .where(basicUser.id.eq(id))
+                .where(basicUser.username.eq(username))
                 .fetchFirst();
     }
 }

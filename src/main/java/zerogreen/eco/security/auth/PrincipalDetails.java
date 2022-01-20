@@ -6,7 +6,6 @@ package zerogreen.eco.security.auth;
 * Authentication 타입의 객체만 가능
 * Authentication 내부에 Member 정보가 있어햐 한다.
 * */
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import zerogreen.eco.entity.userentity.BasicUser;
@@ -27,11 +26,8 @@ public class PrincipalDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collect = new ArrayList<>();
 
-        collect.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return String.valueOf(user.getUserRole());
-            }
+        collect.add((GrantedAuthority) () -> {
+            return "ROLE_"+user.getUserRole(); // ROLE_ 생략시 권한 인식을 못함
         });
 
         return collect;
@@ -66,4 +62,5 @@ public class PrincipalDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }
