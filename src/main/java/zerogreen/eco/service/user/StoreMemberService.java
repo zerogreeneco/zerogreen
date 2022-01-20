@@ -6,4 +6,7 @@ public interface StoreMemberService {
     public Long save(StoreMember storeMember);
 
     public void storeInfoSave(StoreMember storeMember);
-}
+
+    public void getStore(Long id);
+
+    }

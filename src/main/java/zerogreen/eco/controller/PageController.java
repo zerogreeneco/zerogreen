@@ -14,6 +14,10 @@ public class PageController {
 
     @GetMapping("/page/detail")
     public void connect(){
+    }
+
+    @GetMapping("/member/memberMyInfo")
+    public void connect2(){
 
     }
 
