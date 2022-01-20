@@ -1,8 +1,7 @@
-package zerogreen.eco.dto;
+package zerogreen.eco.dto.member;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Range;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
@@ -33,4 +32,6 @@ public class MemberJoinDto {
         return new Member(memberJoinDto.username, memberJoinDto.nickname,
                 memberJoinDto.phoneNumber, memberJoinDto.password, UserRole.USER, false, memberJoinDto.vegetarianGrade);
     }
+
+
 }

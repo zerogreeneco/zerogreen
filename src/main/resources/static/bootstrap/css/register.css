@@ -1,0 +1,29 @@
+.join-label {
+    font-size: 1.2em;
+}
+
+.container {
+    max-width: 560px;
+}
+.field-error {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+#header {
+    text-align: center;
+}
+
+.btn-lg {
+    width: 260px;
+}
+
+#username {
+    width: 400px;
+    display: inline;
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 250px;
+}

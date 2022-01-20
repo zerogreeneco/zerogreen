@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.userentity.StoreInfo;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
@@ -20,12 +21,12 @@ public class StoreMemberServiceImpl implements StoreMemberService{
 
     @Transactional
     @Override
-    public Long save(StoreMember storeMember) {
+    public Long save(StoreMember storeMember, RegisterFile registerFile) {
 
         String encPassword = passwordEncoder.encode(storeMember.getPassword());
 
         return storeMemberRepository.save(new StoreMember(storeMember.getUsername(), storeMember.getPhoneNumber(),
-                encPassword, UserRole.UNSTORE, storeMember.getStoreRegNum(), storeMember.getStoreType()))
+                encPassword, UserRole.UNSTORE, storeMember.getStoreRegNum(), storeMember.getStoreType(), registerFile))
                 .getId();
     }
 

@@ -3,6 +3,7 @@ package zerogreen.eco.entity.file;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import zerogreen.eco.entity.userentity.StoreMember;
 
 import javax.persistence.*;
 
@@ -17,7 +18,16 @@ public class StoreImageFile {
     private Long id;
 
     private String fileName;
+    private String storefileName;
     private String filePath;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private StoreMember storeMember;
 
+    public StoreImageFile(String fileName, String storefileName, String filePath) {
+        this.fileName = fileName;
+        this.storefileName = storefileName;
+        this.filePath = filePath;
+    }
 }

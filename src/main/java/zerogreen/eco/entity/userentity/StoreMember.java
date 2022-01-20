@@ -4,11 +4,15 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import zerogreen.eco.entity.file.RegisterFile;
+import zerogreen.eco.entity.file.StoreImageFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static javax.persistence.CascadeType.*;
 
 @Entity
 @DiscriminatorValue("STORE")
@@ -18,7 +22,9 @@ import java.util.List;
 public class StoreMember extends BasicUser{
 
     private String storeRegNum;
-    private String storeType;
+
+    @Enumerated(EnumType.STRING)
+    private StoreType storeType;
 
     @Embedded
     private StoreInfo storeInfo;
@@ -26,17 +32,34 @@ public class StoreMember extends BasicUser{
     @OneToMany(mappedBy = "storeMember")
     private List<StoreMenu> menuList = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reg_file_id")
+    private RegisterFile registerFile;
+
+    @OneToMany(mappedBy = "storeMember", cascade = ALL)
+    private List<StoreImageFile> imageFiles = new ArrayList<>();
+
     // 회원 가입
     public StoreMember(String username, String phoneNumber, String password, UserRole userRole,
-                       String storeRegNum, String storeType) {
+                       String storeRegNum, StoreType storeType, RegisterFile registerFile) {
+
+        super(username, phoneNumber, password, userRole);
+        this.storeRegNum = storeRegNum;
+        this.storeType = storeType;
+    }
+
+    // Test 데이터 용 (삭제 예정)
+    public StoreMember(String username, String phoneNumber, String password, UserRole userRole,
+                       String storeRegNum, StoreType storeType) {
+
         super(username, phoneNumber, password, userRole);
         this.storeRegNum = storeRegNum;
         this.storeType = storeType;
     }
 
     // 가게 정보 등록
-    public StoreMember(String storeName, String storeAddress, String storePhoneNumber,
+    public StoreMember(String storeName, String storeAddress, String storePhoneNumber, String storeDescription,
                         LocalDateTime openTime, LocalDateTime closeTime) {
-        storeInfo = new StoreInfo(storeName, storeAddress, storePhoneNumber, openTime, closeTime);
+        storeInfo = new StoreInfo(storeName, storeAddress, storePhoneNumber, storeDescription, openTime, closeTime);
     }
 }
