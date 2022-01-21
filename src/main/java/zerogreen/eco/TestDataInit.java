@@ -3,6 +3,7 @@ package zerogreen.eco;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.userentity.*;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 import zerogreen.eco.service.user.MemberService;
@@ -42,8 +43,8 @@ public class TestDataInit {
                     LocalDateTime.now(), LocalDateTime.now()));
 
             memberService.save(new Member("test", "tester", "01022223333", "1", UserRole.USER, VegetarianGrade.LACTO));
-            storeMemberService.save(ecoTest, null);
-            storeMemberService.save(foodTest, null);
+            storeMemberService.save(ecoTest, new RegisterFile("origin","store", "path"));
+            storeMemberService.save(foodTest, new RegisterFile("origin","store", "path"));
 
             em.flush();
             em.clear();
