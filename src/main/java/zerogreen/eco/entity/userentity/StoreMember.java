@@ -32,7 +32,7 @@ public class StoreMember extends BasicUser{
     @OneToMany(mappedBy = "storeMember")
     private List<StoreMenu> menuList = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = ALL)
     @JoinColumn(name = "reg_file_id")
     private RegisterFile registerFile;
 
@@ -46,6 +46,7 @@ public class StoreMember extends BasicUser{
         super(username, phoneNumber, password, userRole);
         this.storeRegNum = storeRegNum;
         this.storeType = storeType;
+        this.setRegisterFile(new RegisterFile(registerFile.getUploadFileName(), registerFile.getStoreFileName(), registerFile.getFilePath()));
     }
 
     // Test 데이터 용 (삭제 예정)

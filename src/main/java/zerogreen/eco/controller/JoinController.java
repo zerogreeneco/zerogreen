@@ -107,6 +107,9 @@ public class JoinController {
         return keyMap;
     }
 
+    /*
+    * 환영 페이지
+    * */
     @GetMapping("/welcome")
     public String welcome(@RequestParam("nickname") String nickname, Model model) {
 
