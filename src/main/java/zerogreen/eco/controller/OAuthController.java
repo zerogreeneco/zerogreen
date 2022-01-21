@@ -125,6 +125,7 @@ public class OAuthController {
             Long saveMember = memberService.saveV2(member);
             redirectAttributes.addAttribute("memberId", saveMember);
             log.info("memberId={}", saveMember);
+            return "redirect:/members/kakao/addData";
         }
 
         // 아이디와 패스워드로 시큐리티가 알아볼 수 있는 token 객체로 변경
@@ -136,7 +137,7 @@ public class OAuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         log.info("자동 로그인 완료");
 
-        return "redirect:/members/kakao/addData";
+        return "redirect:/";
     }
 
     @GetMapping("/members/kakao/addData")

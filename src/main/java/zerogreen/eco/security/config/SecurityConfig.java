@@ -24,6 +24,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private PrincipalDetailsService principalDetailsService;
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler CustomFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
     /*
     * 시큐리티가 대신 로그인 로직을 진행할 때 password를 가로채는데
     * 해당 password를 뭘로 해쉬해서 회원가입 되었은지 알아야
@@ -36,8 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.csrf().ignoringAntMatchers("/h2-console/**").disable();
         http.authorizeRequests()
                     .antMatchers("/users/**").authenticated()
                     .antMatchers("/storeUsers/**").access("hasRole('ROLE_STORE') or hasRole('ROLE_ADMIN')")
@@ -48,16 +55,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .formLogin()
                     .loginPage("/login")
                     .loginProcessingUrl("/login") // /login 주소가 호출이 되면 시큐리티가 대신 로그인을 진행
-                    .failureUrl("/login?error=true")
-                    .failureHandler(failureHandler())
+                    .defaultSuccessUrl("/")
+                    .failureHandler(CustomFailureHandler())
+                    .failureUrl("/login?error")
                     .usernameParameter("username")
                     .passwordParameter("password")
+                    .permitAll()
                 .and()
                     .logout()
                     .logoutUrl("/logout")
                     .logoutSuccessUrl("/login")
                     .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID");
+                    .deleteCookies("JSESSIONID")
+                    .permitAll()
+                .and()
+                    .csrf().disable();
 
     }
 
@@ -74,13 +86,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
-    @Bean
-    public AuthenticationFailureHandler failureHandler() {
-        return new CustomAuthenticationFailureHandler();
-    }
 }
