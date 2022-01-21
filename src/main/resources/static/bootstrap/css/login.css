@@ -1,0 +1,42 @@
+.login-title {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.center-box {
+    text-align: center;
+    line-height: 38px;
+}
+
+#username, #password {
+    width: 300px;
+    height: 38px;
+}
+
+#login-btn {
+    margin-top: 15px;
+    width: 300px;
+    height: 40px;
+}
+
+.hr-sect {
+    display: flex;
+    flex-basis: 100%;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.35);
+    font-size: 14px;
+    margin: 8px 0px;
+}
+.hr-sect::before,
+.hr-sect::after {
+    content: "";
+    flex-grow: 1;
+    background: rgba(0, 0, 0, 0.35);
+    height: 1px;
+    font-size: 0px;
+    line-height: 0px;
+    margin: 0px 16px;
+}
+.vertical-line {
+    border-right: 1px solid rgba(0,0,0, 0.35);
+}

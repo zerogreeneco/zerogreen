@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Setter
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "User_Type")
+@DiscriminatorValue("ADMIN")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class BasicUser extends BaseTimeEntity {

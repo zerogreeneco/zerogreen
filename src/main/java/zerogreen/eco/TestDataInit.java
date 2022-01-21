@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.userentity.*;
 import zerogreen.eco.repository.user.StoreMemberRepository;
+import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.MemberService;
 import zerogreen.eco.service.user.StoreMemberService;
 
@@ -32,6 +33,7 @@ public class TestDataInit {
 
         private final MemberService memberService;
         private final StoreMemberService storeMemberService;
+        private final BasicUserService basicUserService;
 
         private final StoreMemberRepository storeMemberRepository;
 
@@ -45,6 +47,7 @@ public class TestDataInit {
             memberService.save(new Member("test", "tester", "01022223333", "1", UserRole.USER, VegetarianGrade.LACTO));
             storeMemberService.save(ecoTest, new RegisterFile("origin","store", "path"));
             storeMemberService.save(foodTest, new RegisterFile("origin","store", "path"));
+            basicUserService.adminSave();
 
             em.flush();
             em.clear();
