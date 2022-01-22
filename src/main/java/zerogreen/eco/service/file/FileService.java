@@ -15,4 +15,6 @@ public interface FileService {
     StoreImageFile saveImageFile(MultipartFile multipartFile) throws IOException;
 
     List<StoreImageFile> storeImageFiles(List<MultipartFile> multipartFiles) throws IOException;
+
+
 }

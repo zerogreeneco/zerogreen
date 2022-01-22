@@ -140,10 +140,6 @@ public class JoinController {
         RegisterFile uploadFile = fileService.saveFile(storeJoinDto.getAttachFile());
         StoreMember storeMember = new StoreJoinDto().toStoreMember(storeJoinDto);
 
-        log.info("filePath={}",uploadFile.getFilePath());
-        log.info("fileName={}",uploadFile.getStoreFileName());
-        log.info("fileName2={}",uploadFile.getUploadFileName());
-
         storeMemberService.save(storeMember, uploadFile);
 
         return "register/welcome";

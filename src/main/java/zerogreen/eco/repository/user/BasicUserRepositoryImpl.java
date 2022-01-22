@@ -4,6 +4,8 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import zerogreen.eco.dto.member.MemberAuthDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
+import zerogreen.eco.entity.file.QRegisterFile;
+import zerogreen.eco.entity.userentity.QBasicUser;
 import zerogreen.eco.entity.userentity.QStoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
 
@@ -36,13 +38,21 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
 
     @Override
     public List<NonApprovalStoreDto> findByUnApprovalStore() {
+        QBasicUser qBasicUser = basicUser;
+        QStoreMember qStoreMember = qBasicUser.as(QStoreMember.class);
+
         return queryFactory
                 .select(Projections.bean(NonApprovalStoreDto.class,
-                        storeMember._super.username
-                        ,storeMember.storeRegNum
+                        qStoreMember._super.username
+                        ,qStoreMember.storeRegNum
+                        ,registerFile.id
+                        ,registerFile.uploadFileName
                 ))
-                .from(storeMember)
-                .where(storeMember._super.userRole.eq(UserRole.UNSTORE))
+                .from(qStoreMember)
+                .innerJoin(qStoreMember.registerFile,registerFile)
+                .where(qStoreMember._super.userRole.eq(UserRole.UNSTORE))
                 .fetch();
     }
+
+
 }

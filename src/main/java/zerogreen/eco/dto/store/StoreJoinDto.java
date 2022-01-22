@@ -29,6 +29,9 @@ public class StoreJoinDto {
 
     private MultipartFile attachFile;
 
+    public StoreJoinDto() {
+    }
+
     public StoreMember toStoreMember(StoreJoinDto storeDto) {
         return new StoreMember(storeDto.getUsername(),storeDto.getPhoneNumber(),storeDto.getPassword(), UserRole.UNSTORE,
                 storeDto.getStoreRegNum(), storeDto.getStoreType());
