@@ -21,7 +21,7 @@ import static javax.persistence.CascadeType.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StoreMember extends BasicUser{
 
-    private String StoreName;
+    private String storeName;
     private String storeRegNum;
 
     @Enumerated(EnumType.STRING)
@@ -45,10 +45,17 @@ public class StoreMember extends BasicUser{
                        String storeName, String storeRegNum, StoreType storeType, RegisterFile registerFile) {
 
         super(username, phoneNumber, password, userRole);
-        this.StoreName = StoreName;
+        this.storeName = storeName;
         this.storeRegNum = storeRegNum;
         this.storeType = storeType;
         this.setRegisterFile(new RegisterFile(registerFile.getUploadFileName(), registerFile.getStoreFileName(), registerFile.getFilePath()));
+    }
+
+    public StoreMember(String username, String phoneNumber, String password, UserRole userRole, String storeName, String storeRegNum, StoreType storeType) {
+        super(username, phoneNumber, password, userRole);
+        this.storeName = storeName;
+        this.storeRegNum = storeRegNum;
+        this.storeType = storeType;
     }
 
     // Test 데이터 용 (삭제 예정)

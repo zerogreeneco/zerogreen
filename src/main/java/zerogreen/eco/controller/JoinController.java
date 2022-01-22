@@ -9,7 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import zerogreen.eco.dto.file.FileForm;
 import zerogreen.eco.dto.member.MemberJoinDto;
@@ -24,8 +23,6 @@ import zerogreen.eco.service.mail.MailService;
 import zerogreen.eco.service.user.MemberService;
 import zerogreen.eco.service.user.StoreMemberService;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -78,7 +75,7 @@ public class JoinController {
         }
 
         Member joinMember = member.toMember(member);
-        Long saveMember = memberService.saveV2(joinMember);
+        memberService.saveV2(joinMember);
         log.info("joinMember={}", joinMember);
 
         redirectAttributes.addAttribute("nickname", joinMember.getNickname());
@@ -134,14 +131,15 @@ public class JoinController {
             for (ObjectError allError : allErrors) {
                 log.info("ERROR={}", allError);
             }
-
         }
 
         RegisterFile uploadFile = fileService.saveFile(storeJoinDto.getAttachFile());
         StoreMember storeMember = new StoreJoinDto().toStoreMember(storeJoinDto);
+        log.info("STOREMEMEBR={}", storeMember.getStoreName());
 
         storeMemberService.save(storeMember, uploadFile);
+        redirectAttributes.addAttribute("nickname", storeMember.getStoreName());
 
-        return "register/welcome";
+        return "redirect:/members/welcome";
     }
 }
