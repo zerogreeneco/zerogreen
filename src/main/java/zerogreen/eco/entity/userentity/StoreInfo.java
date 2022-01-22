@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Embeddable
 @Getter
 public class StoreInfo {
-    private String storeName;
+
     private String storeAddress;
     private String storePhoneNumber;
     @Lob
@@ -20,8 +20,7 @@ public class StoreInfo {
 
     protected StoreInfo() {}
 
-    public StoreInfo(String storeName, String storeAddress, String storePhoneNumber, String storeDescription,LocalDateTime openTime, LocalDateTime closeTime) {
-        this.storeName = storeName;
+    public StoreInfo(String storeAddress, String storePhoneNumber, String storeDescription,LocalDateTime openTime, LocalDateTime closeTime) {
         this.storeAddress = storeAddress;
         this.storePhoneNumber = storePhoneNumber;
         this.storeDescription = storeDescription;

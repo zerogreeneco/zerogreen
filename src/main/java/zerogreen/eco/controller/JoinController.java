@@ -64,7 +64,7 @@ public class JoinController {
 
     @PostMapping("/add")
     public String addMember(@Validated @ModelAttribute("member") MemberJoinDto member, BindingResult bindingResult,
-                            RedirectAttributes redirectAttributes, Model model) {
+                            RedirectAttributes redirectAttributes) {
 
         log.info("member={}", member);
 

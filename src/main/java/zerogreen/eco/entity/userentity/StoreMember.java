@@ -21,6 +21,7 @@ import static javax.persistence.CascadeType.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StoreMember extends BasicUser{
 
+    private String StoreName;
     private String storeRegNum;
 
     @Enumerated(EnumType.STRING)
@@ -41,9 +42,10 @@ public class StoreMember extends BasicUser{
 
     // 회원 가입
     public StoreMember(String username, String phoneNumber, String password, UserRole userRole,
-                       String storeRegNum, StoreType storeType, RegisterFile registerFile) {
+                       String storeName, String storeRegNum, StoreType storeType, RegisterFile registerFile) {
 
         super(username, phoneNumber, password, userRole);
+        this.StoreName = StoreName;
         this.storeRegNum = storeRegNum;
         this.storeType = storeType;
         this.setRegisterFile(new RegisterFile(registerFile.getUploadFileName(), registerFile.getStoreFileName(), registerFile.getFilePath()));
@@ -59,8 +61,8 @@ public class StoreMember extends BasicUser{
     }
 
     // 가게 정보 등록
-    public StoreMember(String storeName, String storeAddress, String storePhoneNumber, String storeDescription,
+    public StoreMember(String storeAddress, String storePhoneNumber, String storeDescription,
                         LocalDateTime openTime, LocalDateTime closeTime) {
-        storeInfo = new StoreInfo(storeName, storeAddress, storePhoneNumber, storeDescription, openTime, closeTime);
+        storeInfo = new StoreInfo(storeAddress, storePhoneNumber, storeDescription, openTime, closeTime);
     }
 }
