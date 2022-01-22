@@ -9,22 +9,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriUtils;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
-import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.repository.file.RegisterFileRepository;
-import zerogreen.eco.repository.user.StoreMemberRepository;
 import zerogreen.eco.service.file.FileService;
 import zerogreen.eco.service.user.BasicUserService;
 
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -69,6 +65,8 @@ public class AdminController {
         log.info("UrlResource={}", urlResource);
 
         String encodeUploadFilename = UriUtils.encode(uploadFileName, StandardCharsets.UTF_8); // 한글로 된 파일이름이 꺠질 수 있기 때문에
+        // CONTENT_DISPOSITION : HttpBody에 들어오는 컨텐츠의 성향을 알려주는 속성
+        // attachment; filename="파일명"은 body에 오는 값을 다운로드 받아라는 의미
         String contentDisposition = "attachment; filename=\"" + encodeUploadFilename + "\"";
 
         return ResponseEntity.ok()

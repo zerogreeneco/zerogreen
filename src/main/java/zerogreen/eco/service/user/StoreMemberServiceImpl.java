@@ -25,9 +25,8 @@ public class StoreMemberServiceImpl implements StoreMemberService{
 
         String encPassword = passwordEncoder.encode(storeMember.getPassword());
 
-
         return storeMemberRepository.save(new StoreMember(storeMember.getUsername(), storeMember.getPhoneNumber(),
-                encPassword, UserRole.UNSTORE, storeMember.getStoreRegNum(), storeMember.getStoreType(), registerFile))
+                        encPassword, UserRole.UNSTORE, storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(), registerFile))
                 .getId();
     }
 

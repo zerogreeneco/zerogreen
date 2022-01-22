@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html th:replace="~{basic/basicJoinLayout :: layout(~{::article})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>아이디/비밀번호 찾기</title>
+</head>
+<body>
+<article>
+    <div class="tabs">
+        <input type="radio" id="find-id" name="tab-item" checked>
+        <label class="tab-item" for="find-id"></label>
+        <input type="radio" id="find-password" name="tab-item" checked>
+        <label class="tab-item" for="find-password"></label>
+<!--/*        <div class="tab-content" id="find-id-content">
+            <form method="post" th:action="@{/members/findMember}" th:object="${findMember}">
+                <input type="text" th:field="*{phoneNumber}">
+                <button id="find-id-btn" type="submit">아이디 찾기</button>
+            </form>
+        </div>*/-->
+       <div class="tab-content"  id="find-pwd-content">
+            <form method="post" th:action="@{/members/findMember}" th:object="${findMember}">
+                <input type="text" th:field="*{username}">
+                <input type="text" th:field="*{phoneNumber}">
+                <button type="submit">비밀번호 찾기</button>
+            </form>
+        </div>
+    </div>
+<!--/*    <div class="modal">
+        <div class="modal-content">
+            <div th:text="${username}"></div>
+        </div>
+    </div>*/-->
+</article>
+</body>
+</html>

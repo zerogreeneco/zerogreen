@@ -3,6 +3,7 @@ package zerogreen.eco.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.UserRole;
@@ -25,17 +26,18 @@ class MemberServiceImplTest {
     MemberRepository memberRepository;
     @Autowired
     MemberService memberService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Test
     public void 회원정보수정() {
         Member member = new Member("test", "test", "0001111111", "1234", UserRole.USER, VegetarianGrade.LACTO);
         Long memberId = memberService.save(member);
 
-
         userRepository.flush();
 
         Optional<Member> findMember = memberRepository.findById(memberId);
-        System.out.println("findMember = " + findMember);
+        System.out.println("findMember = " + findMember.get().getPassword());
         assertThat(member.getNickname()).isEqualTo(findMember.get().getNickname());
 
         findMember.get().setNickname("NEW");
