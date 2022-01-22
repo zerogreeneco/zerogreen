@@ -9,10 +9,12 @@
         <tr th:object="${stores}">
             <th>아이디</th>
             <th>등록번호</th>
+            <th>파일이름</th>
         </tr>
         <tr th:each="store : ${stores}">
-            <td th:field="*{username}"></td>
-            <td th:field="*{storeRegNum}"></td>
+            <td th:field="*{username}" th:text="${store.username}"></td>
+            <td th:field="*{storeRegNum}" th:text="${store.storeRegNum}"></td>
+            <td th:if="${store.id}" ><a th:href="|/zerogreen/admin/approvalStore/attach/${store.id}|" th:text="${store.uploadFileName}"></a></td>
         </tr>
     </table>
 </body>
