@@ -42,20 +42,25 @@ public class StoreMember extends BasicUser{
 
     // 회원 가입
     public StoreMember(String username, String phoneNumber, String password, UserRole userRole,
-                       String storeName, String storeRegNum, StoreType storeType, RegisterFile registerFile) {
+                       String storeName, String storeRegNum, StoreType storeType, String storeAddress, String storePhoneNumber, RegisterFile registerFile, int postalCode) {
 
         super(username, phoneNumber, password, userRole);
         this.storeName = storeName;
         this.storeRegNum = storeRegNum;
         this.storeType = storeType;
+        this.storeInfo =  new StoreInfo(postalCode, storeAddress, storePhoneNumber);
         this.setRegisterFile(new RegisterFile(registerFile.getUploadFileName(), registerFile.getStoreFileName(), registerFile.getFilePath()));
     }
 
-    public StoreMember(String username, String phoneNumber, String password, UserRole userRole, String storeName, String storeRegNum, StoreType storeType) {
+    // DTO -> 엔티티
+    public StoreMember(String username, String phoneNumber, String password, UserRole userRole, String storeName,
+                       String storeRegNum, StoreType storeType, String storeAddress, String storePhoneNumber, int postalCode) {
         super(username, phoneNumber, password, userRole);
         this.storeName = storeName;
         this.storeRegNum = storeRegNum;
         this.storeType = storeType;
+        this.storeInfo = new StoreInfo(postalCode, storeAddress, storePhoneNumber);
+        new StoreInfo(postalCode, storeAddress, storePhoneNumber);
     }
 
     // Test 데이터 용 (삭제 예정)

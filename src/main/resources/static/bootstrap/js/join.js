@@ -6,6 +6,8 @@ $(function() {
 
         var id = $("#username").val();
 
+        alert($("#sample6_postcode").val() + "__" + $("#sample6_address").val());
+
         if(id == "") {
             alert("메일 주소를 입력해주세요.");
         } else {
