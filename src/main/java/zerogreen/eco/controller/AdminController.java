@@ -8,9 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriUtils;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
@@ -35,16 +33,17 @@ public class AdminController {
     @GetMapping("/approvalStore")
     public String approvalStore(Model model) {
 
-        List<NonApprovalStoreDto> byNonApprovalStore = basicUserService.findByNonApprovalStore();
-        for (NonApprovalStoreDto nonApprovalStoreDto : byNonApprovalStore) {
+        List<NonApprovalStoreDto> nonApprovalStore = basicUserService.findByNonApprovalStore();
+        for (NonApprovalStoreDto nonApprovalStoreDto : nonApprovalStore) {
             log.info("nonApprovalStoreDto.REGNUM = {}" , nonApprovalStoreDto.getStoreRegNum());
-            log.info("nonApprovalStoreDto.ID = {}" , nonApprovalStoreDto.getId());
+            log.info("nonApprovalStoreDto.FILEID = {}" , nonApprovalStoreDto.getFileId());
             log.info("nonApprovalStoreDto.NAME = {}" , nonApprovalStoreDto.getUsername());
             log.info("nonApprovalStoreDto.FILENAME = {}" , nonApprovalStoreDto.getUploadFileName());
+            log.info("nonApprovalStoreDto.MEMBERID = {}" , nonApprovalStoreDto.getMemberId());
             log.info("===============================================================");
         }
 
-        model.addAttribute("stores", byNonApprovalStore);
+        model.addAttribute("stores", nonApprovalStore);
 
         return "admin/approvalStore";
     }
@@ -72,5 +71,16 @@ public class AdminController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .body(urlResource);
+    }
+
+    /*
+     * UNSTORE -> STORE 권한 변경
+     * */
+    @PostMapping("/approve")
+    @ResponseBody
+    public String changeUserRole(@RequestParam("memberId") List<Long> memberId) {
+        basicUserService.changeStoreUserRole(memberId);
+
+        return "redirect:/admin/approvalStore";
     }
 }

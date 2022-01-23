@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <style>
-    table tr{
+    table tr {
         border: solid black 1px;
     }
 </style>
 <body>
+<form method="post" th:action="@{/admin/approve}">
     <table>
         <tr th:object="${stores}">
             <th></th>
@@ -18,11 +22,42 @@
             <th>파일이름</th>
         </tr>
         <tr th:each="store : ${stores}">
-            <td><input type="checkbox"></td>
-            <td th:field="*{username}" th:text="${store.username}"></td>
-            <td th:field="*{storeRegNum}" th:text="${store.storeRegNum}"></td>
-            <td th:if="${store.id}" ><a th:href="|/zerogreen/admin/approvalStore/attach/${store.id}|" th:text="${store.uploadFileName}"></a></td>
+            <td><input type="checkbox" th:value="${store.memberId}" name="memberId"></td>
+            <td th:text="${store.username}"></td>
+            <td th:text="${store.storeRegNum}"></td>
+            <td th:if="${store.fileId}"><a th:href="|/zerogreen/admin/approvalStore/attach/${store.fileId}|"
+                                           th:text="${store.uploadFileName}"></a></td>
         </tr>
+        <input type="hidden" id="hiddenValue">
     </table>
+
+<button type="submit" id="approval-btn">승인</button>
+</form>
 </body>
+<script th:inline="javascript">
+    $(function () {
+        $("#approval-btn").click(function () {
+            var obj = $("[name=memberId]");
+            var memberArray = new Array();
+
+            $("input:checkbox[name=memberId]:checked").each(function () {
+                memberArray.push($(this).val());
+            });
+            var val = $("#hiddenValue").val(memberArray);
+            alert(memberArray);
+
+            $.ajax({
+               url: "/zerogreen/admin/approve",
+               type: "post",
+               data: {
+                   memberId: memberArray
+               },
+               contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+               dataType: "json"
+            });
+        });
+
+    });
+
+</script>
 </html>

@@ -3,8 +3,9 @@ package zerogreen.eco.dto.store;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
-import zerogreen.eco.dto.member.MemberJoinDto;
-import zerogreen.eco.entity.userentity.*;
+import zerogreen.eco.entity.userentity.StoreMember;
+import zerogreen.eco.entity.userentity.StoreType;
+import zerogreen.eco.entity.userentity.UserRole;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

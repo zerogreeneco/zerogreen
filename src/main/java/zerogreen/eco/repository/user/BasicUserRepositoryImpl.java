@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import zerogreen.eco.dto.member.MemberAuthDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.entity.file.QRegisterFile;
+import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.QBasicUser;
 import zerogreen.eco.entity.userentity.QStoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
@@ -42,17 +43,27 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
         QStoreMember qStoreMember = qBasicUser.as(QStoreMember.class);
 
         return queryFactory
-                .select(Projections.bean(NonApprovalStoreDto.class,
+                .select(Projections.constructor(NonApprovalStoreDto.class,
                         qStoreMember._super.username
-                        ,qStoreMember.storeRegNum
-                        ,registerFile.id
-                        ,registerFile.uploadFileName
+                        , qStoreMember.storeRegNum
+                        , registerFile.id
+                        , registerFile.uploadFileName
+                        , qStoreMember._super.id
                 ))
                 .from(qStoreMember)
-                .innerJoin(qStoreMember.registerFile,registerFile)
+                .innerJoin(qStoreMember.registerFile, registerFile)
                 .where(qStoreMember._super.userRole.eq(UserRole.UNSTORE))
                 .fetch();
     }
 
+    @Override
+    public void changeUserRole(List<Long> memberId) {
+        queryFactory
+                .update(basicUser)
+                .set(basicUser.userRole, UserRole.STORE)
+                .where(basicUser.id.in(memberId))
+                .execute();
 
+
+    }
 }
