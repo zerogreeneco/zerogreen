@@ -2,19 +2,22 @@ package zerogreen.eco.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.member.FindMemberDto;
+import zerogreen.eco.dto.member.MemberUpdateDto;
+import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.mail.MailService;
 import zerogreen.eco.service.user.BasicUserService;
+import zerogreen.eco.service.user.MemberService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -24,6 +27,7 @@ import java.util.List;
 public class MemberController {
 
     private final BasicUserService basicUserService;
+    private final MemberService memberService;
     private final MailService mailService;
 
     @GetMapping("/findMember")
@@ -32,6 +36,9 @@ public class MemberController {
         return "member/findMember";
     }
 
+    /*
+    * 이메일 찾기
+    * */
 /*    @PostMapping("/findMember")
     public String findId(@Validated @ModelAttribute("findMember") FindMemberDto findMemberDto,
                          BindingResult bindingResult, Model model) {
@@ -59,6 +66,9 @@ public class MemberController {
         return "member/findMember";
     }*/
 
+    /*
+    * 비밀번호 찾기
+    * */
     @PostMapping("/findMember")
     public String findPassword(@Validated @ModelAttribute("findMember") FindMemberDto findMemberDto,
                                BindingResult bindingResult, Model model) {
@@ -73,6 +83,23 @@ public class MemberController {
         if (count == 1) {
             mailService.sendTempPassword(username, phoneNum);
         }
+
+        // 결과가 없을 때 메시지 설정 필요
         return "member/findMember";
+    }
+
+    @GetMapping("/account")
+    public String memberInfoForm(@AuthenticationPrincipal PrincipalDetails principalDetails, MemberUpdateDto memberUpdateDto, Model model) {
+
+
+
+//        log.info("MEMBERID={}", memberId);
+        MemberUpdateDto updateDto = memberService.toMemberUpadteDto(principalDetails.getUsername(), memberUpdateDto);
+
+        log.info("UPDATEDTO={}", updateDto);
+
+        model.addAttribute("member", updateDto);
+
+        return "member/updateMember";
     }
 }

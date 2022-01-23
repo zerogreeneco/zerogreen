@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" sec:authorize="isAuthenticated()">
+
+    <div class="py-5 text-center">
+        <h2>회원 정보 수정</h2>
+    </div>
+
+    <h4 class="mb-3">회원 정보 입력</h4>
+
+    <form action="" th:action method="post" th:object="${member}">
+        <input type="hidden" >
+        <div>
+            <label for="username" >username</label>
+            <input type="text" id="username" th:field="*{username}" class="form-control" disabled>
+
+        </div>
+
+       <div>
+            <label for="nickanme">nickname</label>
+            <input type="text" id="nickanme" th:field="*{nickname}" class="form-control">
+            <div th:errors="*{nickname}">
+                닉네임 오류
+            </div>
+        </div>
+        <div>
+            <label for="phoneNumber">phoneNumber</label>
+            <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control">
+            <div th:errors="*{phoneNumber}">
+                전화 오류
+            </div>
+        </div>
+
+<!--/*        <div>
+            <select th:field="*{vegetarianGrade}">
+                <option value="">==베지테리언 등급==</option>
+                <option th:each="vegan : ${vegan}" th:value="${vegan.name()}" th:text="${vegan.vegetarian}"></option>
+            </select>
+        </div>*/-->
+
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">정보 수정</button>
+            </div>
+        </div>
+    </form>
+
+<!--/*    <form method="post">
+        <div>
+            <label for="currentPwd">현재 비밀번호</label>
+            <input type="text" id="phoneNumber" th:field="*{currentPwd}" class="form-control">
+            <div th:errors="*{currentPwd}">
+                비밀번호가 일치하지 않습니다.
+            </div>
+            <div>
+                <label for="newPwd">새로운 비밀번호</label>
+                <input type="text" id="phoneNumber" th:field="*{newPwd}" class="form-control">
+                <div th:errors="*{phoneNumber}">
+                    전화 오류
+                </div>
+            </div>
+            <div>
+                <label for="name">새로운 비밀번호 확인</label>
+                <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control">
+                <div th:errors="*{phoneNumber}">
+                    전화 오류
+                </div>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">비밀번호 변경</button>
+            </div>
+        </div>
+    </form>*/-->
+
+</div> <!-- /container -->
+</body>
+</html>

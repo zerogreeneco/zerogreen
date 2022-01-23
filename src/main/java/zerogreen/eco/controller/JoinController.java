@@ -52,6 +52,9 @@ public class JoinController {
         return storeTypes;
     }
 
+    /*
+    * 일반 회원 가입
+    * */
     @GetMapping("/add")
     public String addForm(@ModelAttribute("member") MemberJoinDto member, Model model) {
 
@@ -115,6 +118,9 @@ public class JoinController {
         return "register/welcome";
     }
 
+    /*
+    * 가게 회원 가입
+    * */
     @GetMapping("/store/add")
     public String storeAddForm(@ModelAttribute("store")StoreJoinDto storeJoinDto, @ModelAttribute("file")FileForm fileForm) {
 
@@ -122,7 +128,7 @@ public class JoinController {
     }
 
     @PostMapping("/store/add")
-    public String storeAdd(@Validated @ModelAttribute("store") StoreJoinDto storeJoinDto, BindingResult bindingResult,
+    public String storeAdd(@RequestBody @Validated @ModelAttribute("store") StoreJoinDto storeJoinDto, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes) throws IOException {
 
         if (bindingResult.hasErrors()) {
@@ -133,9 +139,11 @@ public class JoinController {
             }
         }
 
+        log.info("STOREJOIN={}", storeJoinDto.getPostalCode());
+        log.info("STOREJOIN={}", storeJoinDto.getStoreAddress());
         RegisterFile uploadFile = fileService.saveFile(storeJoinDto.getAttachFile());
         StoreMember storeMember = new StoreJoinDto().toStoreMember(storeJoinDto);
-        log.info("STOREMEMEBR={}", storeMember.getStoreName());
+        log.info("STOREMEMEBR={}", storeMember.getStoreInfo().getStoreAddress());
 
         storeMemberService.save(storeMember, uploadFile);
         redirectAttributes.addAttribute("nickname", storeMember.getStoreName());

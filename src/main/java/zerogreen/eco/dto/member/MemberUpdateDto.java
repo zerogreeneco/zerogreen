@@ -11,6 +11,8 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class MemberUpdateDto {
 
+    private String username;
+
     @NotBlank
     private String nickname;
 
@@ -19,9 +21,14 @@ public class MemberUpdateDto {
 
     private VegetarianGrade vegetarianGrade;
 
-    public MemberUpdateDto(Member member) {
-        this.nickname = member.getNickname();
-        this.phoneNumber = member.getPhoneNumber();
-        this.vegetarianGrade = member.getVegetarianGrade();
+    public MemberUpdateDto() {}
+
+    public MemberUpdateDto(String username, String nickname, String phoneNumber, VegetarianGrade vegetarianGrade) {
+        this.username = username;
+        this.nickname = nickname;
+        this.phoneNumber = phoneNumber;
+        this.vegetarianGrade = vegetarianGrade;
     }
+
+
 }
