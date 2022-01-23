@@ -17,4 +17,6 @@ public interface BasicUserService {
 
     long countByPhoneNumber(String phoneNumber);
     long countByUsername(String username);
+
+    void changeStoreUserRole(List<Long> memberId);
 }

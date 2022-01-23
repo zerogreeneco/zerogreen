@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.member.FindMemberDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.entity.userentity.BasicUser;
@@ -62,4 +63,12 @@ public class BasicUserServiceImpl implements BasicUserService{
         return basicUserRepository.countByUsername(username);
     }
 
+    /*
+    * UNSTORE -> STORE
+    * */
+    @Override
+    @Transactional
+    public void changeStoreUserRole(List<Long> memberId) {
+        basicUserRepository.changeUserRole(memberId);
+    }
 }

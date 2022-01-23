@@ -9,16 +9,18 @@ public class NonApprovalStoreDto {
 
     private String username;
     private String storeRegNum;
-    private Long id;
+    private Long fileId;
+    private Long memberId;
     private String uploadFileName;
 
     public NonApprovalStoreDto() {
     }
 
-    public NonApprovalStoreDto(String username, String storeRegNum, Long id, String uploadFileName) {
+    public NonApprovalStoreDto(String username, String storeRegNum, Long fileId, String uploadFileName, Long memberId) {
         this.username = username;
         this.storeRegNum = storeRegNum;
-        this.id = id;
+        this.fileId = fileId;
         this.uploadFileName = uploadFileName;
+        this.memberId = memberId;
     }
 }

@@ -17,4 +17,5 @@ public interface BasicUserRepository extends JpaRepository<BasicUser, Long>, Bas
 
     Optional<BasicUser> findByUsernameAndPhoneNumber(@RequestParam("username") String username, @RequestParam("phoneNumber") String phoneNumber);
     Optional<BasicUser> findByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+
 }
