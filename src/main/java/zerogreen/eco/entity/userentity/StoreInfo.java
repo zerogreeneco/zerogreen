@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 public class StoreInfo {
 
-    private int postalCode;
+    private String postalCode;
     private String storeAddress;
     private String storePhoneNumber;
     @Lob
@@ -23,7 +23,7 @@ public class StoreInfo {
 
     protected StoreInfo() {}
 
-    public StoreInfo(int postalCode, String storeAddress, String storePhoneNumber) {
+    public StoreInfo(String postalCode, String storeAddress, String storePhoneNumber) {
         this.postalCode = postalCode;
         this.storeAddress = storeAddress;
         this.storePhoneNumber = storePhoneNumber;

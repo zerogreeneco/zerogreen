@@ -2,23 +2,20 @@ package zerogreen.eco.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.member.FindMemberDto;
 import zerogreen.eco.dto.member.MemberUpdateDto;
+import zerogreen.eco.dto.member.PasswordUpdateDto;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.mail.MailService;
 import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.MemberService;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 @Slf4j
@@ -29,6 +26,17 @@ public class MemberController {
     private final BasicUserService basicUserService;
     private final MemberService memberService;
     private final MailService mailService;
+    private final PasswordEncoder passwordEncoder;
+
+    @ModelAttribute("member")
+    public MemberUpdateDto memberUpdateDto() {
+        return new MemberUpdateDto();
+    }
+
+    @ModelAttribute("password")
+    private PasswordUpdateDto passwordUpdateDto() {
+        return new PasswordUpdateDto();
+    }
 
     @GetMapping("/findMember")
     public String findMemberForm(@ModelAttribute("findMember") FindMemberDto findMemberForm) {
@@ -89,17 +97,57 @@ public class MemberController {
     }
 
     @GetMapping("/account")
-    public String memberInfoForm(@AuthenticationPrincipal PrincipalDetails principalDetails, MemberUpdateDto memberUpdateDto, Model model) {
-
-
+    public String memberInfoForm(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                 MemberUpdateDto memberUpdateDto, PasswordUpdateDto passwordUpdateDto, Model model) {
 
 //        log.info("MEMBERID={}", memberId);
-        MemberUpdateDto updateDto = memberService.toMemberUpadteDto(principalDetails.getUsername(), memberUpdateDto);
-
+        MemberUpdateDto updateDto = memberService.toMemberUpdateDto(principalDetails.getUsername(), memberUpdateDto);
         log.info("UPDATEDTO={}", updateDto);
 
         model.addAttribute("member", updateDto);
+        model.addAttribute("password", passwordUpdateDto);
 
         return "member/updateMember";
     }
+
+    /*
+    * 회원 정보 수정
+    * */
+    @PostMapping("/account")
+    @ResponseBody
+    public String memberInfoUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                    @Validated @ModelAttribute("member") MemberUpdateDto memberUpdateResponse, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "member/updateMember";
+        }
+
+        memberService.memberUpdate(principalDetails.getId(), memberUpdateResponse);
+        log.info("회원 정보 수정 성공!!!!!");
+
+        return "member/updateMember";
+    }
+
+    /*
+    * 비밀번호 변경
+    * */
+    @PostMapping("/account/pwdChange")
+    @ResponseBody
+    public String passwordChange(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                 @Validated @ModelAttribute("password") PasswordUpdateDto passwordDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "member/updateMember";
+        }
+
+        log.info("password={}", passwordDto.getPassword());
+        log.info("newpassword={}", passwordDto.getNewPassword());
+
+        if (passwordEncoder.matches(passwordDto.getPassword(), principalDetails.getPassword())) {
+            basicUserService.passwordChange(principalDetails.getId(), passwordDto);
+            log.info("비밀번호 변경 성공!!!!!");
+        }
+        log.info("비밀번호 변경 실패....ㅠㅠ");
+        return "member/updateMember";
+    }
+
 }

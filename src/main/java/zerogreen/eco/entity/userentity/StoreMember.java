@@ -42,7 +42,7 @@ public class StoreMember extends BasicUser{
 
     // 회원 가입
     public StoreMember(String username, String phoneNumber, String password, UserRole userRole,
-                       String storeName, String storeRegNum, StoreType storeType, String storeAddress, String storePhoneNumber, RegisterFile registerFile, int postalCode) {
+                       String storeName, String storeRegNum, StoreType storeType, String storeAddress, String storePhoneNumber, RegisterFile registerFile, String postalCode) {
 
         super(username, phoneNumber, password, userRole);
         this.storeName = storeName;
@@ -54,7 +54,7 @@ public class StoreMember extends BasicUser{
 
     // DTO -> 엔티티
     public StoreMember(String username, String phoneNumber, String password, UserRole userRole, String storeName,
-                       String storeRegNum, StoreType storeType, String storeAddress, String storePhoneNumber, int postalCode) {
+                       String storeRegNum, StoreType storeType, String storeAddress, String storePhoneNumber, String postalCode) {
         super(username, phoneNumber, password, userRole);
         this.storeName = storeName;
         this.storeRegNum = storeRegNum;
