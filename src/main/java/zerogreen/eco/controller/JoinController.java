@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import zerogreen.eco.dto.file.FileForm;
@@ -114,7 +115,6 @@ public class JoinController {
     public String welcome(@RequestParam("nickname") String nickname, Model model) {
 
         model.addAttribute("nickname", nickname);
-
         return "register/welcome";
     }
 
@@ -135,8 +135,9 @@ public class JoinController {
             List<ObjectError> allErrors = bindingResult.getAllErrors();
 
             for (ObjectError allError : allErrors) {
-                log.info("ERROR={}", allError);
+                log.info("ERRORCODE={}", allError);
             }
+            return "register/storeRegisterForm";
         }
 
         log.info("STOREJOIN={}", storeJoinDto.getPostalCode());

@@ -6,6 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.member.FindMemberDto;
+import zerogreen.eco.dto.member.MemberUpdateDto;
+import zerogreen.eco.dto.member.PasswordUpdateDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.UserRole;
@@ -22,11 +24,13 @@ public class BasicUserServiceImpl implements BasicUserService{
     private final BasicUserRepository basicUserRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /*
+    * TEST ADMIN SAVE
+    * */
     @Override
     public Long adminSave() {
 
         String encPassword = passwordEncoder.encode("1");
-
         return basicUserRepository.save(new BasicUser("ADMIN", null, encPassword,UserRole.ADMIN, true))
                 .getId();
     }
@@ -64,11 +68,24 @@ public class BasicUserServiceImpl implements BasicUserService{
     }
 
     /*
-    * UNSTORE -> STORE
+    * UNSTORE -> STORE 권한 변경
     * */
     @Override
     @Transactional
     public void changeStoreUserRole(List<Long> memberId) {
         basicUserRepository.changeUserRole(memberId);
+    }
+
+    /*
+    * 비밀번호 변경
+    * */
+    @Override
+    @Transactional
+    public void passwordChange(Long id, PasswordUpdateDto passwordDto) {
+        BasicUser updateMember = basicUserRepository.findById(id).orElseThrow();
+
+        String encPassword = passwordEncoder.encode(passwordDto.getNewPassword());
+
+        updateMember.setPassword(encPassword);
     }
 }
