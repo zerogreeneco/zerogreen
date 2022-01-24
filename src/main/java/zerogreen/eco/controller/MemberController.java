@@ -145,8 +145,9 @@ public class MemberController {
         if (passwordEncoder.matches(passwordDto.getPassword(), principalDetails.getPassword())) {
             basicUserService.passwordChange(principalDetails.getId(), passwordDto);
             log.info("비밀번호 변경 성공!!!!!");
+        } else {
+            log.info("비밀번호 변경 실패....ㅠㅠ");
         }
-        log.info("비밀번호 변경 실패....ㅠㅠ");
         return "member/updateMember";
     }
 

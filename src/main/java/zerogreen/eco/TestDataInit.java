@@ -38,31 +38,28 @@ public class TestDataInit {
         private final StoreMemberRepository storeMemberRepository;
 
         public void init() {
-            StoreMember ecoTest = new StoreMember("ecoTest", "01033334444", "1", UserRole.STORE, "1234567890", StoreType.ECO_SHOP);
-            StoreMember foodTest = new StoreMember("foodTest", "01044445555", "1", UserRole.STORE, "0987654321", StoreType.VEGAN_FOOD);
+            StoreMember ecoTest = new StoreMember("ecoTest", "01033334444", "1",
+                    UserRole.UNSTORE, "ECO_SHOP", "REGNUM1111",StoreType.ECO_SHOP,
+                    "부산시 해운대구", "0517778888",  "11111");
+            StoreMember foodTest = new StoreMember("foodTest", "01044445555", "1",
+                    UserRole.UNSTORE, "VEGAN_FOOD", "0987654321", StoreType.VEGAN_FOOD,
+                    "부산시 동래구", "0519998888", "99999");
+            StoreMember noVegan = new StoreMember("noVeganlTest", "01044445555", "1",
+                    UserRole.UNSTORE, "NO_VEGAN_FOOD", "785654321", StoreType.GENERAL_FOOD,
+                    "부산시 연제구", "0517776666", "88888");
 
             ecoTest.setStoreInfo(new StoreInfo("부산시 해운대구", "0519998888",null,
                     LocalDateTime.now(), LocalDateTime.now()));
 
-            memberService.save(new Member("test", "tester", "01022223333", "1", UserRole.USER, VegetarianGrade.LACTO));
-//            storeMemberService.save(ecoTest, new RegisterFile("origin","store", "path"));
-//            storeMemberService.save(foodTest, new RegisterFile("origin","store", "path"));
+            memberService.save(new Member("test", "tester", "01022223333", "1",
+                    UserRole.USER, VegetarianGrade.LACTO));
+            storeMemberService.save(ecoTest, new RegisterFile("origin1","store1", "path1"));
+            storeMemberService.save(foodTest, new RegisterFile("origin2","store2", "path2"));
+            storeMemberService.save(noVegan, new RegisterFile("origin3","store3", "path3"));
             basicUserService.adminSave();
 
             em.flush();
             em.clear();
-
-//            StoreMember updateEco = storeMemberRepository.findById(2L).get();
-//            updateEco.setStoreInfo(new StoreInfo( "부산시 해운대구", "0517778888",null,
-//                    LocalDateTime.now(), LocalDateTime.now()));
-//
-//            storeMemberService.storeInfoSave(updateEco);
-//
-//            StoreMember updateFood = storeMemberRepository.findById(3L).get();
-//            updateFood.setStoreInfo(new StoreInfo( "부산시 동래구", "0515556666",null,
-//                    LocalDateTime.now(), LocalDateTime.now()));
-//
-//            storeMemberService.storeInfoSave(updateFood);
 
         }
 
