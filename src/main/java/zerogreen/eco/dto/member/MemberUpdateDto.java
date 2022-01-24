@@ -2,7 +2,6 @@ package zerogreen.eco.dto.member;
 
 import lombok.Getter;
 import lombok.Setter;
-import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
 
 import javax.validation.constraints.NotBlank;
@@ -10,6 +9,8 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 public class MemberUpdateDto {
+
+    private String username;
 
     @NotBlank
     private String nickname;
@@ -19,9 +20,18 @@ public class MemberUpdateDto {
 
     private VegetarianGrade vegetarianGrade;
 
-    public MemberUpdateDto(Member member) {
-        this.nickname = member.getNickname();
-        this.phoneNumber = member.getPhoneNumber();
-        this.vegetarianGrade = member.getVegetarianGrade();
+    private String password;
+
+    private String newPassword;
+
+    public MemberUpdateDto() {}
+
+    public MemberUpdateDto(String username, String nickname, String phoneNumber, VegetarianGrade vegetarianGrade) {
+        this.username = username;
+        this.nickname = nickname;
+        this.phoneNumber = phoneNumber;
+        this.vegetarianGrade = vegetarianGrade;
     }
+
+
 }

@@ -7,11 +7,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.member.MemberAuthDto;
+import zerogreen.eco.dto.member.MemberUpdateDto;
+import zerogreen.eco.dto.member.PasswordUpdateDto;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.user.BasicUserRepository;
 import zerogreen.eco.repository.user.MemberRepository;
-import zerogreen.eco.service.mail.MailService;
 
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ public class MemberServiceImpl implements MemberService{
     private final BasicUserRepository basicUserRepository;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final MailService mailService;
+
 
     /*
     * 테스트 데이터용
@@ -63,16 +64,29 @@ public class MemberServiceImpl implements MemberService{
         joinMember.setAuthState(true);
     }
 
-    @Transactional
     @Override
-    public void memberUpdate(Long id, Member member) {
-        Member updateMember  = memberRepository.findById(id).orElseThrow();
+    public MemberUpdateDto toMemberUpdateDto(String username, MemberUpdateDto memberUpdateDto) {
+        Member member = memberRepository.findByUsername(username).orElseThrow();
 
-        updateMember.setNickname(member.getNickname());
-        updateMember.setPhoneNumber(member.getPhoneNumber());
-        updateMember.setVegetarianGrade(member.getVegetarianGrade());
+        return new MemberUpdateDto(member.getUsername(), member.getNickname(), member.getPhoneNumber(), member.getVegetarianGrade());
     }
 
+    /*
+    * 회원 정보 수정
+    * */
+    @Transactional
+    @Override
+    public void memberUpdate(Long id, MemberUpdateDto memberUpdateResponse) {
+        Member updateMember  = memberRepository.findById(id).orElseThrow();
+
+        updateMember.setNickname(memberUpdateResponse.getNickname());
+        updateMember.setPhoneNumber(memberUpdateResponse.getPhoneNumber());
+        updateMember.setVegetarianGrade(memberUpdateResponse.getVegetarianGrade());
+    }
+
+    /*
+    * 카카오 회원가입 추가 정보
+    * */
     @Transactional
     @Override
     public void kakaoMemberUpdate(Long id, Member member) {

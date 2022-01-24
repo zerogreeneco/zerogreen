@@ -2,20 +2,20 @@ package zerogreen.eco.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.member.FindMemberDto;
+import zerogreen.eco.dto.member.MemberUpdateDto;
+import zerogreen.eco.dto.member.PasswordUpdateDto;
+import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.mail.MailService;
 import zerogreen.eco.service.user.BasicUserService;
-
-import java.util.List;
+import zerogreen.eco.service.user.MemberService;
 
 @Controller
 @Slf4j
@@ -24,7 +24,19 @@ import java.util.List;
 public class MemberController {
 
     private final BasicUserService basicUserService;
+    private final MemberService memberService;
     private final MailService mailService;
+    private final PasswordEncoder passwordEncoder;
+
+    @ModelAttribute("member")
+    public MemberUpdateDto memberUpdateDto() {
+        return new MemberUpdateDto();
+    }
+
+    @ModelAttribute("password")
+    private PasswordUpdateDto passwordUpdateDto() {
+        return new PasswordUpdateDto();
+    }
 
     @GetMapping("/findMember")
     public String findMemberForm(@ModelAttribute("findMember") FindMemberDto findMemberForm) {
@@ -32,6 +44,9 @@ public class MemberController {
         return "member/findMember";
     }
 
+    /*
+    * 이메일 찾기
+    * */
 /*    @PostMapping("/findMember")
     public String findId(@Validated @ModelAttribute("findMember") FindMemberDto findMemberDto,
                          BindingResult bindingResult, Model model) {
@@ -59,6 +74,9 @@ public class MemberController {
         return "member/findMember";
     }*/
 
+    /*
+    * 비밀번호 찾기
+    * */
     @PostMapping("/findMember")
     public String findPassword(@Validated @ModelAttribute("findMember") FindMemberDto findMemberDto,
                                BindingResult bindingResult, Model model) {
@@ -73,6 +91,64 @@ public class MemberController {
         if (count == 1) {
             mailService.sendTempPassword(username, phoneNum);
         }
+
+        // 결과가 없을 때 메시지 설정 필요
         return "member/findMember";
     }
+
+    @GetMapping("/account")
+    public String memberInfoForm(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                 MemberUpdateDto memberUpdateDto, PasswordUpdateDto passwordUpdateDto, Model model) {
+
+//        log.info("MEMBERID={}", memberId);
+        MemberUpdateDto updateDto = memberService.toMemberUpdateDto(principalDetails.getUsername(), memberUpdateDto);
+        log.info("UPDATEDTO={}", updateDto);
+
+        model.addAttribute("member", updateDto);
+        model.addAttribute("password", passwordUpdateDto);
+
+        return "member/updateMember";
+    }
+
+    /*
+    * 회원 정보 수정
+    * */
+    @PostMapping("/account")
+    @ResponseBody
+    public String memberInfoUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                    @Validated @ModelAttribute("member") MemberUpdateDto memberUpdateResponse, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "member/updateMember";
+        }
+
+        memberService.memberUpdate(principalDetails.getId(), memberUpdateResponse);
+        log.info("회원 정보 수정 성공!!!!!");
+
+        return "member/updateMember";
+    }
+
+    /*
+    * 비밀번호 변경
+    * */
+    @PostMapping("/account/pwdChange")
+    @ResponseBody
+    public String passwordChange(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                 @Validated @ModelAttribute("password") PasswordUpdateDto passwordDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "member/updateMember";
+        }
+
+        log.info("password={}", passwordDto.getPassword());
+        log.info("newpassword={}", passwordDto.getNewPassword());
+
+        if (passwordEncoder.matches(passwordDto.getPassword(), principalDetails.getPassword())) {
+            basicUserService.passwordChange(principalDetails.getId(), passwordDto);
+            log.info("비밀번호 변경 성공!!!!!");
+        } else {
+            log.info("비밀번호 변경 실패....ㅠㅠ");
+        }
+        return "member/updateMember";
+    }
+
 }

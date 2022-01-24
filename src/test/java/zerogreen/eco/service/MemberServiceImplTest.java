@@ -29,7 +29,7 @@ class MemberServiceImplTest {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @Test
+/*    @Test
     public void 회원정보수정() {
         Member member = new Member("test", "test", "0001111111", "1234", UserRole.USER, VegetarianGrade.LACTO);
         Long memberId = memberService.save(member);
@@ -49,5 +49,5 @@ class MemberServiceImplTest {
 
         Member member1 = memberRepository.findById(memberId).get();
         System.out.println("member1 = " + member1);;
-    }
+    }*/
 }
