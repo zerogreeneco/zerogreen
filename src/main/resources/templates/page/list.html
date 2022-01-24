@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout/basicList :: setContent(~{this::content})}">
+<th:block th:fragment="content">
+    <!--페이지 수정 부분 시작-->
+
+    <!-- 페이지 css/ js 추가 -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/list.css}"/>
+
+    <!-- 본문 시작 -->
+    <section class="tiles">
+        <article class="style">
+            <span class="image">
+                <img src="#" alt=""/>
+            </span>
+            <a href="#">
+                <h2>Magna</h2>
+                <div class="store">
+                    <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
+                </div>
+            </a>
+        </article>
+    </section>
+
+</th:block>
+</th:block>
+</html>
