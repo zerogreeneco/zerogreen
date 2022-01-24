@@ -142,13 +142,21 @@ public class JoinController {
 
         log.info("STOREJOIN={}", storeJoinDto.getPostalCode());
         log.info("STOREJOIN={}", storeJoinDto.getStoreAddress());
-        RegisterFile uploadFile = fileService.saveFile(storeJoinDto.getAttachFile());
-        StoreMember storeMember = new StoreJoinDto().toStoreMember(storeJoinDto);
-        log.info("STOREMEMEBR={}", storeMember.getStoreInfo().getStoreAddress());
 
-        storeMemberService.save(storeMember, uploadFile);
-        redirectAttributes.addAttribute("nickname", storeMember.getStoreName());
+        // 첨부파일 없이 넘어올 경우, 다시 회원가입 창으로 이동
+        if (storeJoinDto.getAttachFile().isEmpty()) {
+            bindingResult.reject("attachFile", "사업자 등록증을 첨부해주세요.");
+            return "register/storeRegisterForm";
+        } else {
 
-        return "redirect:/members/welcome";
+            RegisterFile uploadFile = fileService.saveFile(storeJoinDto.getAttachFile());
+            StoreMember storeMember = new StoreJoinDto().toStoreMember(storeJoinDto);
+
+            storeMemberService.save(storeMember, uploadFile);
+            redirectAttributes.addAttribute("nickname", storeMember.getStoreName());
+
+            return "redirect:/members/welcome";
+        }
+
     }
 }

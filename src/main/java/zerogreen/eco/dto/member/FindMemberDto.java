@@ -16,8 +16,7 @@ public class FindMemberDto {
 //    @NotBlank(message = "계정과 연결된 연락처를 입력해주세요.")
     private String phoneNumber;
 
-    public FindMemberDto() {
-    }
+    public FindMemberDto() {}
 
     public FindMemberDto(String username) {
         this.username = username;

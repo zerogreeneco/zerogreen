@@ -11,7 +11,6 @@ import zerogreen.eco.entity.userentity.UserRole;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
@@ -40,6 +39,8 @@ public class StoreJoinDto {
     @NotBlank
     private String storeAddress;
 
+    private String storeDetailAddress;
+
     @NotNull
     private String postalCode;
 
@@ -54,8 +55,9 @@ public class StoreJoinDto {
         log.info("DTODTO={}",storeDto.getStoreAddress());
         log.info("DTODTO={}",storeDto.getPostalCode());
         log.info("DTODTO={}",storeDto.getStorePhoneNumber());
+        String fullAddress = storeDto.getStoreAddress() + " " + storeDto.getStoreDetailAddress();
         return new StoreMember(storeDto.getUsername(), storeDto.getPhoneNumber(), storeDto.getPassword(),
-                UserRole.UNSTORE, storeDto.getStoreName(), storeDto.getStoreRegNum(),
-                storeDto.getStoreType(), storeDto.getStoreAddress(), storeDto.getStorePhoneNumber(), storeDto.getPostalCode());
+                UserRole.UN_STORE, storeDto.getStoreName(), storeDto.getStoreRegNum(),
+                storeDto.getStoreType(), fullAddress, storeDto.getStorePhoneNumber(), storeDto.getPostalCode());
     }
 }

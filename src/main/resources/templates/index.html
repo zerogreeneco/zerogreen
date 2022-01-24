@@ -1,68 +1,24 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <head>
-        <meta charset="UTF-8">
-        <title>제로그린</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<html th:replace="~{basic/basicTemplate :: layout(~{::section})}" lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>제로그린</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
 
-        <link rel="stylesheet" th:href="@{bootstrap/css/main.css}" />
-        <link rel="stylesheet" th:href="@{bootstrap/css/mainpage/mainpage.css}" />
-
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@100;300;400&display=swap" rel="stylesheet">
-
-        <link rel="icon" type="image/x-icon" th:href="@{bootstrap/images/favicon.png}"/>
-    </head>
-    <body>
-        <div id="page-wrapper">
-            <!-- Header -->
-            <div id="header-wrapper">
-                <header id="header" class="container">
-                    <!-- Logo -->
-                    <div id="logo">
-                        <h1><a href="index.html">제로그린</a></h1>
-                    </div>
-                    <!-- Nav -->
-                    <nav id="nav">
-                        <ul>
-                            <li><a href="#">비건맛집</a></li>
-                            <li><a href="#">제로웨이스트샵</a></li>
-                            <li><a href="#">커뮤니티</a></li>
-                        </ul>
-                    </nav>
-                    <!--Login Button-->
-                    <button class="btn-login">로그인</button>
-                </header>
+</head>
+<body>
+<!-- Main -->
+<section>
+    <div id="main-wrapper">
+        <div class="container">
+            <div id="content">
+                <!--/*                        <div th:replace="${content}"></div>*/-->
+                <!-- Content -->
+                <h1>수정된 내용</h1>
             </div>
-
-            <!-- Main -->
-            <div id="main-wrapper">
-                <div class="container">
-                    <div id="content">
-                        <th:block th:replace="${content}"></th:block>
-                        <!-- Content -->
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <div id="footer-wrapper">
-                <footer id="footer" class="container">
-                    <p>Copyright © zerogreen. All rights reserved.</p>
-                </footer>
-            </div>
-
         </div>
-
-    <!-- Scripts -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/jquery.dropotron.min.js"></script>
-    <script src="assets/js/browser.min.js"></script>
-    <script src="assets/js/breakpoints.min.js"></script>
-    <script src="assets/js/util.js"></script>
-    <script src="assets/js/main.js"></script>
-
-    </body>
+    </div>
+</section>
+</body>
 </html>

@@ -4,8 +4,6 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import zerogreen.eco.dto.member.MemberAuthDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
-import zerogreen.eco.entity.file.QRegisterFile;
-import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.QBasicUser;
 import zerogreen.eco.entity.userentity.QStoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
@@ -16,7 +14,6 @@ import java.util.List;
 
 import static zerogreen.eco.entity.file.QRegisterFile.*;
 import static zerogreen.eco.entity.userentity.QBasicUser.basicUser;
-import static zerogreen.eco.entity.userentity.QStoreMember.*;
 
 public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
 
@@ -52,7 +49,7 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
                 ))
                 .from(qStoreMember)
                 .innerJoin(qStoreMember.registerFile, registerFile)
-                .where(qStoreMember._super.userRole.eq(UserRole.UNSTORE))
+                .where(qStoreMember._super.userRole.eq(UserRole.UN_STORE))
                 .fetch();
     }
 

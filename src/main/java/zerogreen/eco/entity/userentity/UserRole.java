@@ -1,5 +1,5 @@
 package zerogreen.eco.entity.userentity;
 
 public enum UserRole {
-    USER, UNSTORE ,STORE, ADMIN
+    USER, UN_STORE, STORE, ADMIN
 }
