@@ -4,85 +4,45 @@
         <meta charset="UTF-8">
         <title>제로그린</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
         <link rel="stylesheet" th:href="@{bootstrap/css/main.css}" />
+        <link rel="stylesheet" th:href="@{bootstrap/css/mainpage/mainpage.css}" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@100;300;400&display=swap" rel="stylesheet">
+
         <link rel="icon" type="image/x-icon" th:href="@{bootstrap/images/favicon.png}"/>
     </head>
-    <body class="is-preload right-sidebar">
+    <body>
         <div id="page-wrapper">
             <!-- Header -->
             <div id="header-wrapper">
                 <header id="header" class="container">
-
                     <!-- Logo -->
                     <div id="logo">
-                        <h1><a href="index.html">Verti</a></h1>
-                        <span>by HTML5 UP</span>
+                        <h1><a href="index.html">제로그린</a></h1>
                     </div>
-
                     <!-- Nav -->
                     <nav id="nav">
                         <ul>
-                            <li><a href="index.html">Welcome</a></li>
-                            <li>
-                                <a href="#">Dropdown</a>
-                                <ul>
-                                    <li><a href="#">Lorem ipsum dolor</a></li>
-                                    <li><a href="#">Magna phasellus</a></li>
-                                    <li>
-                                        <a href="#">Phasellus consequat</a>
-                                        <ul>
-                                            <li><a href="#">Lorem ipsum dolor</a></li>
-                                            <li><a href="#">Phasellus consequat</a></li>
-                                            <li><a href="#">Magna phasellus</a></li>
-                                            <li><a href="#">Etiam dolore nisl</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Veroeros feugiat</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="left-sidebar.html">Left Sidebar</a></li>
-                            <li class="current"><a href="right-sidebar.html">Right Sidebar</a></li>
-                            <li><a href="no-sidebar.html">No Sidebar</a></li>
+                            <li><a href="#">비건맛집</a></li>
+                            <li><a href="#">제로웨이스트샵</a></li>
+                            <li><a href="#">커뮤니티</a></li>
                         </ul>
                     </nav>
-
+                    <!--Login Button-->
+                    <button class="btn-login">로그인</button>
                 </header>
             </div>
 
             <!-- Main -->
             <div id="main-wrapper">
                 <div class="container">
-                    <div class="row gtr-200">
-                        <div class="col-8 col-12-medium">
-                            <div id="content">
-                                <!-- Content -->
-                                <h1>MAIN</h1>
-                                <form method="post" th:action="@{/logout}">
-                                    <span >
-                                        <button sec:authorize="isAuthenticated()" type="submit">로그아웃</button>
-                                    </span>
-                                    <span  >
-                                        <button type="button" sec:authorize="isAnonymous()">로그인</button>
-                                    </span>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="col-4 col-12-medium">
-                            <div id="sidebar">
+                    <div id="content">
+                        <th:block th:replace="${content}"></th:block>
+                        <!-- Content -->
 
-                                <!-- Sidebar -->
-                                <section>
-                                    <h3>Subheading</h3>
-                                    <p>Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus.
-                                        Praesent semper mod quis eget mi. Etiam eu ante risus. Aliquam erat volutpat.
-                                        Aliquam luctus et mattis lectus sit amet pulvinar. Nam turpis nisi
-                                        consequat etiam.</p>
-                                    <footer>
-                                        <a href="#" class="button icon solid fa-info-circle">Find out more</a>
-                                    </footer>
-                                </section>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -90,80 +50,7 @@
             <!-- Footer -->
             <div id="footer-wrapper">
                 <footer id="footer" class="container">
-                    <div class="row">
-                        <div class="col-3 col-6-medium col-12-small">
-
-                            <!-- Links -->
-                            <section class="widget links">
-                                <h3>Random Stuff</h3>
-                                <ul class="style2">
-                                    <li><a href="#">Etiam feugiat condimentum</a></li>
-                                    <li><a href="#">Aliquam imperdiet suscipit odio</a></li>
-                                    <li><a href="#">Sed porttitor cras in erat nec</a></li>
-                                    <li><a href="#">Felis varius pellentesque potenti</a></li>
-                                    <li><a href="#">Nullam scelerisque blandit leo</a></li>
-                                </ul>
-                            </section>
-
-                        </div>
-                        <div class="col-3 col-6-medium col-12-small">
-
-                            <!-- Links -->
-                            <section class="widget links">
-                                <h3>Random Stuff</h3>
-                                <ul class="style2">
-                                    <li><a href="#">Etiam feugiat condimentum</a></li>
-                                    <li><a href="#">Aliquam imperdiet suscipit odio</a></li>
-                                    <li><a href="#">Sed porttitor cras in erat nec</a></li>
-                                    <li><a href="#">Felis varius pellentesque potenti</a></li>
-                                    <li><a href="#">Nullam scelerisque blandit leo</a></li>
-                                </ul>
-                            </section>
-
-                        </div>
-                        <div class="col-3 col-6-medium col-12-small">
-
-                            <!-- Links -->
-                            <section class="widget links">
-                                <h3>Random Stuff</h3>
-                                <ul class="style2">
-                                    <li><a href="#">Etiam feugiat condimentum</a></li>
-                                    <li><a href="#">Aliquam imperdiet suscipit odio</a></li>
-                                    <li><a href="#">Sed porttitor cras in erat nec</a></li>
-                                    <li><a href="#">Felis varius pellentesque potenti</a></li>
-                                    <li><a href="#">Nullam scelerisque blandit leo</a></li>
-                                </ul>
-                            </section>
-
-                        </div>
-                        <div class="col-3 col-6-medium col-12-small">
-
-                            <!-- Contact -->
-                            <section class="widget contact">
-                                <h3>Contact Us</h3>
-                                <ul>
-                                    <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-                                    <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-                                    <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-                                    <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-                                    <li><a href="#" class="icon brands fa-pinterest"><span class="label">Pinterest</span></a></li>
-                                </ul>
-                                <p>1234 Fictional Road<br />
-                                    Nashville, TN 00000<br />
-                                    (800) 555-0000</p>
-                            </section>
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div id="copyright">
-                                <ul class="menu">
-                                    <li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    <p>Copyright © zerogreen. All rights reserved.</p>
                 </footer>
             </div>
 

@@ -1,0 +1,11 @@
+.btn-login {
+    margin: 0 40px 0 0;
+    right: 0;
+    top: 10%;
+    position: absolute;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 1rem;
+    background: #f1c40f;
+    height: 80%;
+    width: 11%;
+}
