@@ -52,11 +52,7 @@ public class TestDataInit {
             // 가게 회원
             storeMemberService.save(ecoTest, new RegisterFile("origin1","store1", "path1"));
             storeMemberService.save(foodTest, new RegisterFile("origin2","store2", "path2"));
-
-            for (int i = 0; i < 50; i++) {
-
             storeMemberService.save(noVegan, new RegisterFile("origin"+i,"store3", "path3"));
-            }
             // 관리자 계정
             basicUserService.adminSave();
 

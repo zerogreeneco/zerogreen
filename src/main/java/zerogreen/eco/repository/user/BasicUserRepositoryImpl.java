@@ -48,8 +48,11 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
 
         List<NonApprovalStoreDto> content = queryFactory
                 .select(Projections.constructor(NonApprovalStoreDto.class,
-                        qStoreMember._super.username
-                        , qStoreMember._super.id
+                        qStoreMember._super.id
+                        , qStoreMember._super.username
+                        , qStoreMember.storeName
+                        , qStoreMember.storeInfo.storePhoneNumber
+                        , qStoreMember.storeInfo.storeAddress
                         , qStoreMember.storeRegNum
                         , registerFile.id
                         , registerFile.uploadFileName

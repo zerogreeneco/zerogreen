@@ -5,9 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriUtils;
 import zerogreen.eco.dto.PagingDto;
+import zerogreen.eco.dto.RequestPageDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.repository.file.RegisterFileRepository;
@@ -36,7 +36,9 @@ public class AdminController {
     private final RegisterFileRepository registerFileRepository;
 
     @GetMapping("/approvalStore")
-    public Page<NonApprovalStoreDto> approvalStore(Model model, Pageable pageable) {
+    public Page<NonApprovalStoreDto> approvalStore(Model model, RequestPageDto pageDto) {
+
+        Pageable pageable = pageDto.getPageable();
 
         Page<NonApprovalStoreDto> nonApprovalStore = basicUserService.findByNonApprovalStore(pageable);
         long totalListCount = nonApprovalStore.getTotalElements();
