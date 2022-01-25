@@ -77,4 +77,5 @@ public class StoreMember extends BasicUser{
                         LocalDateTime openTime, LocalDateTime closeTime) {
         storeInfo = new StoreInfo(storeAddress, storePhoneNumber, storeDescription, openTime, closeTime);
     }
+
 }

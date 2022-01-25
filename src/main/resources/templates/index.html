@@ -15,10 +15,41 @@
             <div id="content">
                 <!--/*                        <div th:replace="${content}"></div>*/-->
                 <!-- Content -->
-                <h1>여기에 내용 넣으세요~~~~~~~~~~~~~~~~~~~~~~~~~</h1>
+
+                <h1>수정된 내용</h1>
+
+                <div>
+                    <span>임시 테이블</span>
+                    <table>
+                        <tr th:each="temp :${tempStore}"
+                            th:onclick="|javascript:goStore('${temp.id}')|">
+                        <td scope="row">[[${temp.id}]]</td>
+                            <td>[[${temp.storeType}]]</td>
+                        </tr>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+
+<script th:inline="javascript">
+    function goStore(id){
+        alert('goStore');
+        /*[+
+        var url = [[@{page/detail}]] +
+            "?id="+id;
+        +]*/
+        location.href=url;
+    }
+
+</script>
 </section>
+
 </body>
+
 </html>
