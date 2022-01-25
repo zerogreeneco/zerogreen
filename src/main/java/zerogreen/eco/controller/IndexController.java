@@ -1,13 +1,22 @@
 package zerogreen.eco.controller;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import zerogreen.eco.service.user.StoreMemberService;
 
 @Controller
+@Slf4j
+@RequestMapping
+@RequiredArgsConstructor
 public class IndexController {
+
+    private final StoreMemberService storeMemberService;
 
     @GetMapping("/")
     public String index() {
