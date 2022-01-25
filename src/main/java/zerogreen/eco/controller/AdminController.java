@@ -6,11 +6,12 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriUtils;
 import zerogreen.eco.dto.PagingDto;
@@ -36,26 +37,24 @@ public class AdminController {
     private final RegisterFileRepository registerFileRepository;
 
     @GetMapping("/approvalStore")
-    public Page<NonApprovalStoreDto> approvalStore(Model model, RequestPageDto pageDto) {
+    public Page<NonApprovalStoreDto> approvalStore(Model model, RequestPageDto requestPageDto) {
 
-        Pageable pageable = pageDto.getPageable();
+        Pageable pageable = requestPageDto.getPageable();
 
         Page<NonApprovalStoreDto> nonApprovalStore = basicUserService.findByNonApprovalStore(pageable);
         long totalListCount = nonApprovalStore.getTotalElements();
 
         PagingDto pagingDto = new PagingDto(nonApprovalStore);
-        log.info("GETPAGE={}",pageable.getPageNumber());
+        log.info("GETPAGE={}", pageable.getPageNumber());
         log.info("TOTALPAGE.TOTALPAGE={}", nonApprovalStore.getTotalPages());
         log.info("TOTALPAGE.CONTENT={}", nonApprovalStore.getContent());
         log.info("HASNEXT={}", nonApprovalStore.hasNext());
 
-        log.info("DTOLIST={}",pagingDto.getDtoList());
-        log.info("DTOLIST.TOTALPAGE={}",pagingDto.getTotalPage());
-        log.info("DTOLIST.PAGELIST={}",pagingDto.getPageList());
+        log.info("DTOLIST={}", pagingDto.getDtoList());
+        log.info("DTOLIST.TOTALPAGE={}", pagingDto.getTotalPage());
+        log.info("DTOLIST.PAGELIST={}", pagingDto.getPageList());
 
         model.addAttribute("result", pagingDto);
-
-
 
         return nonApprovalStore;
     }
@@ -94,6 +93,13 @@ public class AdminController {
 
         basicUserService.changeStoreUserRole(memberId);
         return "redirect:/admin/approvalStore";
+    }
 
+    @GetMapping("/search")
+    public void searchNonApprovalStore(@Validated @ModelAttribute("search") NonApprovalStoreDto searchCond, BindingResult bindingResult, RequestPageDto requestPageDto) {
+
+        Pageable pageable = requestPageDto.getPageable();
+
+        basicUserService.nonApprovalStoreSearch(searchCond, pageable);
     }
 }

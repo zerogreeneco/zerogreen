@@ -21,8 +21,14 @@ public class NonApprovalStoreDto {
     public NonApprovalStoreDto() {
     }
 
+    public NonApprovalStoreDto(String username, String storeName, String storePhoneNumber) {
+        this.username = username;
+        this.storeName = storeName;
+        this.storePhoneNumber = storePhoneNumber;
+    }
+
     public NonApprovalStoreDto(Long memberId, String username, String storeName, String storePhoneNumber,
-                               String storeAddress, String storeRegNum, Long fileId ,String uploadFileName) {
+                               String storeAddress, String storeRegNum, Long fileId , String uploadFileName) {
         this.fileId = fileId;
         this.memberId = memberId;
         this.username = username;
