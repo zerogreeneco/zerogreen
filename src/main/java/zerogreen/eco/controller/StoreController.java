@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping
 public class StoreController {
 
-    @GetMapping("/page/list")
-    public void list(){
+    @GetMapping("/food/list")
+    public String list(){
 
-
+        return "page/foodList";
     }
 }

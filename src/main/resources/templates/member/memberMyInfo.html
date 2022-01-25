@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<link th:href="@{/bootstrap/css/member/memberMyInfo.css}" rel="stylesheet"/>
-
-<div>
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}">
+    <th:block th:fragment="content">
 
 <!--    왼쪽 프로필-->
     <div class="temp1">
@@ -35,4 +33,5 @@
      </div>
  </div>
 
-</div>
+    </th:block>
+</th:block>

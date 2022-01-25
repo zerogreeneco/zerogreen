@@ -1,11 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <h1>[[${nickname}]]님 가입을 환영합니다!</h1>
-    <button><a th:href="@{/login}">로그인</a></button>
-</body>
-</html>
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}">
+    <th:block th:fragment="content">
+        <h1>[[${nickname}]]님 가입을 환영합니다!</h1>
+        <button><a th:href="@{/login}">로그인</a></button>
+    </th:block>
+</th:block>

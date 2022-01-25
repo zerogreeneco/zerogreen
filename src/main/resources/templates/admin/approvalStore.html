@@ -1,57 +1,43 @@
 <!DOCTYPE html>
-<html th:replace="~{basic/basicTemplate :: layout(~{::section})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}">
+    <th:block th:fragment="content">
 
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<style>
-    table tr {
-        border: solid black 1px;
-    }
-    input[type="checkbox"] {
-        -webkit-appearance: none;
-        position: relative;
-        width: 16px;
-        height: 16px;
-        cursor: pointer;
-        outline: none !important;
-        border: 1px solid #eeeeee;
-        border-radius: 2px;
-        background: #fbfbfb;
-    }
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-    input[type="checkbox"]::before {
-        content: "\2713";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        overflow: hidden;
-        transform: scale(0) translate(-50%, -50%);
-        line-height: 1;
-    }
+        <style>
+            table tr {
+                border: solid black 1px;
+            }
 
-    input[type="checkbox"]:hover {
-        border-color: rgba(170, 170, 170, 0.5);
-    }
+            input[type="checkbox"] {
+                -webkit-appearance: none;
+                position: relative;
+                width: 16px;
+                height: 16px;
+                cursor: pointer;
+                outline: none !important;
+                border: 1px solid #eeeeee;
+                border-radius: 2px;
+                background: #fbfbfb;
+            }
 
-    input[type="checkbox"]:checked {
-        background-color: #ff8955;
-        border-color: rgba(255, 255, 255, 0.3);
-        color: white;
-    }
-
+            input[type="checkbox"]::before {
+                content: "\2713";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                overflow: hidden;
+                transform: scale(0) translate(-50%, -50%);
+                line-height: 1;
+            }
     input[type="checkbox"]:checked::before {
         border-radius: 2px;
         transform: scale(1) translate(-50%, -50%)
     }
 </style>
-<body>
-<section>
 
-    </form>
+<section>
     <form method="post" th:action="@{/admin/approve}">
         <table>
             <tr th:object="${stores}">
@@ -75,53 +61,52 @@
             </tr>
             <input type="hidden" id="hiddenValue">
         </table>
+  <button type="submit" id="approval-btn">승인</button>
+                <ul>
+                    <li th:if="${result.prev}">
+                        <a tabindex="-1" th:href="@{/admin/approvalStore(page=${result.start -1})}">
+                            prev
+                        </a>
+                    </li>
+                    <li th:each="page : ${result.pageList}">
+                        <a th:href="@{/admin/approvalStore(page=${page})}">
+                            [[${page}]]
+                        </a>
+                    </li>
+                    <li th:if="${result.next}">
+                        <a th:href="@{/admin/approvalStore(page=${result.end + 1})}">
+                            next
+                        </a>
+                    </li>
+                </ul>
+            </form>
+        </section>
+        <script th:inline="javascript">
+            $(function () {
+                $("#approval-btn").click(function () {
+                    let obj = $("[name=memberId]");
+                    let memberArray = [];
 
-        <button type="submit" id="approval-btn">승인</button>
-        <ul>
-            <li th:if="${result.prev}">
-                <a tabindex="-1" th:href="@{/admin/approvalStore(page=${result.start -1})}">
-                    prev
-                </a>
-            </li>
-            <li th:each="page : ${result.pageList}" >
-                <a th:href="@{/admin/approvalStore(page=${page})}">
-                    [[${page}]]
-                </a>
-            </li>
-            <li th:if="${result.next}">
-                <a th:href="@{/admin/approvalStore(page=${result.end + 1})}">
-                    next
-                </a>
-            </li>
-        </ul>
-    </form>
-</section>
-</body>
-<script th:inline="javascript">
-    $(function () {
-        $("#approval-btn").click(function () {
-            let obj = $("[name=memberId]");
-            let memberArray = [];
+                    $("input:checkbox[name=memberId]:checked").each(function () {
+                        memberArray.push($(this).val());
+                    });
 
-            $("input:checkbox[name=memberId]:checked").each(function () {
-                memberArray.push($(this).val());
+                    let val = $("#hiddenValue").val(memberArray);
+                    alert(memberArray);
+
+                    $.ajax({
+                        url: "/zerogreen/admin/approve",
+                        type: "post",
+                        data: {
+                            memberId: memberArray
+                        },
+                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                        dataType: "json"
+                    });
+                });
+
             });
 
-            let val = $("#hiddenValue").val(memberArray);
-            alert(memberArray);
-
-            $.ajax({
-                url: "/zerogreen/admin/approve",
-                type: "post",
-                data: {
-                    memberId: memberArray
-                },
-                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                dataType: "json"
-            });
-        });
-
-    });
-
-</script>
-</html>
+        </script>
+    </th:block>
+</th:block>
