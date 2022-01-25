@@ -9,7 +9,6 @@ import zerogreen.eco.entity.userentity.UserRole;
 
 @Getter
 @Setter
-@Builder
 public class StoreDto {
     private String storeName;
     private String storeRegNum;
@@ -22,8 +21,17 @@ public class StoreDto {
 
     private String username;
 
-
-
+    //storeMemberServiceImpl에 쓰였음
+    public StoreDto(Long id, String username, String storeName, StoreType storeType,
+                               StoreInfo storeInfo, String storeRegNum,UserRole userRole) {
+        this.storeName = storeName;
+        this.storeRegNum = storeRegNum;
+        this.storeType = storeType;
+        this.storeInfo = storeInfo;
+        this.userRole = userRole;
+        this.id = id;
+        this.username = username;
+    }
 
 }
 
