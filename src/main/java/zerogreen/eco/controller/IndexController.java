@@ -8,7 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.service.user.StoreMemberService;
+
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -18,9 +21,17 @@ public class IndexController {
 
     private final StoreMemberService storeMemberService;
 
-    @GetMapping("/")
-    public String index() {
-
+    @GetMapping("")
+    public String approvedStore(Model model) {
+/*
+        List<StoreDto> storeDto = storeMemberService.findByApprovedStore();
+        log.info("storeDTO>>>>>>>>>>"+storeDto);
+        model.addAttribute("storeDto", storeDto);
+*/
+        //임시 리스트
+        List<StoreMember> tempStore = storeMemberService.findAll();
+        log.info("storeDTO>>>>>>>>>>"+tempStore);
+        model.addAttribute("tempStore",tempStore);
         return "index";
     }
 
