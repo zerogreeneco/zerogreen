@@ -19,7 +19,7 @@ public class PageController {
 
     @GetMapping("/page/detail")
     public void detail(Long id, Model model){
-        StoreDto storeDto = storeMemberService.getStoreTemp(id);
+        StoreDto storeDto = storeMemberService.getStore(id);
         model.addAttribute("getStoreTemp",storeDto);
     }
 

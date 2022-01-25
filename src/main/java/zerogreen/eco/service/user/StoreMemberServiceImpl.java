@@ -40,14 +40,14 @@ public class StoreMemberServiceImpl implements StoreMemberService {
 
         StoreInfo storeInfo = findMember.getStoreInfo();
         findMember.setStoreInfo(findMember.getStoreInfo());
-
     }
 
-    @Transactional
+/*
     @Override
     public void getStore(Long id) {
         StoreMember getStoreMember = storeMemberRepository.getById(id);
     }
+*/
 
     //승인받은 사업자회원들
     @Override
@@ -60,11 +60,12 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     public List<StoreMember> findAll() {
         return storeMemberRepository.findAll();
     }
-
+    //store데이터 넘겨서 상세페이지에.. 근데 수정될 가능성 99%
     @Override
-    public StoreDto getStoreTemp(Long id) {
+    public StoreDto getStore(Long id) {
         StoreMember storeMember = storeMemberRepository.getById(id);
-        return entityToDto(storeMember);
+        return new StoreDto(storeMember.getId(),storeMember.getUsername(),storeMember.getStoreName(),storeMember.getStoreType(),
+                storeMember.getStoreInfo(),storeMember.getStoreRegNum(),storeMember.getUserRole());
     }
 
 

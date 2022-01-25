@@ -11,27 +11,10 @@ public interface StoreMemberService {
 
     public void storeInfoSave(StoreMember storeMember);
 
-    public void getStore(Long id);
-
     public List<StoreDto> findByApprovedStore();
 
     //임시리스트
     List<StoreMember> findAll();
-    StoreDto getStoreTemp(Long id);
-
-    //일단 임시로... ^.ㅠ
-    default StoreDto entityToDto (StoreMember storeMember) {
-        StoreDto storeDto = StoreDto.builder()
-                .storeName(storeMember.getStoreName())
-                .storeRegNum(storeMember.getStoreRegNum())
-                .storeType(storeMember.getStoreType())
-                .storeInfo(storeMember.getStoreInfo())
-                .userRole(storeMember.getUserRole())
-                .id(storeMember.getId())
-                .username(storeMember.getUsername())
-                .build();
-        return storeDto;
-    }
-
+    StoreDto getStore(Long id);
 
     }
