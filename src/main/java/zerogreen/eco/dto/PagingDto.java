@@ -26,7 +26,6 @@ public class PagingDto<DTO> {
 
     private List<Integer> pageList;
 
-
     public PagingDto() {}
 
     public PagingDto(Page<DTO> result) {
@@ -38,7 +37,7 @@ public class PagingDto<DTO> {
 
     private void makePageList(Pageable pageable) {
 
-        this.page = pageable.getPageNumber();
+        this.page = pageable.getPageNumber() + 1;
         this.size = pageable.getPageSize();
 
         int tempEnd = (int) (Math.ceil(page / 10.0) * 10);
