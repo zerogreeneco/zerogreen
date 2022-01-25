@@ -79,6 +79,14 @@ public class BasicUserServiceImpl implements BasicUserService{
     }
 
     /*
+    * 비승인 가게 회원 검색 조건 (가게 이름 / 가게 연락처 / 사업자 등록번호)
+    * */
+    @Override
+    public Page<NonApprovalStoreDto> nonApprovalStoreSearch(NonApprovalStoreDto SearchCond, Pageable pageable) {
+        return basicUserRepository.searchAndPaging(SearchCond, pageable);
+    }
+
+    /*
     * 비밀번호 변경
     * */
     @Override

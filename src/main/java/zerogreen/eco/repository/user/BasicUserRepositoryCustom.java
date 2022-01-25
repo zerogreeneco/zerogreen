@@ -14,5 +14,7 @@ public interface BasicUserRepositoryCustom {
 
     Page<NonApprovalStoreDto> findByUnApprovalStore(Pageable pageable);
 
+    Page<NonApprovalStoreDto> searchAndPaging(NonApprovalStoreDto condition, Pageable pageable);
+
     void changeUserRole(List<Long> memberId);
 }
