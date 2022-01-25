@@ -4,12 +4,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriUtils;
+import zerogreen.eco.dto.PagingDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.repository.file.RegisterFileRepository;
@@ -31,26 +36,31 @@ public class AdminController {
     private final RegisterFileRepository registerFileRepository;
 
     @GetMapping("/approvalStore")
-    public String approvalStore(Model model) {
+    public Page<NonApprovalStoreDto> approvalStore(Model model, Pageable pageable) {
 
-        List<NonApprovalStoreDto> nonApprovalStore = basicUserService.findByNonApprovalStore();
-        for (NonApprovalStoreDto nonApprovalStoreDto : nonApprovalStore) {
-            log.info("nonApprovalStoreDto.REGNUM = {}" , nonApprovalStoreDto.getStoreRegNum());
-            log.info("nonApprovalStoreDto.FILEID = {}" , nonApprovalStoreDto.getFileId());
-            log.info("nonApprovalStoreDto.NAME = {}" , nonApprovalStoreDto.getUsername());
-            log.info("nonApprovalStoreDto.FILENAME = {}" , nonApprovalStoreDto.getUploadFileName());
-            log.info("nonApprovalStoreDto.MEMBERID = {}" , nonApprovalStoreDto.getMemberId());
-            log.info("===============================================================");
-        }
+        Page<NonApprovalStoreDto> nonApprovalStore = basicUserService.findByNonApprovalStore(pageable);
+        long totalListCount = nonApprovalStore.getTotalElements();
 
-        model.addAttribute("stores", nonApprovalStore);
+        PagingDto pagingDto = new PagingDto(nonApprovalStore);
+        log.info("GETPAGE={}",pageable.getPageNumber());
+        log.info("TOTALPAGE.TOTALPAGE={}", nonApprovalStore.getTotalPages());
+        log.info("TOTALPAGE.CONTENT={}", nonApprovalStore.getContent());
+        log.info("HASNEXT={}", nonApprovalStore.hasNext());
 
-        return "admin/approvalStore";
+        log.info("DTOLIST={}",pagingDto.getDtoList());
+        log.info("DTOLIST.TOTALPAGE={}",pagingDto.getTotalPage());
+        log.info("DTOLIST.PAGELIST={}",pagingDto.getPageList());
+
+        model.addAttribute("result", pagingDto);
+
+
+
+        return nonApprovalStore;
     }
 
     /*
-    * 첨부 파일 다운로드
-    * */
+     * 첨부 파일 다운로드
+     * */
     @GetMapping("/approvalStore/attach/{fileId}")
     public ResponseEntity<Resource> downloadAttach(@PathVariable("fileId") Long fileId) throws MalformedURLException {
 
@@ -79,8 +89,9 @@ public class AdminController {
     @PostMapping("/approve")
     @ResponseBody
     public String changeUserRole(@RequestParam("memberId") List<Long> memberId) {
-        basicUserService.changeStoreUserRole(memberId);
 
+        basicUserService.changeStoreUserRole(memberId);
         return "redirect:/admin/approvalStore";
+
     }
 }

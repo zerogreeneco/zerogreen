@@ -2,6 +2,8 @@ package zerogreen.eco.service.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,8 +41,8 @@ public class BasicUserServiceImpl implements BasicUserService{
     * 인증 받지 못한 가게 회원
     * */
     @Override
-    public List<NonApprovalStoreDto> findByNonApprovalStore() {
-        return basicUserRepository.findByUnApprovalStore();
+    public Page<NonApprovalStoreDto> findByNonApprovalStore(Pageable pageable) {
+        return basicUserRepository.findByUnApprovalStore(pageable);
     }
 
     @Override
