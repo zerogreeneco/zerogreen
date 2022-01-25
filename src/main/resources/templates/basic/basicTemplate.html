@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html th:fragment="layout (content)" lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3F.org/1999/xhtml">
+<th:block th:fragment="setContent(content)">
     <head>
         <meta charset="UTF-8">
         <title>제로그린</title>
@@ -15,45 +17,45 @@
         <link rel="icon" type="image/x-icon" th:href="@{/bootstrap/images/favicon.png}"/>
     </head>
     <body>
-        <div id="page-wrapper">
-            <!-- Header -->
-            <div id="header-wrapper">
-                <header id="header" class="container">
-                    <!-- Logo -->
-                    <div id="logo">
-                        <h1><a th:href="@{/}">제로그린</a></h1>
-                    </div>
-                    <!-- Nav -->
-                    <nav id="nav">
-                        <ul>
-                            <li><a href="#">비건맛집</a></li>
-                            <li><a href="#">제로웨이스트샵</a></li>
-                            <li><a href="#">커뮤니티</a></li>
-                        </ul>
-                    </nav>
-                    <!--Login Button-->
-                    <button class="btn-login" th:onclick="|location.href='@{/login}'|">로그인</button>
-                </header>
-            </div>
+    <div id="page-wrapper">
+        <!-- Header -->
+        <div id="header-wrapper">
+            <header id="header" class="container">
+                <!-- Logo -->
+                <div id="logo">
+                    <h1><a th:href="@{/}">제로그린</a></h1>
+                </div>
+                <!-- Nav -->
+                <nav id="nav">
+                    <ul>
+                        <li><a th:href="@{/food/list}">비건맛집</a></li>
+                        <li><a th:href="@{/shop/list}">제로웨이스트샵</a></li>
+                        <li><a href="#">커뮤니티</a></li>
+                    </ul>
+                </nav>
+                <!--Login Button-->
+                <button class="btn-login" th:onclick="|location.href='@{/login}'|">로그인</button>
+            </header>
+        </div>
 
-            <!-- Main -->
-            <section th:replace="${content}">
+        <!-- Main -->
+        <section>
             <div id="main-wrapper">
                 <div class="container">
                     <div id="content">
-                        <!-- Content -->
+                        <th:block th:replace="${content}"></th:block>
                     </div>
                 </div>
             </div>
-            </section>
-            <!-- Footer -->
-            <div id="footer-wrapper">
-                <footer id="footer" class="container">
-                    <p>Copyright © zerogreen. All rights reserved.</p>
-                </footer>
-            </div>
-
+        </section>
+        <!-- Footer -->
+        <div id="footer-wrapper">
+            <footer id="footer" class="container">
+                <p>Copyright © zerogreen. All rights reserved.</p>
+            </footer>
         </div>
+
+    </div>
 
     <!-- Scripts -->
     <script th:src="@{/bootstrap/js/jquery.min.js}"></script>
@@ -64,4 +66,5 @@
     <script th:src="@{/bootstrap/js/main.js}"></script>
 
     </body>
+</th:block>
 </html>

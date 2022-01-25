@@ -1,15 +1,6 @@
 <!DOCTYPE html>
-<html th:replace="~{basic/basicTemplate :: layout(~{::section})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>아이디/비밀번호 찾기</title>
-</head>
-<body>
-<section>
-    <div id="main-wrapper">
-        <div class="container">
-            <div id="content">
-
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}">
+    <th:block th:fragment="content">
                 <input type="radio" id="find-id" name="tab-item" checked>
                 <label class="tab-item" for="find-id"></label>
                 <input type="radio" id="find-password" name="tab-item" checked>
@@ -29,15 +20,11 @@
                         <button type="submit">비밀번호 찾기</button>
                     </form>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!--/*    <div class="modal">
         <div class="modal-content">
             <div th:text="${username}"></div>
         </div>
     </div>*/-->
-</body>
-</html>
+    </th:block>
+</th:block>

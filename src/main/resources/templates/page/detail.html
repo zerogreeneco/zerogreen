@@ -1,7 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}">
+    <th:block th:fragment="content">
+        <!--페이지 수정 부분 시작-->
 
-<link th:href="@{/bootstrap/css/page/detail.css}" rel="stylesheet"/>
+        <!-- 페이지 css/ js 추가 -->
+        <link th:href="@{/bootstrap/css/page/detail.css}" rel="stylesheet"/>
+
+        <!-- 본문 시작 -->
+
 
 <div class="detail-content">
 
@@ -74,4 +80,5 @@
 
 <!--end of page-->
 </div>
-
+    </th:block>
+</th:block>
