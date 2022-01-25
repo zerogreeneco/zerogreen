@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html th:replace="~{basic/basicTemplate :: layout(~{::section})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -11,49 +11,93 @@
     table tr {
         border: solid black 1px;
     }
+    input[type="checkbox"] {
+        -webkit-appearance: none;
+        position: relative;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        outline: none !important;
+        border: 1px solid #eeeeee;
+        border-radius: 2px;
+        background: #fbfbfb;
+    }
+
+    input[type="checkbox"]::before {
+        content: "\2713";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        overflow: hidden;
+        transform: scale(0) translate(-50%, -50%);
+        line-height: 1;
+    }
+
+    input[type="checkbox"]:hover {
+        border-color: rgba(170, 170, 170, 0.5);
+    }
+
+    input[type="checkbox"]:checked {
+        background-color: #ff8955;
+        border-color: rgba(255, 255, 255, 0.3);
+        color: white;
+    }
+
+    input[type="checkbox"]:checked::before {
+        border-radius: 2px;
+        transform: scale(1) translate(-50%, -50%)
+    }
 </style>
 <body>
-<form method="post" th:action="@{/admin/approve}">
-    <table>
-        <tr th:object="${stores}">
-            <th></th>
-            <th>아이디</th>
-            <th>등록번호</th>
-            <th>파일이름</th>
-        </tr>
-        <tr th:each="store : ${stores}">
-            <td><input type="checkbox" th:value="${store.memberId}" name="memberId"></td>
-            <td th:text="${store.username}"></td>
-            <td th:text="${store.storeRegNum}"></td>
-            <td th:if="${store.fileId}"><a th:href="|/zerogreen/admin/approvalStore/attach/${store.fileId}|"
-                                           th:text="${store.uploadFileName}"></a></td>
-        </tr>
-        <input type="hidden" id="hiddenValue">
-    </table>
+<section>
+    <form method="post" th:action="@{/admin/approve}">
+        <table>
+            <tr th:object="${stores}">
+                <th></th>
+                <th>아이디</th>
+                <th>등록번호</th>
+                <th>파일이름</th>
+            </tr>
+            <tr th:each="store : ${result.dtoList}">
+                <td><input type="checkbox" th:value="${store.memberId}" name="memberId"></td>
+                <td th:text="${store.username}"></td>
+                <td th:text="${store.storeRegNum}"></td>
+                <td th:if="${store.fileId}"><a th:href="|/zerogreen/admin/approvalStore/attach/${store.fileId}|"
+                                               th:text="${store.uploadFileName}"></a></td>
+            </tr>
+            <input type="hidden" id="hiddenValue">
+        </table>
 
-<button type="submit" id="approval-btn">승인</button>
-</form>
+        <button type="submit" id="approval-btn">승인</button>
+        <ul>
+            <li th:if="${result.prev}">prev</li>
+            <li th:each="page : ${result.pageList}">[[${page}]]</li>
+            <li th:if="${result.next}">next</li>
+        </ul>
+    </form>
+</section>
 </body>
 <script th:inline="javascript">
     $(function () {
         $("#approval-btn").click(function () {
-            var obj = $("[name=memberId]");
-            var memberArray = new Array();
+            let obj = $("[name=memberId]");
+            let memberArray = [];
 
             $("input:checkbox[name=memberId]:checked").each(function () {
                 memberArray.push($(this).val());
             });
-            var val = $("#hiddenValue").val(memberArray);
+
+            let val = $("#hiddenValue").val(memberArray);
             alert(memberArray);
 
             $.ajax({
-               url: "/zerogreen/admin/approve",
-               type: "post",
-               data: {
-                   memberId: memberArray
-               },
-               contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-               dataType: "json"
+                url: "/zerogreen/admin/approve",
+                type: "post",
+                data: {
+                    memberId: memberArray
+                },
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                dataType: "json"
             });
         });
 

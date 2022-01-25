@@ -1,5 +1,7 @@
 package zerogreen.eco.service.user;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import zerogreen.eco.dto.member.FindMemberDto;
 import zerogreen.eco.dto.member.MemberUpdateDto;
 import zerogreen.eco.dto.member.PasswordUpdateDto;
@@ -12,7 +14,7 @@ public interface BasicUserService {
 
     Long adminSave();
 
-    List<NonApprovalStoreDto> findByNonApprovalStore();
+    Page<NonApprovalStoreDto> findByNonApprovalStore(Pageable pageable);
 
     FindMemberDto findByPhoneNumber(String phoneNumber);
     FindMemberDto findByUsernameAndPhoneNumber(String username, String phoneNumber);

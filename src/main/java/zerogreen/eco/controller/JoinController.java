@@ -140,9 +140,6 @@ public class JoinController {
             return "register/storeRegisterForm";
         }
 
-        log.info("STOREJOIN={}", storeJoinDto.getPostalCode());
-        log.info("STOREJOIN={}", storeJoinDto.getStoreAddress());
-
         // 첨부파일 없이 넘어올 경우, 다시 회원가입 창으로 이동
         if (storeJoinDto.getAttachFile().isEmpty()) {
             bindingResult.reject("attachFile", "사업자 등록증을 첨부해주세요.");
