@@ -43,6 +43,17 @@ public class StoreMemberServiceImpl implements StoreMemberService {
                         .build())
                 .getId();
     }
+    //임시
+    @Transactional
+    @Override
+    public Long saveV2(StoreMember storeMember, RegisterFile registerFile) {
+
+        String encPassword = passwordEncoder.encode(storeMember.getPassword());
+        return storeMemberRepository.save(new StoreMember(storeMember.getUsername(), storeMember.getPhoneNumber(),
+                        encPassword, UserRole.STORE, storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(),
+                        storeMember.getStoreInfo().getStoreAddress(), storeMember.getStoreInfo().getStorePhoneNumber(), registerFile, storeMember.getStoreInfo().getPostalCode()))
+                .getId();
+    }
 
     @Transactional
     @Override
@@ -53,18 +64,6 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         findMember.setStoreInfo(findMember.getStoreInfo());
     }
 
-/*
-    @Override
-    public void getStore(Long id) {
-        StoreMember getStoreMember = storeMemberRepository.getById(id);
-    }
-*/
-
-    //승인받은 사업자회원들
-    @Override
-    public List<StoreDto> findByApprovedStore() {
-        return storeMemberRepository.findByApprovedStore();
-    }
 
     //임시 리스트
     @Override
@@ -76,8 +75,11 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     @Override
     public StoreDto getStore(Long id) {
         StoreMember storeMember = storeMemberRepository.getById(id);
-        return new StoreDto(storeMember.getId(), storeMember.getUsername(), storeMember.getStoreName(), storeMember.getStoreType(),
-                storeMember.getStoreInfo(), storeMember.getStoreRegNum(), storeMember.getUserRole());
+        return new StoreDto(storeMember.getStoreName(),storeMember.getStoreRegNum(),storeMember.getStoreType(),
+                storeMember.getId(),storeMember.getUsername(), storeMember.getUserRole(), storeMember.getImageFiles(),
+                storeMember.getStoreInfo().getPostalCode(),storeMember.getStoreInfo().getStoreAddress(),
+                storeMember.getStoreInfo().getStorePhoneNumber(),storeMember.getStoreInfo().getOpenTime(),storeMember.getStoreInfo().getCloseTime(),
+                storeMember.getMenuList());
     }
 
 

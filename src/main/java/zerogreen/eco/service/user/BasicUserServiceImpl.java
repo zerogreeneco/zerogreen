@@ -8,15 +8,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.member.FindMemberDto;
-import zerogreen.eco.dto.member.MemberUpdateDto;
 import zerogreen.eco.dto.member.PasswordUpdateDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
+import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.user.BasicUserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -103,4 +102,13 @@ public class BasicUserServiceImpl implements BasicUserService{
     public void memberDelete(Long id) {
         basicUserRepository.deleteById(id);
     }
+
+    //Store 가게목록
+/*
+    @Override
+    public List<StoreDto> findByApprovedStore() {
+        return basicUserRepository.findByApprovedStore();
+    }
+*/
+
 }
