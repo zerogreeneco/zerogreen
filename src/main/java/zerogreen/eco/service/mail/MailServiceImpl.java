@@ -24,6 +24,9 @@ public class MailServiceImpl implements MailService {
     private final BasicUserRepository basicUserRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /*
+    * 알파벳 3자리 + 숫자 4자리 인증코드 생성
+    * */
     @Override
     public String createAuthKey() {
         Random random = new Random(); // 난수 생성
@@ -55,7 +58,7 @@ public class MailServiceImpl implements MailService {
     }
 
     /*
-    * 임시 비밀번호
+    * 임시 비밀번호 (비밀번호 찾기)
     * */
     @Override
     @Transactional

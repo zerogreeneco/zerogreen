@@ -19,6 +19,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static zerogreen.eco.entity.file.QRegisterFile.registerFile;
+import static zerogreen.eco.entity.userentity.QBasicUser.*;
 
 public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
 
@@ -28,17 +29,17 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    private final QBasicUser asBasicUser = QBasicUser.asStoreMember;
+    private final QBasicUser asBasicUser = basicUser;
     private final QStoreMember asStoreMember = asBasicUser.as(QStoreMember.class);
 
     @Override
     public MemberAuthDto findByAuthUsername(String username) {
         return queryFactory
                 .select(Projections.bean(MemberAuthDto.class,
-                        QBasicUser.asStoreMember.username
+                        basicUser.username
                 ))
-                .from(QBasicUser.asStoreMember)
-                .where(QBasicUser.asStoreMember.username.eq(username))
+                .from(basicUser)
+                .where(basicUser.username.eq(username))
                 .fetchFirst();
     }
 
@@ -67,8 +68,8 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
                 .fetch();
 
         JPAQuery<BasicUser> countQuery = queryFactory
-                .selectFrom(QBasicUser.asStoreMember)
-                .where(QBasicUser.asStoreMember.userRole.eq(UserRole.UN_STORE));
+                .selectFrom(basicUser)
+                .where(basicUser.userRole.eq(UserRole.UN_STORE));
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
     }
@@ -79,14 +80,17 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
     @Override
     public void changeUserRole(List<Long> memberId) {
         queryFactory
-                .update(QBasicUser.asStoreMember)
-                .set(QBasicUser.asStoreMember.userRole, UserRole.STORE)
-                .where(QBasicUser.asStoreMember.id.in(memberId))
+                .update(basicUser)
+                .set(basicUser.userRole, UserRole.STORE)
+                .where(basicUser.id.in(memberId))
                 .execute();
 
 
     }
 
+    /*
+    * 검색 조건 및 페이징
+    * */
     @Override
     public Page<NonApprovalStoreDto> searchAndPaging(NonApprovalStoreDto condition, Pageable pageable) {
         List<NonApprovalStoreDto> content = queryFactory
@@ -107,8 +111,8 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
                 .fetch();
 
         JPAQuery<BasicUser> countQuery = queryFactory
-                .selectFrom(QBasicUser.asStoreMember)
-                .where(QBasicUser.asStoreMember.userRole.eq(UserRole.UN_STORE));
+                .selectFrom(basicUser)
+                .where(basicUser.userRole.eq(UserRole.UN_STORE));
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
     }

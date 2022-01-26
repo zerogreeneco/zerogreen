@@ -10,11 +10,12 @@ import java.util.List;
 public interface FileService {
 
     String getFullPath(String filename);
+    String getFullPathImage(String filename, String storeName);
 
     RegisterFile saveFile(MultipartFile multipartFile) throws IOException;
-    StoreImageFile saveImageFile(MultipartFile multipartFile) throws IOException;
+    StoreImageFile saveImageFile(MultipartFile multipartFile, String storeName) throws IOException;
 
-    List<StoreImageFile> storeImageFiles(List<MultipartFile> multipartFiles) throws IOException;
+    List<StoreImageFile> storeImageFiles(List<MultipartFile> multipartFiles, String storeName) throws IOException;
 
 
 }

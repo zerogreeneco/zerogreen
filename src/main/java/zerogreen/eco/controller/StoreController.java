@@ -13,8 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class StoreController {
 
     @GetMapping("/food/list")
-    public String list(){
+    public String list() {
 
         return "page/foodList";
+    }
+
+    @GetMapping("/store/storeInfo")
+    public String storeInfoForm() {
+
+
+        return "store/storeInfoForm";
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,19 +43,10 @@ public class AdminController {
         Pageable pageable = requestPageDto.getPageable();
 
         Page<NonApprovalStoreDto> nonApprovalStore = basicUserService.findByNonApprovalStore(pageable);
-        long totalListCount = nonApprovalStore.getTotalElements();
 
-        PagingDto pagingDto = new PagingDto(nonApprovalStore);
-        log.info("GETPAGE={}", pageable.getPageNumber());
-        log.info("TOTALPAGE.TOTALPAGE={}", nonApprovalStore.getTotalPages());
-        log.info("TOTALPAGE.CONTENT={}", nonApprovalStore.getContent());
-        log.info("HASNEXT={}", nonApprovalStore.hasNext());
+        PagingDto result = new PagingDto(nonApprovalStore);
 
-        log.info("DTOLIST={}", pagingDto.getDtoList());
-        log.info("DTOLIST.TOTALPAGE={}", pagingDto.getTotalPage());
-        log.info("DTOLIST.PAGELIST={}", pagingDto.getPageList());
-
-        model.addAttribute("result", pagingDto);
+        model.addAttribute("result", result);
 
         return nonApprovalStore;
     }
@@ -89,10 +81,16 @@ public class AdminController {
      * */
     @PostMapping("/approve")
     @ResponseBody
-    public String changeUserRole(@RequestParam("memberId") List<Long> memberId) {
+    public String changeUserRole(@RequestParam(value = "memberId", defaultValue = "0") List<Long> memberId, Model model) {
+
+        if (memberId.contains(0L)) {
+            model.addAttribute("msg", "회원가입을 승인할 회원을 체크해주세요.");
+            return "승인실패";
+        }
 
         basicUserService.changeStoreUserRole(memberId);
-        return "redirect:/admin/approvalStore";
+        model.addAttribute("msg", "승인이 완료되었습니다. ");
+        return "승인 성공";
     }
 
     @GetMapping("/search")

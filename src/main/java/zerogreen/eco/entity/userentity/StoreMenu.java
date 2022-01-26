@@ -23,6 +23,8 @@ public class StoreMenu extends BaseTimeEntity {
 
     private String menuName;
     private int menuPrice;
+
+    @Enumerated(EnumType.STRING)
     private VegetarianGrade vegetarianGrades;
 
     @ManyToOne(fetch = LAZY)

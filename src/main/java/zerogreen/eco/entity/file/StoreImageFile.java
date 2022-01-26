@@ -18,16 +18,16 @@ public class StoreImageFile {
     private Long id;
 
     private String fileName;
-    private String storefileName;
+    private String storeFileName;
     private String filePath;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private StoreMember storeMember;
 
-    public StoreImageFile(String fileName, String storefileName, String filePath) {
+    public StoreImageFile(String fileName, String storeFileName, String filePath) {
         this.fileName = fileName;
-        this.storefileName = storefileName;
+        this.storeFileName = storeFileName;
         this.filePath = filePath;
     }
 }

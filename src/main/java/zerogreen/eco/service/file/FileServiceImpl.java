@@ -22,20 +22,31 @@ public class FileServiceImpl implements FileService{
     @Value("${file.dir}")
     private String fileDir;
 
+    @Value("C:/imageUpload/")
+    private String imageFileDir;
+
+    private final String[] EXTENSION = {"image/gif", "image/jpeg", "image/png", "image/bmp", "application/pdf"};
+
     @Override
     public String getFullPath(String filename) {
         return fileDir + filename;
+    }
+
+    @Override
+    public String getFullPathImage(String filename, String storeName) {
+        return imageFileDir + storeName + filename;
     }
 
     /*
     * 다수의 파일 저장 (이미지)
     * */
     @Override
-    public List<StoreImageFile> storeImageFiles(List<MultipartFile> multipartFiles) throws IOException {
+    public List<StoreImageFile> storeImageFiles(List<MultipartFile> multipartFiles, String storeName) throws IOException {
+
         List<StoreImageFile> storeImageFileResult = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {
             if (!multipartFile.isEmpty()) {
-                storeImageFileResult.add(saveImageFile(multipartFile));
+                storeImageFileResult.add(saveImageFile(multipartFile, storeName));
             }
         }
         return storeImageFileResult;
@@ -46,29 +57,34 @@ public class FileServiceImpl implements FileService{
     * */
     @Override
     public RegisterFile saveFile(MultipartFile multipartFile) throws IOException {
+
         if (multipartFile.isEmpty()) {
             return null;
         }
         // 사용자가 저장한 파일 이름
         String originalFilename = multipartFile.getOriginalFilename();
+        log.info("SERVICE ORIGIN NAME={}", originalFilename);
+        log.info("SERVICE ORIGIN NAME={}", extractExt(originalFilename));
+
         String storeFilename = createStoreFilename(originalFilename);
         multipartFile.transferTo(new File(getFullPath(storeFilename)));
 
         return new RegisterFile(originalFilename, storeFilename, getFullPath(storeFilename));
+
     }
 
     /*
     * 단일 파일 저장 (이미지)
     * */
     @Override
-    public StoreImageFile saveImageFile(MultipartFile multipartFile) throws IOException {
+    public StoreImageFile saveImageFile(MultipartFile multipartFile, String storeName) throws IOException {
         if (multipartFile.isEmpty()) {
             return null;
         }
         // 사용자가 저장한 파일 이름
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFilename = createStoreFilename(originalFilename);
-        multipartFile.transferTo(new File(getFullPath(storeFilename)));
+        multipartFile.transferTo(new File(getFullPathImage(storeFilename, storeName)));
 
         return new StoreImageFile(originalFilename, storeFilename, getFullPath(storeFilename));
     }
