@@ -37,4 +37,23 @@ public class StoreMenu extends BaseTimeEntity {
         this.vegetarianGrades = vegetarianGrades;
         this.storeMember = storeMember;
     }
+
+    /*
+    * Setter
+    * */
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
+    }
+
+    public void setMenuPrice(int menuPrice) {
+        this.menuPrice = menuPrice;
+    }
+
+    public void setVegetarianGrades(VegetarianGrade vegetarianGrades) {
+        this.vegetarianGrades = vegetarianGrades;
+    }
+
+    public void setStoreMember(StoreMember storeMember) {
+        this.storeMember = storeMember;
+    }
 }

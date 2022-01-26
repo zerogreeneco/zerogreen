@@ -17,6 +17,8 @@ import zerogreen.eco.service.mail.MailService;
 import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.MemberService;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @Slf4j
 @RequestMapping("/members")
@@ -149,6 +151,18 @@ public class MemberController {
             log.info("비밀번호 변경 실패....ㅠㅠ");
         }
         return "member/updateMember";
+    }
+
+    @PostMapping("/acccount/deleteMember")
+    @ResponseBody
+    public String deleteMember(@Validated @ModelAttribute("password") PasswordUpdateDto passwordUpdateDto,
+                               BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session) {
+
+        if (passwordEncoder.matches(passwordUpdateDto.getPassword(), principalDetails.getPassword())) {
+            basicUserService.memberDelete(principalDetails.getId());
+            session.invalidate();
+        }
+            return "redirect:/";
     }
 
 }

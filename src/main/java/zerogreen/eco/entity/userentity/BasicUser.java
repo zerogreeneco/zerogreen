@@ -1,14 +1,15 @@
 package zerogreen.eco.entity.userentity;
 
-import lombok.*;
-import org.hibernate.annotations.DynamicUpdate;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "User_Type")
 @DiscriminatorValue("ADMIN")
@@ -40,8 +41,6 @@ public class BasicUser extends BaseTimeEntity {
     }
 
     // Kakao 회원가입
-
-
     public BasicUser(String username, String password, UserRole userRole) {
         this.username = username;
         this.password = password;
@@ -59,5 +58,24 @@ public class BasicUser extends BaseTimeEntity {
     // 수정용
     public BasicUser(String nickname, String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    /*
+    * Setter
+    * */
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
+    public void setAuthState(boolean authState) {
+        AuthState = authState;
     }
 }
