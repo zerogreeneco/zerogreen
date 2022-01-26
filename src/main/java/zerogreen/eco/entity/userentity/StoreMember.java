@@ -37,7 +37,7 @@ public class StoreMember extends BasicUser{
     @JoinColumn(name = "reg_file_id")
     private RegisterFile registerFile;
 
-    @OneToMany(mappedBy = "storeMember", cascade = ALL)
+    @OneToMany(mappedBy = "storeMember")
     private List<StoreImageFile> imageFiles = new ArrayList<>();
 
     // 회원 가입
