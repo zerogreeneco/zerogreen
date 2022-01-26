@@ -74,12 +74,14 @@ public class StoreMemberServiceImpl implements StoreMemberService {
 
 
     //임시 리스트
+/*
     @Override
     public List<StoreMember> findAll() {
         return storeMemberRepository.findAll();
     }
+*/
 
-    //store데이터 넘겨서 상세페이지에.. 근데 수정될 가능성 99%
+    //store데이터 넘겨서 상세페이지에.. 근데 수정될 가능성 농후
     @Override
     public StoreDto getStore(Long id) {
         StoreMember storeMember = storeMemberRepository.getById(id);

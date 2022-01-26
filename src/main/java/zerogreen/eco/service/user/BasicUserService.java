@@ -6,6 +6,8 @@ import zerogreen.eco.dto.member.FindMemberDto;
 import zerogreen.eco.dto.member.PasswordUpdateDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.dto.store.StoreDto;
+import zerogreen.eco.entity.userentity.StoreMember;
+import zerogreen.eco.entity.userentity.UserRole;
 
 import java.util.List;
 
@@ -29,6 +31,6 @@ public interface BasicUserService {
 
     void memberDelete(Long id);
 
-    //List<StoreDto> findByApprovedStore();
+    List<StoreMember> findByApprovedStore();
 
 }

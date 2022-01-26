@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}">
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
         <!--페이지 수정 부분 시작-->
 
         <!-- 페이지 css/ js 추가 -->
         <link th:href="@{/bootstrap/css/page/detail.css}" rel="stylesheet"/>
+        <link id="contextPathHolder" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+                crossorigin="anonymous"></script>
+
+        <script th:src="@{/bootstrap/js/detail/review.js}"></script>
 
         <!-- 본문 시작 -->
 
@@ -15,7 +22,7 @@
 <div class="detail-top temp1">1열 카드이미지
     [[${getStoreTemp.storeName}]]
     [[${getStoreTemp.postalCode}]]
-    [[${getStoreTemp.storeAddress}]]
+
     [[${getStoreTemp.storePhoneNumber}]]
     [[${getStoreTemp.storeType}]]
     <div class="top">가게 상세 이미지 들어갈 곳</div>
@@ -24,7 +31,8 @@
 <!--    2열-->
     <div class="detail-sec temp2">
         <div>
-            <span>비건을위한식당</span>
+            <span>[[${getStoreTemp.storeName}]]</span>
+            <span class="rv-id">[[${getStoreTemp.id}]]</span>
         </div>
         <div>
             <div>
@@ -52,6 +60,7 @@
         <span>영업시간</span>
         <span>전화번호</span>
         <span>영업시간</span>
+        <span>[[${getStoreTemp.storeAddress}]]</span>
         <span>기타기타</span>
     </div>
 </div>
@@ -84,5 +93,9 @@
 
 <!--end of page-->
 </div>
+
+
+
+
     </th:block>
 </th:block>

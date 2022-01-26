@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.RequestParam;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.userentity.BasicUser;
+import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
 
 import java.util.List;
@@ -23,10 +24,8 @@ public interface BasicUserRepository extends JpaRepository<BasicUser, Long>, Bas
     Optional<BasicUser> findByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     //승인받은 스토어
-/*
     @Query("select bu from BasicUser bu left outer join StoreMember sm on bu.id = sm.id " +
             " where bu.userRole ='STORE'")
-    List<StoreDto> findByApprovedStore();
-*/
+    List<StoreMember> findByApprovedStore();
 
 }

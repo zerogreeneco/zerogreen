@@ -15,7 +15,7 @@ public interface StoreMemberService {
     void imageSave(Long id, List<StoreImageFile> storeImageFile);
 
     //임시리스트
-    List<StoreMember> findAll();
+    //List<StoreMember> findAll();
     StoreDto getStore(Long id);
 
     }
