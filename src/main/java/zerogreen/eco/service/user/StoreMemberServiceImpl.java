@@ -27,9 +27,20 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     public Long save(StoreMember storeMember, RegisterFile registerFile) {
 
         String encPassword = passwordEncoder.encode(storeMember.getPassword());
-        return storeMemberRepository.save(new StoreMember(storeMember.getUsername(), storeMember.getPhoneNumber(),
-                        encPassword, UserRole.UN_STORE, storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(),
-                        storeMember.getStoreInfo().getStoreAddress(), storeMember.getStoreInfo().getStorePhoneNumber(), registerFile, storeMember.getStoreInfo().getPostalCode()))
+
+        return storeMemberRepository.save(StoreMember.builder()
+                        .username(storeMember.getUsername())
+                        .password(encPassword)
+                        .phoneNumber(storeMember.getPhoneNumber())
+                        .userRole(UserRole.UN_STORE)
+                        .storeName(storeMember.getStoreName())
+                        .storeRegNum(storeMember.getStoreRegNum())
+                        .storeType(storeMember.getStoreType())
+                        .storeAddress(storeMember.getStoreInfo().getStoreAddress())
+                        .postalCode(storeMember.getStoreInfo().getPostalCode())
+                        .storePhoneNumber(storeMember.getStoreInfo().getStorePhoneNumber())
+                        .registerFile(registerFile)
+                        .build())
                 .getId();
     }
 
@@ -60,12 +71,13 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     public List<StoreMember> findAll() {
         return storeMemberRepository.findAll();
     }
+
     //store데이터 넘겨서 상세페이지에.. 근데 수정될 가능성 99%
     @Override
     public StoreDto getStore(Long id) {
         StoreMember storeMember = storeMemberRepository.getById(id);
-        return new StoreDto(storeMember.getId(),storeMember.getUsername(),storeMember.getStoreName(),storeMember.getStoreType(),
-                storeMember.getStoreInfo(),storeMember.getStoreRegNum(),storeMember.getUserRole());
+        return new StoreDto(storeMember.getId(), storeMember.getUsername(), storeMember.getStoreName(), storeMember.getStoreType(),
+                storeMember.getStoreInfo(), storeMember.getStoreRegNum(), storeMember.getUserRole());
     }
 
 

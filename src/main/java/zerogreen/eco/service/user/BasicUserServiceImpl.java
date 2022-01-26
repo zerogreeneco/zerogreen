@@ -98,4 +98,9 @@ public class BasicUserServiceImpl implements BasicUserService{
 
         updateMember.setPassword(encPassword);
     }
+
+    @Override
+    public void memberDelete(Long id) {
+        basicUserRepository.deleteById(id);
+    }
 }

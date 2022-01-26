@@ -1,9 +1,6 @@
 package zerogreen.eco.entity.userentity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 
@@ -12,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.CascadeType.*;
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @DiscriminatorValue("STORE")
@@ -41,6 +38,7 @@ public class StoreMember extends BasicUser{
     private List<StoreImageFile> imageFiles = new ArrayList<>();
 
     // 회원 가입
+    @Builder
     public StoreMember(String username, String phoneNumber, String password, UserRole userRole,
                        String storeName, String storeRegNum, StoreType storeType, String storeAddress, String storePhoneNumber, RegisterFile registerFile, String postalCode) {
 

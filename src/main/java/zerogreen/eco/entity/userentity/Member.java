@@ -1,12 +1,11 @@
 package zerogreen.eco.entity.userentity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.DynamicUpdate;
+import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Entity
 @Getter
@@ -23,6 +22,7 @@ public class Member extends BasicUser {
 
 
     // 회원 가입용
+    @Builder
     public Member(String username, String nickname, String phoneNumber, String password,
                   UserRole userRole,Boolean authState,VegetarianGrade vegetarianGrade) {
         super(username, phoneNumber, password, userRole,authState);
@@ -49,4 +49,6 @@ public class Member extends BasicUser {
         this.vegetarianGrade = vegetarianGrade;
         this.nickname = nickname;
     }
+
+
 }

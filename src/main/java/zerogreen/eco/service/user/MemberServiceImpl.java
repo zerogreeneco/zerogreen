@@ -20,7 +20,7 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
 
     private final BasicUserRepository basicUserRepository;
     private final MemberRepository memberRepository;
@@ -28,34 +28,41 @@ public class MemberServiceImpl implements MemberService{
 
 
     /*
-    * 테스트 데이터용
-    * */
+     * 테스트 데이터용
+     * */
     @Transactional
     @Override
     public Long save(Member member) {
         String encPassword = passwordEncoder.encode(member.getPassword());
 
         return memberRepository.save(new Member(member.getUsername(), member.getNickname(),
-                member.getPhoneNumber(), encPassword, UserRole.USER, member.getVegetarianGrade()) )
+                        member.getPhoneNumber(), encPassword, UserRole.USER, member.getVegetarianGrade()))
                 .getId();
     }
 
     /*
-    * 회원가입
-    * */
+     * 회원가입
+     * */
     @Transactional
     @Override
     public Long saveV2(Member member) {
         String encPassword = passwordEncoder.encode(member.getPassword());
 
-        return memberRepository.save(new Member(member.getUsername(), member.getNickname(), member.getPhoneNumber(),
-                        encPassword, UserRole.USER, false, member.getVegetarianGrade()) )
+        return memberRepository.save(Member.builder()
+                        .username(member.getUsername())
+                        .password(encPassword)
+                        .nickname(member.getNickname())
+                        .phoneNumber(member.getPhoneNumber())
+                        .userRole(UserRole.USER)
+                        .vegetarianGrade(member.getVegetarianGrade())
+                        .authState(false)
+                        .build())
                 .getId();
     }
 
     /*
-    * 회원 인증 상태 변경 : false -> true
-    * */
+     * 회원 인증 상태 변경 : false -> true
+     * */
     @Transactional
     @Override
     public void changeAuthState(Long id) {
@@ -72,12 +79,12 @@ public class MemberServiceImpl implements MemberService{
     }
 
     /*
-    * 회원 정보 수정
-    * */
+     * 회원 정보 수정
+     * */
     @Transactional
     @Override
     public void memberUpdate(Long id, MemberUpdateDto memberUpdateResponse) {
-        Member updateMember  = memberRepository.findById(id).orElseThrow();
+        Member updateMember = memberRepository.findById(id).orElseThrow();
 
         updateMember.setNickname(memberUpdateResponse.getNickname());
         updateMember.setPhoneNumber(memberUpdateResponse.getPhoneNumber());
@@ -85,12 +92,12 @@ public class MemberServiceImpl implements MemberService{
     }
 
     /*
-    * 카카오 회원가입 추가 정보
-    * */
+     * 카카오 회원가입 추가 정보
+     * */
     @Transactional
     @Override
     public void kakaoMemberUpdate(Long id, Member member) {
-        Member updateMember  = memberRepository.findById(id).orElseThrow();
+        Member updateMember = memberRepository.findById(id).orElseThrow();
 
         updateMember.setPhoneNumber(member.getPhoneNumber());
         updateMember.setVegetarianGrade(member.getVegetarianGrade());

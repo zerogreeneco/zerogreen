@@ -150,8 +150,8 @@ public class JoinController {
         if (attachFile.isEmpty()) {
             bindingResult.reject("attachFile", null);
             return "register/storeRegisterForm";
-        } else if (!(attachFile.getContentType().startsWith("image")
-                && attachFile.getContentType().equals("application/pdf")) ) {
+        } else if (!attachFile.getContentType().startsWith("image")
+                && !attachFile.getContentType().equals("application/pdf") ) {
             log.warn("이미지 또는 PDF 파일이 아닙니다.");
             bindingResult.reject("incorrectAttachFile", null);
             return "register/storeRegisterForm";

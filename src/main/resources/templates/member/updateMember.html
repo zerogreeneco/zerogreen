@@ -2,9 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
     <style>
         .container {
             max-width: 560px;
@@ -17,43 +19,54 @@
     </style>
     <script th:inline="javascript">
         $(function (event) {
-            $("#info-submit").click(function (){
+            $("#info-submit").click(function () {
 
-                var nickname = $("#nickname").val();
-                var phoneNum = $("#phoneNumber").val();
+                const nickname = $("#nickname").val();
+                const phoneNum = $("#phoneNumber").val();
 
                 $.ajax({
-                   url: "/zerogreen/members/account",
-                   type: 'post',
-                   data: {
-                       nickname: nickname,
-                       phoneNumber: phoneNum
-                   },
-                   dataType: 'json'
+                    url: "/zerogreen/members/account",
+                    type: 'post',
+                    data: {
+                        nickname: nickname,
+                        phoneNumber: phoneNum
+                    },
+                    dataType: 'json'
                 });
+            }); // 회원 정보 변경
 
 
-            })
-
-            $("#pwd-change").click(function (){
-                var password = $("#password").val();
-                var newPassword = $("#newPassword").val();
+            $("#pwd-change").click(function () {
+                const password = $("#password").val();
+                const newPassword = $("#newPassword").val();
 
                 console.log(password);
                 console.log(newPassword);
 
                 $.ajax({
-                   url: "/zerogreen/members/account/pwdChange",
+                    url: "/zerogreen/members/account/pwdChange",
+                    type: "post",
+                    data: {
+                        password: password,
+                        newPassword: newPassword
+                    },
+                    dataType: "json"
+                });
+            }); // 비밀번호 변경
+
+            $("#delete_id_btn").click(function () {
+                const password = $("#delete_id").val();
+
+                $.ajax({
+                   url: "/zerogreen/members/account/deleteMember",
                    type: "post",
                    data: {
-                       password: password,
-                       newPassword: newPassword
+                       password: password
                    },
                    dataType: "json"
                 });
-
-            })
-
+                location.replace("/zerogreen");
+            }); // 회원 탈퇴
         });
     </script>
 </head>
@@ -68,14 +81,14 @@
     <h4 class="mb-3">회원 정보 입력</h4>
 
     <form id="memberUpdate" action="" th:action="@{/members/account}" method="post" th:object="${member}">
-        <input type="hidden" >
+        <input type="hidden">
         <div>
-            <label for="username" >username</label>
+            <label for="username">username</label>
             <input type="text" id="username" th:field="*{username}" class="form-control" disabled>
 
         </div>
 
-       <div>
+        <div>
             <label for="nickname">nickname</label>
             <input type="text" th:field="*{nickname}" class="form-control">
             <div th:errors="*{nickname}">
@@ -90,22 +103,22 @@
             </div>
         </div>
 
-<!--/*        <div>
-            <select th:field="*{vegetarianGrade}">
-                <option value="">==베지테리언 등급==</option>
-                <option th:each="vegan : ${vegan}" th:value="${vegan.name()}" th:text="${vegan.vegetarian}"></option>
-            </select>
-        </div>*/-->
+        <!--/*        <div>
+                    <select th:field="*{vegetarianGrade}">
+                        <option value="">==베지테리언 등급==</option>
+                        <option th:each="vegan : ${vegan}" th:value="${vegan.name()}" th:text="${vegan.vegetarian}"></option>
+                    </select>
+                </div>*/-->
 
         <hr class="my-4">
 
 
-    <div class="row">
-    </div>
-    </form>
-        <div class="col">
-            <button id="info-submit" class="w-100 btn btn-primary btn-lg" type="submit" >정보 수정</button>
+        <div class="row">
         </div>
+    </form>
+    <div class="col">
+        <button id="info-submit" class="w-100 btn btn-primary btn-lg" type="submit">정보 수정</button>
+    </div>
 
     <form id="passwordChange" method="post" th:action="@{/members/account/pwdChange}" th:object="${password}">
         <div>
@@ -132,9 +145,18 @@
         </div>
     </form>
     <div class="col">
-        <button id="pwd-change" class="w-100 btn btn-primary btn-lg" type="submit" >비밀번호 변경</button>
+        <button id="pwd-change" class="w-100 btn btn-primary btn-lg" type="submit">비밀번호 변경</button>
+    </div>
+    <div>
+        <button type="button"><a href="#deleteModal" rel="modal:open">회원탈퇴</a></button>
     </div>
 </div> <!-- /container -->
-
+<div id="deleteModal" class="modal" >
+    <form th:object="${password}" method="post" th:action="@{/members/acccount/deleteMember}">
+        <h4>회원 탈퇴</h4>
+        <input type="password" id="delete_id" th:field="*{password}">
+        <button type="submit" id="delete_id_btn">탈퇴</button>
+    </form>
+</div>
 </body>
 </html>

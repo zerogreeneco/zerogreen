@@ -25,4 +25,6 @@ public interface BasicUserService {
     long countByUsername(String username);
 
     void changeStoreUserRole(List<Long> memberId);
+
+    void memberDelete(Long id);
 }
