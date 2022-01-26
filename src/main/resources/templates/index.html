@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}">
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
         <!--페이지 수정 부분 시작-->
 
@@ -17,7 +17,6 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
                 integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
                 crossorigin="anonymous"></script>
-
         <script th:inline="javascript">
             function goStore(id) {
                 alert('goStore');
@@ -27,9 +26,12 @@
                 +]*/
                 location.href = url;
             }
-
         </script>
 
+        <!--지도 부분-->
+        <div id="map" style="width:700px;height:550px;"></div>
+        <script type="text/javascript" th:src="@{/bootstrap/js/map.js}"></script>
+        <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac"></script>
     </th:block>
 </th:block>
 </html>
