@@ -52,12 +52,11 @@ public class StoreJoinDto {
     }
 
     public StoreMember toStoreMember(StoreJoinDto storeDto) {
-        log.info("DTODTO={}",storeDto.getStoreAddress());
-        log.info("DTODTO={}",storeDto.getPostalCode());
-        log.info("DTODTO={}",storeDto.getStorePhoneNumber());
+
         String fullAddress = storeDto.getStoreAddress() + " " + storeDto.getStoreDetailAddress();
+
         return new StoreMember(storeDto.getUsername(), storeDto.getPhoneNumber(), storeDto.getPassword(),
                 UserRole.UN_STORE, storeDto.getStoreName(), storeDto.getStoreRegNum(),
-                storeDto.getStoreType(), fullAddress, storeDto.getStorePhoneNumber(), storeDto.getPostalCode());
+                storeDto.getStoreType(), storeDto.getStoreAddress(),storeDto.getStoreDetailAddress(), storeDto.getStorePhoneNumber(), storeDto.getPostalCode());
     }
 }

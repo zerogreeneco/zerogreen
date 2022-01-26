@@ -36,27 +36,27 @@ public class TestDataInit {
         public void init() {
             StoreMember ecoTest = new StoreMember("ecoTest", "01033334444", "1",
                     UserRole.UN_STORE, "ECO_SHOP", "REGNUM1111",StoreType.ECO_SHOP,
-                    "부산시 해운대구", "0517778888",  "11111");
+                    "부산시 해운대구", "우동","0517778888",  "11111");
 
             StoreMember foodTest = new StoreMember("foodTest", "01044445555", "1",
                     UserRole.UN_STORE, "VEGAN_FOOD", "0987654321", StoreType.VEGAN_FOOD,
-                    "부산시 동래구", "0519998888", "99999");
+                    "부산시 동래구", "안락동","0519998888", "99999");
 
             StoreMember noVegan = new StoreMember("noVeganlTest", "01044445555", "1",
                     UserRole.UN_STORE, "NO_VEGAN_FOOD", "785654321", StoreType.GENERAL_FOOD,
-                    "부산시 연제구", "0517776666", "88888");
+                    "부산시 연제구", "연산동","0517776666", "88888");
 
             StoreMember ecoTest2 = new StoreMember("ecoTest2", "01012345678", "1",
                     UserRole.STORE, "ECO_SHOP2", "0511234567",StoreType.ECO_SHOP,
-                    "부산시 사하구", "0511234567",  "22222");
+                    "부산시 사하구", "하단동","0511234567",  "22222");
 
             StoreMember foodTest2 = new StoreMember("foodTest2", "01098765432", "1",
                     UserRole.STORE, "VEGAN_FOOD2", "0519876543", StoreType.VEGAN_FOOD,
-                    "부산시 북구", "0519876541", "33333");
+                    "부산시 북구", "덕천동","0519876541", "33333");
 
             StoreMember noVegan2 = new StoreMember("noVeganlTest2", "01078945612", "1",
                     UserRole.STORE, "NO_VEGAN_FOOD2", "0517894561", StoreType.GENERAL_FOOD,
-                    "부산시 금정구", "0517894561", "44444");
+                    "부산시 금정구", "장전동","0517894561", "44444");
 
             // 일반 회원
             memberService.save(new Member("test", "tester", "01022223333", "1",

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
+    <th:block th:fragment="content">
+        <div>
+            <form th:object="${upload}" th:action="@{/store/storeInfo/imageUpload}" method="post" enctype="multipart/form-data">
+                <input type="text" th:field="*{storeName}">
+                <input type="file" multiple="multiple" th:field="*{files}">
+                <button type="submit" >제출</button>
+            </form>
+        </div>
+    </th:block>
+</th:block>
 </html>

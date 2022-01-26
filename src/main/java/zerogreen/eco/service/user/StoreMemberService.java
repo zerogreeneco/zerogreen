@@ -2,16 +2,17 @@ package zerogreen.eco.service.user;
 
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
+import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.StoreMember;
 
 import java.util.List;
 
 public interface StoreMemberService {
-    public Long save(StoreMember storeMember, RegisterFile registerFile);
-    public Long saveV2(StoreMember storeMember, RegisterFile registerFile);
+    Long save(StoreMember storeMember, RegisterFile registerFile);
+    Long saveV2(StoreMember storeMember, RegisterFile register);
+    void storeInfoSave(StoreMember storeMember);
 
-    public void storeInfoSave(StoreMember storeMember);
-
+    void imageSave(Long id, List<StoreImageFile> storeImageFile);
 
     //임시리스트
     List<StoreMember> findAll();

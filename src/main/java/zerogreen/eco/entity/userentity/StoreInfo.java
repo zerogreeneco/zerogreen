@@ -14,21 +14,23 @@ public class StoreInfo {
 
     private String postalCode;
     private String storeAddress;
+    private String storeDetailAddress;
     private String storePhoneNumber;
     @Lob
     private String storeDescription;
-    private LocalDateTime openTime;
-    private LocalDateTime closeTime;
+    private String openTime;
+    private String closeTime;
 
     protected StoreInfo() {}
 
-    public StoreInfo(String postalCode, String storeAddress, String storePhoneNumber) {
+    public StoreInfo(String postalCode, String storeAddress, String StoreDetailAddress, String storePhoneNumber) {
         this.postalCode = postalCode;
         this.storeAddress = storeAddress;
+        this.storeDetailAddress = StoreDetailAddress;
         this.storePhoneNumber = storePhoneNumber;
     }
 
-    public StoreInfo(String storeAddress, String storePhoneNumber, String storeDescription, LocalDateTime openTime, LocalDateTime closeTime) {
+    public StoreInfo(String storeAddress, String storePhoneNumber, String storeDescription, String openTime, String closeTime) {
         this.storeAddress = storeAddress;
         this.storePhoneNumber = storePhoneNumber;
         this.storeDescription = storeDescription;
