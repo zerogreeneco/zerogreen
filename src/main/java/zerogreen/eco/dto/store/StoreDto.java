@@ -22,6 +22,8 @@ public class StoreDto {
 
     private List<StoreImageFile> imageFiles;
 
+    private StoreInfo storeInfo;
+
     private String postalCode;
     private String storeAddress;
     private String storePhoneNumber;
@@ -57,7 +59,5 @@ public class StoreDto {
         this.menuList = menuList;
     }
 
-    public StoreDto(String storeName, String storeRegNum, StoreType storeType, Long id, UserRole userRole, String username, String postalCode, String storeAddress, String storePhoneNumber, LocalDateTime openTime, LocalDateTime closeTime) {
-    }
 }
 

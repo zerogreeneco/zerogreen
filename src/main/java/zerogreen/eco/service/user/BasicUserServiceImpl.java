@@ -12,6 +12,7 @@ import zerogreen.eco.dto.member.PasswordUpdateDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.userentity.BasicUser;
+import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.user.BasicUserRepository;
 
@@ -104,11 +105,9 @@ public class BasicUserServiceImpl implements BasicUserService{
     }
 
     //Store 가게목록
-/*
     @Override
-    public List<StoreDto> findByApprovedStore() {
+    public List<StoreMember> findByApprovedStore() {
         return basicUserRepository.findByApprovedStore();
     }
-*/
 
 }

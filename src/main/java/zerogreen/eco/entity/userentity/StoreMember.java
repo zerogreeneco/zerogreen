@@ -81,4 +81,7 @@ public class StoreMember extends BasicUser{
         storeInfo = new StoreInfo(storeAddress, storePhoneNumber, storeDescription, openTime, closeTime);
     }
 
+    //Review
+    public StoreMember(String storeName) {
+    }
 }

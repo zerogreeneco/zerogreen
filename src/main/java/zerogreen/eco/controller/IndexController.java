@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.userentity.StoreMember;
+import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.StoreMemberService;
 
@@ -26,16 +27,14 @@ public class IndexController {
 
     @GetMapping("")
     public String approvedStore(Model model) {
-/*
-        List<StoreDto> tempStore = basicUserService.findByApprovedStore();
+        List<StoreMember> tempStore = basicUserService.findByApprovedStore();
         log.info("storeDTO>>>>>>>>>>"+tempStore);
         model.addAttribute("tempStore", tempStore);
-*/
 
         //임시 리스트
-        List<StoreMember> tempStore = storeMemberService.findAll();
-        log.info("storeDTO>>>>>>>>>>"+tempStore);
-        model.addAttribute("tempStore",tempStore);
+//        List<StoreMember> tempStore = storeMemberService.findAll();
+//        log.info("storeDTO>>>>>>>>>>"+tempStore);
+//        model.addAttribute("tempStore",tempStore);
         return "index";
     }
 

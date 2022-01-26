@@ -50,5 +50,7 @@ public class Member extends BasicUser {
         this.nickname = nickname;
     }
 
-
+    //Review
+    public Member(String nickname) {
+    }
 }
