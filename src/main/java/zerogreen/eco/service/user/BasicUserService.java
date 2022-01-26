@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import zerogreen.eco.dto.member.FindMemberDto;
 import zerogreen.eco.dto.member.PasswordUpdateDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
+import zerogreen.eco.dto.store.StoreDto;
 
 import java.util.List;
 
@@ -27,4 +28,7 @@ public interface BasicUserService {
     void changeStoreUserRole(List<Long> memberId);
 
     void memberDelete(Long id);
+
+    //List<StoreDto> findByApprovedStore();
+
 }

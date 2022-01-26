@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.userentity.StoreMember;
+import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.StoreMemberService;
 
 import java.util.List;
@@ -20,20 +22,23 @@ import java.util.List;
 public class IndexController {
 
     private final StoreMemberService storeMemberService;
+    private final BasicUserService basicUserService;
 
     @GetMapping("")
     public String approvedStore(Model model) {
 /*
-        List<StoreDto> storeDto = storeMemberService.findByApprovedStore();
-        log.info("storeDTO>>>>>>>>>>"+storeDto);
-        model.addAttribute("storeDto", storeDto);
+        List<StoreDto> tempStore = basicUserService.findByApprovedStore();
+        log.info("storeDTO>>>>>>>>>>"+tempStore);
+        model.addAttribute("tempStore", tempStore);
 */
+
         //임시 리스트
         List<StoreMember> tempStore = storeMemberService.findAll();
         log.info("storeDTO>>>>>>>>>>"+tempStore);
         model.addAttribute("tempStore",tempStore);
         return "index";
     }
+
 
     @GetMapping("/user")
     public @ResponseBody String user(Model model) {

@@ -46,13 +46,28 @@ public class TestDataInit {
                     UserRole.UN_STORE, "NO_VEGAN_FOOD", "785654321", StoreType.GENERAL_FOOD,
                     "부산시 연제구", "0517776666", "88888");
 
+            StoreMember ecoTest2 = new StoreMember("ecoTest2", "01012345678", "1",
+                    UserRole.STORE, "ECO_SHOP2", "0511234567",StoreType.ECO_SHOP,
+                    "부산시 사하구", "0511234567",  "22222");
+
+            StoreMember foodTest2 = new StoreMember("foodTest2", "01098765432", "1",
+                    UserRole.STORE, "VEGAN_FOOD2", "0519876543", StoreType.VEGAN_FOOD,
+                    "부산시 북구", "0519876541", "33333");
+
+            StoreMember noVegan2 = new StoreMember("noVeganlTest2", "01078945612", "1",
+                    UserRole.STORE, "NO_VEGAN_FOOD2", "0517894561", StoreType.GENERAL_FOOD,
+                    "부산시 금정구", "0517894561", "44444");
+
             // 일반 회원
             memberService.save(new Member("test", "tester", "01022223333", "1",
                     UserRole.USER, VegetarianGrade.LACTO));
             // 가게 회원
             storeMemberService.save(ecoTest, new RegisterFile("origin1","store1", "path1"));
             storeMemberService.save(foodTest, new RegisterFile("origin2","store2", "path2"));
-            storeMemberService.save(noVegan, new RegisterFile("origin","store3", "path3"));
+            storeMemberService.save(noVegan, new RegisterFile("origin3","store3", "path3"));
+            storeMemberService.saveV2(ecoTest2, new RegisterFile("origin1","store1", "path1"));
+            storeMemberService.saveV2(foodTest2, new RegisterFile("origin2","store2", "path2"));
+            storeMemberService.saveV2(noVegan2, new RegisterFile("origin3","store3", "path3"));
 
 
             // 관리자 계정
