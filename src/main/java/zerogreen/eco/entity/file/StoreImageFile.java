@@ -30,4 +30,11 @@ public class StoreImageFile {
         this.storeFileName = storeFileName;
         this.filePath = filePath;
     }
+
+    public StoreImageFile(String fileName, String storeFileName, String filePath, StoreMember storeMember) {
+        this.fileName = fileName;
+        this.storeFileName = storeFileName;
+        this.filePath = filePath;
+        this.storeMember = storeMember;
+    }
 }

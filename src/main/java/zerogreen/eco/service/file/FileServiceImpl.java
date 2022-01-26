@@ -34,7 +34,7 @@ public class FileServiceImpl implements FileService{
 
     @Override
     public String getFullPathImage(String filename, String storeName) {
-        return imageFileDir + storeName + filename;
+        return imageFileDir + storeName  + filename;
     }
 
     /*
@@ -86,7 +86,7 @@ public class FileServiceImpl implements FileService{
         String storeFilename = createStoreFilename(originalFilename);
         multipartFile.transferTo(new File(getFullPathImage(storeFilename, storeName)));
 
-        return new StoreImageFile(originalFilename, storeFilename, getFullPath(storeFilename));
+        return new StoreImageFile(originalFilename, storeFilename, getFullPathImage(storeFilename, storeName));
     }
 
     /*

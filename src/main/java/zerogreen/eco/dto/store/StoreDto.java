@@ -25,8 +25,8 @@ public class StoreDto {
     private String postalCode;
     private String storeAddress;
     private String storePhoneNumber;
-    private LocalDateTime openTime;
-    private LocalDateTime closeTime;
+    private String openTime;
+    private String closeTime;
 
     private List<StoreMenu> menuList;
 
@@ -40,7 +40,7 @@ public class StoreDto {
     //storeMemberServiceImpl에 쓰였음
     public StoreDto(String storeName, String storeRegNum, StoreType storeType,
                     Long id, String username, UserRole userRole, List<StoreImageFile> imageFiles,
-                    String postalCode, String storeAddress, String storePhoneNumber, LocalDateTime openTime, LocalDateTime closeTime ,
+                    String postalCode, String storeAddress, String storePhoneNumber, String openTime, String closeTime ,
                     List<StoreMenu> menuList ) {
         this.storeName = storeName;
         this.storeRegNum = storeRegNum;
