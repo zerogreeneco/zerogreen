@@ -2,7 +2,6 @@ package zerogreen.eco.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +20,9 @@ public class PageController {
     private final StoreMemberService storeMemberService;
 
     @GetMapping("/page/detail")
-    public void detail(Long id, Model model,
+    public void detail(Long id, Model model, String username,
 
-                      @PrincipalUser BasicUser basicUser){
+                       @PrincipalUser BasicUser basicUser){
             StoreDto storeDto = storeMemberService.getStore(id);
 
         if (basicUser == null) {
