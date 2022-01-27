@@ -7,6 +7,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -80,16 +81,16 @@ public class AdminController {
      * */
     @PostMapping("/approve")
     @ResponseBody
-    public String changeUserRole(@RequestParam(value = "memberId", defaultValue = "0") List<Long> memberId, Model model) {
+    public ResponseEntity<String> changeUserRole(@RequestParam(value = "memberId", defaultValue = "0") List<Long> memberId, Model model) {
 
         if (memberId.contains(0L)) {
             model.addAttribute("msg", "회원가입을 승인할 회원을 체크해주세요.");
-            return "승인실패";
+            return new ResponseEntity<>("fail", HttpStatus.OK);
         }
 
         basicUserService.changeStoreUserRole(memberId);
         model.addAttribute("msg", "승인이 완료되었습니다. ");
-        return "승인 성공";
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
     @GetMapping("/search")

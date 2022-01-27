@@ -62,12 +62,12 @@
                 </div>
                 <!-- 주소 입력창 -->
                 <div>
-                    <label for="storeAddress">가게 주소</label>
-                    <input type="text" id="sample6_postcode" th:field="*{postalCode}" placeholder="우편번호" >
+                    <label>가게 주소</label>
+                    <input type="text" id="sample6_postcode" th:field="*{postalCode}" placeholder="우편번호" readonly>
                     <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-                    <input type="text" id="sample6_address" th:field="*{storeAddress}" placeholder="주소" ><br>
+                    <input type="text" id="sample6_address" th:field="*{storeAddress}" placeholder="주소" readonly><br>
                     <input type="text" id="sample6_detailAddress" th:field="*{storeDetailAddress}" placeholder="상세주소">
-                    <input type="text" id="sample6_extraAddress" placeholder="참고항목" >
+                    <input type="text" id="sample6_extraAddress" placeholder="참고항목" readonly>
                 </div>
                 <!-- 사업자 등록번호 -->
                 <div>

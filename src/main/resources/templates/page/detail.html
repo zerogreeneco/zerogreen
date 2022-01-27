@@ -17,15 +17,21 @@
 
     <div class="detail-content">
 
-        <!--    1열 카드이미지-->
-        <div class="detail-top temp1">1열 카드이미지
-            <!--    1열 카드이미지-->
-            <div sec:authorize="isAuthenticated()">
-                <div th:text="${member}"></div>
-            </div>
-            [[${getStoreTemp.storeName}]]
-            [[${getStoreTemp.postalCode}]]
 
+<div class="detail-content">
+
+<div class="detail-top temp1">1열 카드이미지
+<!--    1열 카드이미지-->
+    <div sec:authorize="isAuthenticated()">
+        <div th:text="${member}"></div>
+    </div>
+    [[${getStoreTemp.storeName}]]
+    [[${getStoreTemp.postalCode}]]
+
+    [[${getStoreTemp.storePhoneNumber}]]
+    [[${getStoreTemp.storeType}]]
+    <div class="top">가게 상세 이미지 들어갈 곳</div>
+</div>
             [[${getStoreTemp.storePhoneNumber}]]
             [[${getStoreTemp.storeType}]]
             <div class="top">가게 상세 이미지 들어갈 곳</div>

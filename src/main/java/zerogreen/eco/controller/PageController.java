@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.userentity.BasicUser;
+import zerogreen.eco.security.auth.PrincipalUser;
 import zerogreen.eco.service.user.StoreMemberService;
 
 @Controller
@@ -21,13 +22,16 @@ public class PageController {
 
     @GetMapping("/page/detail")
     public void detail(Long id, Model model,
-                       @AuthenticationPrincipal(expression = "#this == 'anonymousUser' ? null : basicUser" ) BasicUser basicUser){
-        StoreDto storeDto = storeMemberService.getStore(id);
+
+                      @PrincipalUser BasicUser basicUser){
+            StoreDto storeDto = storeMemberService.getStore(id);
+
         if (basicUser == null) {
             model.addAttribute("getStoreTemp",storeDto);
         } else {
             model.addAttribute("getStoreTemp",storeDto);
-            model.addAttribute("member", basicUser.getUserRole());
+            model.addAttribute("member", basicUser.getUsername());
+
         }
     }
 
