@@ -2,19 +2,79 @@
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
         <!--페이지 수정 부분 시작-->
+        <link rel="stylesheet" href="bootstrap/css/index/index.css" />
 
-        <h1>수정된 내용</h1>
-
-        <span>임시 테이블</span>
-        <table>
-            <tr th:each="temp :${tempStore}"
-                th:onclick="|javascript:goStore('${temp.id}')|">
-                <td scope="row">[[${temp.id}]]</td>
-                <td>[[${temp.storeType}]]</td>
-                <td>[[${temp.userRole}]]</td>
-            </tr>
-        </table>
-
+        <div class="row gtr-200">
+            <div id="shopList-card">
+                <div class="shopList-box">
+                    <h1>내 주변 맛집</h1>
+                    <div class="shopList-box">
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="http://placehold.it/300x300" />
+                            </div>
+                            <div class="card-body">
+                                <span>가게명</span>
+                                <span>가게 거리 ?KM</span>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="http://placehold.it/300x300" />
+                            </div>
+                            <div class="card-body">
+                                <span>가게명</span>
+                                <span>가게 거리 ?KM</span>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="http://placehold.it/300x300" />
+                            </div>
+                            <div class="card-body">
+                                <span>가게명</span>
+                                <span>가게 거리 ?KM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shopList-box">
+                    <h1 id="cate_space">내 주변 맛집</h1>
+                    <div class="shopList-box">
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="http://placehold.it/300x300" />
+                            </div>
+                            <div class="card-body">
+                                <span>가게명</span>
+                                <span>가게 거리 ?KM</span>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="http://placehold.it/300x300" />
+                            </div>
+                            <div class="card-body">
+                                <span>가게명</span>
+                                <span>가게 거리 ?KM</span>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="http://placehold.it/300x300" />
+                            </div>
+                            <div class="card-body">
+                                <span>가게명</span>
+                                <span>가게 거리 ?KM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="map">
+                <div class="box-example"></div>
+            </div>
+        </div>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
                 integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
                 crossorigin="anonymous"></script>
@@ -30,7 +90,6 @@
         </script>
 
         <!--지도 부분-->
-        <div id="map" style="width:700px;height:550px;"></div>
         <script type="text/javascript" th:src="@{/bootstrap/js/map.js}"></script>
         <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac"></script>
     </th:block>
