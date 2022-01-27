@@ -16,6 +16,9 @@
         <input type="file" multiple="multiple" th:field="*{files}">
         <button type="submit" >제출</button>
     </form>
+    <div sec:authorize="isAuthenticated()">
+        <div th:text="${#authentication.getPrincipal()}"></div>
+    </div>
 </div>
 <div sec:authorize="hasRole('ROLE_UN_STORE')">
     <h1>인증 대기 중입니다.</h1>

@@ -1,14 +1,12 @@
 $(function() {
 
-    var authKey = "";
+    let authKey = "";
 
     $(".sendMail").click(function() {
 
-        var id = $("#username").val();
+        let id = $("#username").val();
 
-        alert($("#sample6_postcode").val() + "__" + $("#sample6_address").val());
-
-        if(id == "") {
+        if(id === "") {
             alert("메일 주소를 입력해주세요.");
         } else {
             $.ajax({
@@ -33,9 +31,9 @@ $(function() {
 
 
     $('#authConfirm').click(function() {
-        var key = $(".authKey");
+        let key = $(".authKey");
 
-        if(key.val() == authKey) {
+        if(key.val() === authKey) {
             alert("인증 성공");
             $("#joinBtn").removeAttr("disabled");
             key.attr("disabled", true);
@@ -49,9 +47,9 @@ $(function() {
 // KAKAO 추가 데이터
 $(function() {
     $("#kakao-join-btn").click(function () {
-        var memberId = $("#member-id").val();
-        var phoneNum = $("#phoneNumber").val();
-        var vegetarian = $("#vegetarianGrade").val();
+        let memberId = $("#member-id").val();
+        let phoneNum = $("#phoneNumber").val();
+        let vegetarian = $("#vegetarianGrade").val();
 
         $.ajax({
             url: "/zerogreen/members/kakao/addData",

@@ -18,8 +18,11 @@
 
 <div class="detail-content">
 
-<!--    1열 카드이미지-->
 <div class="detail-top temp1">1열 카드이미지
+<!--    1열 카드이미지-->
+    <div sec:authorize="isAuthenticated()">
+        <div th:text="${member}"></div>
+    </div>
     [[${getStoreTemp.storeName}]]
     [[${getStoreTemp.postalCode}]]
 

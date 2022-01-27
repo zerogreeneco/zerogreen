@@ -18,6 +18,8 @@ public class StoreInfo {
     private String storePhoneNumber;
     @Lob
     private String storeDescription;
+    private String socialAddress1;
+    private String socialAddress2;
     private String openTime;
     private String closeTime;
 
