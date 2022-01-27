@@ -10,6 +10,7 @@ import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.StoreInfo;
 import zerogreen.eco.entity.userentity.StoreMember;
+import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.file.StoreImageFileRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
@@ -72,12 +73,16 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         findMember.setStoreInfo(findMember.getStoreInfo());
     }
 
-
-    //임시 리스트
+    //승인받은 Store 가게목록.. 수정중
+    @Override
+    public List<StoreMember> findByApprovedStore(UserRole userRole) {
+        return storeMemberRepository.findByApprovedStore(userRole);
+    }
 /*
     @Override
-    public List<StoreMember> findAll() {
-        return storeMemberRepository.findAll();
+    public List<StoreDto> findByApprovedStore(UserRole userRole) {
+        StoreMember storeMember = storeMemberRepository.findByApprovedStore(userRole);
+        return (List<StoreDto>) new StoreDto(storeMember.getStoreName(), storeMember.getStoreType());
     }
 */
 

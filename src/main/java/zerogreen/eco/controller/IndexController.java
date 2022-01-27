@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
-import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.StoreMemberService;
 
 import java.util.List;
@@ -23,21 +22,14 @@ import java.util.List;
 public class IndexController {
 
     private final StoreMemberService storeMemberService;
-    private final BasicUserService basicUserService;
 
     @GetMapping("")
-    public String approvedStore(Model model) {
-        List<StoreMember> tempStore = basicUserService.findByApprovedStore();
-        log.info("storeDTO>>>>>>>>>>"+tempStore);
-        model.addAttribute("tempStore", tempStore);
-
-        //임시 리스트
-//        List<StoreMember> tempStore = storeMemberService.findAll();
-//        log.info("storeDTO>>>>>>>>>>"+tempStore);
-//        model.addAttribute("tempStore",tempStore);
+    public String approvedStore(Model model, UserRole userRole) {
+        List<StoreMember> result = storeMemberService.findByApprovedStore(userRole);
+        log.info("storeDTO>>>>>>>>>>"+result);
+        model.addAttribute("approved", result);
         return "index";
     }
-
 
     @GetMapping("/user")
     public @ResponseBody String user(Model model) {

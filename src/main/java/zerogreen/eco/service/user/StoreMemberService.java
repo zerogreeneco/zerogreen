@@ -4,6 +4,7 @@ import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.StoreMember;
+import zerogreen.eco.entity.userentity.UserRole;
 
 import java.util.List;
 
@@ -14,8 +15,7 @@ public interface StoreMemberService {
 
     void imageSave(Long id, List<StoreImageFile> storeImageFile);
 
-    //임시리스트
-    //List<StoreMember> findAll();
+    List<StoreMember> findByApprovedStore(UserRole userRole);
     StoreDto getStore(Long id);
 
     }

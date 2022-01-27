@@ -38,8 +38,13 @@ public class StoreDto {
     private VegetarianGrade vegetarianGrades;
 
 
+    //index에 승인받은 가게리스트
+    public StoreDto(String storeName, StoreType storeType){
+        this.storeName = storeName;
+        this.storeType = storeType;
+    }
 
-    //storeMemberServiceImpl에 쓰였음
+    //Detail에 Store데이터 가져오기
     @Builder
     public StoreDto(String storeName, String storeRegNum, StoreType storeType,
                     Long id, String username, UserRole userRole, List<StoreImageFile> imageFiles,
