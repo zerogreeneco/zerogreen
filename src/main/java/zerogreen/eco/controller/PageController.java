@@ -22,13 +22,16 @@ public class PageController {
 
     @GetMapping("/page/detail")
     public void detail(Long id, Model model,
+
                       @PrincipalUser BasicUser basicUser){
             StoreDto storeDto = storeMemberService.getStore(id);
+
         if (basicUser == null) {
             model.addAttribute("getStoreTemp",storeDto);
         } else {
             model.addAttribute("getStoreTemp",storeDto);
             model.addAttribute("member", basicUser.getUsername());
+
         }
     }
 

@@ -105,6 +105,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public MemberUpdateDto detailMemberInfo(String username) {
+        Member member = memberRepository.findByUsername(username).orElseThrow();
+
+        return new MemberUpdateDto(member.getUsername(), member.getNickname());
+    }
+
+    @Override
     public Optional<Member> findById(Long id) {
         return memberRepository.findById(id);
     }
