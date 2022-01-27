@@ -1,13 +1,24 @@
-<!DOCTYPE html>
-<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
-    <th:block th:fragment="content">
-        <div>
-            <form th:object="${upload}" th:action="@{/store/storeInfo/imageUpload}" method="post" enctype="multipart/form-data">
-                <input type="text" th:field="*{storeName}">
-                <input type="file" multiple="multiple" th:field="*{files}">
-                <button type="submit" >제출</button>
-            </form>
-        </div>
-    </th:block>
-</th:block>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
+</head>
+<body>
+
+<div class="container" sec:authorize="hasRole('ROLE_STORE')">
+    <form th:object="${upload}" th:action="@{/store/storeInfo/imageUpload}" method="post" enctype="multipart/form-data">
+        <input type="text" th:field="*{storeName}">
+        <input type="file" multiple="multiple" th:field="*{files}">
+        <button type="submit" >제출</button>
+    </form>
+</div>
+<div sec:authorize="hasRole('ROLE_UN_STORE')">
+    <h1>인증 대기 중입니다.</h1>
+</div>
+</body>
 </html>

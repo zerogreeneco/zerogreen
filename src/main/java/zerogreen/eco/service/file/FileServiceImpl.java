@@ -8,8 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 
-import java.io.File;
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -106,5 +109,31 @@ public class FileServiceImpl implements FileService{
     private String extractExt(String originalFilename) {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
+    }
+
+    public void imageResize(String storeName) throws IOException {
+        File file = new File(getFullPath(storeName));
+        InputStream inputStream = new FileInputStream(file);
+        Image image = new ImageIcon(file.toString()).getImage();
+
+        int width = 1280;
+        int height = 720;
+
+        BufferedImage resizedImage = resize(inputStream, width, height);
+
+        ImageIO.write(resizedImage, "jpg", new File(getFullPath("resize_" + storeName)));
+    }
+
+    private BufferedImage resize(InputStream inputStream, int width, int height) throws IOException {
+
+        BufferedImage inputImage = ImageIO.read(inputStream);
+
+        BufferedImage outputImage = new BufferedImage(width, height, inputImage.getType());
+
+        Graphics2D graphics2D = outputImage.createGraphics();
+        graphics2D.drawImage(inputImage, 0, 0, width, height, null);
+        graphics2D.dispose();
+
+        return outputImage;
     }
 }

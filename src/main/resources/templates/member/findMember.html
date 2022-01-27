@@ -11,7 +11,7 @@
                                 <button id="find-id-btn" type="submit">아이디 찾기</button>
                             </form>
                         </div>*/-->
-                <div class="tab-content"  id="find-pwd-content">
+                <div class="tab-content"  id="find-pwd-content" >
                     <form method="post" th:action="@{/members/findMember}" th:object="${findMember}">
                         <label for="username">아이디</label>
                         <input type="text" th:field="*{username}">

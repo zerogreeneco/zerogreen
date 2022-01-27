@@ -93,7 +93,8 @@ public class AdminController {
     }
 
     @GetMapping("/search")
-    public void searchNonApprovalStore(@Validated @ModelAttribute("search") NonApprovalStoreDto searchCond, BindingResult bindingResult, RequestPageDto requestPageDto) {
+    public void searchNonApprovalStore(@Validated @ModelAttribute("search") NonApprovalStoreDto searchCond,
+                                       BindingResult bindingResult, RequestPageDto requestPageDto) {
 
         Pageable pageable = requestPageDto.getPageable();
 

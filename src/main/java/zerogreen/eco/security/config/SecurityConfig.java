@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import zerogreen.eco.security.auth.PrincipalDetailsService;
 import zerogreen.eco.security.handler.CustomAuthenticationFailureHandler;
 
@@ -23,6 +24,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private PrincipalDetailsService principalDetailsService;
+
+    @Bean
+    public SpringSecurityDialect springSecurityDialect() {
+        return new SpringSecurityDialect();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
