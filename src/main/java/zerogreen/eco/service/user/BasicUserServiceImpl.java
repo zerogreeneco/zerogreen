@@ -16,6 +16,7 @@ import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.user.BasicUserRepository;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service

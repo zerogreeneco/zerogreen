@@ -6,6 +6,7 @@ package zerogreen.eco.security.auth;
 * Authentication 타입의 객체만 가능
 * Authentication 내부에 Member 정보가 있어햐 한다.
 * */
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import zerogreen.eco.entity.userentity.BasicUser;
@@ -13,12 +14,13 @@ import zerogreen.eco.entity.userentity.BasicUser;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Getter
 public class PrincipalDetails implements UserDetails {
 
-    private final BasicUser user; // 컴포지션
+    private final BasicUser basicUser; // 컴포지션
 
     public PrincipalDetails(BasicUser user) {
-        this.user = user;
+        this.basicUser = user;
     }
 
     // 해당 Member의 권한 반환
@@ -27,7 +29,7 @@ public class PrincipalDetails implements UserDetails {
         Collection<GrantedAuthority> collect = new ArrayList<>();
 
         collect.add((GrantedAuthority) () -> {
-            return "ROLE_"+user.getUserRole(); // ROLE_ 생략시 권한 인식을 못함
+            return "ROLE_"+ basicUser.getUserRole(); // ROLE_ 생략시 권한 인식을 못함
         });
 
         return collect;
@@ -35,12 +37,12 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return basicUser.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return basicUser.getUsername();
     }
 
     @Override
@@ -64,6 +66,6 @@ public class PrincipalDetails implements UserDetails {
     }
 
     public Long getId() {
-        return user.getId();
+        return basicUser.getId();
     }
 }
