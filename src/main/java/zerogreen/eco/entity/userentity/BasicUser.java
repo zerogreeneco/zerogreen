@@ -60,6 +60,7 @@ public class BasicUser extends BaseTimeEntity {
         this.phoneNumber = phoneNumber;
     }
 
+
     /*
     * Setter
     * */
@@ -78,4 +79,10 @@ public class BasicUser extends BaseTimeEntity {
     public void setAuthState(boolean authState) {
         AuthState = authState;
     }
+
+    //memberReview
+    public BasicUser(Long id) {
+        super();
+    }
+
 }

@@ -1,10 +1,10 @@
 package zerogreen.eco.service.detail;
 
-import zerogreen.eco.dto.detail.ReviewDto;
+import zerogreen.eco.dto.detail.MemberReviewDto;
 
 public interface ReviewService {
-    //DB저장
-    Long saveReview(ReviewDto reviewDto);
+    //멤버 DB저장
+    Long saveReview(MemberReviewDto memberReviewDto);
 
 
     }

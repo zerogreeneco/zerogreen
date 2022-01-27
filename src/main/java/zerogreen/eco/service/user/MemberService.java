@@ -14,6 +14,7 @@ public interface MemberService {
     void changeAuthState(Long id);
     void memberUpdate(Long id, MemberUpdateDto memberUpdateDto);
 
+    MemberUpdateDto detailMemberInfo(String username);
     MemberUpdateDto toMemberUpdateDto(String username, MemberUpdateDto memberUpdateDto);
     void kakaoMemberUpdate(Long id, Member member);
     Optional<Member> findById(Long id);

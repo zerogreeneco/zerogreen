@@ -33,5 +33,8 @@ public class MemberUpdateDto {
         this.vegetarianGrade = vegetarianGrade;
     }
 
-
+    public MemberUpdateDto(String username, String nickname) {
+        this.username = username;
+        this.nickname = nickname;
+    }
 }
