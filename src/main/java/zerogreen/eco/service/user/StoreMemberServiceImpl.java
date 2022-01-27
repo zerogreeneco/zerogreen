@@ -81,15 +81,26 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     }
 */
 
-    //store데이터 넘겨서 상세페이지에.. 근데 수정될 가능성 농후
+    //store데이터 넘겨서 상세페이지에.. 왜 되는지 모르겠는데 된다.. ^.ㅠ
     @Override
     public StoreDto getStore(Long id) {
-        StoreMember storeMember = storeMemberRepository.getById(id);
-        return new StoreDto(storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(),
-                storeMember.getId(), storeMember.getUsername(), storeMember.getUserRole(), storeMember.getImageFiles(),
-                storeMember.getStoreInfo().getPostalCode(), storeMember.getStoreInfo().getStoreAddress(),
-                storeMember.getStoreInfo().getStorePhoneNumber(), storeMember.getStoreInfo().getOpenTime(), storeMember.getStoreInfo().getCloseTime(),
-                storeMember.getMenuList());
+        StoreMember storeMember = storeMemberRepository.getStoreById(id);
+        log.info("??????????"+storeMember);
+        return StoreDto.builder()
+                .storeName(storeMember.getStoreName())
+                .storeRegNum(storeMember.getStoreRegNum())
+                .storeType(storeMember.getStoreType())
+                .id(storeMember.getId())
+                .username(storeMember.getUsername())
+                .userRole(storeMember.getUserRole())
+                .imageFiles(storeMember.getImageFiles())
+                .postalCode(storeMember.getStoreInfo().getPostalCode())
+                .storeAddress(storeMember.getStoreInfo().getStoreAddress())
+                .storePhoneNumber(storeMember.getStoreInfo().getStorePhoneNumber())
+                .openTime(storeMember.getStoreInfo().getOpenTime())
+                .closeTime(storeMember.getStoreInfo().getCloseTime())
+                .menuList(storeMember.getMenuList())
+                .build();
     }
 
     /*

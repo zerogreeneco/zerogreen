@@ -40,10 +40,11 @@ public class StoreDto {
 
 
     //storeMemberServiceImpl에 쓰였음
+    @Builder
     public StoreDto(String storeName, String storeRegNum, StoreType storeType,
                     Long id, String username, UserRole userRole, List<StoreImageFile> imageFiles,
-                    String postalCode, String storeAddress, String storePhoneNumber, String openTime, String closeTime ,
-                    List<StoreMenu> menuList ) {
+                    String postalCode, String storeAddress, String storePhoneNumber, String openTime, String closeTime,
+                    List<StoreMenu> menuList) {
         this.storeName = storeName;
         this.storeRegNum = storeRegNum;
         this.storeType = storeType;
@@ -58,6 +59,7 @@ public class StoreDto {
         this.closeTime = closeTime;
         this.menuList = menuList;
     }
+
 
 }
 

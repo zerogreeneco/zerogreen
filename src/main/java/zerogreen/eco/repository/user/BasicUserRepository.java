@@ -3,10 +3,8 @@ package zerogreen.eco.repository.user;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.RequestParam;
-import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
-import zerogreen.eco.entity.userentity.UserRole;
 
 import java.util.List;
 import java.util.Optional;
