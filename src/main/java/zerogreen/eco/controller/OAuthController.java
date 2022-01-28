@@ -28,8 +28,8 @@ import zerogreen.eco.dto.member.MemberJoinDto;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
-import zerogreen.eco.oauth.security.KakaoProfile;
-import zerogreen.eco.oauth.security.OAuthToken;
+import zerogreen.eco.security.oauth.KakaoProfile;
+import zerogreen.eco.security.oauth.OAuthToken;
 import zerogreen.eco.service.user.MemberService;
 
 @Controller
@@ -115,18 +115,18 @@ public class OAuthController {
 
         String memberId = kakaoProfile.getKakao_account().getEmail() + "_" + "SOCIAL";
 
-        Member member = new Member(memberId, null, kakaoPwd, UserRole.USER,
-                kakaoProfile.getProperties().getNickname(), "KAKAO");
+//        Member member = new Member(memberId, null, kakaoPwd, String.valueOf(UserRole.USER),
+//                kakaoProfile.getProperties().getNickname(), "KAKAO");
 
-        MemberAuthDto joinedMember = memberService.findAuthMember(memberId);
-        log.info("JOIN={}", joinedMember);
-        if (joinedMember == null) {
-            log.info("자동 회원가입");
-            Long saveMember = memberService.saveV2(member);
-            redirectAttributes.addAttribute("memberId", saveMember);
-            log.info("memberId={}", saveMember);
-            return "redirect:/members/kakao/addData";
-        }
+//        MemberAuthDto joinedMember = memberService.findAuthMember(memberId);
+//        log.info("JOIN={}", joinedMember);
+//        if (joinedMember == null) {
+//            log.info("자동 회원가입");
+//            Long saveMember = memberService.saveV2(member);
+//            redirectAttributes.addAttribute("memberId", saveMember);
+//            log.info("memberId={}", saveMember);
+//            return "redirect:/members/kakao/addData";
+//        }
 
         // 아이디와 패스워드로 시큐리티가 알아볼 수 있는 token 객체로 변경
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(memberId, kakaoPwd);

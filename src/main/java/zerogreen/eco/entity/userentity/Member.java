@@ -31,10 +31,16 @@ public class Member extends BasicUser {
     }
 
     // 카카오 회원가입
-    public Member(String username, String phoneNumber, String password, UserRole userRole, String nickname, String socialType) {
+/*    public Member(String username, String phoneNumber, String password, UserRole userRole, String nickname, String socialType) {
         super(username, phoneNumber, password, userRole);
         this.nickname = nickname;
         this.socialType = socialType;
+    }*/
+
+    @Builder
+    public Member(String username, String password, UserRole userRole, String nickname) {
+        super(username, password, userRole);
+        this.nickname = nickname;
     }
 
     // 수정용

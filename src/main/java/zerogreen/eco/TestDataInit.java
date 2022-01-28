@@ -12,7 +12,7 @@ import zerogreen.eco.service.user.StoreMemberService;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class TestDataInit {
 
@@ -23,7 +23,7 @@ public class TestDataInit {
         initService.init();
     }
 
-    @Component
+//    @Component
     @Transactional
     @RequiredArgsConstructor
     static class InitService {
