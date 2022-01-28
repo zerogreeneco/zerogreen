@@ -81,7 +81,7 @@ public class BasicUser extends BaseTimeEntity {
     }
 
     //memberReview
-    public BasicUser(Long id) {
+    public BasicUser(String username) {
         super();
     }
 

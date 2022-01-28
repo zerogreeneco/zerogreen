@@ -33,11 +33,18 @@ public class MemberReview {
 
 
     //Entity db랑 연결할 때
-    public MemberReview(Long id, Long rno, String reviewText, String storeName) {
-        this.basicUser = new BasicUser(id);
-        this.rno = rno;
+    public MemberReview(String reviewText, StoreMember storeMember, BasicUser basicUser) {
+        this.reviewText = reviewText;
+        this.storeMember = storeMember;
+        this.basicUser = basicUser;
+
+    }
+/*
+    public MemberReview(String username, String reviewText, String storeName) {
+        this.basicUser = new BasicUser(username);
         this.reviewText = reviewText;
         this.storeMember = new StoreMember(storeName);
     }
+*/
 
 }

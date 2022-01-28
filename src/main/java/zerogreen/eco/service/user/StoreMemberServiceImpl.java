@@ -16,6 +16,9 @@ import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.file.StoreImageFileRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 
+import javax.mail.Store;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -83,8 +86,8 @@ public class StoreMemberServiceImpl implements StoreMemberService {
 /*
     @Override
     public List<StoreDto> findByApprovedStore(UserRole userRole) {
-        StoreMember storeMember = storeMemberRepository.findByApprovedStore(userRole);
-        return (List<StoreDto>) new StoreDto(storeMember.getStoreName(), storeMember.getStoreType());
+        List<StoreMember> storeMember = storeMemberRepository.findByApprovedStore(userRole);
+        return new StoreDto(storeMember.getStoreName(), storeMember.getStoreType());
     }
 */
 
