@@ -11,27 +11,56 @@
     //height: 250px;
 }
 
-.rv {
-    height: auto;
-}
-
 .top, .thr {
     display: inline-block;
     background: #7e9cd9;
 }
 
+.store-name {
+    font-size: 2em;
+    text-align: center;
+    margin: 15px 0 15px 0;
+}
+
+.sec {
+    width: 50%;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+.sec-left {
+    text-align: right;
+}
+
 .detail-thr {
     height: auto;
-    width: auto;
+    margin: 10px 0 10px 0;
 }
 
 .thr {
-    height: 500px;
+    height: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+.detail-map {
+    text-align: center;
+    margin: 10px 0 10px 0;
+}
+
+#map {
+    display: inline-block;
+}
+
+.rv {
+    height: 130px;
+    text-align: center;
 }
 
 .rv-images {
     background: #5187e0;
-    height: 100px;
+    //height: 100px;
 }
 
 .rv-list {
@@ -40,5 +69,32 @@
 
 #reviewText {
     width: 900px;
-    height: 60px;
+    height: 80px;
+    border: none;
+    padding: 10px;
+    font-size: 0.9em;
 }
+
+textarea:focus {
+    outline: none;
+}
+
+.rv-ta {
+    margin: 15px 8px 0 0;
+}
+
+#rv-btn {
+    margin-bottom: 20px;
+}
+
+/* mixed css */
+.inline {
+    display: inline-block;
+}
+
+.sec-flex, .detail-thr {
+    display: inline-flex;
+    justify-content: center;
+    width: 100%;
+}
+
