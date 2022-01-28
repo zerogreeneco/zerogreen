@@ -16,7 +16,7 @@ public interface StoreMemberRepository extends JpaRepository<StoreMember, Long> 
 
     //승인받은 스토어
     @Query("select sm from StoreMember sm left outer join BasicUser bu on sm.id = bu.id " +
-            "where bu.userRole = 'STORE' ")
+            "where bu.userRole ='STORE' ")
     List<StoreMember> findByApprovedStore(UserRole userRole);
 
     //Store db 가져오기

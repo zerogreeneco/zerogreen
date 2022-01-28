@@ -17,7 +17,7 @@ public class ReviewServiceImpl implements ReviewService{
     //멤버리뷰 DB저장
     @Override
     public Long saveReview(MemberReviewDto memberReviewDto) {
-        MemberReview memberReview = new MemberReview(memberReviewDto.getId(), memberReviewDto.getRno(), memberReviewDto.getReviewText(), memberReviewDto.getStoreName());
+        MemberReview memberReview = new MemberReview(memberReviewDto.getReviewText(),memberReviewDto.getStoreMember(),memberReviewDto.getBasicUser());
         memberReviewRepository.save(memberReview);
         return memberReview.getRno();
     }

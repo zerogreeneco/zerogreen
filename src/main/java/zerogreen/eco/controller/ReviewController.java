@@ -19,7 +19,7 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @PostMapping("/addReview/{id}")
+    @RequestMapping("/addReview/{id}")
     public ResponseEntity<Long> addReview(@RequestBody MemberReviewDto memberReviewDto) {
         Long rno = reviewService.saveReview(memberReviewDto);
         return new ResponseEntity<>(rno, HttpStatus.OK);

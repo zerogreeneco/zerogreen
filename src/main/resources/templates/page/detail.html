@@ -7,9 +7,7 @@
     <link th:href="@{/bootstrap/css/page/detail.css}" rel="stylesheet"/>
     <link id="contextPathHolder" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <script th:src="@{/bootstrap/js/detail/memberReview.js}"></script>
 
@@ -23,7 +21,7 @@
 <div class="detail-top temp1">1열 카드이미지
 <!--    1열 카드이미지-->
     <div sec:authorize="isAuthenticated()">
-        <div th:text="${member}"></div>
+        <div class="js-username" th:text="${member}"></div>
     </div>
     [[${getStoreTemp.storeName}]]
     [[${getStoreTemp.postalCode}]]
@@ -36,8 +34,8 @@
         <!--    2열-->
         <div class="detail-sec temp2">
             <div>
-                <span>[[${getStoreTemp.storeName}]]</span>
-                <span class="rv-storeId">[[${getStoreTemp.id}]]</span>
+                <span class="js-storeName">[[${getStoreTemp.storeName}]]</span>
+                <span class="js-storeId">[[${getStoreTemp.id}]]</span>
             </div>
             <div>
                 <div>
@@ -80,7 +78,7 @@
         <!--리뷰작성칸-->
         <div class="rv temp1"> 리뷰작성칸
             <div>
-                <textarea name="" id="rv-textarea"></textarea>
+                <textarea name="reviewText" id="reviewText"></textarea>
             </div>
             <div>
                 <button type="button" id="rv-btn">리뷰등록</button>
