@@ -6,7 +6,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.file.TestImageUploadDto;
+import zerogreen.eco.dto.store.StoreJoinDto;
 import zerogreen.eco.entity.file.StoreImageFile;
+import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.file.FileService;
 import zerogreen.eco.service.user.StoreMemberService;
@@ -23,8 +25,15 @@ public class StoreController {
     private final FileService fileService;
     private final StoreMemberService storeMemberService;
 
+    @ModelAttribute("storeTypes")
+    private StoreType[] storeTypes() {
+        StoreType[] storeTypes = StoreType.values();
+        return storeTypes;
+    }
+
+
     @GetMapping("/food/list")
-    public String list() {
+    public String list(@ModelAttribute("store") StoreJoinDto storeJoinDto) {
 
         return "page/foodList";
     }

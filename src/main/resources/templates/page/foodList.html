@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}">
+    <th:block th:fragment="content">
+
+        <!-- 페이지 css/ js 추가 -->
+        <link th:href="@{/bootstrap/css/page/list.css}" rel="stylesheet"/>
+
+        <!-- 본문 시작 -->
+
+        <!-- 사업장 종류 -->
+        <div class="listNav">
+                <button class="btn-outline" th:each="stores : ${storeTypes}">
+                 [[${stores.storeType}]]
+                </button>
+        </div>
+        <!-- 가게 리스트 -->
+        <div class="card">
+            <div class="card-header">
+                <img src="http://placehold.it/300x300"/>
+            </div>
+            <div class="shopList-box">
+                <div class="card-body">
+                    <span>가게명</span>
+                    <span>전화번호</span>
+                    <span>운영시간</span>
+                    <span>대표메뉴</span>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</th:block>
