@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
+    <th:block th:fragment="content">
+        <form method="post" th:object="${writeForm}" th:action="@{/community/write}" enctype="multipart/form-data">
+            <div>
+                <select th:field="*{category}">
+                    <option th:each="categories : ${category}" th:value="${categories.name()}"
+                            th:text="${categories.categoryName}"></option>
+                </select>
+                <input type="text" th:field="*{title}">
+                <textarea th:field="*{text}"></textarea>
+                <input type="file" multiple="multiple" th:field="*{imageFiles}">
+            </div>
+            <button type="submit">글 작성</button>
+        </form>
+        <button type="button" id="test-btn">ㅇㅇ</button>
+        <script>
+            $(function () {
+
+                $("#test-btn").click(function () {
+                    var cate = $("#category").val();
+                    var title = $("#title").val();
+                    var content = $("#text").val();
+                    console.log(cate);
+                    console.log(title);
+                    console.log(content);
+                });
+            });
+
+        </script>
+    </th:block>
+</th:block>
+</html>

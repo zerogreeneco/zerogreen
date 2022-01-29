@@ -18,7 +18,7 @@ public interface MemberService {
     MemberUpdateDto toMemberUpdateDto(String username, MemberUpdateDto memberUpdateDto);
     void kakaoMemberUpdate(Long id, Member member);
     Optional<Member> findById(Long id);
-    MemberAuthDto findAuthMember(String username);
+    Long findAuthMember(String username);
 
 
 
