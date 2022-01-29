@@ -38,6 +38,10 @@ public class StoreDto {
     private VegetarianGrade vegetarianGrades;
 
 
+    public StoreDto(Long id) {
+        this.id = id;
+    }
+
     //index에 승인받은 가게리스트
     public StoreDto(String storeName, StoreType storeType){
         this.storeName = storeName;

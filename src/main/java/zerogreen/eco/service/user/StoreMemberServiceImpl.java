@@ -81,8 +81,9 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     //승인받은 Store 가게목록.. 수정중
     @Override
     public List<StoreMember> findByApprovedStore(UserRole userRole) {
-        return storeMemberRepository.findByApprovedStore(userRole);
+        return new ArrayList<>(storeMemberRepository.findByApprovedStore(userRole));
     }
+
 /*
     @Override
     public List<StoreDto> findByApprovedStore(UserRole userRole) {
