@@ -18,9 +18,8 @@ public class Likes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="likes_id")
-    private Long lno;
+    private Long id;
 
-    private String Likes;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "storeMember")
@@ -30,5 +29,9 @@ public class Likes {
     @JoinColumn(name = "member")
     private BasicUser basicUser;
 
+    public Likes(BasicUser basicUser, StoreMember storeMember) {
+        this.basicUser = basicUser;
+        this.storeMember = storeMember;
+    }
 
 }
