@@ -19,7 +19,7 @@ public class MemberReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="review_id")
-    private Long rno;
+    private Long id;
 
     @NotNull
     private String reviewText;
@@ -34,9 +34,10 @@ public class MemberReview {
 
 
     //add review. Entity db랑 연결할 때
-    public MemberReview(String reviewText, BasicUser basicUser) {
+    public MemberReview(String reviewText, BasicUser basicUser, StoreMember storeMember) {
         this.reviewText = reviewText;
         this.basicUser = basicUser;
+        this.storeMember = storeMember;
     }
 
 

@@ -17,7 +17,7 @@ public class StoreReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="storeReview_id")
-    private Long srno;
+    private Long id;
 
     private String storeReviewText;
 
