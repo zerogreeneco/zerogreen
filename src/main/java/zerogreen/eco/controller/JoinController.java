@@ -62,7 +62,7 @@ public class JoinController {
     * 일반 회원 가입
     * */
     @GetMapping("/add")
-    public String addForm(@ModelAttribute("member") MemberJoinDto member, Model model) {
+    public String addForm(@ModelAttribute("member") MemberJoinDto member) {
 
         return "register/registerForm";
     }

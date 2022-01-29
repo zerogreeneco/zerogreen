@@ -119,7 +119,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberAuthDto findAuthMember(String username) {
+    public Long findAuthMember(String username) {
         return basicUserRepository.findByAuthUsername(username);
     }
 

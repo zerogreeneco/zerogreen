@@ -33,11 +33,9 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
     private final QStoreMember asStoreMember = asBasicUser.as(QStoreMember.class);
 
     @Override
-    public MemberAuthDto findByAuthUsername(String username) {
+    public Long findByAuthUsername(String username) {
         return queryFactory
-                .select(Projections.bean(MemberAuthDto.class,
-                        basicUser.username
-                ))
+                .select(basicUser.count())
                 .from(basicUser)
                 .where(basicUser.username.eq(username))
                 .fetchFirst();

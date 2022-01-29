@@ -9,16 +9,12 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import zerogreen.eco.dto.member.MemberAuthDto;
-import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.user.MemberRepository;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.security.oauth.provider.KakaoUserInfo;
 import zerogreen.eco.security.oauth.provider.OAuth2UserInfo;
-
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -35,9 +31,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
+        log.info("getClientRegistration={}", userRequest.getClientRegistration());
+        log.info("getAccessToken={}", userRequest.getAccessToken());
+
         OAuth2UserInfo oAuth2UserInfo = null;
 
-        if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
+        if (userRequest.getClientRegistration().getRegistrationId().equals("Kakao")) {
             log.info("카카오 로그인 요청 !!!!!!!");
             oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
         } else {
@@ -53,7 +52,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         if (findMember == null) {
             log.info("최초 로그인");
-             findMember = Member.builder()
+            findMember = Member.builder()
                     .username(username)
                     .password(password)
                     .nickname(nickname)
