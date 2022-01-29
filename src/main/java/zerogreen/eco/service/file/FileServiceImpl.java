@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 
@@ -109,6 +110,34 @@ public class FileServiceImpl implements FileService{
     private String extractExt(String originalFilename) {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
+    }
+
+    /*
+    * 커뮤니티 이미지 업로드
+    * */
+    @Override
+    public BoardImage saveBoardImageFile(MultipartFile multipartFile) throws IOException {
+        if (multipartFile.isEmpty()) {
+            return null;
+        }
+        // 사용자가 저장한 파일 이름
+        String originalFilename = multipartFile.getOriginalFilename();
+        String storeFilename = createStoreFilename(originalFilename);
+        multipartFile.transferTo(new File(getFullPath(storeFilename)));
+
+        return new BoardImage(originalFilename, storeFilename, getFullPath(storeFilename));
+    }
+
+    @Override
+    public List<BoardImage> boardImageFiles(List<MultipartFile> multipartFiles) throws IOException {
+        List<BoardImage> boardImages = new ArrayList<>();
+        for (MultipartFile multipartFile : multipartFiles) {
+            if (!multipartFile.isEmpty()) {
+                boardImages.add(saveBoardImageFile(multipartFile));
+            }
+        }
+        return boardImages;
+
     }
 
     public void imageResize(String storeName) throws IOException {

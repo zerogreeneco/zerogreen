@@ -32,6 +32,8 @@ import zerogreen.eco.security.oauth.KakaoProfile;
 import zerogreen.eco.security.oauth.OAuthToken;
 import zerogreen.eco.service.user.MemberService;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @Slf4j
 @RequestMapping("/")
@@ -50,8 +52,9 @@ public class OAuthController {
 
 
     @GetMapping("auth/kakao/callback")
-    public String kakaoCallback(String code, RedirectAttributes redirectAttributes) { // Data를 리턴하는 컨트롤러 함수(@ResponseBody)
-
+    public String kakaoCallback(String code, RedirectAttributes redirectAttributes, HttpSession session) { // Data를 리턴하는 컨트롤러 함수(@ResponseBody)
+//
+//        return code;
         // POST 방식으로 key=value 데이터를 카카오에 요청
         RestTemplate rt = new RestTemplate();
 
@@ -113,23 +116,24 @@ public class OAuthController {
             e.printStackTrace();
         }
 
-        String memberId = kakaoProfile.getKakao_account().getEmail() + "_" + "SOCIAL";
+        String memberId = kakaoProfile.getKakao_account().getEmail();
 
-//        Member member = new Member(memberId, null, kakaoPwd, String.valueOf(UserRole.USER),
-//                kakaoProfile.getProperties().getNickname(), "KAKAO");
+        Member member = new Member(memberId, kakaoPwd, String.valueOf(UserRole.USER), null,
+                kakaoProfile.getProperties().getNickname(), "KAKAO");
 
-//        MemberAuthDto joinedMember = memberService.findAuthMember(memberId);
-//        log.info("JOIN={}", joinedMember);
-//        if (joinedMember == null) {
-//            log.info("자동 회원가입");
-//            Long saveMember = memberService.saveV2(member);
-//            redirectAttributes.addAttribute("memberId", saveMember);
-//            log.info("memberId={}", saveMember);
-//            return "redirect:/members/kakao/addData";
-//        }
+        Long joinedMember = memberService.findAuthMember(memberId);
+        log.info("JOIN={}", joinedMember);
+        if (joinedMember < 1) {
+            log.info("자동 회원가입");
+            Long saveMember = memberService.saveV2(member);
+            redirectAttributes.addAttribute("memberId", saveMember);
+            log.info("memberId={}", saveMember);
+            return "redirect:/members/kakao/addData";
+        }
 
         // 아이디와 패스워드로 시큐리티가 알아볼 수 있는 token 객체로 변경
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(memberId, kakaoPwd);
+        log.info("KAKAO TOKEN={}", token);
         // AuthenticationManager 에 token을 넘기면 UserDetailsService가 받아서 처리
         Authentication authentication = authenticationManager.authenticate(token);
         log.info("TOKEN={}", token);
@@ -137,7 +141,7 @@ public class OAuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         log.info("자동 로그인 완료");
 
-        return "redirect:/";
+        return "index";
     }
 
     @GetMapping("/members/kakao/addData")

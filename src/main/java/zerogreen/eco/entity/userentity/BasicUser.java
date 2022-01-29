@@ -62,8 +62,8 @@ public class BasicUser extends BaseTimeEntity {
 
 
     /*
-    * Setter
-    * */
+     * Setter
+     * */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
@@ -81,7 +81,7 @@ public class BasicUser extends BaseTimeEntity {
     }
 
     //memberReview
-    public BasicUser(String username) {
+    public BasicUser(String username, Long id) {
         super();
     }
 

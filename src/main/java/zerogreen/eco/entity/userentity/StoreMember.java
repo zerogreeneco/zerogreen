@@ -84,4 +84,8 @@ public class StoreMember extends BasicUser{
     //MemberReview
     public StoreMember(String storeName) {
     }
+
+    public StoreMember(Long id) {
+    }
+
 }
