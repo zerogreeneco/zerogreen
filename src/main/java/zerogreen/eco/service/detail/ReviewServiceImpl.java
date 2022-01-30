@@ -3,6 +3,7 @@ package zerogreen.eco.service.detail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.userentity.BasicUser;
@@ -22,27 +23,15 @@ public class ReviewServiceImpl implements ReviewService{
 
     //멤버리뷰 DB저장
     @Override
+    @Transactional
     public Long saveReview(MemberReviewDto memberReviewDto) {
-        MemberReview memberReview = memberReviewRepository.save(
-                new MemberReview(memberReviewDto.getReviewText(), memberReviewDto.getBasicUser(),
-                        memberReviewDto.getStoreMember()));
-        log.info("zzzzzzzzzzz5555555"+memberReview);
-        log.info("zzzzzzzzzzz6666666"+memberReviewDto.getReviewText());
-        log.info("zzzzzzzzzzz7777777"+memberReviewDto.getUsername());
-        log.info("zzzzzzzzzzz8888888"+memberReviewDto.getId());
-                return memberReview.getId();
+        BasicUser findUser = basicUserRepository.findByUsername(memberReviewDto.getUsername()).orElseThrow();
+        StoreMember findStore = storeMemberRepository.findById(memberReviewDto.getId()).orElseThrow();
+
+        MemberReview memberReview = memberReviewRepository.save( new MemberReview(memberReviewDto.getReviewText(),
+                        findUser, findStore));
+
+        return memberReview.getId();
     }
-
-        /*
-        return memberReviewRepository.save(new MemberReview(memberReview.getReviewText(),
-                        memberReview.getBasicUser().getUsername(),
-                        memberReview.getBasicUser().getId()))
-                .getRno();
-*/
-
-//        MemberReview memberReview = new MemberReview(memberReviewDto.getReviewText(),
-//                memberReviewDto.getStoreName(),memberReviewDto.getUsername());
-//        memberReviewRepository.save(memberReview);
-//        return memberReview.getRno();
 
 }

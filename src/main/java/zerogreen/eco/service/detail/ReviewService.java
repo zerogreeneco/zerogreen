@@ -2,6 +2,7 @@ package zerogreen.eco.service.detail;
 
 import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.entity.detail.MemberReview;
+import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 
 public interface ReviewService {
