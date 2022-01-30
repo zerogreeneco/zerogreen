@@ -81,11 +81,9 @@ public class StoreMember extends BasicUser{
         storeInfo = new StoreInfo(storeAddress, storePhoneNumber, storeDescription, openTime, closeTime);
     }
 
-    //MemberReview
+    //likesService
+    @Builder(builderMethodName = "likeBuilder")
     public StoreMember(String storeName) {
+        this.storeName = storeName;
     }
-
-    public StoreMember(Long id) {
-    }
-
 }

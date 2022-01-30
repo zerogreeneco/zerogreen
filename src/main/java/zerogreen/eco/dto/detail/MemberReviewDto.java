@@ -33,7 +33,8 @@ public class MemberReviewDto {
 
     //바보갓은나애모습
     public MemberReview reviewDto(MemberReviewDto memberReviewDto) {
-        return new MemberReview(memberReviewDto.getReviewText(),memberReviewDto.getBasicUser());
+        return new MemberReview(memberReviewDto.getReviewText(),
+                memberReviewDto.getBasicUser(),memberReviewDto.getStoreMember());
     }
 
 /*
