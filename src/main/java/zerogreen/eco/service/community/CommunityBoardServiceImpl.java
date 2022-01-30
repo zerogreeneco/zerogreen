@@ -2,9 +2,12 @@ package zerogreen.eco.service.community;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.community.CommunityRequestDto;
+import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.community.CommunityBoard;
 import zerogreen.eco.entity.userentity.Member;
@@ -46,6 +49,10 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
                         boardImage.getUploadFileName(), boardImage.getStoreFileName(), boardImage.getFilePath(), saveBoard));
             }
         }
+    }
 
+    @Override
+    public Slice<CommunityResponseDto> findAllCommunityBoard(Pageable pageable) {
+        return boardRepository.findAllCommunityList(pageable);
     }
 }

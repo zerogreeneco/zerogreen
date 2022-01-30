@@ -10,10 +10,10 @@
         <div sec:authorize="isAuthenticated()">
             <button type="button" th:onclick="|location.href='@{/community/write}'|">글쓰기</button>
         </div>
-        <div>
-            <div>닉네임</div>
-            <div>카테고리</div>
-            <div>글 내용</div>
+        <div th:each="community : ${communityList}">
+            <div  th:text="*{community.nickname}">닉네임</div>
+            <div  th:text="*{community.category.categoryName}">카테고리</div>
+            <div  th:text="*{community.text}">글 내용</div>
         </div>
     </th:block>
 </th:block>
