@@ -9,13 +9,14 @@
         <title>제로그린</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 
-    <link rel="stylesheet" th:href="@{/bootstrap/css/main.css}"/>
-    <link rel="stylesheet" th:href="@{/bootstrap/css/mainpage/mainpage.css}"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@100;300;400&display=swap"
-          rel="stylesheet">
-    <link rel="icon" type="image/x-icon" th:href="@{/bootstrap/images/favicon.png}"/>
+        <link rel="stylesheet" th:href="@{/bootstrap/css/main.css}"/>
+        <link rel="stylesheet" th:href="@{/bootstrap/css/mainpage/mainpage.css}"/>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@100;300;400&display=swap"
+              rel="stylesheet">
+        <link rel="icon" type="image/x-icon" th:href="@{/bootstrap/images/favicon.png}"/>
     </head>
 
     <body>
@@ -30,9 +31,9 @@
                 <!-- Nav -->
                 <nav id="nav">
                     <ul>
-                        <li><a th:href="@{/food/list}">비건맛집</a></li>
                         <li><a th:href="@{/shop/list}">제로웨이스트샵</a></li>
-                        <li><a th:href="@{/community}">커뮤니티</a></li>
+                        <li><a th:href="@{/food/list}">비건맛집</a></li>
+                        <li><a href="#">커뮤니티</a></li>
                     </ul>
                 </nav>
                 <!--Login Button-->
@@ -69,7 +70,7 @@
         <script th:src="@{/bootstrap/js/breakpoints.min.js}"></script>
         <script th:src="@{/bootstrap/js/util.js}"></script>
         <script th:src="@{/bootstrap/js/main.js}"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     </body>
 </th:block>
 </html>
