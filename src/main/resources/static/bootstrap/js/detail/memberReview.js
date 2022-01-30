@@ -24,9 +24,9 @@ $(document).ready(function(e){
                 id: sno
            }),
             success: function(data){
-                console.log("result: "+data);
+                console.log("result1: "+data);
                 let rno = parseInt(data);
-                console.log("result: "+rno);
+                console.log("result2: " +rno);
                 //self.location.reload();
             },
             error: function(data){
