@@ -32,12 +32,16 @@ public class ReviewController {
     @ResponseBody
     public ResponseEntity<Long> addReview(@RequestBody MemberReviewDto memberReviewDto,
                                           @PrincipalUser BasicUser basicUser,
-                                          Long id) {
+                                          StoreMember storeMember, String storeName,
+                                          Long id, String username) {
         if (basicUser != null) {
             MemberReview review = new MemberReviewDto().reviewDto(memberReviewDto);
-            log.info("--------1111111111" + review);
-            reviewService.saveReview(basicUser.getUsername(), review);
-            log.info("--------2222222222" + basicUser.getUsername(), review);
+            log.info("zzzzzzzzzzz1111111111" + review);
+            reviewService.saveReview(basicUser.getUsername(), id, review);
+            log.info("zzzzzzzzzzz2222222222" + basicUser.getUsername());
+            log.info("zzzzzzzzzzz6666666666" + storeMember.getStoreName());
+            log.info("zzzzzzzzzzz7777777777" + review);
+
         }
             return new ResponseEntity<>(HttpStatus.OK);
     }
