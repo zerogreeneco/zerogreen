@@ -132,7 +132,6 @@ public class TestDataInit {
             storeMemberService.saveV2(foodTest2, new RegisterFile("origin2","store2", "path2"));
             storeMemberService.saveV2(noVegan2, new RegisterFile("origin3","store3", "path3"));
 
-
             // 관리자 계정
             basicUserService.adminSave();
 
