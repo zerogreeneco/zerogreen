@@ -62,7 +62,7 @@ public class JoinController {
     * 일반 회원 가입
     * */
     @GetMapping("/add")
-    public String addForm(@ModelAttribute("member") MemberJoinDto member, Model model) {
+    public String addForm(@ModelAttribute("member") MemberJoinDto member) {
 
         return "register/registerForm";
     }
@@ -160,6 +160,7 @@ public class JoinController {
         // 회원가입 성공 로직
         RegisterFile uploadFile = fileService.saveFile(attachFile);
         log.info("CONTENT TYPE={}", attachFile.getContentType());
+        log.info("DETAIL ADDRESS={}", storeJoinDto.getStoreDetailAddress());
         StoreMember storeMember = new StoreJoinDto().toStoreMember(storeJoinDto);
 
         storeMemberService.save(storeMember, uploadFile);

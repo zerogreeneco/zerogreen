@@ -53,10 +53,8 @@ public class StoreJoinDto {
 
     public StoreMember toStoreMember(StoreJoinDto storeDto) {
 
-        String fullAddress = storeDto.getStoreAddress() + " " + storeDto.getStoreDetailAddress();
-
         return new StoreMember(storeDto.getUsername(), storeDto.getPhoneNumber(), storeDto.getPassword(),
                 UserRole.UN_STORE, storeDto.getStoreName(), storeDto.getStoreRegNum(),
-                storeDto.getStoreType(), storeDto.getStoreAddress(),storeDto.getStoreDetailAddress(), storeDto.getStorePhoneNumber(), storeDto.getPostalCode());
+                storeDto.getStoreType(), storeDto.getStoreAddress(), storeDto.getStoreDetailAddress(), storeDto.getStorePhoneNumber(), storeDto.getPostalCode());
     }
 }

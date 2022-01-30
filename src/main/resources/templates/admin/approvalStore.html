@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}">
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -104,7 +104,14 @@
                             memberId: memberArray
                         },
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                        dataType: "json"
+                        dataType: "json",
+                        success: function (result) {
+                            if (result === "fail") {
+                                alert("실패");
+                            } else if (result === "success") {
+                                alert("성공");
+                            }
+                        },
                     });
                 });
 

@@ -37,7 +37,12 @@
                     </ul>
                 </nav>
                 <!--Login Button-->
-                <button class="btn-login" th:onclick="|location.href='@{/login}'|">로그인</button>
+                <div sec:authorize="isAnonymous()">
+                    <button class="btn-login" th:onclick="|location.href='@{/login}'|">로그인</button>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <button class="btn-login" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
+                </div>
             </header>
         </div>
         <!-- Main -->

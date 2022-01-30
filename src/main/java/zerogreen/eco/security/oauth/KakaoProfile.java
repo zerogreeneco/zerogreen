@@ -1,4 +1,4 @@
-package zerogreen.eco.oauth.security;
+package zerogreen.eco.security.oauth;
 
 import lombok.Getter;
 import lombok.Setter;

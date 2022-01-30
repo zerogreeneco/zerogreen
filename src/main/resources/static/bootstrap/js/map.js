@@ -12,7 +12,6 @@ window.onload = function(){
     // 지도의 우측에 확대 축소 컨트롤을 추가한다
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-
     if (navigator.geolocation) {
 
         // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -31,7 +30,7 @@ window.onload = function(){
         displayMarker(locPosition, message);
     }
 
-    // 지도에 마커와 인포윈도우를 표시하는 함수입니다
+     //지도에 마커와 인포윈도우를 표시하는 함수입니다
     function displayMarker(locPosition, message) {
 
         // 마커를 생성합니다
@@ -48,12 +47,12 @@ window.onload = function(){
 
     //    // 인포윈도우를 마커위에 표시합니다
     //    infowindow.open(map, marker);
-//
+
         // 지도 중심좌표를 접속위치로 변경합니다
         map.setCenter(locPosition);
 
-                var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 마커이미지의 주소입니다
-                    imageSize = new kakao.maps.Size(24, 35), // 마커이미지의 크기입니다
+                var imageSrc = "/zerogreen/bootstrap/images/map/here.png", // 마커이미지의 주소입니다
+                    imageSize = new kakao.maps.Size(40, 40), // 마커이미지의 크기입니다
                     imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
                 // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
@@ -68,7 +67,47 @@ window.onload = function(){
 
                 // 마커가 지도 위에 표시되도록 설정합니다
                 marker.setMap(map);
-
         }
+//            function displayMarker(locPosition, message) {
+//
+//                // 마커를 생성합니다
+//
+//
+//                var iwContent = message, // 인포윈도우에 표시할 내용
+//                                iwRemoveable = true;
+//
+//                // 인포윈도우를 생성합니다
+//                var infowindow = new kakao.maps.InfoWindow({
+//                                 content : iwContent,
+//                                 removable : iwRemoveable
+//               });
+//
+//            //    // 인포윈도우를 마커위에 표시합니다
+//            //    infowindow.open(map, marker);
+//
+//                // 지도 중심좌표를 접속위치로 변경합니다
+//                map.setCenter(locPosition);
+//
+//                        var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 마커이미지의 주소입니다
+//                            imageSize = new kakao.maps.Size(24, 35), // 마커이미지의 크기입니다
+//                            imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+//
+//                        // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+//                        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+//                            markerPosition = locPosition; // 마커가 표시될 위치입니다
+//
+//                        // 마커를 생성합니다
+//                        var marker = new kakao.maps.Marker({
+//                            position: markerPosition,
+//                            image: markerImage // 마커이미지 설정
+//                        });
+//
+//                        // 마커가 지도 위에 표시되도록 설정합니다
+//                        marker.setMap(map);
+//                }
 
+        // 위치 가져오기 버튼 클릭시
+        function getCurrentPosBtn(){
+        map.setCenter(locPosition);
+        };
 }

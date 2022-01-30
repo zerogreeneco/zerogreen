@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml"
+          xmlns:sec="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
         <!--페이지 수정 부분 시작-->
 
@@ -8,94 +9,98 @@
         <link id="contextPathHolder" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-                crossorigin="anonymous"></script>
+                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-        <script th:src="@{/bootstrap/js/detail/review.js}"></script>
+        <script th:src="@{/bootstrap/js/detail/memberReview.js}"></script>
+        <script th:src="@{/bootstrap/js/detail/likes.js}"></script>
 
         <!-- 본문 시작 -->
 
+        <div class="detail-content">
 
-<div class="detail-content">
 
-<!--    1열 카드이미지-->
-<div class="detail-top temp1">1열 카드이미지
-    [[${getStoreTemp.storeName}]]
-    [[${getStoreTemp.postalCode}]]
+            <div class="detail-content">
 
-    [[${getStoreTemp.storePhoneNumber}]]
-    [[${getStoreTemp.storeType}]]
-    <div class="top">가게 상세 이미지 들어갈 곳</div>
-</div>
+                <div class="detail-top temp1">
+                    <!--    1열 카드이미지-->
+                    <div sec:authorize="isAuthenticated()">
+                        <div class="js-username" th:text="${member}"></div>
+                    </div>
+                    [[${getStore.storeName}]]
+                    [[${getStore.postalCode}]]
 
-<!--    2열-->
-    <div class="detail-sec temp2">
-        <div>
-            <span>[[${getStoreTemp.storeName}]]</span>
-            <span class="rv-id">[[${getStoreTemp.id}]]</span>
-        </div>
-        <div>
-            <div>
-            <span>♡♡♡♡♡</span>
-            <span>좋아요 수: </span>
+                    [[${getStore.storePhoneNumber}]]
+                    [[${getStore.storeType}]]
+                        <span class="js-storeId">[[${getStore.id}]]</span>
+                    <div class="top">가게 상세 이미지 들어갈 곳</div>
+                </div>
+
+                <!--    2열-->
+                <div class="detail-sec temp2">
+                    <div class="store-name">
+                        <span class="js-storeName">[[${getStore.storeName}]]</span>
+                    </div>
+                    <div class="sec-flex">
+                        <div class="inline sec sec-left">
+                            <span class="liking">♡♡♡♡♡</span>
+                            <span>좋아요 수: </span>
+                        </div>
+                        <div class="inline sec sec-right">
+                            <span>리뷰 이모티콘</span>
+                            <span>리뷰 수</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!--3열-->
+                <div class="detail-thr temp1">
+                    <!--    3열 좌측-->
+                    <div class="thr thr-left">
+                        <span>가게메뉴</span><br>
+                        <span>가게메뉴</span><br>
+                        <span>가게메뉴</span><br>
+                    </div>
+                    <!--    3열 우측-->
+                    <div class="thr thr-right">
+                        <span>가게소개</span><br>
+                        <span>영업시간</span><br>
+                        <span>전화번호</span><br>
+                        <span>영업시간</span><br>
+                        <span>[[${getStore.storeAddress}]]</span><br>
+                        <span>기타기타</span><br>
+                    </div>
+                </div>
+
+                <!--    4열-->
+                <div class="temp2 detail-map">
+                    <div id="map" style="width:900px;height:350px;"></div>
+                    <script type="text/javascript" th:src="@{/bootstrap/js/detail/detailMap.js}"></script>
+                    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac&libraries=services"></script>
+                    <input hidden id="mapAddress" type="text" th:value="${getStore.storeAddress}">
+                </div>
+
+                <!--리뷰작성칸-->
+                <div class="rv temp1">
+                    <div class="inline rv-ta">
+                        <textarea name="reviewText" id="reviewText"></textarea>
+                    </div>
+                    <div class="inline rv-btn">
+                        <button type="button" id="rv-btn">리뷰등록</button>
+                    </div>
+                </div>
+
+                <!--리뷰 이미지+텍스트 리스트   -->
+                <div class="temp2">
+                    <!--    리뷰 이미지 리스트-->
+                    <div class="rv-images">리뷰 이미지 리스트</div>
+                    <!--    리뷰리스트-->
+                    <div class="rv-list">리뷰텍스트 리스트</div>
+                </div>
+
+
+                <!--end of page-->
             </div>
-            <div>
-                <span>리뷰 이모티콘</span>
-                <span>리뷰 수</span>
-            </div>
+
         </div>
-    </div>
-
-<!--3열-->
-<div class="detail-thr temp1">3열
-<!--    3열 좌측-->
-    <div class="thr thr-left">
-        <span>가게메뉴</span>
-        <span>가게메뉴</span>
-        <span>가게메뉴</span>
-    </div>
-<!--    3열 우측-->
-    <div class="thr thr-right">
-        <span>가게소개</span>
-        <span>영업시간</span>
-        <span>전화번호</span>
-        <span>영업시간</span>
-        <span>[[${getStoreTemp.storeAddress}]]</span>
-        <span>기타기타</span>
-    </div>
-</div>
-
-<!--    4열-->
-    <div class="temp2">
-        지도
-    </div>
-
-<!--리뷰작성칸-->
-<div class="rv temp1"> 리뷰작성칸
-    <div>
-        <textarea name="" id="rv-textarea"></textarea>
-    </div>
-    <div>
-        <button type="button" id="rv-btn">리뷰등록</button>
-    </div>
-</div>
-
-<!--리뷰 이미지+텍스트 리스트   -->
-<div class="temp2"> 리뷰이미지+텍스트리스트
-<!--    리뷰 이미지 리스트-->
-    <div class="rv-images">리뷰 이미지 리스트</div>
-<!--    리뷰리스트-->
-    <div class="rv-list">리뷰텍스트 리스트</div>
-</div>
-
-
-
-
-<!--end of page-->
-</div>
-
-
-
-
     </th:block>
 </th:block>

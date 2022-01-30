@@ -2,6 +2,7 @@ package zerogreen.eco.service.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,10 +11,14 @@ import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.StoreInfo;
 import zerogreen.eco.entity.userentity.StoreMember;
+import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.file.StoreImageFileRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 
+import javax.mail.Store;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,6 +28,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
 
     private final StoreMemberRepository storeMemberRepository;
     private final StoreImageFileRepository storeImageFileRepository;
+    @Lazy
     private final PasswordEncoder passwordEncoder;
 
     /*
@@ -72,24 +78,40 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         findMember.setStoreInfo(findMember.getStoreInfo());
     }
 
+    //승인받은 Store 가게목록.. 수정중
+    @Override
+    public List<StoreMember> findByApprovedStore(UserRole userRole) {
+        return new ArrayList<>(storeMemberRepository.findByApprovedStore(userRole));
+    }
 
-    //임시 리스트
 /*
     @Override
-    public List<StoreMember> findAll() {
-        return storeMemberRepository.findAll();
+    public List<StoreDto> findByApprovedStore(UserRole userRole) {
+        List<StoreMember> storeMember = storeMemberRepository.findByApprovedStore(userRole);
+        return new StoreDto(storeMember.getStoreName(), storeMember.getStoreType());
     }
 */
 
-    //store데이터 넘겨서 상세페이지에.. 근데 수정될 가능성 농후
+    //store데이터 넘겨서 상세페이지에.. 왜 되는지 모르겠는데 된다.. ^.ㅠ
     @Override
     public StoreDto getStore(Long id) {
-        StoreMember storeMember = storeMemberRepository.getById(id);
-        return new StoreDto(storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(),
-                storeMember.getId(), storeMember.getUsername(), storeMember.getUserRole(), storeMember.getImageFiles(),
-                storeMember.getStoreInfo().getPostalCode(), storeMember.getStoreInfo().getStoreAddress(),
-                storeMember.getStoreInfo().getStorePhoneNumber(), storeMember.getStoreInfo().getOpenTime(), storeMember.getStoreInfo().getCloseTime(),
-                storeMember.getMenuList());
+        StoreMember storeMember = storeMemberRepository.getStoreById(id);
+        log.info("??????????"+storeMember);
+        return StoreDto.builder()
+                .storeName(storeMember.getStoreName())
+                .storeRegNum(storeMember.getStoreRegNum())
+                .storeType(storeMember.getStoreType())
+                .id(storeMember.getId())
+                .username(storeMember.getUsername())
+                .userRole(storeMember.getUserRole())
+                .imageFiles(storeMember.getImageFiles())
+                .postalCode(storeMember.getStoreInfo().getPostalCode())
+                .storeAddress(storeMember.getStoreInfo().getStoreAddress())
+                .storePhoneNumber(storeMember.getStoreInfo().getStorePhoneNumber())
+                .openTime(storeMember.getStoreInfo().getOpenTime())
+                .closeTime(storeMember.getStoreInfo().getCloseTime())
+                .menuList(storeMember.getMenuList())
+                .build();
     }
 
     /*

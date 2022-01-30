@@ -3,6 +3,7 @@ package zerogreen.eco.service.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final BasicUserRepository basicUserRepository;
     private final MemberRepository memberRepository;
+    @Lazy
     private final PasswordEncoder passwordEncoder;
 
 
@@ -105,12 +107,19 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public MemberUpdateDto detailMemberInfo(String username) {
+        Member member = memberRepository.findByUsername(username).orElseThrow();
+
+        return new MemberUpdateDto(member.getUsername(), member.getNickname());
+    }
+
+    @Override
     public Optional<Member> findById(Long id) {
         return memberRepository.findById(id);
     }
 
     @Override
-    public MemberAuthDto findAuthMember(String username) {
+    public Long findAuthMember(String username) {
         return basicUserRepository.findByAuthUsername(username);
     }
 

@@ -43,8 +43,8 @@ public class StoreMember extends BasicUser{
     // 회원 가입
     @Builder
     public StoreMember(String username, String phoneNumber, String password, UserRole userRole,
-                       String storeName, String storeRegNum, StoreType storeType,
-                       String storeAddress, String storeDetailAddress, String storePhoneNumber, RegisterFile registerFile, String postalCode) {
+                       String storeName, String storeRegNum, StoreType storeType, String storeAddress,
+                       String storeDetailAddress, String storePhoneNumber, RegisterFile registerFile, String postalCode) {
 
         super(username, phoneNumber, password, userRole);
         this.storeName = storeName;
@@ -81,7 +81,9 @@ public class StoreMember extends BasicUser{
         storeInfo = new StoreInfo(storeAddress, storePhoneNumber, storeDescription, openTime, closeTime);
     }
 
-    //Review
+    //likesService
+    @Builder(builderMethodName = "likeBuilder")
     public StoreMember(String storeName) {
+        this.storeName = storeName;
     }
 }

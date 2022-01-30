@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
+    <th:block th:fragment="content">
+        <form method="post" th:object="${writeForm}" th:action="@{/community/write}" enctype="multipart/form-data">
+            <div>
+                <select th:field="*{category}">
+                    <option th:each="categories : ${category}" th:value="${categories.name()}"
+                            th:text="${categories.categoryName}"></option>
+                </select>
+                <input type="text" th:field="*{title}">
+                <textarea th:field="*{text}"></textarea>
+                <input type="file" multiple="multiple" th:field="*{imageFiles}">
+                <div class="select-img"><img src="" /></div>
+            </div>
+            <button type="submit">글 작성</button>
+        </form>
+        <script>
+            $(function () {
+                // 이미지 미리보기
+                $("#imageFiles").change(function (){
+                    if (this.files && this.files[0]) {
+                        let reader = new FileReader();
+                        reader.onload = function (data) {
+                            $(".select-img img").attr("src", data.target.result).width(500);
+                        };
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+            });
+
+        </script>
+    </th:block>
+</th:block>
+</html>
