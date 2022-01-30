@@ -1,8 +1,8 @@
 package zerogreen.eco.service.detail;
 
-import zerogreen.eco.entity.detail.Likes;
+import zerogreen.eco.dto.detail.LikesDto;
 
 public interface LikesService {
-    Long addLikes(Likes likes);
+    Long addLikes(LikesDto likesDto);
 
     }

@@ -17,7 +17,6 @@ public class Likes {
     @Column(name="likes_id")
     private Long id;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "storeMember")
     private StoreMember storeMember;
@@ -27,18 +26,7 @@ public class Likes {
     private BasicUser basicUser;
 
 
-    //이하 생성자 정리예정
-    @Builder
-    public Likes(Long id, BasicUser basicUser, StoreMember storeMember) {
-        this.id = id;
-        this.basicUser = basicUser;
-        this.storeMember = storeMember;
-    }
-
-    public Likes(BasicUser basicUser) {
-        this.basicUser = basicUser;
-    }
-
+    //add Likes
     public Likes(BasicUser basicUser, StoreMember storeMember) {
         this.basicUser = basicUser;
         this.storeMember = storeMember;

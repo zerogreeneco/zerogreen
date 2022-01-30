@@ -10,6 +10,41 @@
     width: 70%;
 }
 
+/* left side */
+.profile {
+    text-align: center;
+}
+
+.profile-div {
+    display: inline-block;
+}
+
+.profile-name {
+    font-size: 1.5em;
+}
+
+.profile-btn {
+    margin: 15px;
+}
+
+/* right side */
 .div-cnt {
     display: inline-block;
+    width: 400px;
+    height: 100px;
+    font-size: 1.5em;
+    text-align: center;
+    background: #bcdbeb;
+}
+
+.counting {
+    text-align: center;
+}
+
+.listing {
+    margin: 20px;
+}
+
+.textList {
+    font-size: 1.2em;
 }
