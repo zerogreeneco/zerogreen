@@ -16,6 +16,15 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
+span, p, label {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 15px;
+    margin-bottom: 1em;
+}
 
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
@@ -104,7 +113,7 @@ input, select, textarea {
 	}
 
 	a {
-		color: #0090c5;
+		color: #a1a1a1;
 		text-decoration: underline;
 	}
 
@@ -962,22 +971,11 @@ input, select, textarea {
 	}
 
 /* Forms */
-
-	form label {
-		display: block;
-		font-weight: 800;
-		margin: 0 0 1em 0;
-		font-size: 0.8em;
-		color: #444;
-	}
-
 	form input[type="text"],
 	form input[type="email"],
 	form input[type="password"],
 	form select,
 	form textarea {
-		-webkit-appearance: none;
-		width: 100%;
 		border-radius: 8px;
 		border: solid 1px #eee;
 	}
@@ -1007,25 +1005,6 @@ input, select, textarea {
 		padding: 1em;
 	}
 
-	form ::-webkit-input-placeholder {
-		color: #555 !important;
-	}
-
-	form :-moz-placeholder {
-		color: #555 !important;
-	}
-
-	form ::-moz-placeholder {
-		color: #555 !important;
-	}
-
-	form :-ms-input-placeholder {
-		color: #555 !important;
-	}
-
-	form ::-moz-focus-inner {
-		border: 0;
-	}
 
 /* Tables */
 
@@ -1419,7 +1398,7 @@ input, select, textarea {
 		#logo h1 {
 			color: #fff;
 			border-radius: 6px;
-			font-family: 'Do Hyeon', sans-serif;
+			font-family: 'Do Hyeon', sans-serif !important;
 			padding: 0.25em 0.2em 0.25em 1.2em;
 			font-size: 2.3em;
 			letter-spacing: 0.05em;
@@ -1898,15 +1877,13 @@ input, select, textarea {
 /* Small */
 
 	@media screen and (max-width: 710px) {
+	#content {
+        margin-top: 4em;
+	}
 
 		/* Basic */
 			body, input, select, textarea {
 				line-height: 2em;
-			}
-
-			h2, h3, h4, h5, h6 {
-				font-size: 13pt;
-				margin: 0 0 1em 0;
 			}
 
 		/* Section/Article */
