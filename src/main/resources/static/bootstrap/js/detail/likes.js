@@ -5,7 +5,7 @@ $(document).ready(function(e){
     let username = $(".js-username").text();
     let liking = $(".liking");
 
-    //
+    //Like~~
     $(".liking").on("click", function(){
        console.log("likelike");
 
@@ -16,7 +16,7 @@ $(document).ready(function(e){
            dataType: "json",
            data: JSON.stringify({
                 username: username,
-                storeName: storeName
+                id: sno
            }),
             success: function(data){
                 console.log("result: "+data);
@@ -29,6 +29,7 @@ $(document).ready(function(e){
 
             }
         }); // end of ajax
+        $(".liking").html("☆☆☆☆☆");
     }); // end of function addLikes
 
 

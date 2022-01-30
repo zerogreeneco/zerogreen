@@ -2,15 +2,17 @@ package zerogreen.eco.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.detail.MemberReviewDto;
+import zerogreen.eco.dto.paging.PagingDto;
+import zerogreen.eco.dto.paging.RequestPageDto;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.security.auth.PrincipalUser;
@@ -33,4 +35,19 @@ public class ReviewController {
             Long result = reviewService.saveReview(memberReviewDto);
             return result;
         }
+
+    @GetMapping("/reviewList/{id}")
+    public Page<MemberReviewDto> memberReviewList(Model model, RequestPageDto requestPageDto) {
+        Pageable pageable = requestPageDto.getPageable();
+        log.info("aaaaaaaa11111 "+pageable );
+
+        Page<MemberReviewDto> reviewList = reviewService.getMemberReviewList(pageable);
+        log.info("aaaaaaaa22222 "+reviewList );
+
+        PagingDto memberReview = new PagingDto(reviewList);
+
+        model.addAttribute("memberReview",memberReview);
+        return reviewList;
+    }
+
     }

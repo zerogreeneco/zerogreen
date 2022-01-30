@@ -2,6 +2,8 @@ package zerogreen.eco.service.detail;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.detail.MemberReviewDto;
@@ -32,6 +34,12 @@ public class ReviewServiceImpl implements ReviewService{
                         findUser, findStore));
 
         return memberReview.getId();
+    }
+
+    //리뷰 리스트
+    @Override
+    public Page<MemberReviewDto> getMemberReviewList(Pageable pageable) {
+        return memberReviewRepository.findByStore(pageable);
     }
 
 }

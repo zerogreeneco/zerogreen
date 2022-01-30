@@ -23,10 +23,7 @@ public class MemberReviewDto {
     private StoreMember storeMember;
     private BasicUser basicUser;
 
-    //뭐하는ㄱㅓ지
-    public MemberReviewDto(){
-
-    }
+    //이하 생성자 정리예정
 
     //바보갓은나애모습
     public MemberReview reviewDto(MemberReviewDto memberReviewDto) {
@@ -39,12 +36,5 @@ public class MemberReviewDto {
         this.username = username;
         this.sno = sno;
     }
-
-
-/*
-    public MemberReview memberReviewDto(MemberReviewDto memberReviewDto) {
-        return new MemberReview(memberReviewDto.getUsername(), memberReviewDto.getReviewText(), memberReviewDto.getStoreName());
-    }
-*/
 
 }

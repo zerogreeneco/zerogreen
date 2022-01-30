@@ -27,11 +27,6 @@ public class LikesDto {
 
 
     //이하 생성자 정리예정
-    public Likes liking(LikesDto likesDto) {
-        return new Likes(likesDto.lno, likesDto.basicUser,
-                likesDto.storeMember);
-    }
-
     public LikesDto(String username, Long sno){
         this.username = username;
         this.sno = sno;
