@@ -11,6 +11,7 @@ $(document).ready(function(e){
        console.log("reviewreview");
        console.log(sno);
        console.log(username);
+       console.log(storeName);
 
        $.ajax({
            url: contextPath+'/addReview/'+sno,
@@ -18,7 +19,9 @@ $(document).ready(function(e){
            contentType:"application/json; charset=utf-8",
            dataType: "json",
            data: JSON.stringify({
-                reviewText: review.val()
+                reviewText: review.val(),
+                username: username,
+                id: sno
            }),
             success: function(data){
                 console.log("result: "+data);

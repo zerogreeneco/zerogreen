@@ -26,9 +26,9 @@ public class PageController {
             StoreDto storeDto = storeMemberService.getStore(id);
 
         if (basicUser == null) {
-            model.addAttribute("getStoreTemp",storeDto);
+            model.addAttribute("getStore",storeDto);
         } else {
-            model.addAttribute("getStoreTemp",storeDto);
+            model.addAttribute("getStore",storeDto);
             model.addAttribute("member", basicUser.getUsername());
 
         }
