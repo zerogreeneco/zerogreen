@@ -1,78 +1,77 @@
 <!DOCTYPE HTML>
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
-        <link rel="stylesheet" href="bootstrap/css/login/loginForm.css" />
-
+        <link rel="stylesheet" href="bootstrap/css/register.css" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <div class="py-5 text-center">
-        <h2>회원 가입</h2>
-    </div>
 
-    <h4 class="mb-3">회원 정보 입력</h4>
-
-    <article>
-    <form th:action th:object="${member}" method="post">
-
-        <div>
-            <label for="username" class="join-label">로그인 ID</label>
-            <input type="text" id="username" th:field="*{username}" class="form-control input-box">
-            <button type="button" class="sendMail">인증</button>
-            <div th:errors="*{username}" class="field-error">
-                아이디 오류
-            </div>
+        <div class="py-5 text-center">
+            <h2 class="title"><span>회원가입</span></h2>
         </div>
-        <div style="display:none;" class="auth-box">
-            <input type="text" class="authKey form-control">
-            <button type="button" id="authConfirm">인증 확인</button>
-        </div>
+            <article>
+            <form th:action th:object="${member}" method="post" id="reg-form">
+                <!--로그인 ID-->
+                <div>
+                    <label for="username" class="join-label">로그인 ID</label>
+                    <input type="text" id="username" th:field="*{username}" class="form-control input-box">
+                    <button type="button" class="sendMail">인증</button>
+                    <div th:errors="*{username}" class="field-error">아이디 오류</div>
+                </div>
+                <div style="display:none;" class="auth-box">
+                    <input type="text" class="authKey form-control">
+                    <button type="button" id="authConfirm">인증 확인</button>
+                </div>
 
-        <div>
-            <label for="password" class="join-label">비밀번호</label>
-            <input type="password" id="password" th:field="*{password}" class="form-control input-box">
-            <div th:errors="*{password}" class="field-error">
-                비번 오류
-            </div>
-        </div>
-        <div>
-            <label for="name" class="join-label">닉네임</label>
-            <input type="text" id="nickname" th:field="*{nickname}" class="form-control input-box">
-            <div th:errors="*{nickname}" class="field-error">
-                닉네임 오류
-            </div>
-        </div>
-        <div>
-            <label for="name" class="join-label">전화번호</label>
-            <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control input-box">
-            <div th:errors="*{phoneNumber}" class="field-error">
-                전화 오류
-            </div>
-        </div>
+                <!--비밀번호-->
+                <div>
+                    <label for="password" class="join-label">비밀번호</label>
+                    <input type="password" id="password" th:field="*{password}" class="form-control input-box">
+                    <div th:errors="*{password}" class="field-error">
+                        비번 오류
+                    </div>
+                </div>
 
-        <div>
-            <label for="vegitarianGrade" class="join-label">베지터리언 등급</label>
-            <select th:field="*{vegetarianGrade}">
-                <option value="">==베지테리언 등급==</option>
-                <option th:each="vegan : ${vegan}" th:value="${vegan.name()}" th:text="${vegan.vegetarian}"></option>
-            </select>
+                <!--닉네임-->
+                <div>
+                    <label for="nickname" class="join-label">닉네임</label>
+                    <input type="text" id="nickname" th:field="*{nickname}" class="form-control input-box">
+                    <div th:errors="*{nickname}" class="field-error">
+                        닉네임 오류
+                    </div>
+                </div>
+
+                <!--전화번호-->
+                <div>
+                    <label for="phoneNumber" class="join-label">전화번호</label>
+                    <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control input-box">
+                    <div th:errors="*{phoneNumber}" class="field-error">
+                        전화 오류
+                    </div>
+                </div>
+
+                <!--베지테리언 등급-->
+                <div>
+                    <label for="vegetarianGrade" class="join-label">베지테리언 등급</label>
+                    <select th:field="*{vegetarianGrade}" id="vegetarianGrade">
+                        <option value="">==베지테리언 등급==</option>
+                        <option th:each="vegan : ${vegan}" th:value="${vegan.name()}" th:text="${vegan.vegetarian}"></option>
+                    </select>
+                </div>
+
+                <!--버튼-->
+                <hr class="my-4">
+                <div class="row">
+                    <div class="col">
+                        <button id="joinBtn" class="w-100 btn btn-primary btn-lg" type="submit" disabled="true">회원 가입</button>
+                    </div>
+                    <div class="col">
+                        <button class="w-100 btn btn-secondary btn-lg" th:onclick="|location.href='@{/}'|" type="button">
+                            취소
+                        </button>
+                    </div>
+                </div>
+            </form>
+            </article>
         </div>
-
-
-        <hr class="my-4">
-
-        <div class="row">
-            <div class="col">
-                <button id="joinBtn" class="w-100 btn btn-primary btn-lg" type="submit" disabled="true">회원 가입</button>
-            </div>
-            <div class="col">
-                <button class="w-100 btn btn-secondary btn-lg" th:onclick="|location.href='@{/}'|" type="button">
-                    취소
-                </button>
-            </div>
-        </div>
-
-    </form>
-    </article>
-</div>
     </th:block>
     </th:block>
 </html>
