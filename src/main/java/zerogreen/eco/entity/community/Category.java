@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum Category {
     QNA("Q&A"), VEGAN("비건"), NEWS("동네 소식"),
-    PLOGGING("줍깅"), BEACH_COMBING("비치코밍");
+    PLOGGING("줍깅"), PLOVING("플로빙");
 
     private final String categoryName;
 

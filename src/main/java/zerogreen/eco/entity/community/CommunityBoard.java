@@ -11,6 +11,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -32,15 +34,14 @@ public class CommunityBoard extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
     private List<BoardImage> imageList = new ArrayList<>();
 
     @Builder
-    public CommunityBoard(String title, String text, Member member, Category category, List<BoardImage> imageList) {
+    public CommunityBoard(String title, String text, Member member, Category category) {
         this.title = title;
         this.text = text;
         this.member = member;
         this.category = category;
-        this.imageList = imageList;
     }
 }
