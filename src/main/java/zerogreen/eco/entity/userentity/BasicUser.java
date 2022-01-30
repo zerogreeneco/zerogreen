@@ -57,7 +57,6 @@ public class BasicUser extends BaseTimeEntity {
         this.phoneNumber = phoneNumber;
     }
 
-
     /*
      * Setter
      * */

@@ -21,11 +21,12 @@ $(document).ready(function(e){
             success: function(data){
                 console.log("result: "+data);
                 let id = parseInt(data);
-                console.log("result: "+rno);
+                console.log("result: "+id);
                 //self.location.reload();
             },
             error: function(data){
                 alert("errorrrrrrrrrrrrrrrr");
+
             }
         }); // end of ajax
     }); // end of function addLikes

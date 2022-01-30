@@ -22,23 +22,15 @@ public class ReviewServiceImpl implements ReviewService{
 
     //멤버리뷰 DB저장
     @Override
-    public Long saveReview(String username, MemberReview memberReview) {
-        log.info("--------44444444"+memberReview);
-    public Long saveReview(String username, Long id, MemberReview memberReview) {
-        log.info("zzzzzzzzzzz44444444"+memberReview);
-        BasicUser findUser = basicUserRepository.findByUsername(username).orElseThrow();
-        log.info("zzzzzzzzzzz3333333"+findUser.getUsername());
-        StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
-        log.info("zzzzzzzzzzz5555555"+findStore.getStoreName());
-
-        return memberReviewRepository.save(new MemberReview(memberReview.getReviewText(),
-
-                        findUser))
-                .getRno();
-
-                        findUser, findStore))
-                .getId();
-
+    public Long saveReview(MemberReviewDto memberReviewDto) {
+        MemberReview memberReview = memberReviewRepository.save(
+                new MemberReview(memberReviewDto.getReviewText(), memberReviewDto.getBasicUser(),
+                        memberReviewDto.getStoreMember()));
+        log.info("zzzzzzzzzzz5555555"+memberReview);
+        log.info("zzzzzzzzzzz6666666"+memberReviewDto.getReviewText());
+        log.info("zzzzzzzzzzz7777777"+memberReviewDto.getUsername());
+        log.info("zzzzzzzzzzz8888888"+memberReviewDto.getId());
+                return memberReview.getId();
     }
 
         /*

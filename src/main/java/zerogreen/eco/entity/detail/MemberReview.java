@@ -40,12 +40,11 @@ public class MemberReview {
         this.storeMember = storeMember;
     }
 
-
 /*
-    public MemberReview(String reviewText, StoreMember storeMember, BasicUser basicUser) {
+    public MemberReview(String reviewText, String username, Long id) {
         this.reviewText = reviewText;
-        this.storeMember = storeMember;
-        this.basicUser = basicUser;
+        this.basicUser = new BasicUser(username);
+        this.storeMember = new StoreMember(getId());
     }
 */
 
