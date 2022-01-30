@@ -23,6 +23,9 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     private final CommunityBoardRepository boardRepository;
     private final BoardImageRepository boardImageRepository;
 
+    /*
+    * 게시글 저장
+    * */
     @Override
     @Transactional
     public void boardRegister(CommunityRequestDto dto, Member writer, List<BoardImage> imageList) {
@@ -33,13 +36,14 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
                 .category(dto.getCategory())
                 .member(writer)
                 .build());
+        // 트랜젝션 전에 지연 SQL 저장소 -> DB로 전송 (이미지 파일 저장을 위해서)
         boardRepository.flush();
 
+        // 이미지 리스트에 데이터가 있다면 저장 (미리 INSERT한 Board를 호출해서 연관관계 저장)
         if (imageList.size() != 0) {
-            List<BoardImage> boardImages = new ArrayList<>();
             for (BoardImage boardImage : imageList) {
                 boardImageRepository.save(new BoardImage(
-                        boardImage.getUploadFileName(), boardImage.getStoreFileName(), boardImage.getFilePath(),saveBoard));
+                        boardImage.getUploadFileName(), boardImage.getStoreFileName(), boardImage.getFilePath(), saveBoard));
             }
         }
 
