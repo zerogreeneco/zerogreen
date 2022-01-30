@@ -2,9 +2,15 @@ package zerogreen.eco.repository.community;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import zerogreen.eco.dto.community.CommunityResponseDto;
+import zerogreen.eco.entity.community.CommunityBoard;
 
 import javax.persistence.EntityManager;
+
+import java.util.List;
 
 import static zerogreen.eco.entity.community.QBoardImage.boardImage;
 import static zerogreen.eco.entity.community.QCommunityBoard.communityBoard;
@@ -20,16 +26,29 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
 
     @Override
     public CommunityResponseDto findDetailBoard(Long boardId) {
-        return queryFactory
+        return null;
+    }
+
+    @Override
+    public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable) {
+        List<CommunityResponseDto> content = queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
                         communityBoard.title,
-                        communityBoard.text
-                        ))
+                        communityBoard.text,
+                        member.nickname,
+                        communityBoard.category
+                ))
                 .from(communityBoard, communityBoard)
-                .join(member, member).on(communityBoard.member.eq(member))
-                .join(boardImage, boardImage).on(boardImage.board.eq(communityBoard))
-                .where(communityBoard.id.eq(boardId))
-                .fetchFirst();
-    }
+                .leftJoin(communityBoard.member, member)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        List<CommunityBoard> countQuery = queryFactory
+                .selectFrom(communityBoard)
+                .fetch();
+
+        return new PageImpl<>(content, pageable, countQuery.size());
+    };
 }
