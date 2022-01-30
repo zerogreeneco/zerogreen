@@ -1,14 +1,9 @@
 <!DOCTYPE HTML>
-<html th:replace="~{basic/basicJoinLayout :: layout(~{::article})}" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
+    <th:block th:fragment="content">
+        <link rel="stylesheet" href="bootstrap/css/login/loginForm.css" />
 
-</head>
-<body>
-
-<div class="container">
-
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <div class="py-5 text-center">
         <h2>회원 가입</h2>
     </div>
@@ -78,5 +73,6 @@
     </form>
     </article>
 </div>
-</body>
+    </th:block>
+    </th:block>
 </html>
