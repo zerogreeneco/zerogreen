@@ -1,9 +1,6 @@
 package zerogreen.eco.entity.userentity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
 
 import javax.persistence.*;
@@ -80,7 +77,8 @@ public class BasicUser extends BaseTimeEntity {
         AuthState = authState;
     }
 
-    //memberReview
+    //LikesService
+    @Builder(builderMethodName = "likesBuilder")
     public BasicUser(String username, Long id) {
         super();
     }
