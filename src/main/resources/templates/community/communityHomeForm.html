@@ -1,19 +1,76 @@
 <!DOCTYPE html>
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
+        <script>
+            $(function () {
+
+            });
+        </script>
+        <style>
+            .community-container {
+                margin: 0 auto;
+            }
+
+            ul.category-list {
+/*                list-style-type: none;
+                margin: 0px;
+                padding: 0px;
+                width: 100%;*/
+                text-align: center;
+                display: table;
+                width: 100%;
+                border-bottom: 2px solid #999;
+                table-layout: fixed;
+            }
+
+            ul.category-list li {
+                /*display: inline-block;*/
+                display: table-cell;
+                vertical-align: middle;
+                text-align: center;
+                font-size: 20px;
+                height: 100%;
+            }
+
+            .category-container {
+                margin: 0 auto;
+            }
+
+            #list-wrapper {
+                display: table;
+                margin: 0 auto;
+                border: solid black 1px;
+                width: 700px;
+                height: 150px;
+                margin-bottom: 10px;
+            }
+
+            .test-table{
+                display: table-cell;
+            }
+
+        </style>
         <!--카테고리-->
-        <ul>
-            <li th:each="categories : ${category}" th:value="${categories.name()}">
-                <a th:text="${categories.categoryName}" th:href="@{/community/(category=${categories.name()}) }"></a>
-            </li>
-        </ul>
-        <div sec:authorize="isAuthenticated()">
-            <button type="button" th:onclick="|location.href='@{/community/write}'|">글쓰기</button>
-        </div>
-        <div>
-            <div>닉네임</div>
-            <div>카테고리</div>
-            <div>글 내용</div>
+        <div class="community-container">
+            <div class="category-container">
+                <ul class="category-list">
+                    <li th:each="categories : ${category}" th:value="${categories.name()}">
+                        <a th:text="${categories.categoryName}"
+                           th:href="@{/community(category=${categories.name()}) }"></a>
+                    </li>
+                </ul>
+                <div sec:authorize="isAuthenticated()">
+                    <button type="button" th:onclick="|location.href='@{/community/write}'|">글쓰기</button>
+                </div>
+            </div>
+            <div id="list-wrapper" th:each="community : ${communityList}">
+                <div class="test-table">
+                    <div class="main-list-nickname" th:text="${community.nickname}">닉네임</div>
+                    <div class="main-list-category" th:text="${community.category.categoryName}">카테고리</div>
+                    <div class="main-list-text" ><a th:href="@{/community/read/{boardId}(boardId = ${community.id})}" th:text="${community.text}">글 내용</a></div>
+                    <div class="main-list-text" th:text="${community.count}"></div>
+                </div>
+            </div>
         </div>
     </th:block>
 </th:block>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
+    <th:block th:fragment="content">
+
+        <div th:object="${detailView}">
+            <!-- 상세보기 제목 -->
+            <h1 th:field="*{category}" th:text="*{category}"></h1>
+            <h2 th:field="*{title}" th:text="*{title}"></h2>
+            <p th:field="*{nickname}" th:text="*{nickname}"></p>
+            <div th:field="*{modifiedDate}" th:text="*{modifiedDate}"></div>
+            <div th:field="*{count}" th:text="*{count}"></div>
+        </div>
+        <!--/*            <div th:field="*{like}"></div>*/-->
+        <!-- 상세보기 내용 -->
+        <div th:object="${detailView}">
+            <div th:field="*{text}" th:text="*{text}"></div>
+        </div>
+            <!-- 상세보기 리뷰 -->
+
+    </th:block>
+</th:block>
+</html>

@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
+        <link rel="stylesheet" th:href="@{/bootstrap/css/index/index.css}" />
+        <script type="text/javascript" src="bootstrap/js/index/slickslider.js"></script>
         <!--페이지 수정 부분 시작-->
-        <link rel="stylesheet" href="bootstrap/css/index/index.css" />
-        <!--Slick Slider-->
-        <link rel="stylesheet" type="text/css" href="bootstrap/slick/slick.css"/>
-        <link rel="stylesheet" type="text/css" href="bootstrap/slick/slick-theme.css"/>
 
         <div class="row gtr-200">
             <div id="shopList-card">
@@ -48,54 +46,23 @@
                         </div>
                     </div>
                 </div>
+                <p class="controls">
+                    <span class="prev"><</span>
+                    <span class="next">></span>
+                </p>
 
                 <span class="cate-title"><br>근처 제로웨이스트샵</span>
-                <div class="shopList-box">
-                    <div class="card">
-                        <div class="card-header">
-                            <img src="http://placehold.it/300x300" />
-                        </div>
-                        <div class="card-body">
-                            <span class="shop-name">가게명</span>
-                            <span>가게 거리 ?KM</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <img src="http://placehold.it/300x300" />
-                        </div>
-                        <div class="card-body">
-                            <span class="shop-name">가게명</span>
-                            <span>가게 거리 ?KM</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <img src="http://placehold.it/300x300" />
-                        </div>
-                        <div class="card-body">
-                            <span class="shop-name">가게명</span>
-                            <span>가게 거리 ?KM</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <img src="http://placehold.it/300x300" />
-                        </div>
-                        <div class="card-body">
-                            <span class="shop-name">가게명</span>
-                            <span>가게 거리 ?KM</span>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div id="map-section">
                 <div id="map"></div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-                crossorigin="anonymous"></script>
+
+
+<!--        <script src="https://code.jquery.com/jquery-3.6.0.min.js"-->
+<!--                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="-->
+<!--                crossorigin="anonymous"></script>-->
+
         <script th:inline="javascript">
             function goStore(id) {
                 //alert('goStore');
@@ -110,12 +77,6 @@
         <!--지도 부분-->
         <script type="text/javascript" th:src="@{/bootstrap/js/map.js}"></script>
         <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac"></script>
-
-        <!--Slick Slider-->
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-        <script type="text/javascript" src="bootstrap/slick/slick.min.js"></script>
-        <script type="text/javascript" src="bootstrap/js/index/slickslider.js"></script>
     </th:block>
 </th:block>
 </html>

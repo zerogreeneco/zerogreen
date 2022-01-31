@@ -1,9 +1,6 @@
 package zerogreen.eco.entity.detail;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 
@@ -20,7 +17,6 @@ public class Likes {
     @Column(name="likes_id")
     private Long id;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "storeMember")
     private StoreMember storeMember;
@@ -29,6 +25,8 @@ public class Likes {
     @JoinColumn(name = "member")
     private BasicUser basicUser;
 
+
+    //add Likes
     public Likes(BasicUser basicUser, StoreMember storeMember) {
         this.basicUser = basicUser;
         this.storeMember = storeMember;

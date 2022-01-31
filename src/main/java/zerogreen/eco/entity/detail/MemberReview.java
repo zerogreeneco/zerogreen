@@ -41,13 +41,4 @@ public class MemberReview {
     }
 
 
-/*
-    public MemberReview(String reviewText, StoreMember storeMember, BasicUser basicUser) {
-        this.reviewText = reviewText;
-        this.storeMember = storeMember;
-        this.basicUser = basicUser;
-    }
-*/
-
-
 }

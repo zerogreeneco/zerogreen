@@ -5,7 +5,6 @@ import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,9 +80,4 @@ public class StoreMember extends BasicUser{
         storeInfo = new StoreInfo(storeAddress, storePhoneNumber, storeDescription, openTime, closeTime);
     }
 
-    //likesService
-    @Builder(builderMethodName = "likeBuilder")
-    public StoreMember(String storeName) {
-        this.storeName = storeName;
-    }
 }

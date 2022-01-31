@@ -17,19 +17,13 @@ public class MemberReviewDto {
     private Long id;
     private String username;
 
+    private Long sno;
     private String storeName;
-    private String nickName;
 
     private StoreMember storeMember;
     private BasicUser basicUser;
 
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
-
-    //뭐하는ㄱㅓ지
-    public MemberReviewDto(){
-
-    }
+    //이하 생성자 정리예정
 
     //바보갓은나애모습
     public MemberReview reviewDto(MemberReviewDto memberReviewDto) {
@@ -37,10 +31,10 @@ public class MemberReviewDto {
                 memberReviewDto.getBasicUser(),memberReviewDto.getStoreMember());
     }
 
-/*
-    public MemberReview memberReviewDto(MemberReviewDto memberReviewDto) {
-        return new MemberReview(memberReviewDto.getUsername(), memberReviewDto.getReviewText(), memberReviewDto.getStoreName());
+    public MemberReviewDto(String reviewText, String username, Long sno) {
+        this.reviewText = reviewText;
+        this.username = username;
+        this.sno = sno;
     }
-*/
 
 }

@@ -26,24 +26,26 @@
                     <div sec:authorize="isAuthenticated()">
                         <div class="js-username" th:text="${member}"></div>
                     </div>
-                    [[${getStoreTemp.storeName}]]
-                    [[${getStoreTemp.postalCode}]]
+                    [[${getStore.storeName}]]
+                    [[${getStore.postalCode}]]
 
-                    [[${getStoreTemp.storePhoneNumber}]]
-                    [[${getStoreTemp.storeType}]]
-                        <span class="js-storeId">[[${getStoreTemp.id}]]</span>
+                    [[${getStore.storePhoneNumber}]]
+                    [[${getStore.storeType}]]
+                        <span class="js-storeId">[[${getStore.id}]]</span>
                     <div class="top">가게 상세 이미지 들어갈 곳</div>
                 </div>
 
                 <!--    2열-->
                 <div class="detail-sec temp2">
                     <div class="store-name">
-                        <span class="js-storeName">[[${getStoreTemp.storeName}]]</span>
+                        <span class="js-storeName">[[${getStore.storeName}]]</span>
                     </div>
                     <div class="sec-flex">
                         <div class="inline sec sec-left">
                             <span class="liking">♡♡♡♡♡</span>
+                            <span class="lno">[[${liking?.lno}]]</span>
                             <span>좋아요 수: </span>
+                            <span class="like-cnt">[[${cnt}]]</span>
                         </div>
                         <div class="inline sec sec-right">
                             <span>리뷰 이모티콘</span>
@@ -66,7 +68,7 @@
                         <span>영업시간</span><br>
                         <span>전화번호</span><br>
                         <span>영업시간</span><br>
-                        <span>[[${getStoreTemp.storeAddress}]]</span><br>
+                        <span>[[${getStore.storeAddress}]]</span><br>
                         <span>기타기타</span><br>
                     </div>
                 </div>
@@ -76,7 +78,7 @@
                     <div id="map" style="width:900px;height:350px;"></div>
                     <script type="text/javascript" th:src="@{/bootstrap/js/detail/detailMap.js}"></script>
                     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac&libraries=services"></script>
-                    <input hidden id="mapAddress" type="text" th:value="${getStoreTemp.storeAddress}">
+                    <input hidden id="mapAddress" type="text" th:value="${getStore.storeAddress}">
                 </div>
 
                 <!--리뷰작성칸-->

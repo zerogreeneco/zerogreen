@@ -10,20 +10,21 @@
                 <input type="text" th:field="*{title}">
                 <textarea th:field="*{text}"></textarea>
                 <input type="file" multiple="multiple" th:field="*{imageFiles}">
+                <div class="select-img"><img src="" /></div>
             </div>
             <button type="submit">글 작성</button>
         </form>
-        <button type="button" id="test-btn">ㅇㅇ</button>
         <script>
             $(function () {
-
-                $("#test-btn").click(function () {
-                    var cate = $("#category").val();
-                    var title = $("#title").val();
-                    var content = $("#text").val();
-                    console.log(cate);
-                    console.log(title);
-                    console.log(content);
+                // 이미지 미리보기
+                $("#imageFiles").change(function (){
+                    if (this.files && this.files[0]) {
+                        let reader = new FileReader();
+                        reader.onload = function (data) {
+                            $(".select-img img").attr("src", data.target.result).width(500);
+                        };
+                        reader.readAsDataURL(this.files[0]);
+                    }
                 });
             });
 
