@@ -24,4 +24,9 @@ public class CommunityRequestDto {
     private Member writer;
     private List<MultipartFile> imageFiles;
 
+    public CommunityRequestDto(String title, String text, Category category) {
+        this.title = title;
+        this.text = text;
+        this.category = category;
+    }
 }

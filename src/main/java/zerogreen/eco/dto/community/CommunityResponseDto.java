@@ -18,6 +18,7 @@ public class CommunityResponseDto {
     private List<BoardImage> imageList;
     private LocalDateTime modifiedDate;
     private Category category;
+    private int count;
 
     private String nickname;
 
@@ -31,11 +32,14 @@ public class CommunityResponseDto {
         this.nickname = nickname;
     }
 
-    public CommunityResponseDto(Long id, String title, String text, String nickname, Category category) {
+    public CommunityResponseDto(Long id, String title, String text, String nickname, Category category, LocalDateTime modifiedDate,
+                                int count) {
         this.id = id;
         this.title = title;
         this.text = text;
         this.nickname = nickname;
         this.category = category;
+        this.modifiedDate = modifiedDate;
+        this.count = count;
     }
 }

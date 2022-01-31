@@ -6,6 +6,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriUtils;
 import zerogreen.eco.dto.paging.PagingDto;
 import zerogreen.eco.dto.paging.RequestPageDto;
+import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.repository.file.RegisterFileRepository;
@@ -38,9 +40,9 @@ public class AdminController {
     private final RegisterFileRepository registerFileRepository;
 
     @GetMapping("/approvalStore")
-    public Page<NonApprovalStoreDto> approvalStore(Model model, RequestPageDto requestPageDto) {
+    public Page<NonApprovalStoreDto> approvalStore(Model model, RequestPageSortDto requestPageDto) {
 
-        Pageable pageable = requestPageDto.getPageable();
+        Pageable pageable = requestPageDto.getPageableSort(Sort.by("memberId").descending());
 
         Page<NonApprovalStoreDto> nonApprovalStore = basicUserService.findByNonApprovalStore(pageable);
 
@@ -95,9 +97,9 @@ public class AdminController {
 
     @GetMapping("/search")
     public void searchNonApprovalStore(@Validated @ModelAttribute("search") NonApprovalStoreDto searchCond,
-                                       BindingResult bindingResult, RequestPageDto requestPageDto) {
+                                       BindingResult bindingResult, RequestPageSortDto requestPageDto) {
 
-        Pageable pageable = requestPageDto.getPageable();
+        Pageable pageable = requestPageDto.getPageableSort(Sort.by("memberID").descending());
 
         basicUserService.nonApprovalStoreSearch(searchCond, pageable);
     }
