@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout/basicList :: setContent(~{this::content})}">
+<th:block th:fragment="content">
+    <!--페이지 수정 부분 시작-->
+
+    <!-- 페이지 css/ js 추가 -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/list.css}"/>
+
+    <!-- 본문 시작 -->
+    <!-- 가게 리스트 -->
+    <div class="card">
+        <div class="card-header">
+            <img src="http://placehold.it/300x300"/>
+        </div>
+        <div class="shopList-box">
+            <div class="card-body">
+                <span>가게명</span>
+                <img height="15px" th:src="@{/bootstrap/images/list/call.png}">
+                <img height="15px" th:src="@{/bootstrap/images/list/clock.png}">
+                <img height="15px" th:src="@{/bootstrap/images/list/dish.png}">
+            </div>
+        </div>
+    </div>
+
+</th:block>
+</th:block>
+</html>

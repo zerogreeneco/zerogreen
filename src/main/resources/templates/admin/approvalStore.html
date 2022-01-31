@@ -5,39 +5,6 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
                 integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-        <style>
-            table tr {
-                border: solid black 1px;
-            }
-
-            input[type="checkbox"] {
-                -webkit-appearance: none;
-                position: relative;
-                width: 16px;
-                height: 16px;
-                cursor: pointer;
-                outline: none !important;
-                border: 1px solid #eeeeee;
-                border-radius: 2px;
-                background: #fbfbfb;
-            }
-
-            input[type="checkbox"]::before {
-                content: "\2713";
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                overflow: hidden;
-                transform: scale(0) translate(-50%, -50%);
-                line-height: 1;
-            }
-
-            input[type="checkbox"]:checked::before {
-                border-radius: 2px;
-                transform: scale(1) translate(-50%, -50%)
-            }
-        </style>
-
         <section>
             <form method="post" th:action="@{/admin/approve}">
                 <table>
@@ -51,8 +18,8 @@
                         <th>파일이름</th>
                     </tr>
                     <tr th:each="store : ${result.dtoList}">
-                        <td><input type="checkbox" th:value="${store.memberId}" name="memberId"
-                                   style="border: solid black 1px; width: 10px; height: 10px;"></td>
+                        <td><input type="checkbox" class="form-check-input"
+                                   th:value="${store.memberId}" name="memberId"></td>
                         <td th:text="${store.username}"></td>
                         <td th:text="${store.storeName}"></td>
                         <td th:text="${store.storePhoneNumber}"></td>

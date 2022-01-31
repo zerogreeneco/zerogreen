@@ -4,15 +4,17 @@
 
         <!-- 페이지 css/ js 추가 -->
         <link th:href="@{/bootstrap/css/page/list.css}" rel="stylesheet"/>
-
         <!-- 본문 시작 -->
 
         <!-- 사업장 종류 -->
         <div class="listNav">
-                <button class="btn-outline" th:each="stores : ${storeTypes}">
-                 [[${stores.storeType}]]
-                </button>
+            <!--            <input type="radio" name="cp_item" class="cp_item" id="5000" value="5000" checked="checked"><label class="lb_5" for="5000">5,000원</label>-->
+            <input type="radio" class="form-check-input" id="radio1" name="storeType" value="veganFood">
+            <label class="form-check-label" for="radio1">비건 음식점</label>
+            <input type="radio" class="form-check-input" id="radio2" name="storeType" value="GeneralFood">
+            <label class="form-check-label" for="radio2">친환경 포장</label>
         </div>
+
         <!-- 가게 리스트 -->
         <div class="card">
             <div class="card-header">
@@ -21,11 +23,16 @@
             <div class="shopList-box">
                 <div class="card-body">
                     <span>가게명</span>
-                    <span>전화번호</span>
-                    <span>운영시간</span>
-                    <span>대표메뉴</span>
+                    <img height="15px" th:src="@{/bootstrap/images/list/call.png}">
+                    <img height="15px" th:src="@{/bootstrap/images/list/clock.png}">
+                    <img height="15px" th:src="@{/bootstrap/images/list/dish.png}">
                 </div>
             </div>
         </div>
+
+        <script th:inline="javascript">
+
+        </script>
+
     </th:block>
 </th:block>

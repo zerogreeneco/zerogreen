@@ -1,30 +1,10 @@
 /* Nav */
 .listNav{
-    font-size: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
     width: 100%;
+    text-align: center;
 }
-.btn-outline{
-    color: #16a085;
-    border-color: #16a085;
-    background: #ffffff;
-    margin: 0 5px;
-    padding: 10px;
-    border-radius: 30px;
-}
-.btn-outline:hover{
-    color: #ffffff;
-    background-color: #16a085;
-    border-color: #16a085
-}
-.btn-outline:active{color:#ffffff;
-    background-color: #16a085;
-    border-color: #16a085
-}
-.btn-outline:focus{
-    color: #ffffff;
-    background-color: #16a085;
-    border-color: #16a085}
-
 /* Card */
 .card {
     margin: 10px 20px 10px 0;

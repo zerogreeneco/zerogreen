@@ -25,17 +25,17 @@ public class StoreController {
     private final FileService fileService;
     private final StoreMemberService storeMemberService;
 
-    @ModelAttribute("storeTypes")
-    private StoreType[] storeTypes() {
-        StoreType[] storeTypes = StoreType.values();
-        return storeTypes;
-    }
-
 
     @GetMapping("/food/list")
-    public String list(@ModelAttribute("store") StoreJoinDto storeJoinDto) {
+    public String foodList() {
 
         return "page/foodList";
+    }
+
+    @GetMapping("/shop/list")
+    public String shopList() {
+
+        return "page/shopList";
     }
 
     @GetMapping("/store/storeInfo")
