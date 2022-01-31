@@ -22,6 +22,7 @@ public class LikesServiceImpl implements LikesService {
     private final BasicUserRepository basicUserRepository;
     private final StoreMemberRepository storeMemberRepository;
 
+    //좋아요
     @Override
     @Transactional
     public Long addLikes(LikesDto likesDto) {
@@ -31,6 +32,21 @@ public class LikesServiceImpl implements LikesService {
         log.info("vvvvvvvv777777: " +findStore.getId());
         return likesRepository.save(new Likes(findUser, findStore))
                 .getId();
+    }
+
+    //안좋아요 흥!
+    @Override
+    public void remove(LikesDto likesDto) {
+        log.info("qqqqq11111: "+ likesDto.getId());
+        log.info("qqqqq22222: "+ likesDto.getLno());
+        likesRepository.deleteById(likesDto.getLno());
+    }
+
+    //카운팅스타~ 밤하늘의 퍼어어얼
+    @Override
+    public Long cntLikes(LikesDto likesDto) {
+        StoreMember findStore = storeMemberRepository.findById(likesDto.getId()).orElseThrow();
+        return likesRepository.counting(findStore);
     }
 
 }
