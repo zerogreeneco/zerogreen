@@ -36,8 +36,10 @@ public class LikesServiceImpl implements LikesService {
 
     //안좋아요 흥!
     @Override
-    public void remove(LikesDto likesDto) {
-        likesRepository.deleteById(likesDto.getLno());
+    public String remove(Long id) {
+        String key = "Delete";
+        likesRepository.deleteById(id);
+        return key;
     }
 
     //카운팅스타~ 밤하늘의 퍼어어얼
@@ -51,7 +53,6 @@ public class LikesServiceImpl implements LikesService {
     @Override
     public LikesDto liking(Long id) {
         StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
-        log.info("zzzzzz6666: " + findStore.getId());
         Likes likes = likesRepository.getLikesByStoreAndUser(findStore);
         return new LikesDto(likes.getId(),findStore, likes.getBasicUser());
 
