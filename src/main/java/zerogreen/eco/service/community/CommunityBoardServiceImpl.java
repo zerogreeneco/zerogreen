@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.entity.community.BoardImage;
+import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.community.CommunityBoard;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.repository.community.BoardImageRepository;
@@ -51,8 +53,29 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
         }
     }
 
+    /*
+    * 상세 보기
+    * */
     @Override
+    public CommunityResponseDto findDetailView(Long boardId) {
+
+        return boardRepository.findDetailView(boardId);
+    }
+
+    /* 조회수 */
+    @Override
+    public int boardCount(Long boardId) {
+        return boardRepository.boardCount(boardId);
+    }
+
+    @Override
+    @Transactional
     public Slice<CommunityResponseDto> findAllCommunityBoard(Pageable pageable) {
         return boardRepository.findAllCommunityList(pageable);
+    }
+
+    @Override
+    public Slice<CommunityResponseDto> findByCategory(Pageable pageable, Category category) {
+        return boardRepository.findByCategory(pageable, category);
     }
 }

@@ -34,6 +34,8 @@ public class CommunityBoard extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
 
+    private int count;
+
     @OneToMany(mappedBy = "board", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
     private List<BoardImage> imageList = new ArrayList<>();
 

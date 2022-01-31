@@ -1,10 +1,14 @@
 package zerogreen.eco;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import zerogreen.eco.dto.community.CommunityRequestDto;
+import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.userentity.*;
+import zerogreen.eco.service.community.CommunityBoardService;
 import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.MemberService;
 import zerogreen.eco.service.user.StoreMemberService;
@@ -28,12 +32,14 @@ public class TestDataInit {
     @Component
     @Transactional
     @RequiredArgsConstructor
+    @Slf4j
     static class InitService {
         private final EntityManager em;
 
         private final MemberService memberService;
         private final StoreMemberService storeMemberService;
         private final BasicUserService basicUserService;
+        private final CommunityBoardService communityBoardService;
 
         public void init() {
 
@@ -122,8 +128,10 @@ public class TestDataInit {
                     "부산 금정구 중앙대로 1777", "장전동","0517894561", "44444");
 
             // 일반 회원
-            memberService.save(new Member("test", "tester", "01022223333", "1",
-                    UserRole.USER, VegetarianGrade.LACTO));
+            Member member = new Member("test", "tester", "01022223333", "1",
+                    UserRole.USER, VegetarianGrade.LACTO);
+            CommunityRequestDto dto = new CommunityRequestDto("TEST TITLE", "TEST TEXT", Category.PLOGGING);
+            memberService.save(member);
             // 가게 회원
             storeMemberService.save(ecoTest, new RegisterFile("origin1","store1", "path1"));
             storeMemberService.save(foodTest, new RegisterFile("origin2","store2", "path2"));
@@ -137,7 +145,6 @@ public class TestDataInit {
 
             em.flush();
             em.clear();
-
         }
 
 

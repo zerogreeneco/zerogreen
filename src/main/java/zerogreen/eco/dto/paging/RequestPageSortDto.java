@@ -8,17 +8,17 @@ import org.springframework.data.domain.Sort;
 
 @Getter
 @Setter
-public class RequestPageDto {
+public class RequestPageSortDto {
 
     private int page;
     private int size;
 
-    public RequestPageDto() {
+    public RequestPageSortDto() {
         this.page = 1;
         this.size = 10;
     }
 
-    public Pageable getPageable() {
-        return PageRequest.of(page - 1, size);
+    public Pageable getPageableSort(Sort sort) {
+        return PageRequest.of(page - 1, size, sort);
     }
 }
