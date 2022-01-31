@@ -47,10 +47,7 @@ public class PageController {
         LikesDto result;
         try {
             result = likesService.liking(id);
-            log.info("zzzzz11111: " + result);
-        model.addAttribute("liking", result);
-            log.info("zzzzz22222: " + result);
-
+            model.addAttribute("liking", result);
         } catch (Exception e) {
             e.printStackTrace();
         }

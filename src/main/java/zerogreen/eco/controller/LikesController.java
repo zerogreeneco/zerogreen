@@ -16,6 +16,8 @@ import zerogreen.eco.security.auth.PrincipalUser;
 import zerogreen.eco.service.detail.LikesService;
 import zerogreen.eco.service.user.StoreMemberService;
 
+import java.util.HashMap;
+
 @Controller
 @Slf4j
 @RequiredArgsConstructor
@@ -28,18 +30,18 @@ public class LikesController {
     @ResponseBody
     @PostMapping("/addLikes/{id}")
     public Long addLikes(@RequestBody LikesDto likesDto,
-                                         @AuthenticationPrincipal PrincipalDetails principalDetails) {
+                         @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Long result = likesService.addLikes(likesDto);
         return result;
-        }
+    }
 
     //delete Likes
-    @DeleteMapping("/deleteLikes/{id}")
-    public void deleteLikes(@RequestBody LikesDto likesDto){
-        likesService.remove(likesDto);
-        
+    @ResponseBody
+    @DeleteMapping("/deleteLikes/{sno}/{id}")
+    public HashMap<String, String> deleteLikes(@PathVariable Long id) {
+        HashMap<String, String> key = new HashMap<>();
+        likesService.remove(id);
+        return key;
     }
 
-
-
-    }
+}
