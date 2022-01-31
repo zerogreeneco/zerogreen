@@ -12,6 +12,8 @@ import zerogreen.eco.repository.detail.LikesRepository;
 import zerogreen.eco.repository.user.BasicUserRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 
+import java.util.Optional;
+
 
 @Service
 @Slf4j
@@ -28,8 +30,6 @@ public class LikesServiceImpl implements LikesService {
     public Long addLikes(LikesDto likesDto) {
         BasicUser findUser = basicUserRepository.findByUsername(likesDto.getUsername()).orElseThrow();
         StoreMember findStore = storeMemberRepository.findById(likesDto.getId()).orElseThrow();
-        log.info("vvvvvvvv666666: " +findUser.getId());
-        log.info("vvvvvvvv777777: " +findStore.getId());
         return likesRepository.save(new Likes(findUser, findStore))
                 .getId();
     }
@@ -37,8 +37,6 @@ public class LikesServiceImpl implements LikesService {
     //안좋아요 흥!
     @Override
     public void remove(LikesDto likesDto) {
-        log.info("qqqqq11111: "+ likesDto.getId());
-        log.info("qqqqq22222: "+ likesDto.getLno());
         likesRepository.deleteById(likesDto.getLno());
     }
 
@@ -49,4 +47,14 @@ public class LikesServiceImpl implements LikesService {
         return likesRepository.counting(findStore);
     }
 
-}
+    //라이크 데이터 뿌리기 ** 작업중 **
+    @Override
+    public LikesDto liking(Long id) {
+        StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
+        log.info("zzzzzz6666: " + findStore.getId());
+        Likes likes = likesRepository.getLikesByStoreAndUser(findStore);
+        return new LikesDto(likes.getId(),findStore, likes.getBasicUser());
+
+        }
+    }
+

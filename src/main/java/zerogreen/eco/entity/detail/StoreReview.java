@@ -26,7 +26,15 @@ public class StoreReview {
     private StoreMember storeMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member")
-    private BasicUser basicUser;
+    @JoinColumn(name = "memberReview_id")
+    private MemberReview memberReview;
+
+
+    //db넣기
+    public StoreReview(String storeReviewText, StoreMember storeMember, MemberReview memberReview) {
+        this.storeReviewText = storeReviewText;
+        this.storeMember = storeMember;
+        this.memberReview = memberReview;
+    }
 
 }

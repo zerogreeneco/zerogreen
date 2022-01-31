@@ -29,9 +29,6 @@ public class LikesController {
     @PostMapping("/addLikes/{id}")
     public Long addLikes(@RequestBody LikesDto likesDto,
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        log.info("vvvvvvvvv11111: "+likesDto);
-        log.info("vvvvvvvvv22222: "+likesDto.getId());
-        log.info("vvvvvvvvv33333: "+likesDto.getUsername());
         Long result = likesService.addLikes(likesDto);
         return result;
         }

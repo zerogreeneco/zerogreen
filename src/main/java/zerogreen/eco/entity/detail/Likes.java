@@ -31,4 +31,5 @@ public class Likes {
         this.basicUser = basicUser;
         this.storeMember = storeMember;
     }
+
 }
