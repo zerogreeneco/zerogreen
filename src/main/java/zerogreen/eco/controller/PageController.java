@@ -14,6 +14,7 @@ import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.dto.paging.PagingDto;
 import zerogreen.eco.dto.paging.RequestPageDto;
 import zerogreen.eco.dto.store.StoreDto;
+import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.security.auth.PrincipalUser;
@@ -59,9 +60,24 @@ public class PageController {
             model.addAttribute("cnt2",cnt2);
         }
 
+        //상세페이지 리뷰 리스트
+        Pageable pageable = requestPageDto.getPageable();
+        log.info("aaaaaaaa11111 "+pageable );
+
+        //여기도문제
+        Page<MemberReview> reviewList = reviewService.getMemberReviewList(pageable, id);
+        log.info("aaaaaaaa22222 "+reviewList );
+
+        PagingDto memberReview = new PagingDto(reviewList);
+        log.info("aaaaaaaa33333 "+memberReview );
+        //entity에 적힌 값으로 불러와야함
+        model.addAttribute("memberReview",memberReview);
+
+
         //라이크 데이터 ** 수정예정 **
         LikesDto result;
         try {
+            assert basicUser != null;
             result = likesService.liking(id, basicUser.getUsername());
             model.addAttribute("liking", result);
             log.info("xxxxx11111: "+ result);

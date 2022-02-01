@@ -16,7 +16,7 @@ public interface MemberReviewRepository extends JpaRepository<MemberReview, Long
 
     @Query("select mr from MemberReview mr where mr.storeMember =:storeMember")
     //List<MemberReview> findByStore(StoreMember storeMember);
-    Page<MemberReviewDto> findByStore(Pageable pageable);
+    Page<MemberReview> findByStore(Pageable pageable, StoreMember storeMember);
 
     @Query("select count(mr.id) from MemberReview mr " +
             "left outer join BasicUser bu on mr.basicUser = bu.id " +
