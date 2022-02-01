@@ -25,12 +25,6 @@ public class MemberReviewDto {
 
     //이하 생성자 정리예정
 
-    //바보갓은나애모습
-    public MemberReview reviewDto(MemberReviewDto memberReviewDto) {
-        return new MemberReview(memberReviewDto.getReviewText(),
-                memberReviewDto.getBasicUser(),memberReviewDto.getStoreMember());
-    }
-
     //리뷰 db넣기
 /*
     public MemberReviewDto(String reviewText, String username, Long sno) {
@@ -47,4 +41,5 @@ public class MemberReviewDto {
         this.username = username;
         this.sno = sno;
     }
+
 }

@@ -49,21 +49,12 @@ public class ReviewServiceImpl implements ReviewService{
         return memberReviewRepository.counting(findStore);
     }
 
-
-    //멤버 리뷰 리스트 ** 작업 중 **
+    //멤버 리뷰 리스트
     @Override
-    public Page<MemberReviewDto> getMemberReviewList(Pageable pageable) {
-        return memberReviewRepository.findByStore(pageable);
+    public Page<MemberReview> getMemberReviewList(Pageable pageable, Long id) {
+        StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
+        log.info("aaaaaa66666: "+ findStore.getId());
+        return memberReviewRepository.findByStore(pageable, findStore);
     }
 
-/*
-    public List<MemberReviewDto> getMemberReviewList(Long id) {
-        StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
-        List<MemberReview> result = memberReviewRepository.findByStore(findStore);
-        return result.stream().map(memberReview ->
-                new MemberReviewDto(memberReview.getId(), memberReview.getReviewText(),
-                        memberReview.getBasicUser().getUsername(),
-                        memberReview.getStoreMember().getId())).collect(Collectors.toList());
-    }
-*/
 }

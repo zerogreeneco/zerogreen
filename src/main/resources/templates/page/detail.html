@@ -98,12 +98,12 @@
                     <div class="rv-images">리뷰 이미지 리스트</div>
                     <!--    리뷰리스트-->
                     <div class="rv-list">
-<!--                        <table>-->
-<!--                            <tr th:each="mReview : ${memberReview.dtoList}">-->
-<!--                                <td th:text="${mReview.username}"></td>                               </td>-->
+                        <table>
+                            <tr th:each="mReview : ${memberReview.dtoList}">
+                                <td>[[${mReview.id}]], [[${mReview.reviewText}]]</td>
 
-<!--                            </tr>-->
-<!--                        </table>-->
+                            </tr>
+                        </table>
                     </div>
                 </div>
 

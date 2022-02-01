@@ -39,32 +39,5 @@ public class ReviewController {
             return result;
         }
 
-    //멤버 리뷰 리스트 ** 작업 중 **
-    @ResponseBody
-    @GetMapping("/reviewList/{id}")
-    public Page<MemberReviewDto> memberReviewList(Model model, RequestPageDto requestPageDto) {
-        Pageable pageable = requestPageDto.getPageable();
-        log.info("aaaaaaaa11111 "+pageable );
-
-        Page<MemberReviewDto> reviewList = reviewService.getMemberReviewList(pageable);
-        log.info("aaaaaaaa22222 "+reviewList );
-
-        PagingDto memberReview = new PagingDto(reviewList);
-        log.info("aaaaaaaa33333 "+memberReview );
-
-        model.addAttribute("memberReview",memberReview);
-        return reviewList;
-    }
-
-/*
-    public ResponseEntity<List<MemberReviewDto>> reviewList(@PathVariable("id")Long id) {
-        List<MemberReviewDto> result = reviewService.getMemberReviewList(id);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-*/
-/*
-*/
-
-
 
     }
