@@ -12,6 +12,10 @@ public interface ReviewService {
     Long cntMemberReview(MemberReviewDto memberReviewDto);
     //멤버리뷰 리스팅
     Page<MemberReview> getMemberReviewList(Pageable pageable, Long id);
+    //멤버리뷰 삭제
+    void remove(Long id);
+    //멤버리뷰 수정
+    void modifyReview(MemberReviewDto memberReviewDto);
 
 
 
