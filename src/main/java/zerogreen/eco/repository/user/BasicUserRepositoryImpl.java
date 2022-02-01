@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.util.StringUtils;
-import zerogreen.eco.dto.member.MemberAuthDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.QBasicUser;
@@ -19,7 +18,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static zerogreen.eco.entity.file.QRegisterFile.registerFile;
-import static zerogreen.eco.entity.userentity.QBasicUser.*;
+import static zerogreen.eco.entity.userentity.QBasicUser.basicUser;
 
 public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
 

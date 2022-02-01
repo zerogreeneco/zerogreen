@@ -19,6 +19,7 @@ public class CommunityResponseDto {
     private LocalDateTime modifiedDate;
     private Category category;
     private int count;
+    private Long like;
 
     private String nickname;
 
@@ -33,7 +34,7 @@ public class CommunityResponseDto {
     }
 
     public CommunityResponseDto(Long id, String title, String text, String nickname, Category category, LocalDateTime modifiedDate,
-                                int count) {
+                                int count, Long like) {
         this.id = id;
         this.title = title;
         this.text = text;
@@ -41,5 +42,6 @@ public class CommunityResponseDto {
         this.category = category;
         this.modifiedDate = modifiedDate;
         this.count = count;
+        this.like = like;
     }
 }
