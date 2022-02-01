@@ -59,7 +59,7 @@
                            th:href="@{/community(category=${categories.name()}) }"></a>
                     </li>
                 </ul>
-                <div sec:authorize="isAuthenticated()">
+                <div sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
                     <button type="button" th:onclick="|location.href='@{/community/write}'|">글쓰기</button>
                 </div>
             </div>
@@ -69,6 +69,7 @@
                     <div class="main-list-category" th:text="${community.category.categoryName}">카테고리</div>
                     <div class="main-list-text" ><a th:href="@{/community/read/{boardId}(boardId = ${community.id})}" th:text="${community.text}">글 내용</a></div>
                     <div class="main-list-text" th:text="${community.count}"></div>
+                    <div class="main-list-text" >💖[[${community.like}]]</div>
                 </div>
             </div>
         </div>

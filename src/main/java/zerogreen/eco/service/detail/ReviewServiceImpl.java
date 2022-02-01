@@ -6,13 +6,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import zerogreen.eco.dto.detail.LikesDto;
 import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
+import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.detail.MemberReviewRepository;
 import zerogreen.eco.repository.user.BasicUserRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -36,10 +42,19 @@ public class ReviewServiceImpl implements ReviewService{
         return memberReview.getId();
     }
 
-    //리뷰 리스트
+    //가게별 멤버 리뷰 수 카운팅
     @Override
-    public Page<MemberReviewDto> getMemberReviewList(Pageable pageable) {
-        return memberReviewRepository.findByStore(pageable);
+    public Long cntMemberReview(MemberReviewDto memberReviewDto) {
+        StoreMember findStore = storeMemberRepository.findById(memberReviewDto.getId()).orElseThrow();
+        return memberReviewRepository.counting(findStore);
+    }
+
+    //멤버 리뷰 리스트
+    @Override
+    public Page<MemberReview> getMemberReviewList(Pageable pageable, Long id) {
+        StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
+        log.info("aaaaaa66666: "+ findStore.getId());
+        return memberReviewRepository.findByStore(pageable, findStore);
     }
 
 }

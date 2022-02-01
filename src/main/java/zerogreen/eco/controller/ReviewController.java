@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.dto.paging.PagingDto;
 import zerogreen.eco.dto.paging.RequestPageDto;
-import zerogreen.eco.entity.userentity.BasicUser;
+import zerogreen.eco.entity.detail.MemberReview;
+import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.security.auth.PrincipalDetails;
-import zerogreen.eco.security.auth.PrincipalUser;
 import zerogreen.eco.service.detail.ReviewService;
 import zerogreen.eco.service.user.StoreMemberService;
+
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -28,6 +30,7 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final StoreMemberService storeMemberService;
 
+    //멤버 리뷰 db
     @ResponseBody
     @PostMapping("/addReview/{id}")
     public Long addReview(@RequestBody MemberReviewDto memberReviewDto,
@@ -36,18 +39,5 @@ public class ReviewController {
             return result;
         }
 
-    @GetMapping("/reviewList/{id}")
-    public Page<MemberReviewDto> memberReviewList(Model model, RequestPageDto requestPageDto) {
-        Pageable pageable = requestPageDto.getPageable();
-        log.info("aaaaaaaa11111 "+pageable );
-
-        Page<MemberReviewDto> reviewList = reviewService.getMemberReviewList(pageable);
-        log.info("aaaaaaaa22222 "+reviewList );
-
-        PagingDto memberReview = new PagingDto(reviewList);
-
-        model.addAttribute("memberReview",memberReview);
-        return reviewList;
-    }
 
     }

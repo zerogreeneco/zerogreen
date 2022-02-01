@@ -3,6 +3,7 @@ package zerogreen.eco.entity.community;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.Member;
 
 import javax.persistence.*;
@@ -16,7 +17,9 @@ public class CommunityLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "like_id")
     private Long id;
+
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "board_id")
@@ -24,5 +27,10 @@ public class CommunityLike {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
-    private Member member;
+    private BasicUser basicUser;
+
+    public CommunityLike(CommunityBoard board, BasicUser basicUser) {
+        this.board = board;
+        this.basicUser = basicUser;
+    }
 }

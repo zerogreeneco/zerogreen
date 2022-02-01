@@ -40,5 +40,13 @@ public class MemberReview {
         this.storeMember = storeMember;
     }
 
+    public MemberReview(Long id, String reviewText, BasicUser basicUser, StoreMember storeMember) {
+        this.id = id;
+        this.reviewText = reviewText;
+        this.basicUser = basicUser;
+        this.storeMember = storeMember;
+    }
+
+
 
 }

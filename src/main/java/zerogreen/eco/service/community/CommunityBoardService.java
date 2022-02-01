@@ -7,12 +7,14 @@ import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.community.Category;
+import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.Member;
 
 import java.util.List;
 
 public interface CommunityBoardService {
 
+    /* Community */
     void boardRegister(CommunityRequestDto dto, Member writer, List<BoardImage> imageList);
 
     Slice<CommunityResponseDto> findAllCommunityBoard(Pageable pageable);
@@ -21,4 +23,11 @@ public interface CommunityBoardService {
     CommunityResponseDto findDetailView(Long boardId);
 
     int boardCount(Long boardId);
+
+    /* Like */
+    int countLike(Long boardId, Long memberId);
+
+    void insertLike(Long boardId, BasicUser basicUser);
+
+    void deleteLike(Long boardId, Long memberId);
 }

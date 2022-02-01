@@ -36,6 +36,7 @@ $(document).ready(function(e){
     }); // end of function addReview
 
     //MemberReview Listing
+/*
     function getMemberReviews() {
         function formatTime(str) {
             var date = new Date(str);
@@ -44,18 +45,19 @@ $(document).ready(function(e){
             date.getDate() + ' ' +
             date.getHours()+':'+
             date.getMinutes();
-        }
+        } //end of formatTime
 
         $.getJSON(contextPath+"/reviewList/"+sno, function(arr) {
             let str = "";
-            console.log(sno);
+            console.log("Listing"+sno);
 
-            $.each(arr, function(idx, memberReview) {
-                str += ' <div class="review-body" data-rno="'+memberReview.id+'">';
-                str += ' <b class="rno">'+memberReview.id+'</b>';
-                //str += ' <b class="rv-memberId">'+review.memberNum+'</b>';
-                //str += ' <p class="reviewNickname rv-bold">'+review.memberNickname+'</p>';
-                str += ' <p class="reviewText">'+memberReview.reviewText+'</p>';
+            //Dto에서 가져오기때문에 dto에 쓰인 값으로 사용
+           $.each(arr, function(idx, memberReview) {
+                str += ' <div class="review-body" data-rno="'+memberReview.rno+'">';
+                str += ' <b class="rno">'+memberReview.rno+'</b>';
+                str += ' <b class="mrv-username">'+memberReview.username+'</b>';
+                str += ' <p class="mrv-sno rv-bold">'+memberReview.sno+'</p>';
+                str += ' <p class="mrv-reviewText">'+memberReview.reviewText+'</p>';
                 //str += ' <p class="reviewTime">'+formatTime(memberReview.regDate)+'</p>';
                 str += ' </div>';
                 //console.log("review>>>>>>>>>>>"+review);
@@ -67,6 +69,7 @@ $(document).ready(function(e){
     } //end of getMemberReviews
 
     getMemberReviews();
+*/
 
 
 
