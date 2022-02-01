@@ -53,8 +53,14 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public Page<MemberReview> getMemberReviewList(Pageable pageable, Long id) {
         StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
-        log.info("aaaaaa66666: "+ findStore.getId());
         return memberReviewRepository.findByStore(pageable, findStore);
+    }
+
+    //멤버리뷰 삭제
+    @Override
+    public void remove(Long id) {
+        memberReviewRepository.deleteById(id);
+
     }
 
 }

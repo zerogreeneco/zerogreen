@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +15,12 @@ import zerogreen.eco.dto.detail.LikesDto;
 import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.dto.paging.PagingDto;
 import zerogreen.eco.dto.paging.RequestPageDto;
+import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.UserRole;
+import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.security.auth.PrincipalUser;
 import zerogreen.eco.service.detail.LikesService;
 import zerogreen.eco.service.detail.ReviewService;
@@ -36,9 +40,9 @@ public class PageController {
     private final ReviewService reviewService;
 
     @GetMapping("/page/detail")
-    public void detail(Long id, Model model, LikesDto likesDto, RequestPageDto requestPageDto,
+    public void detail(Long id, Model model, LikesDto likesDto, RequestPageSortDto requestPageSortDto,
                        MemberReviewDto memberReviewDto,
-                       @PrincipalUser BasicUser basicUser) throws IOException{
+                       @PrincipalUser BasicUser basicUser, @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException{
         //스토어 데이터 + 회원/비회원
         StoreDto storeDto = storeMemberService.getStore(id);
         if (basicUser == null) {
@@ -61,17 +65,15 @@ public class PageController {
         }
 
         //상세페이지 리뷰 리스트
-        Pageable pageable = requestPageDto.getPageable();
-        log.info("aaaaaaaa11111 "+pageable );
-
-        //여기도문제
+        Pageable pageable = requestPageSortDto.getPageableSort(Sort.by("id").descending());
         Page<MemberReview> reviewList = reviewService.getMemberReviewList(pageable, id);
-        log.info("aaaaaaaa22222 "+reviewList );
-
         PagingDto memberReview = new PagingDto(reviewList);
-        log.info("aaaaaaaa33333 "+memberReview );
         //entity에 적힌 값으로 불러와야함
         model.addAttribute("memberReview",memberReview);
+
+        //리뷰어쩌구
+        model.addAttribute("rvMember", principalDetails.getId());
+
 
 
         //라이크 데이터 ** 수정예정 **

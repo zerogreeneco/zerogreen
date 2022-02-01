@@ -4,6 +4,7 @@ $(document).ready(function(e){
     let storeName = $(".js-storeName").text();
     let username = $(".js-username").text();
     let review = $("#reviewText");
+    //let rno = $(".rno").text();
     //let reviewText = $('textarea[name="reviewText"]');
 
     //Add reviews. 현재 텍스트만 가능
@@ -35,41 +36,32 @@ $(document).ready(function(e){
         }); // end of ajax
     }); // end of function addReview
 
-    //MemberReview Listing
-/*
-    function getMemberReviews() {
-        function formatTime(str) {
-            var date = new Date(str);
-            return date.getFullYear()+'/'+
-            (date.getMonth() + 1)+'/' +
-            date.getDate() + ' ' +
-            date.getHours()+':'+
-            date.getMinutes();
-        } //end of formatTime
+    //delete review
+    $(".mrv-delete").on("click", function(){
+       console.log("deletedelete");
 
-        $.getJSON(contextPath+"/reviewList/"+sno, function(arr) {
-            let str = "";
-            console.log("Listing"+sno);
+       let rno = $(this).parent().children(".rno").text();
+       console.log(rno);
 
-            //Dto에서 가져오기때문에 dto에 쓰인 값으로 사용
-           $.each(arr, function(idx, memberReview) {
-                str += ' <div class="review-body" data-rno="'+memberReview.rno+'">';
-                str += ' <b class="rno">'+memberReview.rno+'</b>';
-                str += ' <b class="mrv-username">'+memberReview.username+'</b>';
-                str += ' <p class="mrv-sno rv-bold">'+memberReview.sno+'</p>';
-                str += ' <p class="mrv-reviewText">'+memberReview.reviewText+'</p>';
-                //str += ' <p class="reviewTime">'+formatTime(memberReview.regDate)+'</p>';
-                str += ' </div>';
-                //console.log("review>>>>>>>>>>>"+review);
-            });
+       $.ajax({
+            url: contextPath + '/deleteReview/'+sno+"/"+rno ,
+            type:"DELETE",
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            data: JSON.stringify({
+                id: rno
+            }),
+            success: function(data){
+                ///self.location.reload();
+            },
+            error:function(data){
+                alert("delete_errorrrrrrrrrrrrrrrr");
+                console.log(rno);
+                console.log("result: " + data);
+            }
+        }); //ajax end
+    }); //delete end
 
-            $(".rv-list").html(str);
-            //console.log(">>>>>>>>>>>"+str);
-        });
-    } //end of getMemberReviews
-
-    getMemberReviews();
-*/
 
 
 

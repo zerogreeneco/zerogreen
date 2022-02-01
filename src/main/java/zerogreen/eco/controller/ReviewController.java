@@ -19,6 +19,7 @@ import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.detail.ReviewService;
 import zerogreen.eco.service.user.StoreMemberService;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -37,7 +38,15 @@ public class ReviewController {
                                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
             Long result = reviewService.saveReview(memberReviewDto);
             return result;
-        }
+    }
+
+    //멤버리뷰 삭제
+    @ResponseBody
+    @DeleteMapping("/deleteReview/{sno}/{id}")
+    public ResponseEntity<Long> remove(@PathVariable Long id) {
+        reviewService.remove(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
 
 
     }
