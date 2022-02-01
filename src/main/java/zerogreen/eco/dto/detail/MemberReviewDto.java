@@ -31,10 +31,20 @@ public class MemberReviewDto {
                 memberReviewDto.getBasicUser(),memberReviewDto.getStoreMember());
     }
 
+    //리뷰 db넣기
+/*
     public MemberReviewDto(String reviewText, String username, Long sno) {
         this.reviewText = reviewText;
         this.username = username;
         this.sno = sno;
     }
+*/
 
+    //리뷰 리스팅
+    public MemberReviewDto(Long rno, String reviewText, String username, Long sno) {
+        this.rno = rno;
+        this.reviewText = reviewText;
+        this.username = username;
+        this.sno = sno;
+    }
 }
