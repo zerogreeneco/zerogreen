@@ -18,6 +18,7 @@ import zerogreen.eco.repository.user.StoreMemberRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,7 +61,18 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public void remove(Long id) {
         memberReviewRepository.deleteById(id);
-
     }
+
+    //멤버리뷰 수정 ** 컨트롤러 수정하면서 같이 수정 예정**
+    @Override
+    public void modifyReview(MemberReviewDto memberReviewDto) {
+        Optional<MemberReview> result = memberReviewRepository.findById(memberReviewDto.getRno());
+        if(result.isPresent()) {
+            MemberReview review = result.get();
+            review.editMemberReview(memberReviewDto.getReviewText());
+            memberReviewRepository.save(review);
+        }
+    }
+
 
 }

@@ -28,7 +28,7 @@ $(document).ready(function(e){
                 //console.log("result1: "+data);
                 let rno = parseInt(data);
                 //console.log("result2: " +rno);
-                //self.location.reload();
+                self.location.reload();
             },
             error: function(data){
                 alert("errorrrrrrrrrrrrrrrr");
@@ -39,7 +39,6 @@ $(document).ready(function(e){
     //delete review
     $(".mrv-delete").on("click", function(){
        console.log("deletedelete");
-
        let rno = $(this).parent().children(".rno").text();
        console.log(rno);
 
@@ -61,6 +60,37 @@ $(document).ready(function(e){
             }
         }); //ajax end
     }); //delete end
+
+    //edit textarea
+
+
+    //edit Reviews
+    $(".mrv-modify").on("click", function(){
+       let rno = $(this).parent().children(".rno").text();
+       console.log("editedit");
+
+        $.ajax({
+        url: contextPath + '/editReview/'+sno+"/"+rno ,
+        type:"PUT",
+        contentType:"application/json; charset=utf-8",
+        dataType:"json",
+        data: JSON.stringify({
+             rno: rno,
+             reviewText: review.val(),
+             username: username,
+             storeName: storeName
+        }),
+        success: function(data){
+                console.log("result: " + data);
+                console.log("edit success");
+                //self.location.reload();
+            },
+        error:function(data){
+            console.log("edit failed");
+        }
+
+        }); //end ajax
+    });// end edit Reviews
 
 
 

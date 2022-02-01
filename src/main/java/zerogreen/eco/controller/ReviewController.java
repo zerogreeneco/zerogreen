@@ -48,5 +48,15 @@ public class ReviewController {
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
+    //멤버리뷰 수정 ** JSON 형식으로 다시 수정 예정**
+    @PutMapping("/editReview/{sno}/{rno}")
+    public ResponseEntity<Long> modifyReview(@PathVariable Long rno,
+                                             @RequestBody MemberReviewDto memberReviewDto){
+        reviewService.modifyReview(memberReviewDto);
+        return new ResponseEntity<>(rno, HttpStatus.OK);
+    }
+
+
+
 
     }

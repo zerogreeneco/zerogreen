@@ -14,6 +14,8 @@ public interface ReviewService {
     Page<MemberReview> getMemberReviewList(Pageable pageable, Long id);
     //멤버리뷰 삭제
     void remove(Long id);
+    //멤버리뷰 수정
+    void modifyReview(MemberReviewDto memberReviewDto);
 
 
 
