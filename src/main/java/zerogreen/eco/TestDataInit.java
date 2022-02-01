@@ -132,6 +132,12 @@ public class TestDataInit {
                     UserRole.USER, VegetarianGrade.LACTO);
             CommunityRequestDto dto = new CommunityRequestDto("TEST TITLE", "TEST TEXT", Category.PLOGGING);
             memberService.save(member);
+
+            Member member2 = new Member("test2", "tester2", "01022224444", "1",
+                    UserRole.USER, VegetarianGrade.LACTO);
+            CommunityRequestDto dto2 = new CommunityRequestDto("TEST TITLE2", "TEST TEXT2", Category.PLOGGING);
+            memberService.save(member2);
+
             // 가게 회원
             storeMemberService.save(ecoTest, new RegisterFile("origin1","store1", "path1"));
             storeMemberService.save(foodTest, new RegisterFile("origin2","store2", "path2"));

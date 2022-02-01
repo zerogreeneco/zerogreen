@@ -29,7 +29,8 @@ public class StoreReviewDto {
     private LocalDateTime modifiedDate;
 
 
-    public StoreReviewDto(String storeReviewText, Long sno, Long rno) {
+    public StoreReviewDto(Long srno, String storeReviewText, Long sno, Long rno) {
+        this.srno = srno;
         this.storeReviewText = storeReviewText;
         this.sno = sno;
         this.rno = rno;

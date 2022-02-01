@@ -12,8 +12,6 @@ import zerogreen.eco.repository.detail.LikesRepository;
 import zerogreen.eco.repository.user.BasicUserRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 
-import java.util.Optional;
-
 
 @Service
 @Slf4j
@@ -51,11 +49,13 @@ public class LikesServiceImpl implements LikesService {
 
     //라이크 데이터 뿌리기 ** 작업중 **
     @Override
-    public LikesDto liking(Long id) {
+    public LikesDto liking(Long id, String username) {
+        BasicUser findUser = basicUserRepository.findByUsername(username).orElseThrow();
         StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
-        Likes likes = likesRepository.getLikesByStoreAndUser(findStore);
-        return new LikesDto(likes.getId(),findStore, likes.getBasicUser());
+        Likes likes = likesRepository.getLikesByStoreAndUser(findStore, findUser);
+        return new LikesDto(likes.getId(),findStore, findUser);
 
-        }
+    }
+
     }
 

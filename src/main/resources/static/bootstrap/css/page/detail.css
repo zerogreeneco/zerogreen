@@ -53,6 +53,7 @@
     display: inline-block;
 }
 
+/* 리뷰 */
 .rv {
     height: 130px;
     text-align: center;
@@ -64,7 +65,7 @@
 }
 
 .rv-list {
-    background: #3d5885;
+    background: #e8daf0;
 }
 
 #reviewText {

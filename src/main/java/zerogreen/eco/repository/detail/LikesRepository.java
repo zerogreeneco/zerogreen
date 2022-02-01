@@ -14,6 +14,6 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
     @Query("select count(l.id) from Likes l where l.storeMember =:storeMember")
     Long counting(StoreMember storeMember);
 
-    @Query("select l from Likes l where l.storeMember =:storeMember")
-    Likes getLikesByStoreAndUser(StoreMember storeMember);
+    @Query("select l from Likes l where l.storeMember =:storeMember and l.basicUser =:basicUser")
+    Likes getLikesByStoreAndUser(StoreMember storeMember, BasicUser basicUser);
 }
