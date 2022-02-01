@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.community.CommunityRequestDto;
@@ -12,11 +11,13 @@ import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.community.CommunityBoard;
+import zerogreen.eco.entity.community.CommunityLike;
+import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.repository.community.BoardImageRepository;
 import zerogreen.eco.repository.community.CommunityBoardRepository;
+import zerogreen.eco.repository.community.CommunityLikeRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,6 +28,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
 
     private final CommunityBoardRepository boardRepository;
     private final BoardImageRepository boardImageRepository;
+    private final CommunityLikeRepository communityLikeRepository;
 
     /*
     * 게시글 저장
@@ -66,6 +68,28 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     @Override
     public int boardCount(Long boardId) {
         return boardRepository.boardCount(boardId);
+    }
+
+    /* 좋아요 추가 */
+    @Override
+    @Transactional
+    public void insertLike(Long boardId, BasicUser basicUser) {
+
+        CommunityBoard communityBoard = boardRepository.findById(boardId).orElseThrow();
+
+        communityLikeRepository.save(new CommunityLike(communityBoard, basicUser));
+    }
+
+    /* 좋아요 삭제 */
+    @Override
+    public void deleteLike(Long boardId, Long memberId) {
+        communityLikeRepository.deleteLike(boardId, memberId);
+    }
+
+    /* 좋아요 수 */
+    @Override
+    public int countLike(Long boardId, Long memberId) {
+        return communityLikeRepository.countLike(boardId, memberId);
     }
 
     @Override

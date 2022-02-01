@@ -1,6 +1,9 @@
 package zerogreen.eco.repository.community;
 
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -8,13 +11,16 @@ import org.springframework.data.domain.Slice;
 import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.community.CommunityBoard;
+import zerogreen.eco.entity.community.QCommunityLike;
 
 import javax.persistence.EntityManager;
 
 import java.util.List;
 
+import static com.querydsl.core.types.ExpressionUtils.count;
 import static zerogreen.eco.entity.community.QBoardImage.boardImage;
 import static zerogreen.eco.entity.community.QCommunityBoard.communityBoard;
+import static zerogreen.eco.entity.community.QCommunityLike.*;
 import static zerogreen.eco.entity.userentity.QMember.member;
 
 public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCustom{
@@ -35,6 +41,8 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     * */
     @Override
     public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable) {
+        QCommunityLike subLike = new QCommunityLike("subLike");
+
         List<CommunityResponseDto> content = queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
@@ -43,7 +51,12 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                         member.nickname,
                         communityBoard.category,
                         communityBoard.modifiedDate,
-                        communityBoard.count
+                        communityBoard.count,
+                        ExpressionUtils.as(
+                        JPAExpressions
+                                .select(count(subLike.id))
+                                .from(subLike, subLike)
+                                .where(subLike.board.id.eq(communityBoard.id)),"likeCount")
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
@@ -64,6 +77,8 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     * */
     @Override
     public Slice<CommunityResponseDto> findByCategory(Pageable pageable, Category category) {
+        QCommunityLike subLike = new QCommunityLike("subLike");
+
         List<CommunityResponseDto> content = queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
@@ -72,7 +87,12 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                         member.nickname,
                         communityBoard.category,
                         communityBoard.modifiedDate,
-                        communityBoard.count
+                        communityBoard.count,
+                        ExpressionUtils.as(
+                        JPAExpressions
+                                .select(count(subLike.id))
+                                .from(subLike, subLike)
+                                .where(subLike.board.id.eq(communityBoard.id)),"likeCount")
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
@@ -95,6 +115,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     * */
     @Override
     public CommunityResponseDto findDetailView(Long id) {
+        QCommunityLike subLike = new QCommunityLike("subLike");
 
         queryFactory
                 .update(communityBoard)
@@ -110,7 +131,12 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                         member.nickname,
                         communityBoard.category,
                         communityBoard.modifiedDate,
-                        communityBoard.count
+                        communityBoard.count,
+                        ExpressionUtils.as(
+                                JPAExpressions
+                                        .select(count(subLike.id))
+                                        .from(subLike, subLike)
+                                        .where(subLike.board.id.eq(id)),"likeCount")
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)

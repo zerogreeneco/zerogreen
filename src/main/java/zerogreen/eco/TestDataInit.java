@@ -39,7 +39,6 @@ public class TestDataInit {
         private final MemberService memberService;
         private final StoreMemberService storeMemberService;
         private final BasicUserService basicUserService;
-        private final CommunityBoardService communityBoardService;
 
         public void init() {
 
