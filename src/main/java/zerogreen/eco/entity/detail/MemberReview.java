@@ -8,6 +8,7 @@ import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -21,7 +22,7 @@ public class MemberReview {
     @Column(name="review_id")
     private Long id;
 
-    @NotNull
+    @Lob
     private String reviewText;
 
     @ManyToOne(fetch = FetchType.LAZY)

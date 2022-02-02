@@ -54,6 +54,15 @@
 }
 
 /* 리뷰 */
+
+textarea {
+    resize: none;
+}
+
+textarea:focus {
+    outline: none;
+}
+
 .rv {
     height: 130px;
     text-align: center;
@@ -65,7 +74,7 @@
 }
 
 .rv-list {
-    background: #e8daf0;
+    background: #e8ebed;
 }
 
 #reviewText {
@@ -76,16 +85,40 @@
     font-size: 0.9em;
 }
 
-textarea:focus {
-    outline: none;
-}
-
 .rv-ta {
     margin: 15px 8px 0 0;
 }
 
 #rv-btn {
     margin-bottom: 20px;
+}
+
+.reviewBox {
+    min-height: 90px;
+    border-top: 1px solid #16a085;
+}
+
+.btn-Box {
+    text-align: right;
+}
+
+.mrv-textarea {
+    background: none;
+    border: none;
+    width: 900px;
+    margin: 8px;
+    height: auto;
+}
+
+.mrv-btn {
+    border: 2px solid #16a085;
+    border-radius: 5px;
+    font-size: 1em;
+    padding: 8px;
+}
+
+.mrv-delete, .srv-adding, .srv-toAdd {
+    margin: 0 20px 15px 10px;
 }
 
 /* mixed css */

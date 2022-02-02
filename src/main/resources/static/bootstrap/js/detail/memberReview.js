@@ -4,6 +4,7 @@ $(document).ready(function(e){
     let storeName = $(".js-storeName").text();
     let username = $(".js-username").text();
     let review = $("#reviewText");
+    let count = 0;
     //let rno = $(".rno").text();
     //let reviewText = $('textarea[name="reviewText"]');
 
@@ -36,14 +37,15 @@ $(document).ready(function(e){
         }); // end of ajax
     }); // end of function addReview
 
+
     //delete review
     $(".mrv-delete").on("click", function(){
        console.log("deletedelete");
-       let rno = $(this).parent().children(".rno").text();
+       let rno = $(this).parent().parent().children(".rno").text();
        console.log(rno);
 
        $.ajax({
-            url: contextPath + '/deleteReview/'+sno+"/"+rno ,
+            url: contextPath + "/deleteReview/"+sno+"/"+rno ,
             type:"DELETE",
             contentType:"application/json; charset=utf-8",
             dataType:"json",
@@ -61,38 +63,50 @@ $(document).ready(function(e){
         }); //ajax end
     }); //delete end
 
-    //edit textarea
-
 
     //edit Reviews
     $(".mrv-modify").on("click", function(){
-       let rno = $(this).parent().children(".rno").text();
-       console.log("editedit");
+        console.log("editedit");
 
-        $.ajax({
-        url: contextPath + '/editReview/'+sno+"/"+rno ,
-        type:"PUT",
-        contentType:"application/json; charset=utf-8",
-        dataType:"json",
-        data: JSON.stringify({
-             rno: rno,
-             reviewText: review.val(),
-             username: username,
-             storeName: storeName
-        }),
-        success: function(data){
-                console.log("result: " + data);
-                console.log("edit success");
-                //self.location.reload();
-            },
-        error:function(data){
-            console.log("edit failed");
-        }
+        let rno = $(this).parent().parent().children(".rno").text();
+        let editText = $(this).parent().parent().children(".mrv-textarea");
 
-        }); //end ajax
+        count++;
+
+       if (count == 1) {
+            console.log("count");
+            editText.removeAttr('readonly');
+            editText.css('border','solid 1px #3498db');
+            editText.css('cursor','text');
+            editText.focus();
+
+       } else if (count == 2) {
+           console.log("countcount");
+
+            $.ajax({
+            url: contextPath + "/editReview/"+rno ,
+            type:"PUT",
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            data: JSON.stringify({
+                 rno: rno,
+                 reviewText: editText.val(),
+                 username: username,
+                 storeName: storeName
+            }),
+            success: function(data){
+                    console.log("result111: " + data);
+                    console.log("edit success");
+                    self.location.reload();
+                },
+            error:function(data){
+                console.log("edit failed");
+            }
+
+            }); //end ajax
+            count = 0;
+        } //end else if
     });// end edit Reviews
-
-
 
 
 }); //end script
