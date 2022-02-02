@@ -1,41 +1,45 @@
-#reg-form {
+.center-box {
     text-align: center;
+    width: 300px;
+    margin: 0 auto;
 }
 
 .join-label {
-    font-size: 1em !important;
     display: block;
     width: 300px;
+    margin: 10px 0;
+    text-align: left;
+    font-size: 1em !important;
 }
 
 .input-box {
-    display: block;
     width: 300px;
+    height: 40px;
+    margin-bottom: 10px;
 }
 
-.container {
-    max-width: 560px;
-}
-
-.field-error {
-    border-color: #dc3545;
-    color: #dc3545;
-}
-
-#header {
-    text-align: center;
-}
-
-.btn-lg {
-    width: 260px;
-}
-
-#username {
-    width: 400px;
+.login-box {
+    width: 230px;
+    height: 40px;
     display: inline;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
-.form-control {
-    width: 250px;
+.sendMail {
+    width: 65px !important;
+    height: 40px !important;
+    display: inline; background: #f1c40f;
+    font-size: 1em;
+    padding: 0 !important;
+}
+
+.hr-margin {
+    margin: 1.5em 0 2em 0;
+}
+
+.regi-btn {
+    background: #f1c40f;
+    width: 147px !important;
+    height: 50px !important;
+    font-size: 1em;
 }
