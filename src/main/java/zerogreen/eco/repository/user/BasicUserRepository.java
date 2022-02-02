@@ -10,8 +10,8 @@ public interface BasicUserRepository extends JpaRepository<BasicUser, Long>, Bas
 
     Optional<BasicUser> findByUsername(String username);
 
+    long countByUsernameAndPhoneNumber(@RequestParam("username") String username, @RequestParam("phoneNumber") String phoneNumber);
     long countByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
-
     long countByUsername(@RequestParam("username") String username);
 
 
