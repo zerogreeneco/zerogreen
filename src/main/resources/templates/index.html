@@ -2,67 +2,130 @@
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
         <link rel="stylesheet" th:href="@{/bootstrap/css/index/index.css}" />
-        <script type="text/javascript" src="bootstrap/js/index/slickslider.js"></script>
-        <!--페이지 수정 부분 시작-->
-
-        <div class="row gtr-200">
-            <div id="shopList-card">
-                <span class="cate-title">내 주변 맛집</span>
-                <div class="shopList-box">
-                    <div class="card">
-                        <div class="card-header">
-                            <img src="http://placehold.it/300x300" />
-                        </div>
-                        <div class="card-body">
-                            <span class="shop-name">가게명</span>
-                            <span>가게 거리 ?KM</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <img src="http://placehold.it/300x300" />
-                        </div>
-                        <div class="card-body">
-                            <span class="shop-name">가게명</span>
-                            <span>가게 거리 ?KM</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <img src="http://placehold.it/300x300" />
-                        </div>
-                        <div class="card-body">
-                            <span class="shop-name">가게명</span>
-                            <span>가게 거리 ?KM</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <img src="http://placehold.it/300x300" />
-                        </div>
-                        <div class="card-body">
-                            <span class="shop-name">가게명</span>
-                            <span>가게 거리 ?KM</span>
-                        </div>
+        <link rel="stylesheet" th:href="@{/bootstrap/css/index/slider.css}" />
+        <script type="text/javascript" th:src="@{/bootstrap/js/index/loginmodal.js}"></script>
+        <script type="text/javascript" th:src="@{/bootstrap/js/index/slickslider.js}"></script>
+        <!--login pop-up-->
+        <div>
+            <div id="popup-wrap">
+                <div class="popup">
+                    <span id="popup-text">로그인시 추가적인 서비스<br>이용이 가능합니다.</span>
+                    <div>
+                        <button id="popup-cancle">취소</button>
+                        <button id="popup-login" th:onclick="|location.href='@{/login}'|">로그인</button></a>
                     </div>
                 </div>
-                <p class="controls">
-                    <span class="prev"><</span>
-                    <span class="next">></span>
-                </p>
-
-                <span class="cate-title"><br>근처 제로웨이스트샵</span>
             </div>
+        </div>
+
+        <div class="row gtr-200">
+            <!--Shop List-->
+            <div id="slider">
+                <div class="slider responsive" id="carousel">
+                    <div class="category">
+                        <h3>1</h3>
+                    </div>
+                    <div class="category">
+                        <h3>2</h3>
+                    </div>
+                    <div class="category">
+                        <h3>3</h3>
+                    </div>
+                    <div class="category">
+                        <h3>4</h3>
+                    </div>
+                    <div class="category">
+                        <h3>5</h3>
+                    </div>
+                    <div class="category">
+                        <h3>6</h3>
+                    </div>
+                    <div class="category">
+                        <h3>7</h3>
+                    </div>
+                    <div class="category">
+                        <h3>8</h3>
+                    </div>
+                </div>
+            </div>
+<!--            <div id="slider">-->
+<!--                <span class="cate-title">내 주변 맛집</span>-->
+<!--                <div class="shopList-box">-->
+<!--                    <div class="card">-->
+<!--                        <div class="card-header">-->
+<!--                            <img src="http://placehold.it/300x300" />-->
+<!--                        </div>-->
+<!--                        <div class="card-body">-->
+<!--                            <span class="shop-name">가게명</span>-->
+<!--                            <span>가게 거리 ?KM</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="card">-->
+<!--                        <div class="card-header">-->
+<!--                            <img src="http://placehold.it/300x300" />-->
+<!--                        </div>-->
+<!--                        <div class="card-body">-->
+<!--                            <span class="shop-name">가게명</span>-->
+<!--                            <span>가게 거리 ?KM</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="card">-->
+<!--                        <div class="card-header">-->
+<!--                            <img src="http://placehold.it/300x300" />-->
+<!--                        </div>-->
+<!--                        <div class="card-body">-->
+<!--                            <span class="shop-name">가게명</span>-->
+<!--                            <span>가게 거리 ?KM</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="card">-->
+<!--                        <div class="card-header">-->
+<!--                            <img src="http://placehold.it/300x300" />-->
+<!--                        </div>-->
+<!--                        <div class="card-body">-->
+<!--                            <span class="shop-name">가게명</span>-->
+<!--                            <span>가게 거리 ?KM</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="card">-->
+<!--                        <div class="card-header">-->
+<!--                            <img src="http://placehold.it/300x300" />-->
+<!--                        </div>-->
+<!--                        <div class="card-body">-->
+<!--                            <span class="shop-name">가게명</span>-->
+<!--                            <span>가게 거리 ?KM</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="card">-->
+<!--                        <div class="card-header">-->
+<!--                            <img src="http://placehold.it/300x300" />-->
+<!--                        </div>-->
+<!--                        <div class="card-body">-->
+<!--                            <span class="shop-name">가게명</span>-->
+<!--                            <span>가게 거리 ?KM</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="card">-->
+<!--                        <div class="card-header">-->
+<!--                            <img src="http://placehold.it/300x300" />-->
+<!--                        </div>-->
+<!--                        <div class="card-body">-->
+<!--                            <span class="shop-name">가게명</span>-->
+<!--                            <span>가게 거리 ?KM</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <!--Google Map-->
             <div id="map-section">
                 <div id="map"></div>
             </div>
         </div>
 
-
-<!--        <script src="https://code.jquery.com/jquery-3.6.0.min.js"-->
-<!--                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="-->
-<!--                crossorigin="anonymous"></script>-->
-
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+                crossorigin="anonymous"></script>
         <script th:inline="javascript">
             function goStore(id) {
                 //alert('goStore');

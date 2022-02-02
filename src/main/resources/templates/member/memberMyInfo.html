@@ -8,43 +8,43 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <!--    왼쪽 프로필-->
-    <div class="temp1 profile">
-        <div class="profile-div">
-            <div>프로필사진 위치</div>
-            <span class="profile-name">김그네님</span>
+    <div class="row gtr-200">
+        <!--    왼쪽 프로필-->
+        <div class="temp1 profile">div
+            <div class="profile-div">
+                <div>프로필사진 위치</div>
+                <span class="profile-name">김그네님</span>
+            </div>
+            <div class="profile-div"><button type="button" class="editMyInfo profile-btn">내정보 수정</button></div>
+            <div class="profile-div"><button type="button" class="message profile-btn">쪽지함</button></div>
         </div>
-        <div class="profile-div"><button type="button" class="editMyInfo profile-btn">내정보 수정</button></div>
-        <div class="profile-div"><button type="button" class="message profile-btn">쪽지함</button></div>
+
+        <!--    우측 메뉴들-->
+        <div class="temp2">
+            <!--     우측 상단 찜한가게+내 리뷰-->
+            <div class="counting">
+                <div class="div-cnt">
+                    <span>Count</span><br>
+                    <span>찜 한 가게</span>
+                </div>
+                <div class="div-cnt">
+                    <span>Count</span><br>
+                    <span>내 리뷰</span>
+                </div>
+            </div>
+
+            <!--     찜한가게-->
+            <div class="listing">
+                <span class="textList">찜한가게</span>
+                <div>사진과 가게 명</div>
+            </div>
+
+            <!--     내 리뷰-->
+            <div class="listing">
+                <span class="textList">내 리뷰</span>
+                <div>사진, 가게명, 리뷰내용</div>
+            </div>
+        </div>
     </div>
-
-<!--    우측 메뉴들-->
- <div class="temp2">
-<!--     우측 상단 찜한가게+내 리뷰-->
-    <div class="counting">
-        <div class="div-cnt">
-            <span>Count</span><br>
-            <span>찜 한 가게</span>
-        </div>
-        <div class="div-cnt">
-            <span>Count</span><br>
-            <span>내 리뷰</span>
-        </div>
-    </div>
-
-<!--     찜한가게-->
-     <div class="listing">
-         <span class="textList">찜한가게</span>
-         <div>사진과 가게 명</div>
-     </div>
-
-<!--     내 리뷰-->
-     <div class="listing">
-         <span class="textList">내 리뷰</span>
-         <div>사진, 가게명, 리뷰내용</div>
-     </div>
- </div>
-
     </th:block>
 </th:block>

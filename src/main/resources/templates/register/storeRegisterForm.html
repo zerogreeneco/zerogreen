@@ -1,40 +1,9 @@
 <!DOCTYPE HTML>
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
-        <link rel="stylesheet" th:href="@{bootstrap/css/register.css}" />
-
-        <style>
-            .center-box {
-                text-align: center; width: 300px; margin: 0 auto;
-            }
-            .join-label {
-                display: block; width: 300px; margin: 10px 0; text-align: left; font-size: 1em !important;
-            }
-            .input-box {
-                width: 300px; height: 40px; margin-bottom: 10px;
-            }
-            .login-box {
-                width: 230px; height: 40px; display: inline; margin-bottom: 10px;
-            }
-            .sendMail {
-                width: 65px !important; height: 40px !important; display: inline; background: #f1c40f; font-size: 1em; padding: 0 !important;
-            }
-            .post-box {
-                width: 200px; height: 40px; display: inline; margin-bottom: 10px;
-            }
-            .postBtn {
-                width: 95px !important; height: 40px !important; display: inline !important; background: #f1c40f !important; font-size: 0.9em !important; padding: 0 !important;
-            }
-            .storeType {
-                text-align: left; margin-bottom: 30px;
-            }
-            .hr-margin {
-                margin: 1.5em 0 2em 0;
-            }
-            .regi-btn {
-                background: #f1c40f; width: 147px !important; height: 50px !important; font-size: 1em;
-            }
-        </style>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script th:inline="javascript" th:src="@{/bootstrap/js/join.js}"></script>
+        <link rel="stylesheet" th:href="@{/bootstrap/css/register.css}">
 
         <div style="margin: 2em 0 !important;">
             <div>
@@ -114,14 +83,14 @@
                             <div class="storeType">
                                 <label class="join-label">사업장 종류</label>
                                 <div th:each="stores : ${storeTypes}">
-                                    <input type="radio" class="" th:field="*{storeType}" th:value="${stores.name()}">
+                                    <input type="radio" style="margin-left: 10px;" th:field="*{storeType}" th:value="${stores.name()}">
                                     <label th:for="${#ids.prev('storeType')}" th:text="${stores.storeType}"></label>
                                 </div>
                             </div>
                             <!-- 첨부 파일 -->
                             <div>
                                 <label class="join-label">첨부파일</label>
-                                <input type="file" th:field="*{attachFile}">
+                                <input type="file" class="input-box" th:field="*{attachFile}">
                             </div>
                             <div th:if="${#fields.hasGlobalErrors()}">
                                 <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
@@ -130,8 +99,8 @@
 
                         <hr class="my-4 hr-margin">
                         <div>
+                            <button class="cancle-btn" th:onclick="|location.href='@{/}'|" type="button">취소 </button>
                             <button class="regi-btn" type="submit" disabled="true">회원 가입</button>
-                            <button class="regi-btn" th:onclick="|location.href='@{/}'|" type="button">취소 </button>
                         </div>
                     </div>
                 </form>

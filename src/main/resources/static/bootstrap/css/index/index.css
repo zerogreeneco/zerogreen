@@ -1,10 +1,64 @@
+#popup-wrap{
+    background-color:rgba(255, 255, 255, .8);
+    justify-content:center;
+    align-items:center;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    display:none;
+    padding:15px;
+    z-index: 99;
+}
+
+.popup {
+    text-align: center;
+    width: 100%;
+    max-width: 350px;
+    height: 200px;
+    background: white;
+    box-shadow: 0 2px 10px 0 rgb(35 30 35 / 30%);
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2em;
+    border-radius: 12px;
+}
+
+#popup-text {
+    margin: 20px 0;
+    display: block;
+    line-height: 20pt;
+    font-size: 1.1em;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+#popup-login {
+    width: 120px;
+    height: 40px;
+    font-size: 1em;
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #f1c40f;
+}
+
+#popup-cancle {
+    width: 120px;
+    height: 40px;
+    font-size: 1em;
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #d4d4d4;
+}
+
 #map {
     border-radius: 10px;
     width: 100%;
     height: 100%;
 }
 
-#shopList-card {
+#slider {
     width: 60%;
     overflow: hidden;
 }
@@ -56,6 +110,21 @@
   font-size: 13px;
   margin: 0 0 5px;
 }
+
+
+.wrapper{
+  width:100%;
+  padding-top: 20px;
+  text-align:center;
+}
+.carousel{
+  width:90%;
+  margin:0px auto;
+}
+.slick-slide{
+  margin:10px;
+}
+
 
 #map-section {
     width: 40%;
