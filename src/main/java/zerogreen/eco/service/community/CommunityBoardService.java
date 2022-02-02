@@ -10,6 +10,8 @@ import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.Member;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface CommunityBoardService {
@@ -20,7 +22,7 @@ public interface CommunityBoardService {
     Slice<CommunityResponseDto> findAllCommunityBoard(Pageable pageable);
     Slice<CommunityResponseDto> findByCategory(Pageable pageable, Category category);
 
-    CommunityResponseDto findDetailView(Long boardId);
+    CommunityResponseDto findDetailView(Long boardId, HttpServletRequest request, HttpServletResponse response);
 
     int boardCount(Long boardId);
 

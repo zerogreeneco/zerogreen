@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.dto.paging.PagingDto;
@@ -34,7 +36,7 @@ public class ReviewController {
     //멤버 리뷰 db
     @ResponseBody
     @PostMapping("/addReview/{id}")
-    public Long addReview(@RequestBody MemberReviewDto memberReviewDto,
+    public Long addReview(@RequestBody @Validated MemberReviewDto memberReviewDto, BindingResult bindingResult,
                                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
             Long result = reviewService.saveReview(memberReviewDto);
             return result;

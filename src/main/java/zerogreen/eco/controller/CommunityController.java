@@ -22,6 +22,9 @@ import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.community.CommunityBoardService;
 import zerogreen.eco.service.file.FileService;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -76,13 +79,18 @@ public class CommunityController {
 
     /* 게시글 상세보기 */
     @GetMapping("/read/{boardId}")
-    public String detailView(@PathVariable("boardId") Long boardId, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public String detailView(@PathVariable("boardId") Long boardId, Model model,
+                             @AuthenticationPrincipal PrincipalDetails principalDetails,
+                             HttpServletRequest request, HttpServletResponse response) {
+
+        Cookie oldCookie = null;
+        Cookie[] cookies = request.getCookies();
 
         if (principalDetails != null) {
             model.addAttribute("likeCount", boardService.countLike(boardId, principalDetails.getBasicUser().getId()));
         }
 
-        CommunityResponseDto detailView = boardService.findDetailView(boardId);
+        CommunityResponseDto detailView = boardService.findDetailView(boardId, request, response);
         model.addAttribute("detailView", detailView);
 
         return "community/communityDetailView";

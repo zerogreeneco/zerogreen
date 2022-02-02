@@ -15,30 +15,47 @@
                             boardId: boardId
                         },
                         success: function (data) {
-                            let load = $(".like-count").load(location.href + " .like-count");
                             if (data === 0) {
-                                $("#like-btn").replaceWith("<button type='button' id='like-btn'>😍</button>");
-                                load;
-                            } else if(data === 1)
-                                $("#like-btn").replaceWith("<button type='button' id='like-btn'>😒</button>");
-                                load;
+                                $("#like-btn").replaceWith("<button type='button' id='dislike-btn'>😍</button>");
+                                $(".like-count").load(location.href + " .like-count");
+                                location.reload();
+                            }
+                        }
+                    });
+                }); // like-btn end.
 
+                $("#dislike-btn").click(function () {
+                    let boardId = $("#id").val();
+
+                    $.ajax({
+                       url: "/zerogreen/community/like/" + boardId,
+                        method: "post",
+                        dataType: "json",
+                        data: {
+                           boardId: boardId
+                        },
+                        success: function (data) {
+                            if (data === 1) {
+                                location.reload();
+                            }
                         }
                     });
                 });
+
+
             });
         </script>
         <div th:object="${detailView}">
             <!-- 상세보기 제목 -->
             <input type="hidden" th:field="*{id}">
-            <h1 th:field="*{category}" th:text="*{category}"></h1>
+            <h1 th:field="*{category}" th:text="*{category.categoryName}"></h1>
             <h2 th:field="*{title}" th:text="*{title}"></h2>
             <p th:field="*{nickname}" th:text="*{nickname}"></p>
             <div th:field="*{modifiedDate}" th:text="*{modifiedDate}"></div>
             <div th:field="*{count}" th:text="*{count}"></div>
             <div sec:authorize="isAuthenticated()">
                 <div class="like-count" th:if="${likeCount} == 0" ><button type="button" id="like-btn">😒</button> [[*{like}]]</div>
-                <div class="like-count" th:if="${likeCount} == 1" ><button type="button" id="like-btn">😍</button> [[*{like}]]</div>
+                <div class="like-count" th:if="${likeCount} == 1" ><button type="button" id="dislike-btn">😍</button> [[*{like}]]</div>
             </div>
             <div sec:authorize="isAnonymous()">
                 <div>😍 [[*{like}]]</div>

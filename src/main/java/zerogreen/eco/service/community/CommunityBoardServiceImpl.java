@@ -18,6 +18,9 @@ import zerogreen.eco.repository.community.BoardImageRepository;
 import zerogreen.eco.repository.community.CommunityBoardRepository;
 import zerogreen.eco.repository.community.CommunityLikeRepository;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Service
@@ -59,7 +62,30 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     * 상세 보기
     * */
     @Override
-    public CommunityResponseDto findDetailView(Long boardId) {
+    public CommunityResponseDto findDetailView(Long boardId, HttpServletRequest request, HttpServletResponse response) {
+
+        Cookie viewCookie = null;
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies != null) {
+            for (int i = 0; i < cookies.length; i++) {
+                if (cookies[i].getName().equals(boardId + "_community")) {
+                    log.info("COOKIE EXIST={}", cookies[i].getValue());
+                    viewCookie = cookies[i];
+                }
+            }
+        } else {
+            log.info("COOKIE IS NOT EXIST!");
+        }
+
+        if (viewCookie == null) {
+            Cookie newCookie = new Cookie(boardId + "_community", "boardView");
+            response.addCookie(newCookie);
+            boardRepository.addViewCount(boardId);
+        } else {
+            log.info("COOKIE IS EXIST");
+            log.info("EXIST COOKIE={}", viewCookie.getValue());
+        }
 
         return boardRepository.findDetailView(boardId);
     }

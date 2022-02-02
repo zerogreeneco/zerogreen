@@ -12,5 +12,6 @@ public interface CommunityBoardRepositoryCustom {
     Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable);
     Slice<CommunityResponseDto> findByCategory(Pageable pageable, Category category);
 
+    void addViewCount(Long boardId);
     CommunityResponseDto findDetailView(Long id);
 }

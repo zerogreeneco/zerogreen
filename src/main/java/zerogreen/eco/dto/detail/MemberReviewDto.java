@@ -6,12 +6,14 @@ import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 public class MemberReviewDto {
     private Long rno;
+    @NotBlank
     private String reviewText;
 
     private Long id;
