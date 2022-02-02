@@ -66,10 +66,7 @@ public class CommunityController {
     @PostMapping("/write")
     public String write(@Validated @ModelAttribute("writeForm") CommunityRequestDto dto,
                         BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
-        log.info("writer={}", principalDetails.getId());
-        log.info("title={}", dto.getTitle());
-        log.info("content={}", dto.getText());
-        log.info("category={}", dto.getCategory());
+
         List<BoardImage> storeImages = fileService.boardImageFiles(dto.getImageFiles());
 
         boardService.boardRegister(dto, (Member) principalDetails.getBasicUser(), storeImages);
@@ -86,8 +83,6 @@ public class CommunityController {
         }
 
         CommunityResponseDto detailView = boardService.findDetailView(boardId);
-
-        log.info("COUNTCOUNTCOUNT={}", detailView.getCount());
         model.addAttribute("detailView", detailView);
 
         return "community/communityDetailView";
@@ -96,7 +91,7 @@ public class CommunityController {
     /* 좋아요 */
     @PostMapping("/like/{boardId}")
     @ResponseBody
-    public ResponseEntity<String> communityLike(@PathVariable("boardId")Long boardId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity<Integer> communityLike(@PathVariable("boardId")Long boardId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         log.info("LIKE CONTROL OK");
 
@@ -109,6 +104,6 @@ public class CommunityController {
             boardService.deleteLike(boardId, principalDetails.getId());
         }
 
-        return new ResponseEntity<>("success", HttpStatus.OK);
+        return new ResponseEntity<>(countLike, HttpStatus.OK);
     }
 }

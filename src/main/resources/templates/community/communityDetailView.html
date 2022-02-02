@@ -14,10 +14,15 @@
                         data: {
                             boardId: boardId
                         },
-                        success: function (result) {
-                            if (result == "success") {
-                                alert("성공");
-                            }
+                        success: function (data) {
+                            let load = $(".like-count").load(location.href + " .like-count");
+                            if (data === 0) {
+                                $("#like-btn").replaceWith("<button type='button' id='like-btn'>😍</button>");
+                                load;
+                            } else if(data === 1)
+                                $("#like-btn").replaceWith("<button type='button' id='like-btn'>😒</button>");
+                                load;
+
                         }
                     });
                 });
@@ -32,8 +37,8 @@
             <div th:field="*{modifiedDate}" th:text="*{modifiedDate}"></div>
             <div th:field="*{count}" th:text="*{count}"></div>
             <div sec:authorize="isAuthenticated()">
-                <div th:if="${likeCount} == 0" ><button type="button" id="like-btn">😒</button> [[*{like}]]</div>
-                <div th:if="${likeCount} == 1" ><button type="button" id="like-btn">😍</button> [[*{like}]]</div>
+                <div class="like-count" th:if="${likeCount} == 0" ><button type="button" id="like-btn">😒</button> [[*{like}]]</div>
+                <div class="like-count" th:if="${likeCount} == 1" ><button type="button" id="like-btn">😍</button> [[*{like}]]</div>
             </div>
             <div sec:authorize="isAnonymous()">
                 <div>😍 [[*{like}]]</div>
