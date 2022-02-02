@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.userentity.BasicUser;
+import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.StoreMember;
 
 import javax.validation.constraints.NotBlank;
@@ -21,6 +22,9 @@ public class MemberReviewDto {
 
     private Long sno;
     private String storeName;
+
+    private String nickname;
+    private Member member;
 
     private StoreMember storeMember;
     private BasicUser basicUser;

@@ -5,12 +5,14 @@ import lombok.Setter;
 import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.userentity.StoreMember;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 public class StoreReviewDto {
     private Long srno;
+    @NotBlank
     private String storeReviewText;
 
     private Long rno;

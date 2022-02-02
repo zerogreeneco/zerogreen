@@ -3,6 +3,7 @@ package zerogreen.eco.service.detail;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import zerogreen.eco.dto.detail.MemberReviewDto;
+import zerogreen.eco.dto.detail.StoreReviewDto;
 import zerogreen.eco.entity.detail.MemberReview;
 
 public interface ReviewService {
@@ -17,7 +18,7 @@ public interface ReviewService {
     void remove(Long id);
     //멤버리뷰 수정
     void modifyReview(MemberReviewDto memberReviewDto);
-
-
+    //스토어멤버 리뷰 DB
+    Long saveStoreReview(StoreReviewDto storeReviewDto);
 
     }

@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.detail.MemberReviewDto;
+import zerogreen.eco.dto.detail.StoreReviewDto;
 import zerogreen.eco.dto.paging.PagingDto;
 import zerogreen.eco.dto.paging.RequestPageDto;
 import zerogreen.eco.entity.detail.MemberReview;
@@ -59,7 +60,18 @@ public class ReviewController {
         return new ResponseEntity<>(rno, HttpStatus.OK);
     }
 
-
-
-
+    //스토어 멤버 리뷰 db
+    @ResponseBody
+    @PostMapping("/addStoreReview/{rno}")
+    public Long addReview(@Validated @RequestBody StoreReviewDto storeReviewDto, BindingResult bindingResult,
+                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        log.info("qqqqqq11111: "+ storeReviewDto.getRno());
+        log.info("qqqqqq22222: "+ storeReviewDto.getSno());
+        Long result = reviewService.saveStoreReview(storeReviewDto);
+        return result;
     }
+
+
+
+
+}

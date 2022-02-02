@@ -8,11 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.detail.LikesDto;
 import zerogreen.eco.dto.detail.MemberReviewDto;
+import zerogreen.eco.dto.detail.StoreReviewDto;
 import zerogreen.eco.entity.detail.MemberReview;
+import zerogreen.eco.entity.detail.StoreReview;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.detail.MemberReviewRepository;
+import zerogreen.eco.repository.detail.StoreReviewRepository;
 import zerogreen.eco.repository.user.BasicUserRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 
@@ -29,6 +32,7 @@ public class ReviewServiceImpl implements ReviewService{
     private final MemberReviewRepository memberReviewRepository;
     private final StoreMemberRepository storeMemberRepository;
     private final BasicUserRepository basicUserRepository;
+    private final StoreReviewRepository storeReviewRepository;
 
     //멤버리뷰 DB저장(db저장은 엔티티)
     @Override
@@ -84,6 +88,19 @@ public class ReviewServiceImpl implements ReviewService{
             review.editMemberReview(memberReviewDto.getReviewText());
             memberReviewRepository.save(review);
         }
+    }
+
+    //스토어멤버 리뷰 DB저장
+    @Override
+    @Transactional
+    public Long saveStoreReview(StoreReviewDto storeReviewDto) {
+        StoreMember findStore = storeMemberRepository.findById(storeReviewDto.getSno()).orElseThrow();
+        MemberReview findReview = memberReviewRepository.findById(storeReviewDto.getRno()).orElseThrow();
+        log.info("qqqqq6666: "+ findStore);
+        log.info("qqqqq7777: "+ findReview);
+        return storeReviewRepository.save( new StoreReview(storeReviewDto.getStoreReviewText(),
+                        findStore, findReview))
+                .getId();
     }
 
 
