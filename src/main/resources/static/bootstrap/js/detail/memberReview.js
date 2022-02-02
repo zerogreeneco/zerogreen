@@ -4,6 +4,7 @@ $(document).ready(function(e){
     let storeName = $(".js-storeName").text();
     let username = $(".js-username").text();
     let review = $("#reviewText");
+    //let rno = $(".rno").text();
     //let reviewText = $('textarea[name="reviewText"]');
 
     //Add reviews. 현재 텍스트만 가능
@@ -27,7 +28,7 @@ $(document).ready(function(e){
                 //console.log("result1: "+data);
                 let rno = parseInt(data);
                 //console.log("result2: " +rno);
-                //self.location.reload();
+                self.location.reload();
             },
             error: function(data){
                 alert("errorrrrrrrrrrrrrrrr");
@@ -35,38 +36,62 @@ $(document).ready(function(e){
         }); // end of ajax
     }); // end of function addReview
 
-    //MemberReview Listing
-    function getMemberReviews() {
-        function formatTime(str) {
-            var date = new Date(str);
-            return date.getFullYear()+'/'+
-            (date.getMonth() + 1)+'/' +
-            date.getDate() + ' ' +
-            date.getHours()+':'+
-            date.getMinutes();
+    //delete review
+    $(".mrv-delete").on("click", function(){
+       console.log("deletedelete");
+       let rno = $(this).parent().children(".rno").text();
+       console.log(rno);
+
+       $.ajax({
+            url: contextPath + '/deleteReview/'+sno+"/"+rno ,
+            type:"DELETE",
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            data: JSON.stringify({
+                id: rno
+            }),
+            success: function(data){
+                ///self.location.reload();
+            },
+            error:function(data){
+                alert("delete_errorrrrrrrrrrrrrrrr");
+                console.log(rno);
+                console.log("result: " + data);
+            }
+        }); //ajax end
+    }); //delete end
+
+    //edit textarea
+
+
+    //edit Reviews
+    $(".mrv-modify").on("click", function(){
+       let rno = $(this).parent().children(".rno").text();
+       console.log("editedit");
+
+        $.ajax({
+        url: contextPath + '/editReview/'+sno+"/"+rno ,
+        type:"PUT",
+        contentType:"application/json; charset=utf-8",
+        dataType:"json",
+        data: JSON.stringify({
+             rno: rno,
+             reviewText: review.val(),
+             username: username,
+             storeName: storeName
+        }),
+        success: function(data){
+                console.log("result: " + data);
+                console.log("edit success");
+                //self.location.reload();
+            },
+        error:function(data){
+            console.log("edit failed");
         }
 
-        $.getJSON(contextPath+"/reviewList/"+sno, function(arr) {
-            let str = "";
-            console.log(sno);
+        }); //end ajax
+    });// end edit Reviews
 
-            $.each(arr, function(idx, memberReview) {
-                str += ' <div class="review-body" data-rno="'+memberReview.id+'">';
-                str += ' <b class="rno">'+memberReview.id+'</b>';
-                //str += ' <b class="rv-memberId">'+review.memberNum+'</b>';
-                //str += ' <p class="reviewNickname rv-bold">'+review.memberNickname+'</p>';
-                str += ' <p class="reviewText">'+memberReview.reviewText+'</p>';
-                //str += ' <p class="reviewTime">'+formatTime(memberReview.regDate)+'</p>';
-                str += ' </div>';
-                //console.log("review>>>>>>>>>>>"+review);
-            });
-
-            $(".rv-list").html(str);
-            //console.log(">>>>>>>>>>>"+str);
-        });
-    } //end of getMemberReviews
-
-    getMemberReviews();
 
 
 

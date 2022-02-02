@@ -43,11 +43,14 @@
                     <div class="sec-flex">
                         <div class="inline sec sec-left">
                             <span class="liking">♡♡♡♡♡</span>
+                            <span class="lno">[[${liking?.lno}]]</span>
                             <span>좋아요 수: </span>
+                            <span class="like-cnt">[[${cnt}]]</span>
                         </div>
                         <div class="inline sec sec-right">
                             <span>리뷰 이모티콘</span>
-                            <span>리뷰 수</span>
+                            <span>리뷰 수: </span>
+                            <span>[[${cnt2}]]</span>
                         </div>
                     </div>
                 </div>
@@ -94,7 +97,20 @@
                     <!--    리뷰 이미지 리스트-->
                     <div class="rv-images">리뷰 이미지 리스트</div>
                     <!--    리뷰리스트-->
-                    <div class="rv-list">리뷰텍스트 리스트</div>
+                    <div class="rv-list">
+
+                        <div th:each="mReview : ${memberReview.dtoList}">
+                            <div>
+                                <span class="rno">[[${mReview.id}]]</span>
+                                <span>[[${mReview.id}]] [[${mReview.reviewText}]] [[${mReview.basicUser.id}]]</span>
+                                <span class="mrv-modify" th:if="${rvMember} == ${mReview.basicUser.id}">수정하기</span>
+                                <span class="mrv-delete" th:if="${rvMember} == ${mReview.basicUser.id}">삭제하기</span>
+                            </div>
+                        </div>
+
+
+
+                    </div>
                 </div>
 
 

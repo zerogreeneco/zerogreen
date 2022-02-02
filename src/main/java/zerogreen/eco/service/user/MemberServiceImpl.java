@@ -7,9 +7,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import zerogreen.eco.dto.member.MemberAuthDto;
 import zerogreen.eco.dto.member.MemberUpdateDto;
-import zerogreen.eco.dto.member.PasswordUpdateDto;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.user.BasicUserRepository;
@@ -68,7 +66,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public void changeAuthState(Long id) {
-        Member joinMember = memberRepository.findById(id).orElseGet(null);
+        Member joinMember = memberRepository.findById(id).orElseThrow();
 
         joinMember.setAuthState(true);
     }

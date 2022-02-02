@@ -73,8 +73,9 @@ public class MailServiceImpl implements MailService {
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setTo(mail);
-        message.setSubject("ZEROGREEN 임시 비밀번호 메일");
-        message.setText("임시 비밀번호 : " + tempPassword);
+        message.setSubject("ZEROGREEN 임시 비밀번호 메일" );
+        message.setText("임시 비밀번호 : " + tempPassword + System.lineSeparator() + "로그인 후 새로운 비밀번호로 변경해주세요.");
+        log.info("TempPassword={}", tempPassword);
 
         javaMailSender.send(message);
 

@@ -3,7 +3,9 @@ package zerogreen.eco.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
-import zerogreen.eco.dto.paging.RequestPageDto;
+import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.userentity.Member;
@@ -38,17 +40,20 @@ public class CommunityController {
         return categories;
     }
 
-    /* 커뮤티니 메인 화면 */
-    @GetMapping(value = {"", "/"})
-    public String communityHomeForm(@RequestParam(value = "category", required = false) String category,
-                                    RequestPageDto requestPageDto, Model model) {
+    /* 커뮤티니 메인 화면 및 카테고리 페이징 */
+    @GetMapping("")
+    public String communityHomeForm(@RequestParam(value = "category", required = false) Category category,
+                                    RequestPageSortDto requestPageDto, Model model) {
 
-        Pageable pageable = requestPageDto.getPageable();
+        Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
 
         log.info("CATEGORY={}", category);
 
-        model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable));
-
+        if (category == null) {
+            model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable));
+        } else {
+            model.addAttribute("communityList", boardService.findByCategory(pageable, category));
+        }
         return "community/communityHomeForm";
     }
 
@@ -61,14 +66,44 @@ public class CommunityController {
     @PostMapping("/write")
     public String write(@Validated @ModelAttribute("writeForm") CommunityRequestDto dto,
                         BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
-        log.info("writer={}", principalDetails.getId());
-        log.info("title={}", dto.getTitle());
-        log.info("content={}", dto.getText());
-        log.info("category={}", dto.getCategory());
+
         List<BoardImage> storeImages = fileService.boardImageFiles(dto.getImageFiles());
 
         boardService.boardRegister(dto, (Member) principalDetails.getBasicUser(), storeImages);
 
-        return "redirect:/";
+        return "redirect:/community";
+    }
+
+    /* 게시글 상세보기 */
+    @GetMapping("/read/{boardId}")
+    public String detailView(@PathVariable("boardId") Long boardId, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        if (principalDetails != null) {
+            model.addAttribute("likeCount", boardService.countLike(boardId, principalDetails.getBasicUser().getId()));
+        }
+
+        CommunityResponseDto detailView = boardService.findDetailView(boardId);
+        model.addAttribute("detailView", detailView);
+
+        return "community/communityDetailView";
+    }
+
+    /* 좋아요 */
+    @PostMapping("/like/{boardId}")
+    @ResponseBody
+    public ResponseEntity<Integer> communityLike(@PathVariable("boardId")Long boardId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        log.info("LIKE CONTROL OK");
+
+        int countLike = boardService.countLike(boardId, principalDetails.getId());
+        log.info("COUNTLIKE={}", countLike);
+
+        if (countLike <= 0) {
+            boardService.insertLike(boardId, principalDetails.getBasicUser());
+        } else if (countLike > 0){
+            boardService.deleteLike(boardId, principalDetails.getId());
+        }
+
+        return new ResponseEntity<>(countLike, HttpStatus.OK);
     }
 }

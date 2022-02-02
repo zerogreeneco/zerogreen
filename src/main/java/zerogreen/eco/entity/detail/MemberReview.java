@@ -33,12 +33,25 @@ public class MemberReview {
     private BasicUser basicUser;
 
 
+    //리뷰 수정하기
+    public void editMemberReview(String reviewText){
+        this.reviewText = reviewText;
+    }
+
     //add review. Entity db랑 연결할 때
     public MemberReview(String reviewText, BasicUser basicUser, StoreMember storeMember) {
         this.reviewText = reviewText;
         this.basicUser = basicUser;
         this.storeMember = storeMember;
     }
+
+    public MemberReview(Long id, String reviewText, BasicUser basicUser, StoreMember storeMember) {
+        this.id = id;
+        this.reviewText = reviewText;
+        this.basicUser = basicUser;
+        this.storeMember = storeMember;
+    }
+
 
 
 }

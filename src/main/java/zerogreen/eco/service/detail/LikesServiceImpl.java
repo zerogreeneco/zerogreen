@@ -22,15 +22,40 @@ public class LikesServiceImpl implements LikesService {
     private final BasicUserRepository basicUserRepository;
     private final StoreMemberRepository storeMemberRepository;
 
+    //좋아요
     @Override
     @Transactional
     public Long addLikes(LikesDto likesDto) {
         BasicUser findUser = basicUserRepository.findByUsername(likesDto.getUsername()).orElseThrow();
         StoreMember findStore = storeMemberRepository.findById(likesDto.getId()).orElseThrow();
-        log.info("vvvvvvvv666666: " +findUser.getId());
-        log.info("vvvvvvvv777777: " +findStore.getId());
         return likesRepository.save(new Likes(findUser, findStore))
                 .getId();
     }
 
-}
+    //안좋아요 흥!
+    @Override
+    public String remove(Long id) {
+        String key = "Delete";
+        likesRepository.deleteById(id);
+        return key;
+    }
+
+    //카운팅스타~ 밤하늘의 퍼어어얼
+    @Override
+    public Long cntLikes(LikesDto likesDto) {
+        StoreMember findStore = storeMemberRepository.findById(likesDto.getId()).orElseThrow();
+        return likesRepository.counting(findStore);
+    }
+
+    //라이크 데이터 뿌리기 ** 작업중 **
+    @Override
+    public LikesDto liking(Long id, String username) {
+        BasicUser findUser = basicUserRepository.findByUsername(username).orElseThrow();
+        StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
+        Likes likes = likesRepository.getLikesByStoreAndUser(findStore, findUser);
+        return new LikesDto(likes.getId(),findStore, findUser);
+
+    }
+
+    }
+
