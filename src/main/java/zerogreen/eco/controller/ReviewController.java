@@ -36,9 +36,9 @@ public class ReviewController {
     //멤버 리뷰 db
     @ResponseBody
     @PostMapping("/addReview/{id}")
-    public Long addReview(@RequestBody @Validated MemberReviewDto memberReviewDto, BindingResult bindingResult,
+    public Long addReview(@Validated @RequestBody MemberReviewDto memberReviewdto, BindingResult bindingResult,
                                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
-            Long result = reviewService.saveReview(memberReviewDto);
+            Long result = reviewService.saveReview(memberReviewdto);
             return result;
     }
 
@@ -51,9 +51,10 @@ public class ReviewController {
     }
 
     //멤버리뷰 수정 ** JSON 형식으로 다시 수정 예정**
-    @PutMapping("/editReview/{sno}/{rno}")
-    public ResponseEntity<Long> modifyReview(@PathVariable Long rno,
-                                             @RequestBody MemberReviewDto memberReviewDto){
+    @ResponseBody
+    @PutMapping("/editReview/{rno}")
+    public ResponseEntity<Long> modifyReview(@Validated @RequestBody MemberReviewDto memberReviewDto, BindingResult bindingResult,
+                                             @PathVariable Long rno){
         reviewService.modifyReview(memberReviewDto);
         return new ResponseEntity<>(rno, HttpStatus.OK);
     }

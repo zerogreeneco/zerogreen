@@ -30,18 +30,30 @@ public class ReviewServiceImpl implements ReviewService{
     private final StoreMemberRepository storeMemberRepository;
     private final BasicUserRepository basicUserRepository;
 
-    //멤버리뷰 DB저장
+    //멤버리뷰 DB저장(db저장은 엔티티)
     @Override
     @Transactional
     public Long saveReview(MemberReviewDto memberReviewDto) {
         BasicUser findUser = basicUserRepository.findByUsername(memberReviewDto.getUsername()).orElseThrow();
         StoreMember findStore = storeMemberRepository.findById(memberReviewDto.getId()).orElseThrow();
 
-        MemberReview memberReview = memberReviewRepository.save( new MemberReview(memberReviewDto.getReviewText(),
-                        findUser, findStore));
-
-        return memberReview.getId();
+        return memberReviewRepository.save( new MemberReview(memberReviewDto.getReviewText(),
+                        findUser, findStore))
+                .getId();
     }
+
+    //멤버리뷰 테스트 데이터 저장
+    @Override
+    @Transactional
+    public Long saveTest(MemberReview memberReview) {
+        BasicUser findUser = basicUserRepository.findByUsername(memberReview.getBasicUser().getUsername()).orElseThrow();
+        StoreMember findStore = storeMemberRepository.findById(memberReview.getStoreMember().getId()).orElseThrow();
+
+        return memberReviewRepository.save( new MemberReview(memberReview.getReviewText(),
+                        findUser, findStore))
+                .getId();
+    }
+
 
     //가게별 멤버 리뷰 수 카운팅
     @Override
