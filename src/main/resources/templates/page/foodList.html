@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}">
+    <th:block th:fragment="content">
+
+        <!-- 페이지 css/ js 추가 -->
+        <link th:href="@{/bootstrap/css/page/list.css}" rel="stylesheet"/>
+        <!-- 본문 시작 -->
+        <!--검색-->
+        <div id="search-wrap">
+            <form th:action="@{/food/list}" method="get" id="foodSearchForm">
+                <div class="input-group-prepend">
+                    <input type="hidden" name="page" value="1">
+                    <select class="dropdown" name="type">
+                        <option value="n" th:selected="${pageRequestDTO.type == 'n'}">식당 이름</option>
+                        <option value="m" th:selected="${pageRequestDTO.type == 'm'}">메뉴</option>
+                    </select>
+                </div>
+                <input id="search-bar" name="keyword" th:value="${pageRequestDTO.keyword}">
+                <img class="btn_truncate" th:src="@{/bootstrap/images/list/close.png}"/>
+                <button type="button" class="btn_search">
+                    <img class="btn_search" th:src="@{/bootstrap/images/list/search.png}"/>
+                </button>
+            </form>
+        </div>
+
+        <!-- 사업장 종류 -->
+        <div class="listNav">
+            <input type="radio" class="form-check-input storeType" id="radio1" name="storeType" value="Food" checked>
+            <label class="form-check-label" for="radio1">전체</label>
+            <input type="radio" class="form-check-input storeType" id="radio2" name="storeType" value="VeganFood">
+            <label class="form-check-label" for="radio2">비건 음식점</label>
+            <input type="radio" class="form-check-input storeType" id="radio3" name="storeType" value="GeneralFood">
+            <label class="form-check-label" for="radio3">친환경 포장</label>
+        </div>
+
+        <!-- 가게 리스트 -->
+        <div class="card">
+            <div class="card-header">
+                <img src="http://placehold.it/300x300"/>
+            </div>
+            <div class="shopList-box">
+                <div class="card-body">
+                    <span>가게명</span>
+                    <img height="15px" th:src="@{/bootstrap/images/list/call.png}">
+                    <img height="15px" th:src="@{/bootstrap/images/list/clock.png}">
+                    <img height="15px" th:src="@{/bootstrap/images/list/dish.png}">
+                </div>
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+            //검색
+            var searchForm = $("#searchForm");
+            $('.searchButton').click(function (e) {
+                searchForm.submit();
+            });
+
+            //검색어 비우기
+            $('.btn_truncate').click(function () {
+                $('#search-bar').val('');
+            });
+
+        </script>
+
+    </th:block>
+</th:block>

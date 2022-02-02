@@ -6,6 +6,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.file.TestImageUploadDto;
+import zerogreen.eco.dto.paging.RequestPageDto;
 import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.file.FileService;
@@ -18,15 +19,22 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping
-public class StoreController {
+public class ListController {
 
     private final FileService fileService;
     private final StoreMemberService storeMemberService;
 
+
     @GetMapping("/food/list")
-    public String list() {
+    public String foodList(RequestPageDto requestPageDto) {
 
         return "page/foodList";
+    }
+
+    @GetMapping("/shop/list")
+    public String shopList() {
+
+        return "page/shopList";
     }
 
     @GetMapping("/store/storeInfo")
