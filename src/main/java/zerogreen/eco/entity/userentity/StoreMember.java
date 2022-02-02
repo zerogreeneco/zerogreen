@@ -18,6 +18,7 @@ import static javax.persistence.CascadeType.ALL;
 public class StoreMember extends BasicUser{
 
     private String storeName;
+    // 사업자 등록번호
     private String storeRegNum;
 
     @Enumerated(EnumType.STRING)

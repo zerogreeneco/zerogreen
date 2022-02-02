@@ -12,6 +12,7 @@
                 integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
         <script th:src="@{/bootstrap/js/detail/memberReview.js}"></script>
+        <script th:src="@{/bootstrap/js/detail/storeReview.js}"></script>
         <script th:src="@{/bootstrap/js/detail/likes.js}"></script>
 
         <!-- 본문 시작 -->
@@ -31,6 +32,7 @@
 
                     [[${getStore.storePhoneNumber}]]
                     [[${getStore.storeType}]]
+                     ** [[${rvStore}]] **
                         <span class="js-storeId">[[${getStore.id}]]</span>
                     <div class="top">가게 상세 이미지 들어갈 곳</div>
                 </div>
@@ -99,13 +101,42 @@
                     <!--    리뷰리스트-->
                     <div class="rv-list">
 
+                        <div class="totalRvBox">
                         <div th:each="mReview : ${memberReview.dtoList}">
-                            <div>
-                                <span class="rno">[[${mReview.id}]]</span>
-                                <span>[[${mReview.id}]] [[${mReview.reviewText}]] [[${mReview.basicUser.id}]]</span>
-                                <span class="mrv-modify" th:if="${rvMember} == ${mReview.basicUser.id}">수정하기</span>
-                                <span class="mrv-delete" th:if="${rvMember} == ${mReview.basicUser.id}">삭제하기</span>
+                    <!--      멤버리뷰 리스트-->
+                            <div class="reviewBox">
+                                <span class="rno" style="display:none;">[[${mReview.id}]]</span>
+                                <span>[[${mReview.id}]]</span>
+                                <span>[[${mReview.basicUser.id}]]</span><br>
+                                <textarea class="mrv-textarea" name="reviewText"
+                                          onkeyup="this.style.height = this.scrollHeight + 'px';" readonly>[[${mReview.reviewText}]]</textarea>
+                                <div class="btn-Box">
+                                    <span class="srv-toAdd inline mrv-btn" th:if="${rvMember} == ${mReview.storeMember.id}">댓글달기</span>
+                                    <span class="mrv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.basicUser.id}">수정하기</span>
+                                    <span class="mrv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.basicUser.id}">삭제하기</span>
+                                </div>
                             </div>
+
+                    <!--      스토어 리뷰 입력창-->
+                            <div class="srv-input" style="display:none;">
+                                <textarea class="srv-textarea" name="reviewText" ></textarea>
+                                <div class="btn-Box">
+                                    <span class="srv-adding inline mrv-btn">댓글등록</span>
+                                </div>
+                            </div>
+
+                    <!--  스토어 리뷰 리스트-->
+                            <div class="reviewBox" style="display:none;">
+                                <span class="srno"></span>
+                                <span></span>
+                                <span></span>
+                                <div class="btn-Box">
+                                    <span class="srv-modify inline">수정하기</span>
+                                    <span class="srv-delete inline">삭제하기</span>
+                                </div>
+                            </div>
+                        </div>
+
                         </div>
 
 

@@ -50,6 +50,8 @@ public class PageController {
         } else {
             model.addAttribute("getStore",storeDto);
             model.addAttribute("member", basicUser.getUsername());
+            //리뷰어쩌구..
+            model.addAttribute("rvMember", principalDetails.getId());
         }
 
         //가게별 라이크 카운팅
@@ -70,10 +72,6 @@ public class PageController {
         PagingDto memberReview = new PagingDto(reviewList);
         //entity에 적힌 값으로 불러와야함
         model.addAttribute("memberReview",memberReview);
-
-        //리뷰어쩌구
-        model.addAttribute("rvMember", principalDetails.getId());
-
 
 
         //라이크 데이터 ** 수정예정 **

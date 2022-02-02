@@ -3,7 +3,6 @@ package zerogreen.eco.repository.community;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -14,19 +13,18 @@ import zerogreen.eco.entity.community.CommunityBoard;
 import zerogreen.eco.entity.community.QCommunityLike;
 
 import javax.persistence.EntityManager;
-
 import java.util.List;
 
 import static com.querydsl.core.types.ExpressionUtils.count;
-import static zerogreen.eco.entity.community.QBoardImage.boardImage;
 import static zerogreen.eco.entity.community.QCommunityBoard.communityBoard;
-import static zerogreen.eco.entity.community.QCommunityLike.*;
 import static zerogreen.eco.entity.userentity.QMember.member;
 
 public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCustom{
 
+    /*
+    * 필수 -> queryFactory를 사용하기 위해서!!!!!!!!!!!!!!!!!
+    * */
     private final JPAQueryFactory queryFactory;
-
     public CommunityBoardRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
@@ -117,12 +115,6 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     public CommunityResponseDto findDetailView(Long id) {
         QCommunityLike subLike = new QCommunityLike("subLike");
 
-        queryFactory
-                .update(communityBoard)
-                .set(communityBoard.count, communityBoard.count.add(1))
-                .where(communityBoard.id.eq(id))
-                .execute();
-
         return queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
@@ -142,5 +134,14 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                 .join(communityBoard.member, member)
                 .where(communityBoard.id.eq(id))
                 .fetchFirst();
+    }
+
+    @Override
+    public void addViewCount(Long boardId) {
+        queryFactory
+                .update(communityBoard)
+                .set(communityBoard.count, communityBoard.count.add(1))
+                .where(communityBoard.id.eq(boardId))
+                .execute();
     }
 }

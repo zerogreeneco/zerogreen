@@ -18,15 +18,22 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping
-public class StoreController {
+public class ListController {
 
     private final FileService fileService;
     private final StoreMemberService storeMemberService;
 
+
     @GetMapping("/food/list")
-    public String list() {
+    public String foodList() {
 
         return "page/foodList";
+    }
+
+    @GetMapping("/shop/list")
+    public String shopList() {
+
+        return "page/shopList";
     }
 
     @GetMapping("/store/storeInfo")
