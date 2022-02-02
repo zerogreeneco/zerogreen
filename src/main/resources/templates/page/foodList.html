@@ -11,14 +11,14 @@
                 <div class="input-group-prepend">
                     <input type="hidden" name="page" value="1">
                     <select class="dropdown" name="type">
-                        <option value="n" th:selected="${pageRequestDTO.type == 'n'}">식당 이름</option>
-                        <option value="m" th:selected="${pageRequestDTO.type == 'm'}">메뉴</option>
+                        <option>식당 이름</option>
+                        <option>메뉴</option>
                     </select>
                 </div>
-                <input id="search-bar" name="keyword" th:value="${pageRequestDTO.keyword}">
+                <input id="search-bar" name="keyword">
                 <img class="btn_truncate" th:src="@{/bootstrap/images/list/close.png}"/>
                 <button type="button" class="btn_search">
-                    <img class="btn_search" th:src="@{/bootstrap/images/list/search.png}"/>
+                    <i class="fa fa-search"/>
                 </button>
             </form>
         </div>
