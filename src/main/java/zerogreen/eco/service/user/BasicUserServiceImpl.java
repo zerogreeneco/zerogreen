@@ -57,6 +57,9 @@ public class BasicUserServiceImpl implements BasicUserService{
         return new FindMemberDto(basicUser.getUsername());
     }
 
+    /*
+    * 카운트 쿼리
+    * */
     @Override
     public long countByPhoneNumber(String phoneNumber) {
         log.info("SERVICE COUNT={}",phoneNumber);
@@ -66,6 +69,11 @@ public class BasicUserServiceImpl implements BasicUserService{
     @Override
     public long countByUsername(String username) {
         return basicUserRepository.countByUsername(username);
+    }
+
+    @Override
+    public long countByUsernameAndPhoneNumber(String username, String phoneNumber) {
+        return basicUserRepository.countByUsernameAndPhoneNumber(username, phoneNumber);
     }
 
     /*

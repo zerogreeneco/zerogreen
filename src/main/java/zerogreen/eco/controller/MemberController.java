@@ -42,10 +42,10 @@ public class MemberController {
         return new PasswordUpdateDto();
     }
 
-    @GetMapping("/findMember")
-    public String findMemberForm(@ModelAttribute("findMember") FindMemberDto findMemberForm) {
+    @GetMapping("/findMember/id")
+    public String findIdForm(@ModelAttribute("findMember") FindMemberDto findMemberForm) {
 
-        return "member/findMember";
+        return "member/findMemberId";
     }
 
     /*
@@ -78,6 +78,12 @@ public class MemberController {
         return "member/findMember";
     }
 
+    @GetMapping("/findMember/password")
+    public String findPasswordForm(@ModelAttribute("findMember") FindMemberDto findMemberForm) {
+
+        return "member/findMember";
+    }
+
     /*
     * 비밀번호 찾기
     * */
@@ -90,14 +96,16 @@ public class MemberController {
         log.info("USERNAME={}", username);
         log.info("PHONENUM={}", phoneNum);
 
-        long count = basicUserService.countByUsername(username);
+        long count = basicUserService.countByUsernameAndPhoneNumber(username, phoneNum);
 
         if (count == 1) {
             mailService.sendTempPassword(username, phoneNum);
+        } else {
+            bindingResult.reject("notExistMember", null, "일치하는 회원을 찾을 수 없습니다.");
         }
 
         // 결과가 없을 때 메시지 설정 필요
-        return "member/findMember";
+        return "redirect:/login";
     }
 
     @GetMapping("/account")

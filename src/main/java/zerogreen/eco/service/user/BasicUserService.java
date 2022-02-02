@@ -24,6 +24,8 @@ public interface BasicUserService {
     long countByPhoneNumber(String phoneNumber);
     long countByUsername(String username);
 
+    long countByUsernameAndPhoneNumber(String username, String phoneNumber);
+
     void changeStoreUserRole(List<Long> memberId);
 
     void memberDelete(Long id);
