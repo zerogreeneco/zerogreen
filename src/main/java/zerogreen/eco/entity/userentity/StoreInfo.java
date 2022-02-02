@@ -15,6 +15,7 @@ public class StoreInfo {
     private String postalCode;
     private String storeAddress;
     private String storeDetailAddress;
+    // 사업장 전화번호
     private String storePhoneNumber;
     @Lob
     private String storeDescription;

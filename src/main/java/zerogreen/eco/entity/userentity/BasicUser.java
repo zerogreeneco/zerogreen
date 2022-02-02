@@ -19,6 +19,7 @@ public class BasicUser extends BaseTimeEntity {
     private Long id;
 
     private String username;
+    // 개인 연락처
     private String phoneNumber;
 
     private String password;

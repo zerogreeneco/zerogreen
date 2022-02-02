@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.member.FindMemberDto;
@@ -18,6 +19,7 @@ import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.MemberService;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -49,7 +51,7 @@ public class MemberController {
     /*
     * 이메일 찾기
     * */
-/*    @PostMapping("/findMember")
+    @PostMapping("/findMember/id")
     public String findId(@Validated @ModelAttribute("findMember") FindMemberDto findMemberDto,
                          BindingResult bindingResult, Model model) {
 
@@ -58,7 +60,7 @@ public class MemberController {
         if (bindingResult.hasErrors()) {
             List<ObjectError> allErrors = bindingResult.getAllErrors();
             for (ObjectError allError : allErrors) {
-                log.info("ERROR={}", allError);
+                log.info("FIND ID={}", allError);
             }
         }
         long count = basicUserService.countByPhoneNumber(phoneNumber);
@@ -74,12 +76,12 @@ public class MemberController {
             model.addAttribute("username1", "일치하는 아이디가 없습니다. ");
         }
         return "member/findMember";
-    }*/
+    }
 
     /*
     * 비밀번호 찾기
     * */
-    @PostMapping("/findMember")
+    @PostMapping("/findMember/password")
     public String findPassword(@Validated @ModelAttribute("findMember") FindMemberDto findMemberDto,
                                BindingResult bindingResult, Model model) {
         String username = findMemberDto.getUsername();

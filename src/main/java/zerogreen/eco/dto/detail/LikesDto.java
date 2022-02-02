@@ -26,7 +26,6 @@ public class LikesDto {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
-
     //이하 생성자 정리예정
     public LikesDto(Long lno, StoreMember storeMember, BasicUser basicUser){
         this.lno = lno;

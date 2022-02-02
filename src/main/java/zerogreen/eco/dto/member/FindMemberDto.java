@@ -1,6 +1,7 @@
 package zerogreen.eco.dto.member;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import zerogreen.eco.entity.userentity.BasicUser;
 

@@ -124,7 +124,6 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         StoreMember findMember = storeMemberRepository.findById(id).orElseThrow();
         log.info("findMember={}", findMember.getUsername());
 
-
         for (StoreImageFile image : storeImageFile) {
             storeImageFileRepository.save(new StoreImageFile(image.getFileName(),
                     image.getStoreFileName(), image.getFilePath(), findMember));
