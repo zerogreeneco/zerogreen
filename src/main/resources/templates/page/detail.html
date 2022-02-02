@@ -5,149 +5,142 @@
         <!--페이지 수정 부분 시작-->
 
         <!-- 페이지 css/ js 추가 -->
-        <link th:href="@{/bootstrap/css/page/detail.css}" rel="stylesheet"/>
-        <link id="contextPathHolder" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
+    <link th:href="@{/bootstrap/css/page/detail.css}" rel="stylesheet"/>
+    <link id="contextPathHolder" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-        <script th:src="@{/bootstrap/js/detail/memberReview.js}"></script>
-        <script th:src="@{/bootstrap/js/detail/storeReview.js}"></script>
-        <script th:src="@{/bootstrap/js/detail/likes.js}"></script>
+    <script th:src="@{/bootstrap/js/detail/memberReview.js}"></script>
+    <script th:src="@{/bootstrap/js/detail/storeReview.js}"></script>
+    <script th:src="@{/bootstrap/js/detail/likes.js}"></script>
 
         <!-- 본문 시작 -->
+    <div class="detail-content">
 
-        <div class="detail-content">
-
-
-            <div class="detail-content">
-
-                <div class="detail-top temp1">
-                    <!--    1열 카드이미지-->
-                    <div sec:authorize="isAuthenticated()">
-                        <div class="js-username" th:text="${member}"></div>
-                    </div>
-                    [[${getStore.storeName}]]
-                    [[${getStore.postalCode}]]
-
-                    [[${getStore.storePhoneNumber}]]
-                    [[${getStore.storeType}]]
-                     ** [[${rvStore}]] **
-                        <span class="js-storeId">[[${getStore.id}]]</span>
-                    <div class="top">가게 상세 이미지 들어갈 곳</div>
-                </div>
-
-                <!--    2열-->
-                <div class="detail-sec temp2">
-                    <div class="store-name">
-                        <span class="js-storeName">[[${getStore.storeName}]]</span>
-                    </div>
-                    <div class="sec-flex">
-                        <div class="inline sec sec-left">
-                            <span class="liking">♡♡♡♡♡</span>
-                            <span class="lno">[[${liking?.lno}]]</span>
-                            <span>좋아요 수: </span>
-                            <span class="like-cnt">[[${cnt}]]</span>
-                        </div>
-                        <div class="inline sec sec-right">
-                            <span>리뷰 이모티콘</span>
-                            <span>리뷰 수: </span>
-                            <span>[[${cnt2}]]</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!--3열-->
-                <div class="detail-thr temp1">
-                    <!--    3열 좌측-->
-                    <div class="thr thr-left">
-                        <span>가게메뉴</span><br>
-                        <span>가게메뉴</span><br>
-                        <span>가게메뉴</span><br>
-                    </div>
-                    <!--    3열 우측-->
-                    <div class="thr thr-right">
-                        <span>가게소개</span><br>
-                        <span>영업시간</span><br>
-                        <span>전화번호</span><br>
-                        <span>영업시간</span><br>
-                        <span>[[${getStore.storeAddress}]]</span><br>
-                        <span>기타기타</span><br>
-                    </div>
-                </div>
-
-                <!--    4열-->
-                <div class="temp2 detail-map">
-                    <div id="map" style="width:900px;height:350px;"></div>
-                    <script type="text/javascript" th:src="@{/bootstrap/js/detail/detailMap.js}"></script>
-                    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac&libraries=services"></script>
-                    <input hidden id="mapAddress" type="text" th:value="${getStore.storeAddress}">
-                </div>
-
-                <!--리뷰작성칸-->
-                <div class="rv temp1">
-                    <div class="inline rv-ta">
-                        <textarea name="reviewText" id="reviewText"></textarea>
-                    </div>
-                    <div class="inline rv-btn">
-                        <button type="button" id="rv-btn">리뷰등록</button>
-                    </div>
-                </div>
-
-                <!--리뷰 이미지+텍스트 리스트   -->
-                <div class="temp2">
-                    <!--    리뷰 이미지 리스트-->
-                    <div class="rv-images">리뷰 이미지 리스트</div>
-                    <!--    리뷰리스트-->
-                    <div class="rv-list">
-
-                        <div class="totalRvBox">
-                        <div th:each="mReview : ${memberReview.dtoList}">
-                    <!--      멤버리뷰 리스트-->
-                            <div class="reviewBox">
-                                <span class="rno" style="display:none;">[[${mReview.id}]]</span>
-                                <span>[[${mReview.id}]]</span>
-                                <span>[[${mReview.basicUser.id}]]</span><br>
-                                <textarea class="mrv-textarea" name="reviewText"
-                                          onkeyup="this.style.height = this.scrollHeight + 'px';" readonly>[[${mReview.reviewText}]]</textarea>
-                                <div class="btn-Box">
-                                    <span class="srv-toAdd inline mrv-btn" th:if="${rvMember} == ${mReview.storeMember.id}">댓글달기</span>
-                                    <span class="mrv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.basicUser.id}">수정하기</span>
-                                    <span class="mrv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.basicUser.id}">삭제하기</span>
-                                </div>
-                            </div>
-
-                    <!--      스토어 리뷰 입력창-->
-                            <div class="srv-input" style="display:none;">
-                                <textarea class="srv-textarea" name="reviewText" ></textarea>
-                                <div class="btn-Box">
-                                    <span class="srv-adding inline mrv-btn">댓글등록</span>
-                                </div>
-                            </div>
-
-                    <!--  스토어 리뷰 리스트-->
-                            <div class="reviewBox" style="display:none;">
-                                <span class="srno"></span>
-                                <span></span>
-                                <span></span>
-                                <div class="btn-Box">
-                                    <span class="srv-modify inline">수정하기</span>
-                                    <span class="srv-delete inline">삭제하기</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        </div>
-
-
-
-                    </div>
-                </div>
-
-
-                <!--end of page-->
+<!--        1열-->
+        <div class="detail-top temp1">
+            <div sec:authorize="isAuthenticated()">
+                <div class="js-username" th:text="${member}"></div>
             </div>
+            [[${getStore.storeName}]]
+            [[${getStore.postalCode}]]
 
+            [[${getStore.storePhoneNumber}]]
+            [[${getStore.storeType}]]
+             ** [[${rvStore}]] **
+                <span class="js-storeId">[[${getStore.id}]]</span>
+            <div class="top">가게 상세 이미지 들어갈 곳</div>
         </div>
+
+        <!--    2열-->
+        <div class="detail-sec temp2">
+            <div class="store-name">
+                <span class="js-storeName">[[${getStore.storeName}]]</span>
+            </div>
+            <div class="sec-flex">
+                <div class="inline sec sec-left">
+                    <span class="liking">♡♡♡♡♡</span>
+                    <span class="lno">[[${liking?.lno}]]</span>
+                    <span>좋아요 수: </span>
+                    <span class="like-cnt">[[${cnt}]]</span>
+                </div>
+                <div class="inline sec sec-right">
+                    <span>리뷰 이모티콘</span>
+                    <span>리뷰 수: </span>
+                    <span>[[${cnt2}]]</span>
+                </div>
+            </div>
+        </div>
+
+        <!--3열-->
+        <div class="detail-thr temp1">
+            <!--    3열 좌측-->
+            <div class="thr thr-left">
+                <span>가게메뉴</span><br>
+                <span>가게메뉴</span><br>
+                <span>가게메뉴</span><br>
+            </div>
+            <!--    3열 우측-->
+            <div class="thr thr-right">
+                <span>가게소개</span><br>
+                <span>영업시간</span><br>
+                <span>전화번호</span><br>
+                <span>영업시간</span><br>
+                <span>[[${getStore.storeAddress}]]</span><br>
+                <span>기타기타</span><br>
+            </div>
+        </div>
+
+        <!--    4열-->
+        <div class="temp2 detail-map">
+            <div id="map" style="width:900px;height:350px;"></div>
+            <script type="text/javascript" th:src="@{/bootstrap/js/detail/detailMap.js}"></script>
+            <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac&libraries=services"></script>
+            <input hidden id="mapAddress" type="text" th:value="${getStore.storeAddress}">
+        </div>
+
+        <!--리뷰작성칸-->
+        <div class="rv temp1">
+            <div class="inline rv-ta">
+                <textarea name="reviewText" id="reviewText"></textarea>
+            </div>
+            <div class="inline rv-btn">
+                <button type="button" id="rv-btn">리뷰등록</button>
+            </div>
+        </div>
+
+        <!--리뷰 이미지+텍스트 리스트   -->
+        <div class="temp2">
+            <!--    리뷰 이미지 리스트-->
+            <div class="rv-images">리뷰 이미지 리스트</div>
+            <!--    리뷰리스트-->
+            <div class="rv-list">
+
+                <div th:each="mReview : ${memberReview.dtoList}">
+            <!--      멤버리뷰 리스트-->
+                    <div class="reviewBox">
+                        <span class="rno" style="display:none;">[[${mReview.id}]]</span>
+                        <span>[[${mReview.id}]]</span>
+                        <span>[[${mReview.basicUser.id}]]</span><br>
+                        <textarea class="mrv-textarea" name="reviewText"
+                                  onkeyup="this.style.height = this.scrollHeight + 'px';" readonly>[[${mReview.reviewText}]]</textarea>
+                        <div class="btn-Box">
+                            <span class="srv-toAdd inline mrv-btn" th:if="${rvMember} == ${mReview.storeMember.id}">댓글달기</span>
+                            <span class="mrv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.basicUser.id}">수정하기</span>
+                            <span class="mrv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.basicUser.id}">삭제하기</span>
+                        </div>
+            <!--      스토어 리뷰 입력창-->
+                        <div class="srv-input" style="display:none;">
+                            <textarea class="srv-textarea" name="reviewText" ></textarea>
+                            <div class="btn-Box">
+                                <span class="srv-adding inline mrv-btn" id="srv-adding">댓글등록</span>
+                            </div>
+                        </div>
+
+            <!--       스토어 리뷰 리스트-->
+                       <div class="sReview-Box" style="display:none;">
+                           <span class="srno"></span>
+                           <span></span>
+                           <span></span>
+                           <div class="btn-Box">
+                                <span class="srv-modify inline">수정하기</span>
+                                <span class="srv-delete inline">삭제하기</span>
+                           </div>
+                       </div>
+
+                   </div>
+<!--                     end reviewBox-->
+                </div>
+<!--                    end div - Each-->
+            </div>
+<!--                 end rv-list-->
+        </div>
+<!--                end review images and review list-->
+
+
+
+    </div>
+                <!--end of page-->
     </th:block>
 </th:block>
