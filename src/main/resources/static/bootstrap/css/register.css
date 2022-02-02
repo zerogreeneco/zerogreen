@@ -1,6 +1,6 @@
 .center-box {
     text-align: center;
-    width: 300px;
+    width: 320px;
     margin: 0 auto;
 }
 
@@ -9,6 +9,7 @@
     width: 300px;
     margin: 10px 0;
     text-align: left;
+    padding-left: 10px;
     font-size: 1em !important;
 }
 
@@ -28,9 +29,31 @@
 .sendMail {
     width: 65px !important;
     height: 40px !important;
-    display: inline; background: #f1c40f;
+    display: inline;
+    background: #f1c40f;
     font-size: 1em;
     padding: 0 !important;
+}
+
+.post-box {
+    width: 200px;
+    height: 40px;
+    display: inline;
+    margin-bottom: 10px;
+}
+
+.postBtn {
+    width: 95px !important;
+    height: 40px !important;
+    display: inline !important;
+    background: #f1c40f !important;
+    font-size: 0.9em !important;
+    padding: 0 !important;
+}
+
+.storeType {
+    text-align: left;
+    margin-bottom: 30px;
 }
 
 .hr-margin {

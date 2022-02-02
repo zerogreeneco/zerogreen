@@ -2,10 +2,25 @@
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
         <link rel="stylesheet" th:href="@{/bootstrap/css/index/index.css}" />
-        <script type="text/javascript" src="bootstrap/js/index/slickslider.js"></script>
+        <script type="text/javascript" th:src="@{/bootstrap/js/index/loginmodal.js}"></script>
+        <script type="text/javascript" th:src="@{/bootstrap/js/index/slickslider.js}"></script>
         <!--페이지 수정 부분 시작-->
 
+        <!--login pop-up-->
+        <div>
+            <div id="popup-wrap">
+                <div class="popup">
+                    <span id="popup-text">로그인시 추가적인 서비스<br>이용이 가능합니다.</span>
+                    <div>
+                        <button id="popup-cancle">취소</button>
+                        <button id="popup-login" th:onclick="|location.href='@{/login}'|">로그인</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row gtr-200">
+            <!--Shop List-->
             <div id="shopList-card">
                 <span class="cate-title">내 주변 맛집</span>
                 <div class="shopList-box">
@@ -53,6 +68,8 @@
 
                 <span class="cate-title"><br>근처 제로웨이스트샵</span>
             </div>
+
+            <!--Google Map-->
             <div id="map-section">
                 <div id="map"></div>
             </div>
