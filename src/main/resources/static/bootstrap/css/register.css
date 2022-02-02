@@ -11,12 +11,14 @@
     text-align: left;
     padding-left: 10px;
     font-size: 1em !important;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .input-box {
     width: 300px;
     height: 40px;
     margin-bottom: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .login-box {
@@ -24,6 +26,7 @@
     height: 40px;
     display: inline;
     margin-bottom: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .sendMail {
@@ -33,6 +36,7 @@
     background: #f1c40f;
     font-size: 1em;
     padding: 0 !important;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .post-box {
@@ -40,6 +44,7 @@
     height: 40px;
     display: inline;
     margin-bottom: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .postBtn {
@@ -49,11 +54,13 @@
     background: #f1c40f !important;
     font-size: 0.9em !important;
     padding: 0 !important;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .storeType {
     text-align: left;
     margin-bottom: 30px;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .hr-margin {
@@ -65,4 +72,13 @@
     width: 147px !important;
     height: 50px !important;
     font-size: 1em;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.cancle-btn {
+    width: 147px !important;
+    height: 50px !important;
+    font-size: 1em;
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #d4d4d4;
 }
