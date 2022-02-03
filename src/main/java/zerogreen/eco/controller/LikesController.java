@@ -36,5 +36,4 @@ public class LikesController {
         likesService.remove(id);
         return key;
     }
-
 }

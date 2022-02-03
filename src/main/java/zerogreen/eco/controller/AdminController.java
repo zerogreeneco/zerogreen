@@ -21,9 +21,11 @@ import zerogreen.eco.dto.paging.RequestPageDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
+import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.file.RegisterFileRepository;
 import zerogreen.eco.service.file.FileService;
 import zerogreen.eco.service.user.BasicUserService;
+import zerogreen.eco.service.user.StoreMemberService;
 
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
@@ -38,6 +40,8 @@ public class AdminController {
     private final BasicUserService basicUserService;
     private final FileService fileService;
     private final RegisterFileRepository registerFileRepository;
+    private final StoreMemberService storeMemberService;
+
 
     @GetMapping("/approvalStore")
     public Page<NonApprovalStoreDto> approvalStore(Model model, RequestPageSortDto requestPageDto) {

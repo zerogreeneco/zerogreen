@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
@@ -78,19 +79,6 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         findMember.setStoreInfo(findMember.getStoreInfo());
     }
 
-    //승인받은 Store 가게목록.. 수정중
-    @Override
-    public List<StoreMember> findByApprovedStore(UserRole userRole) {
-        return new ArrayList<>(storeMemberRepository.findByApprovedStore(userRole));
-    }
-
-/*
-    @Override
-    public List<StoreDto> findByApprovedStore(UserRole userRole) {
-        List<StoreMember> storeMember = storeMemberRepository.findByApprovedStore(userRole);
-        return new StoreDto(storeMember.getStoreName(), storeMember.getStoreType());
-    }
-*/
 
     //store데이터 넘겨서 상세페이지에.. 왜 되는지 모르겠는데 된다.. ^.ㅠ
     @Override
@@ -130,5 +118,10 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         }
 
         log.info("파일 저장 OK");
+    }
+
+    @Override
+    public List<NonApprovalStoreDto> findByApprovalStore(UserRole userRole) {
+        return storeMemberRepository.findByApprovalStore(userRole);
     }
 }
