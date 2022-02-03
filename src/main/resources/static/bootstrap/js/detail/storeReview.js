@@ -3,7 +3,7 @@ $(document).ready(function(e){
     let sno = $(".js-storeId").text();
     let storeName = $(".js-storeName").text();
     let username = $(".js-username").text();
-    let parent = $(this).parent().parent().parent();
+    let count = 0;
 
 
     //add StoreReviews
@@ -48,6 +48,83 @@ $(document).ready(function(e){
             }); // end of ajax
         }); // end of function addReview
     }); //end add StoreReviews
+
+
+    //delete reviews
+    $(".srv-delete").on("click", function(){
+       console.log("deletedelete");
+       let srno = $(this).parent().parent().children(".srno").text();
+       console.log(srno);
+
+       $.ajax({
+            url: contextPath + "/deleteStoreReview/"+sno+"/"+srno ,
+            type:"DELETE",
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            data: JSON.stringify({
+                id: srno
+            }),
+            success: function(data){
+               console.log("success");
+                ///self.location.reload();
+            },
+            error:function(data){
+                alert("delete_errorrrrrrrrrrrrrrrr");
+                console.log(rno);
+                console.log("result: " + data);
+            }
+        }); //ajax end
+    }); //delete end
+
+
+    //edit Reviews
+    $(".srv-modify").on("click", function(){
+        console.log("editedit");
+
+        let parent = $(this).parent().parent().parent();
+
+        let srno = $(this).parent().parent().children(".srno").text();
+        let editText = $(this).parent().parent().children(".srv-textarea");
+        let rno = parent.children(".rno").text();
+
+        count++;
+
+       if (count == 1) {
+            console.log("count");
+            editText.removeAttr('readonly');
+            editText.css('border','solid 1px #3498db');
+            editText.css('cursor','text');
+            editText.focus();
+
+       } else if (count == 2) {
+           console.log("countcount");
+           console.log(sno);
+           console.log(rno);
+           console.log(srno);
+            //잘은 모르겠는데 컨트롤러에서 dto에서 값을 가져와서 필드값도 dto에 맞추는걸까?
+            $.ajax({
+            url: contextPath + "/modifyStoreReview/"+srno ,
+            type:"PUT",
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            data: JSON.stringify({
+                 srno: srno,
+                 storeReviewText: editText.val(),
+                 rno: rno,
+                 sno: sno
+            }),
+            success: function(data){
+                    console.log("result111: " + data);
+                    console.log("edit success");
+                    self.location.reload();
+                },
+            error:function(data){
+                console.log("edit failed");
+            }
+            }); //end ajax
+            count = 0;
+        } //end else if
+    });// end edit Reviews
 
 
 

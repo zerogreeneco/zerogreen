@@ -29,6 +29,10 @@ public class StoreReview {
     @JoinColumn(name = "memberReview_id")
     private MemberReview memberReview;
 
+    //리뷰 수정하기
+    public void editStoreReview(String storeReviewText){
+        this.storeReviewText = storeReviewText;
+    }
 
     //db넣기
     public StoreReview(String storeReviewText, StoreMember storeMember, MemberReview memberReview) {
