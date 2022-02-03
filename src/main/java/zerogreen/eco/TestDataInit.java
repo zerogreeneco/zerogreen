@@ -5,14 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.community.CommunityRequestDto;
-import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.entity.community.Category;
+import zerogreen.eco.entity.community.CommunityBoard;
 import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.userentity.*;
+import zerogreen.eco.repository.community.CommunityBoardRepository;
 import zerogreen.eco.repository.user.MemberRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
-import zerogreen.eco.service.community.CommunityBoardService;
 import zerogreen.eco.service.detail.ReviewService;
 import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.MemberService;
@@ -22,7 +22,6 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -48,6 +47,7 @@ public class TestDataInit {
         private final ReviewService reviewService;
         private final MemberRepository memberRepository;
         private final StoreMemberRepository storeMemberRepository;
+        private final CommunityBoardRepository communityBoardRepository;
 
         public void init() {
 
@@ -182,8 +182,9 @@ public class TestDataInit {
             MemberReview memberReview7 = new MemberReview("mReview3 by test2",findMember2,findEcoStore2);
             reviewService.saveTest(memberReview7);
             MemberReview memberReview8 = new MemberReview("mReview4 by test2",findMember2,findEcoStore2);
-            reviewService.saveTest(memberReview8);
 
+            communityBoardRepository.save(new CommunityBoard("TEST TITLE", "TEST TEXT", findMember1, Category.PLOGGING));
+            communityBoardRepository.save(new CommunityBoard("TEST TITLE2", "TEST TEXT2", findMember1, Category.PLOGGING));
 
             em.flush();
             em.clear();

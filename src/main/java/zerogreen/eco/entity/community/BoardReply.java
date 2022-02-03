@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
+import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.Member;
 
 import javax.persistence.*;
@@ -22,7 +23,7 @@ public class BoardReply extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "replier_id")
-    private Member replier;
+    private BasicUser replier;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
