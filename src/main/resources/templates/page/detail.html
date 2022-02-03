@@ -96,8 +96,9 @@
                 <div th:each="mReview : ${memberReview.dtoList}">
             <!--      멤버리뷰 리스트-->
                     <div class="reviewBox">
-                        <span class="rno" style="display:none;">[[${mReview.id}]]</span>
-                        <span>[[${mReview.id}]]</span>
+                        <span class="rno" style="display:none;">[[${mReview.rno}]]</span>
+                        <span>[[${mReview.rno}]]</span>
+                        <span>[[${mReview.nickname}]]</span>
                         <span>[[${mReview.basicUser.id}]]</span><br>
                         <textarea class="mrv-textarea" name="reviewText"
                                   onkeyup="this.style.height = this.scrollHeight + 'px';" readonly>[[${mReview.reviewText}]]</textarea>

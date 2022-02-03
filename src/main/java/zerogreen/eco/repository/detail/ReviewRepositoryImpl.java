@@ -17,6 +17,7 @@ import java.util.List;
 import static zerogreen.eco.entity.detail.QMemberReview.memberReview;
 import static zerogreen.eco.entity.detail.QStoreReview.storeReview;
 import static zerogreen.eco.entity.userentity.QBasicUser.basicUser;
+import static zerogreen.eco.entity.userentity.QMember.member;
 
 public class ReviewRepositoryImpl implements ReviewRepository{
 
@@ -32,9 +33,12 @@ public class ReviewRepositoryImpl implements ReviewRepository{
                         memberReview.id,
                         memberReview.reviewText,
                         memberReview.basicUser,
-                        memberReview.storeMember
+                        memberReview.storeMember,
+                        member.nickname
                 ))
                 .from(memberReview, memberReview)
+                .leftJoin(member)
+                .on(memberReview.basicUser.eq(member._super))
                 .where(memberReview.storeMember.eq(storeMember))
                 .orderBy(memberReview.id.desc())
                 .offset(pageable.getOffset())

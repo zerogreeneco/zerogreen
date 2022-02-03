@@ -53,7 +53,6 @@ public class ReviewServiceImpl implements ReviewService{
                 .getId();
     }
 
-
     //가게별 멤버 리뷰 수 카운팅
     @Override
     public Long cntMemberReview(MemberReviewDto memberReviewDto) {
@@ -67,14 +66,6 @@ public class ReviewServiceImpl implements ReviewService{
         StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
         return memberReviewRepository.findByStore(pageable, findStore);
     }
-/*
-    //멤버 리뷰 리스트
-    @Override
-    public Page<MemberReview> getMemberReviewList(Pageable pageable, Long id) {
-        StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
-        return memberReviewRepository.findByStore(pageable, findStore);
-    }
-*/
 
     //멤버리뷰 삭제
     @Override
