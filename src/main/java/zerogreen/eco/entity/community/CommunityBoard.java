@@ -28,6 +28,8 @@ public class CommunityBoard extends BaseTimeEntity {
     @Lob
     private String text;
 
+    private int count;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Member member;
@@ -35,7 +37,9 @@ public class CommunityBoard extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    private int count;
+    @OneToMany(mappedBy = "board")
+    private List<CommunityLike> likes = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "board", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
     private List<BoardImage> imageList = new ArrayList<>();

@@ -28,12 +28,12 @@
                         .done(function (data) {
                         if (data.count === 1) {
                             $("#like-btn").html("😒");
-                            $(".like-cnt").text(likeCount);
-                            console.log(likeCount);
+                            $(".test-count").text(data.totalCount);
+                            console.log(data.totalCount)
                         } else if (data.count === 0) {
                             $("#like-btn").html("😍");
-                            $(".like-cnt").text(likeCount);
-                            console.log(likeCount);
+                            $(".test-count").text(data.totalCount);
+                            console.log(data.totalCount)
                         }
                     });
                 }); // like-btn end.
@@ -50,8 +50,8 @@
             <div th:field="*{modifiedDate}" th:text="*{modifiedDate}"></div>
             <div th:field="*{count}" th:text="*{count}"></div>
             <div sec:authorize="isAuthenticated()" id="like-wrapper">
-                <div class="like-count" th:if="${likeCount} == 0" ><p id="like-btn">😒</p> [[*{like}]]</div>
-                <div class="like-count" th:if="${likeCount} == 1" ><p id="like-btn">😍</p> [[*{like}]]</div>
+                <div class="like-count" th:if="${likeCount} == 0" ><p id="like-btn">😒</p> <span class="test-count">[[*{like}]]</span></div>
+                <div class="like-count" th:if="${likeCount} == 1" ><p id="like-btn">😍</p> <span class="test-count">[[*{like}]]</span></div>
             </div>
             <div sec:authorize="isAnonymous()">
                 <div>😍 [[*{like}]]</div>

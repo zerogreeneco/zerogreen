@@ -68,10 +68,10 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
         Cookie[] cookies = request.getCookies();
 
         if (cookies != null) {
-            for (int i = 0; i < cookies.length; i++) {
-                if (cookies[i].getName().equals(boardId + "_community")) {
-                    log.info("COOKIE EXIST={}", cookies[i].getValue());
-                    viewCookie = cookies[i];
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(boardId + "_community")) {
+                    log.info("COOKIE EXIST={}", cookie.getValue());
+                    viewCookie = cookie;
                 }
             }
         } else {
@@ -116,6 +116,11 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     @Override
     public int countLike(Long boardId, Long memberId) {
         return communityLikeRepository.countLike(boardId, memberId);
+    }
+
+    @Override
+    public int countLikeByBoard(Long boardId) {
+        return communityLikeRepository.countByBoard(boardId);
     }
 
     @Override

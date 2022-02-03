@@ -13,6 +13,7 @@ import zerogreen.eco.entity.userentity.Member;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Optional;
 
 public interface CommunityBoardService {
 
@@ -32,4 +33,7 @@ public interface CommunityBoardService {
     void insertLike(Long boardId, BasicUser basicUser);
 
     void deleteLike(Long boardId, Long memberId);
+
+    int countLikeByBoard(Long boardId);
+
 }
