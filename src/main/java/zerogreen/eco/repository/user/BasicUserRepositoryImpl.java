@@ -81,8 +81,6 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
                 .set(basicUser.userRole, UserRole.STORE)
                 .where(basicUser.id.in(memberId))
                 .execute();
-
-
     }
 
     /*
