@@ -1,12 +1,15 @@
 package zerogreen.eco.dto.store;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import zerogreen.eco.entity.userentity.StoreType;
 
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class NonApprovalStoreDto {
 
     private Long fileId;
@@ -17,9 +20,7 @@ public class NonApprovalStoreDto {
     private String storeAddress;
     private String storeRegNum;
     private String uploadFileName;
-
-    public NonApprovalStoreDto() {
-    }
+    private StoreType storeType;
 
     public NonApprovalStoreDto(String username, String storeName, String storePhoneNumber) {
         this.username = username;
@@ -37,5 +38,12 @@ public class NonApprovalStoreDto {
         this.storeAddress = storeAddress;
         this.storeRegNum = storeRegNum;
         this.uploadFileName = uploadFileName;
+    }
+
+    public NonApprovalStoreDto(Long memberId, String storeName, String storeAddress, StoreType storeType) {
+        this.memberId = memberId;
+        this.storeName = storeName;
+        this.storeAddress = storeAddress;
+        this.storeType = storeType;
     }
 }

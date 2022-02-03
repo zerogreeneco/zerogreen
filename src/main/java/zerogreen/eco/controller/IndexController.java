@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
@@ -17,18 +18,18 @@ import java.util.List;
 
 @Controller
 @Slf4j
-@RequestMapping
 @RequiredArgsConstructor
 public class IndexController {
 
     private final StoreMemberService storeMemberService;
 
+
     @GetMapping("")
-    public String approvedStore(Model model, UserRole userRole) {
-        List<StoreMember> result = storeMemberService.findByApprovedStore(userRole);
-        log.info("storeDTO>>>>>>>>>>"+result);
-        log.info("USERROLE={}", userRole);
-        model.addAttribute("approved", result);
+
+    public String  approvedStore(Model model, UserRole userRole) {
+        List<NonApprovalStoreDto> result = storeMemberService.findByApprovalStore(userRole);
+        log.info("yjyjyjyjyjyjyj>>>>>>>>>>"+result);
+        model.addAttribute("approval", result);
         return "index";
     }
 

@@ -6,24 +6,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import zerogreen.eco.dto.detail.LikesDto;
 import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.dto.detail.StoreReviewDto;
 import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.detail.StoreReview;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
-import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.detail.MemberReviewRepository;
-//import zerogreen.eco.repository.detail.ReviewRepository;
 import zerogreen.eco.repository.detail.StoreReviewRepository;
 import zerogreen.eco.repository.user.BasicUserRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -69,10 +63,18 @@ public class ReviewServiceImpl implements ReviewService{
 
     //멤버 리뷰 리스트
     @Override
+    public Page<MemberReviewDto> getMemberReviewList(Pageable pageable, Long id) {
+        StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
+        return memberReviewRepository.findByStore(pageable, findStore);
+    }
+/*
+    //멤버 리뷰 리스트
+    @Override
     public Page<MemberReview> getMemberReviewList(Pageable pageable, Long id) {
         StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
         return memberReviewRepository.findByStore(pageable, findStore);
     }
+*/
 
     //멤버리뷰 삭제
     @Override
@@ -131,21 +133,6 @@ public class ReviewServiceImpl implements ReviewService{
             storeReviewRepository.save(review);
         }
     }
-
-    //스토어멤버 리뷰 리스트 **작업중**
-    @Override
-    public Page<StoreReview> getStoreReviewList(Pageable pageable, Long id) {
-        StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
-        return storeReviewRepository.findByStoreReview(pageable, findStore);
-    }
-
-/*
-    @Override
-    public Page<StoreReviewDto> getStoreReviewList(Pageable pageable) {
-        //StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
-        return storeReviewRepository.findByStoreReview(pageable);
-    }
-*/
 
 
 }

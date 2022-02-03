@@ -1,5 +1,6 @@
 package zerogreen.eco.service.user;
 
+import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
@@ -15,7 +16,7 @@ public interface StoreMemberService {
 
     void imageSave(Long id, List<StoreImageFile> storeImageFile);
 
-    List<StoreMember> findByApprovedStore(UserRole userRole);
+    List<NonApprovalStoreDto> findByApprovalStore(UserRole userRole);
     StoreDto getStore(Long id);
 
     }

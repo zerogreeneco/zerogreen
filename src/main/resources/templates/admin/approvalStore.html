@@ -8,6 +8,10 @@
         <section>
             <form method="post" th:action="@{/admin/approve}">
                 <table>
+                    <div th:each="app : ${approval}">
+                        <span th:text="${app.storeName}"></span>
+                        <!--            <span th:text="${app.storeAddress}"></span>-->
+                    </div>
                     <tr th:object="${stores}">
                         <th></th>
                         <th>아이디</th>
