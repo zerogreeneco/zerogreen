@@ -95,6 +95,10 @@ textarea:focus {
 
 .reviewBox {
     min-height: 90px;
+    border-top: 1px solid #3498db;
+}
+
+.sReview-Box {
     border-top: 1px solid #16a085;
 }
 
@@ -102,7 +106,7 @@ textarea:focus {
     text-align: right;
 }
 
-.mrv-textarea {
+.mrv-textarea, .srv-textarea {
     background: none;
     border: none;
     width: 900px;
@@ -111,13 +115,18 @@ textarea:focus {
 }
 
 .mrv-btn {
-    border: 2px solid #16a085;
+    background: #3498db;
+    color: #ffffff;
     border-radius: 5px;
     font-size: 1em;
     padding: 8px;
 }
 
-.mrv-delete, .srv-adding, .srv-toAdd {
+.mrv-btn:hover {
+    cursor: pointer;
+}
+
+.mrv-delete, .srv-adding, .srv-toAdd, .srv-delete {
     margin: 0 20px 15px 10px;
 }
 

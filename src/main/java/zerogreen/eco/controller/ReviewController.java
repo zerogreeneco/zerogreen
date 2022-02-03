@@ -65,11 +65,29 @@ public class ReviewController {
     @PostMapping("/addStoreReview/{rno}")
     public Long addReview(@Validated @RequestBody StoreReviewDto storeReviewDto, BindingResult bindingResult,
                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        log.info("qqqqqq11111: "+ storeReviewDto.getRno());
-        log.info("qqqqqq22222: "+ storeReviewDto.getSno());
+        //log.info("qqqqqq11111: "+ storeReviewDto.getRno());
+        //log.info("qqqqqq22222: "+ storeReviewDto.getSno());
         Long result = reviewService.saveStoreReview(storeReviewDto);
         return result;
     }
+
+    //스토어멤버 리뷰 삭제
+    @ResponseBody
+    @DeleteMapping("/deleteStoreReview/{sno}/{id}")
+    public ResponseEntity<Long> deleteStoreReview(@PathVariable Long id) {
+        reviewService.deleteStoreReview(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    //스토어멤버 리뷰 수정 ** JSON 형식으로 다시 수정 예정**
+    @ResponseBody
+    @PutMapping("/modifyStoreReview/{srno}")
+    public ResponseEntity<Long> modifyStoreReview(@Validated @RequestBody StoreReviewDto storeReviewDto, BindingResult bindingResult,
+                                             @PathVariable Long srno){
+        reviewService.modifyStoreReview(storeReviewDto);
+        return new ResponseEntity<>(srno, HttpStatus.OK);
+    }
+
 
 
 

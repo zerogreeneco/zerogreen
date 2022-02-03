@@ -8,9 +8,12 @@ import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.community.CommunityBoard;
 import zerogreen.eco.entity.detail.MemberReview;
+import zerogreen.eco.entity.detail.StoreReview;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.userentity.*;
 import zerogreen.eco.repository.community.CommunityBoardRepository;
+import zerogreen.eco.repository.detail.MemberReviewRepository;
+import zerogreen.eco.repository.detail.StoreReviewRepository;
 import zerogreen.eco.repository.user.MemberRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 import zerogreen.eco.service.detail.ReviewService;
@@ -45,9 +48,12 @@ public class TestDataInit {
         private final StoreMemberService storeMemberService;
         private final BasicUserService basicUserService;
         private final ReviewService reviewService;
+
         private final MemberRepository memberRepository;
         private final StoreMemberRepository storeMemberRepository;
         private final CommunityBoardRepository communityBoardRepository;
+        private final MemberReviewRepository memberReviewRepository;
+        private final StoreReviewRepository storeReviewRepository;
 
         public void init() {
 
@@ -161,6 +167,7 @@ public class TestDataInit {
             em.flush();
             em.clear();
 
+            //멤버리뷰 추가
             Member findMember1 = memberRepository.findByUsername("test").get();
             Member findMember2 = memberRepository.findByUsername("test2").get();
             StoreMember findEcoStore1 = storeMemberRepository.findByUsername("ecoTest5").get();
@@ -188,6 +195,26 @@ public class TestDataInit {
 
             em.flush();
             em.clear();
+
+            //스토어 리뷰 추가
+            MemberReview review1 = memberReviewRepository.findById(1L).get();
+            MemberReview review2 = memberReviewRepository.findById(2L).get();
+            MemberReview review3 = memberReviewRepository.findById(3L).get();
+            MemberReview review4 = memberReviewRepository.findById(4L).get();
+
+            StoreReview storeReview1 = new StoreReview("sReview1 by eco5 to 37", findEcoStore1,review1);
+            reviewService.ssrT(storeReview1);
+            StoreReview storeReview2 = new StoreReview("sReview1 by eco5 to 37", findEcoStore1,review2);
+            reviewService.ssrT(storeReview2);
+            StoreReview storeReview3 = new StoreReview("sReview1 by eco5 to 38", findEcoStore1,review3);
+            reviewService.ssrT(storeReview3);
+            StoreReview storeReview4 = new StoreReview("sReview1 by eco5 to 38", findEcoStore1,review4);
+            reviewService.ssrT(storeReview4);
+
+
+            em.flush();
+            em.clear();
+
 
         }
 
