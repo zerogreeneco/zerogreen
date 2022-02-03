@@ -101,20 +101,22 @@ public class CommunityController {
     /* 좋아요 */
     @PostMapping("/like/{boardId}")
     @ResponseBody
-    public ResponseEntity<Map<String, Integer>> communityLike(@PathVariable("boardId")Long boardId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity<Map<String, Integer>> communityLike(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         Map<String, Integer> resultMap = new HashMap<>();
 
         log.info("LIKE CONTROL OK");
 
         int countLike = boardService.countLike(boardId, principalDetails.getId());
-        log.info("COUNTLIKE={}", countLike);
+
         resultMap.put("count", countLike);
 
         if (countLike <= 0) {
             boardService.insertLike(boardId, principalDetails.getBasicUser());
-        } else if (countLike > 0){
+            resultMap.put("totalCount", boardService.countLikeByBoard(boardId));
+        } else if (countLike > 0) {
             boardService.deleteLike(boardId, principalDetails.getId());
+            resultMap.put("totalCount", boardService.countLikeByBoard(boardId));
         }
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);

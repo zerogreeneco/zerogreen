@@ -15,4 +15,9 @@ public interface CommunityLikeRepository extends JpaRepository<CommunityLike, Lo
 
     @Query("SELECT COUNT(c.id) FROM CommunityLike c WHERE c.board.id=:boardId AND c.basicUser.id=:memberId ")
     int countLike(@RequestParam("boardId") Long boardId, @RequestParam("memberId") Long memberId);
+
+    @Query("SELECT COUNT(c.id) FROM CommunityLike c WHERE c.board.id=:boardId ")
+    int countByBoard(@RequestParam("boardId") Long boardId);
+
 }
+
