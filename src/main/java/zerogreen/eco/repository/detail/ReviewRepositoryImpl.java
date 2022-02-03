@@ -7,9 +7,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.entity.detail.MemberReview;
-import zerogreen.eco.entity.userentity.QBasicUser;
-import zerogreen.eco.entity.userentity.QStoreMember;
 import zerogreen.eco.entity.userentity.StoreMember;
+import zerogreen.eco.entity.userentity.UserRole;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -17,6 +16,7 @@ import java.util.List;
 import static zerogreen.eco.entity.detail.QMemberReview.memberReview;
 import static zerogreen.eco.entity.detail.QStoreReview.storeReview;
 import static zerogreen.eco.entity.userentity.QBasicUser.basicUser;
+import static zerogreen.eco.entity.userentity.QMember.member;
 
 public class ReviewRepositoryImpl implements ReviewRepository{
 
@@ -25,6 +25,7 @@ public class ReviewRepositoryImpl implements ReviewRepository{
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+    //멤버리뷰+사업자리뷰 페이징 ** 작업중 **
     @Override
     public Page<MemberReviewDto> findByStore(Pageable pageable, StoreMember storeMember) {
         List<MemberReviewDto> content = queryFactory
@@ -32,9 +33,15 @@ public class ReviewRepositoryImpl implements ReviewRepository{
                         memberReview.id,
                         memberReview.reviewText,
                         memberReview.basicUser,
-                        memberReview.storeMember
+                        memberReview.storeMember,
+                        member.nickname,
+                        storeReview.storeReview
                 ))
                 .from(memberReview, memberReview)
+                .leftJoin(member)
+                .on(memberReview.basicUser.eq(member._super))
+                .leftJoin(storeReview)
+                .on(memberReview.id.eq(storeReview.memberReview.id))
                 .where(memberReview.storeMember.eq(storeMember))
                 .orderBy(memberReview.id.desc())
                 .offset(pageable.getOffset())

@@ -114,6 +114,10 @@ textarea:focus {
     height: auto;
 }
 
+.srv-input-textarea {
+    border: #16a085;
+}
+
 .mrv-btn {
     background: #3498db;
     color: #ffffff;

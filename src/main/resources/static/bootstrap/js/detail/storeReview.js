@@ -19,7 +19,7 @@ $(document).ready(function(e){
         $("#srv-adding").on("click", function(){
            let parent = $(this).parent().parent().parent();
            let rno = parent.children(".rno").text();
-           let review = $(".srv-textarea");
+           let review = $(".srv-input-textarea");
 
            console.log("storeReview");
            console.log(rno);
@@ -70,7 +70,7 @@ $(document).ready(function(e){
             },
             error:function(data){
                 alert("delete_errorrrrrrrrrrrrrrrr");
-                console.log(rno);
+                console.log(srno);
                 console.log("result: " + data);
             }
         }); //ajax end

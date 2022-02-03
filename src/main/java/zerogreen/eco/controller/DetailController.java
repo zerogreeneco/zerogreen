@@ -35,7 +35,7 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping
-public class PageController {
+public class DetailController {
 
     private final StoreMemberService storeMemberService;
     private final LikesService likesService;
@@ -73,17 +73,9 @@ public class PageController {
         Page<MemberReviewDto> reviewList = reviewService.getMemberReviewList(pageable, id);
         PagingDto memberReview = new PagingDto(reviewList);
         model.addAttribute("memberReview",memberReview);
-/*
-        Pageable pageable = requestPageSortDto.getPageableSort(Sort.by("id").descending());
-        Page<MemberReview> reviewList = reviewService.getMemberReviewList(pageable, id);
-        PagingDto memberReview = new PagingDto(reviewList);
-        //entity에 적힌 값으로 불러와야함
-        model.addAttribute("memberReview",memberReview);
-*/
 
 
-
-            //라이크 데이터 ** 수정예정 **
+        //라이크 데이터 ** 수정예정 **
         LikesDto result;
         try {
             assert basicUser != null;

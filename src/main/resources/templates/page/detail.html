@@ -18,19 +18,31 @@
         <!-- 본문 시작 -->
     <div class="detail-content">
 
-<!--        1열-->
+        <!-- 1열 -->
         <div class="detail-top temp1">
             <div class="top">가게 상세 이미지 들어갈 곳</div>
         </div>
 
-        <!--    2열-->
+        <!-- 2열 -->
         <div class="detail-sec temp2">
             <div class="store-name">
                 <span class="js-storeName">[[${getStore.storeName}]]</span>
             </div>
             <div class="sec-flex">
                 <div class="inline sec sec-left">
-                    <span class="liking">♡♡♡♡♡</span>
+
+                    <!--이건 지울것-->
+                    <span class="liking" th:if="${liking} == null">♡♡♡♡♡</span>
+                    <span class="liking" th:if="${liking} != null">☆☆☆☆☆</span>
+
+                    <!--이건 쓸 것-->
+                    <div th:if="${liking} == null">
+                        <img th:src="@{/bootstrap/images/like/dislike.png}">
+                    </div>
+                    <div th:if="${liking} != null">
+                        <img th:src="@{/bootstrap/images/like/like.png}">
+                    </div>
+
                     <span class="lno">[[${liking?.lno}]]</span>
                     <span>좋아요 수: </span>
                     <span class="like-cnt">[[${cnt}]]</span>
@@ -42,22 +54,22 @@
                 </div>
             </div>
 
-<!--          히든할것-->
+            <!-- 히든할것 -->
             <div sec:authorize="isAuthenticated()">
                 <div class="js-username" th:text="${member}"></div>
             </div>
             <span class="js-storeId">[[${getStore.id}]]</span>
         </div>
 
-        <!--3열-->
+        <!-- 3열 -->
         <div class="detail-thr temp1">
-            <!--    3열 좌측-->
+            <!-- 3열 좌측 -->
             <div class="thr thr-left">
                 <span>가게메뉴</span><br>
                 <span>가게메뉴</span><br>
                 <span>가게메뉴</span><br>
             </div>
-            <!--    3열 우측-->
+            <!-- 3열 우측 -->
             <div class="thr thr-right">
                 <span>가게소개</span><br>
                 <span>영업시간</span><br>
@@ -68,7 +80,7 @@
             </div>
         </div>
 
-        <!--    4열-->
+        <!-- 4열 -->
         <div class="temp2 detail-map">
             <div id="map" style="width:900px;height:350px;"></div>
             <script type="text/javascript" th:src="@{/bootstrap/js/detail/detailMap.js}"></script>
@@ -76,7 +88,7 @@
             <input hidden id="mapAddress" type="text" th:value="${getStore.storeAddress}">
         </div>
 
-        <!--리뷰작성칸-->
+        <!-- 리뷰작성칸 -->
         <div class="rv temp1">
             <div class="inline rv-ta">
                 <textarea name="reviewText" id="reviewText"></textarea>
@@ -86,58 +98,61 @@
             </div>
         </div>
 
-        <!--리뷰 이미지+텍스트 리스트   -->
+        <!-- 리뷰 이미지+텍스트 리스트 -->
         <div class="temp2">
-            <!--    리뷰 이미지 리스트-->
+            <!-- 리뷰 이미지 리스트 -->
             <div class="rv-images">리뷰 이미지 리스트</div>
-            <!--    리뷰리스트-->
+            <!-- 리뷰리스트 -->
             <div class="rv-list">
 
                 <div th:each="mReview : ${memberReview.dtoList}">
-            <!--      멤버리뷰 리스트-->
+                    <!-- 멤버리뷰 리스트 -->
                     <div class="reviewBox">
-                        <span class="rno" style="display:none;">[[${mReview.id}]]</span>
-                        <span>[[${mReview.id}]]</span>
+                        <span class="rno" style="display:none;">[[${mReview.rno}]]</span>
+                        <span>[[${mReview.rno}]]</span>
+                        <span>[[${mReview.nickname}]]</span>
                         <span>[[${mReview.basicUser.id}]]</span><br>
                         <textarea class="mrv-textarea" name="reviewText"
                                   onkeyup="this.style.height = this.scrollHeight + 'px';" readonly>[[${mReview.reviewText}]]</textarea>
                         <div class="btn-Box">
-                            <span class="srv-toAdd inline mrv-btn" th:if="${rvMember} == ${mReview.storeMember.id}">댓글달기</span>
+                            <span class="srv-toAdd inline mrv-btn"
+                                  th:if="${rvMember == mReview.storeMember.id and mReview.storeReview == null}">댓글달기</span>
                             <span class="mrv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.basicUser.id}">수정하기</span>
                             <span class="mrv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.basicUser.id}">삭제하기</span>
                         </div>
-            <!--      스토어 리뷰 입력창-->
+                        <!-- 스토어 리뷰 입력창 -->
                         <div class="srv-input" style="display:none;">
-                            <textarea class="srv-textarea" name="reviewText" ></textarea>
+                            <textarea class="srv-input-textarea" name="storeReviewText" ></textarea>
                             <div class="btn-Box">
                                 <span class="srv-adding inline mrv-btn" id="srv-adding">댓글등록</span>
                             </div>
                         </div>
 
-            <!--       스토어 리뷰 리스트-->
-                       <div class="sReview-Box" >
-                           <span class="srno" ></span>
+                       <!-- 스토어 리뷰 리스트 -->
+                       <div class="sReview-Box" th:if="${mReview.storeReview != null}">
+                           <span class="srno">[[${mReview.storeReview.id}]]</span>
+                           <span class="rno">[[${mReview.storeReview.memberReview.id}]]</span>
                            <span></span>
                            <span></span><br>
-                           <textarea class="srv-textarea" name="storeReviewText" readonly></textarea>
+                           <textarea class="srv-textarea" name="storeReviewText" readonly>[[${mReview.storeReview.storeReviewText}]]</textarea>
                            <div class="btn-Box">
-                                <span class="srv-modify inline mrv-btn">수정하기</span>
-                                <span class="srv-delete inline mrv-btn">삭제하기</span>
+                                <span class="srv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.basicUser.id}">수정하기</span>
+                                <span class="srv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.basicUser.id}">삭제하기</span>
                            </div>
                        </div>
 
                    </div>
-<!--                     end reviewBox-->
+                   <!-- end reviewBox -->
                 </div>
-<!--                    end div - Each-->
+                <!-- end div - Each -->
             </div>
-<!--                 end rv-list-->
+            <!-- end rv-list -->
         </div>
-<!--                end review images and review list-->
+        <!-- end review images and review list -->
 
 
 
     </div>
-                <!--end of page-->
+    <!-- end of page-->
     </th:block>
 </th:block>
