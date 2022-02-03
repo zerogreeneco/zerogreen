@@ -49,6 +49,17 @@ public class MemberReviewDto {
         this.nickname = nickname;
     }
 
+    //멤버리뷰 리스팅+스토어 리뷰 (리스팅작업중)
+    public MemberReviewDto(Long rno, String reviewText, BasicUser basicUser,
+                           StoreMember storeMember, String nickname, StoreReview storeReview) {
+        this.rno = rno;
+        this.reviewText = reviewText;
+        this.basicUser = basicUser;
+        this.storeMember = storeMember;
+        this.nickname = nickname;
+        this.storeReview = storeReview;
+    }
+
     public MemberReviewDto(Long rno, String reviewText, String username, Long sno,
                            Long srno, String storeReviewText){
         this.rno = rno;

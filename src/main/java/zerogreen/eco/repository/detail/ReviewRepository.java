@@ -7,7 +7,6 @@ import zerogreen.eco.dto.detail.StoreReviewDto;
 import zerogreen.eco.entity.userentity.StoreMember;
 
 public interface ReviewRepository {
-    //Page<StoreReviewDto> findByStoreReview (Pageable pageable);
     Page<MemberReviewDto> findByStore(Pageable pageable, StoreMember storeMember);
 
     }

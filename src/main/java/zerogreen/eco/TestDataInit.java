@@ -189,6 +189,7 @@ public class TestDataInit {
             MemberReview memberReview7 = new MemberReview("mReview3 by test2",findMember2,findEcoStore2);
             reviewService.saveTest(memberReview7);
             MemberReview memberReview8 = new MemberReview("mReview4 by test2",findMember2,findEcoStore2);
+            reviewService.saveTest(memberReview8);
 
             communityBoardRepository.save(new CommunityBoard("TEST TITLE", "TEST TEXT", findMember1, Category.PLOGGING));
             communityBoardRepository.save(new CommunityBoard("TEST TITLE2", "TEST TEXT2", findMember1, Category.PLOGGING));
