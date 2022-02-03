@@ -70,37 +70,25 @@ public class PageController {
 
         //상세페이지 멤버리뷰 리스트
         Pageable pageable = requestPageSortDto.getPageableSort(Sort.by("id").descending());
+        Page<MemberReviewDto> reviewList = reviewService.getMemberReviewList(pageable, id);
+        PagingDto memberReview = new PagingDto(reviewList);
+        model.addAttribute("memberReview",memberReview);
+/*
+        Pageable pageable = requestPageSortDto.getPageableSort(Sort.by("id").descending());
         Page<MemberReview> reviewList = reviewService.getMemberReviewList(pageable, id);
         PagingDto memberReview = new PagingDto(reviewList);
         //entity에 적힌 값으로 불러와야함
         model.addAttribute("memberReview",memberReview);
-
-        //상세페이지 스토어리뷰 리스트 ** 작업중 **
-        Pageable pageable2 = requestPageSortDto.getPageableSort(Sort.by("id"));
-        Page<StoreReview> storeReviewList = reviewService.getStoreReviewList(pageable2, id);
-        log.info("ssssss1111: "+storeReviewList);
-        PagingDto storeReview = new PagingDto(storeReviewList);
-        log.info("ssssss2222: "+storeReview);
-        //entity에 적힌 값으로 불러와야함
-        model.addAttribute("storeReview",storeReview);
-/*
-        Pageable pageable2 = requestPageSortDto.getPageableSort(Sort.by("id").descending());
-        Page<StoreReviewDto> storeReviewList = reviewService.getStoreReviewList(pageable2);
-        log.info("ssssss1111: "+storeReviewList);
-        PagingDto storeReview = new PagingDto(storeReviewList);
-        log.info("ssssss2222: "+storeReview);
-        //entity에 적힌 값으로 불러와야함
-        model.addAttribute("storeReview",storeReview);
 */
 
 
-        //라이크 데이터 ** 수정예정 **
+
+            //라이크 데이터 ** 수정예정 **
         LikesDto result;
         try {
             assert basicUser != null;
             result = likesService.liking(id, basicUser.getUsername());
             model.addAttribute("liking", result);
-            log.info("xxxxx11111: "+ result);
         } catch (Exception e) {
             e.printStackTrace();
         }

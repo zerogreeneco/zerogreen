@@ -6,6 +6,7 @@ import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.dto.detail.StoreReviewDto;
 import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.detail.StoreReview;
+import zerogreen.eco.entity.userentity.StoreMember;
 
 public interface ReviewService {
     //멤버리뷰 DB저장
@@ -14,7 +15,8 @@ public interface ReviewService {
     //가게별 멤버 리뷰 카운팅
     Long cntMemberReview(MemberReviewDto memberReviewDto);
     //멤버리뷰 리스팅
-    Page<MemberReview> getMemberReviewList(Pageable pageable, Long id);
+    Page<MemberReviewDto> getMemberReviewList(Pageable pageable, Long id);
+//    Page<MemberReview> getMemberReviewList(Pageable pageable, Long id);
     //멤버리뷰 삭제
     void remove(Long id);
     //멤버리뷰 수정
@@ -26,9 +28,6 @@ public interface ReviewService {
     void modifyStoreReview(StoreReviewDto storeReviewDto);
     //스토어멤버 리뷰 삭제
     void deleteStoreReview(Long id);
-    //스토어멤버 리뷰 리스팅
-    Page<StoreReview> getStoreReviewList(Pageable pageable, Long id);
-    //Page<StoreReviewDto> getStoreReviewList(Pageable pageable);
 
 
 

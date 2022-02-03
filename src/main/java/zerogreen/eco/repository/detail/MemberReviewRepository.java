@@ -12,10 +12,12 @@ import zerogreen.eco.entity.userentity.UserRole;
 
 import java.util.List;
 
-public interface MemberReviewRepository extends JpaRepository<MemberReview, Long> {
+public interface MemberReviewRepository extends JpaRepository<MemberReview, Long>, ReviewRepository {
 
-    @Query("select mr from MemberReview mr where mr.storeMember =:storeMember")
-    Page<MemberReview> findByStore(Pageable pageable, StoreMember storeMember);
+//    @Query("select mr from MemberReview mr where mr.storeMember =:storeMember")
+//    Page<MemberReview> findByStore(Pageable pageable, StoreMember storeMember);
+
+
 
     @Query("select count(mr.id) from MemberReview mr " +
             "left outer join BasicUser bu on mr.basicUser = bu.id " +

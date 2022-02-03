@@ -115,14 +115,14 @@
                         </div>
 
             <!--       스토어 리뷰 리스트-->
-                       <div class="sReview-Box"  th:each="sReview : ${storeReview.dtoList}">
-                           <span class="srno">[[${sReview.id}]]</span>
-                           <span>[[${sReview.id}]]</span>
+                       <div class="sReview-Box" >
+                           <span class="srno" ></span>
+                           <span></span>
                            <span></span><br>
-                           <textarea class="srv-textarea" name="storeReviewText" readonly>[[${sReview.storeReviewText}]]</textarea>
+                           <textarea class="srv-textarea" name="storeReviewText" readonly></textarea>
                            <div class="btn-Box">
-                                <span class="srv-modify inline mrv-btn" th:if="${rvMember} == ${sReview.storeMember.id}">수정하기</span>
-                                <span class="srv-delete inline mrv-btn" th:if="${rvMember} == ${sReview.storeMember.id}">삭제하기</span>
+                                <span class="srv-modify inline mrv-btn">수정하기</span>
+                                <span class="srv-delete inline mrv-btn">삭제하기</span>
                            </div>
                        </div>
 
