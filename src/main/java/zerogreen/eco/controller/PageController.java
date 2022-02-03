@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import zerogreen.eco.dto.detail.LikesDto;
 import zerogreen.eco.dto.detail.MemberReviewDto;
+import zerogreen.eco.dto.detail.StoreReviewDto;
 import zerogreen.eco.dto.paging.PagingDto;
 import zerogreen.eco.dto.paging.RequestPageDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.detail.MemberReview;
+import zerogreen.eco.entity.detail.StoreReview;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.security.auth.PrincipalDetails;
@@ -66,12 +68,30 @@ public class PageController {
             model.addAttribute("cnt2",cnt2);
         }
 
-        //상세페이지 리뷰 리스트
+        //상세페이지 멤버리뷰 리스트
         Pageable pageable = requestPageSortDto.getPageableSort(Sort.by("id").descending());
         Page<MemberReview> reviewList = reviewService.getMemberReviewList(pageable, id);
         PagingDto memberReview = new PagingDto(reviewList);
         //entity에 적힌 값으로 불러와야함
         model.addAttribute("memberReview",memberReview);
+
+        //상세페이지 스토어리뷰 리스트 ** 작업중 **
+        Pageable pageable2 = requestPageSortDto.getPageableSort(Sort.by("id"));
+        Page<StoreReview> storeReviewList = reviewService.getStoreReviewList(pageable2, id);
+        log.info("ssssss1111: "+storeReviewList);
+        PagingDto storeReview = new PagingDto(storeReviewList);
+        log.info("ssssss2222: "+storeReview);
+        //entity에 적힌 값으로 불러와야함
+        model.addAttribute("storeReview",storeReview);
+/*
+        Pageable pageable2 = requestPageSortDto.getPageableSort(Sort.by("id").descending());
+        Page<StoreReviewDto> storeReviewList = reviewService.getStoreReviewList(pageable2);
+        log.info("ssssss1111: "+storeReviewList);
+        PagingDto storeReview = new PagingDto(storeReviewList);
+        log.info("ssssss2222: "+storeReview);
+        //entity에 적힌 값으로 불러와야함
+        model.addAttribute("storeReview",storeReview);
+*/
 
 
         //라이크 데이터 ** 수정예정 **

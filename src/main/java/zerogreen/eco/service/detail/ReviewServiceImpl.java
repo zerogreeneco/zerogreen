@@ -15,6 +15,7 @@ import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.detail.MemberReviewRepository;
+import zerogreen.eco.repository.detail.ReviewRepository;
 import zerogreen.eco.repository.detail.StoreReviewRepository;
 import zerogreen.eco.repository.user.BasicUserRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
@@ -102,6 +103,49 @@ public class ReviewServiceImpl implements ReviewService{
                         findStore, findReview))
                 .getId();
     }
+
+    //스토어멤버 리뷰 테스트 데이터
+    @Override
+    @Transactional
+    public Long ssrT(StoreReview storeReview) {
+        StoreMember findStore = storeMemberRepository.findById(storeReview.getStoreMember().getId()).orElseThrow();
+        MemberReview findReview = memberReviewRepository.findById(storeReview.getMemberReview().getId()).orElseThrow();
+        return storeReviewRepository.save( new StoreReview(storeReview.getStoreReviewText(),
+                        findStore, findReview))
+                .getId();
+    }
+
+    //스토어멤버 리뷰 삭제
+    @Override
+    public void deleteStoreReview(Long id) {
+        storeReviewRepository.deleteById(id);
+    }
+
+    //스토어멤버 리뷰 수정 ** 컨트롤러 수정하면서 같이 수정 예정**
+    @Override
+    public void modifyStoreReview(StoreReviewDto storeReviewDto) {
+        Optional<StoreReview> result = storeReviewRepository.findById(storeReviewDto.getSrno());
+        if(result.isPresent()) {
+            StoreReview review = result.get();
+            review.editStoreReview(storeReviewDto.getStoreReviewText());
+            storeReviewRepository.save(review);
+        }
+    }
+
+    //스토어멤버 리뷰 리스트 **작업중**
+    @Override
+    public Page<StoreReview> getStoreReviewList(Pageable pageable, Long id) {
+        StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
+        return storeReviewRepository.findByStoreReview(pageable, findStore);
+    }
+
+/*
+    @Override
+    public Page<StoreReviewDto> getStoreReviewList(Pageable pageable) {
+        //StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
+        return storeReviewRepository.findByStoreReview(pageable);
+    }
+*/
 
 
 }

@@ -15,7 +15,6 @@ import java.util.List;
 public interface MemberReviewRepository extends JpaRepository<MemberReview, Long> {
 
     @Query("select mr from MemberReview mr where mr.storeMember =:storeMember")
-    //List<MemberReview> findByStore(StoreMember storeMember);
     Page<MemberReview> findByStore(Pageable pageable, StoreMember storeMember);
 
     @Query("select count(mr.id) from MemberReview mr " +

@@ -4,9 +4,9 @@ $(document).ready(function(e){
     let storeName = $(".js-storeName").text();
     let username = $(".js-username").text();
     let review = $("#reviewText");
+    let cnt = $(".review-cnt");
     let count = 0;
     //let rno = $(".rno").text();
-    //let reviewText = $('textarea[name="reviewText"]');
 
     //Add reviews. 현재 텍스트만 가능
     $("#rv-btn").on("click", function(){
@@ -29,7 +29,9 @@ $(document).ready(function(e){
                 //console.log("result1: "+data);
                 let rno = parseInt(data);
                 //console.log("result2: " +rno);
-                self.location.reload();
+                $(".review-cnt").html(Number(cnt.text())+1);
+
+                //self.location.reload();
             },
             error: function(data){
                 alert("errorrrrrrrrrrrrrrrr");
@@ -53,6 +55,7 @@ $(document).ready(function(e){
                 id: rno
             }),
             success: function(data){
+                $(".review-cnt").html(Number(cnt.text())-1);
                 ///self.location.reload();
             },
             error:function(data){
