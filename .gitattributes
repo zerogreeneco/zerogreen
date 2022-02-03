@@ -1,2 +1,1 @@
-resource/** linguist-documentation=false
-resource/** linguist-vendored=false
+*.html linguist-detectable=false
