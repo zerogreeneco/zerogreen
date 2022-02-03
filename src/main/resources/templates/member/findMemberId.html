@@ -1,56 +1,48 @@
 <!DOCTYPE html>
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}">
     <th:block th:fragment="content">
-        <style>
-            .password-wrapper {
-                text-align: center;
-            }
-            .password-find {
-                display: inline-block;
-                width: 500px;
-            }
-            .fm-input{
-                margin-bottom: 10px;
-            }
+        <link rel="stylesheet" th:href="@{/bootstrap/css/findMember.css}"/>
+        <script th:inline="javascript">
+            $(function () {
+                $("#find-id-btn").click(function () {
+                    let phoneNumber = $("#phoneNumber").val();
 
-            .fm-tab-wrapper {
-                list-style-type: none;
-                display: table;
-                width: 500px;
-                margin-bottom: 5px;
-                padding-left: 0;
-                table-layout: fixed;
-            }
-
-            .fm-tab-wrapper .fm-tab {
-                display: table-cell;
-                vertical-align: middle;
-                text-align: center;
-                height: 40px;
-                border: 1px solid black;
-            }
-        </style>
-        <div class="password-wrapper">
+                    $.ajax({
+                        url: "/zerogreen/findMember/id",
+                        type: "post",
+                        data: {
+                            phoneNumber: phoneNumber
+                        },
+                    }).done(function (fragment) {
+                            $("#result-id").replaceWith(fragment);
+                        });
+                });
+            });
+        </script>
+        <div class="password-wrapper" >
             <div class="password-find">
                 <ul class="fm-tab-wrapper">
                     <li class="fm-tab">
-                        <a th:href="@{/members/findMember/id}">아이디 찾기</a>
+                        <a th:href="@{/findMember/id}">아이디 찾기</a>
                     </li>
                     <li class="fm-tab">
-                        <a th:href="@{/members/findMember/password}">비밀번호 찾기</a>
+                        <a th:href="@{/findMember/password}">비밀번호 찾기</a>
                     </li>
                 </ul>
                 <hr/>
-                <form method="post" th:action="@{/members/findMember/password}" th:object="${findMember}">
+                <h1>회원 가입시 등록한 연락처를 입력해주세요.</h1>
+                <br>
+                <form method="post" th:action="@{/findMember/id}" th:object="${findMember}">
                     <div th:if="${#fields.hasGlobalErrors()}">
                         <div th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
                     </div>
-                    <label for="username" >아이디</label>
-                    <input type="text" th:field="*{username}" class="fm-input"><br>
-                    <label for="phoneNumber">전화번호</label>
-                    <input type="text" th:field="*{phoneNumber}" class="fm-input"><br>
-                    <button type="submit">비밀번호 찾기</button>
+                    <input type="text" th:field="*{phoneNumber}" class="fm-input" placeholder="연락처를 입력해주세요."><br>
                 </form>
+                    <button type="button" id="find-id-btn">아이디 찾기</button>
+                <div id="result-id" >
+                    <p>회원님의 아이디는 <b>[[${findResult}]]</b>입니다.</p>
+                    <button type="button" th:if="${findResult} != null" th:onclick="|location.href='@{/login}'|">로그인하러 가기</button>
+                </div>
             </div>
         </div>
     </th:block>

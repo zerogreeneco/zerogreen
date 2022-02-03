@@ -1,73 +1,52 @@
-/* 탭 전체 스타일 */
-.tabs {
-    margin-top: 50px;
-    padding-bottom: 40px;
-    background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    width: 700px;
-    margin: 0 auto;}
-
-/* 탭 스타일 */
-.tab_item {
-    width: calc(100%/3);
-    height: 50px;
-    border-bottom: 3px solid #333333;
-    background-color: #f8f8f8;
-    line-height: 50px;
-    font-size: 16px;
+.password-wrapper {
     text-align: center;
-    color: #333333;
-    display: block;
-    float: left;
+    height: 800px;
+}
+
+.password-find {
+    display: inline-block;
+    width: 500px;
+}
+
+.fm-input {
+    margin-bottom: 10px;
+}
+
+.fm-tab-wrapper {
+    list-style-type: none;
+    display: table;
+    width: 500px;
+    margin-bottom: 5px;
+    padding-left: 0;
+    table-layout: fixed;
+    background: #16a085;
+}
+
+.fm-tab-wrapper .fm-tab {
+    display: table-cell;
+    vertical-align: middle;
     text-align: center;
-    font-weight: bold;
-    transition: all 0.2s ease;
-}
-.tab_item:hover {
-    opacity: 0.75;
+    height: 40px;
+    border: 1px solid #fff;
 }
 
-/* 라디오 버튼 UI삭제*/
-input[name="tab_item"] {
-    display: none;
-}
-
-/* 탭 컨텐츠 스타일 */
-.tab_content {
-    display: none;
-    padding: 40px 40px 0;
-    clear: both;
-    overflow: hidden;
-}
-
-
-/* 선택 된 탭 콘텐츠를 표시 */
-#find-id:checked ~ #find-id-content,
-#find-password:checked ~ #find-pwd-content{
-    display: block;
-}
-
-/* 선택된 탭 스타일 */
-.tabs input:checked + .tab_item {
-    background-color: #333333;
+.fm-tab a {
+    text-decoration: none;
     color: #fff;
 }
 
-.modal {
-    position: absolute;
-    width: 500px;
-    height: 500px;
-    background: rgba(0,0,0,0.8);
-    top: 0; left: 0;
-    display: none;
+.password-find input[type=text] {
+    width: 280px;
+    height: 38px;
 }
 
-.modal_content{
-    width:400px; height:200px;
-    background:#fff; border-radius:10px;
-    position:relative; top:50%; left:50%;
-    margin-top:-100px; margin-left:-200px;
-    text-align:center;
-    box-sizing:border-box; padding:74px 0;
-    line-height:23px; cursor:pointer;
+.password-find button {
+    width: 280px;
+    height: 38px;
+    line-height: 30px;
+}
+
+.password-find h1 {
+    margin-bottom: 20px;
+    float: left;
 }
