@@ -27,6 +27,7 @@ public class IndexController {
     public String approvedStore(Model model, UserRole userRole) {
         List<StoreMember> result = storeMemberService.findByApprovedStore(userRole);
         log.info("storeDTO>>>>>>>>>>"+result);
+        log.info("USERROLE={}", userRole);
         model.addAttribute("approved", result);
         return "index";
     }

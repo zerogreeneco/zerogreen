@@ -26,7 +26,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -99,12 +101,15 @@ public class CommunityController {
     /* 좋아요 */
     @PostMapping("/like/{boardId}")
     @ResponseBody
-    public ResponseEntity<Integer> communityLike(@PathVariable("boardId")Long boardId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity<Map<String, Integer>> communityLike(@PathVariable("boardId")Long boardId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        Map<String, Integer> resultMap = new HashMap<>();
 
         log.info("LIKE CONTROL OK");
 
         int countLike = boardService.countLike(boardId, principalDetails.getId());
         log.info("COUNTLIKE={}", countLike);
+        resultMap.put("count", countLike);
 
         if (countLike <= 0) {
             boardService.insertLike(boardId, principalDetails.getBasicUser());
@@ -112,6 +117,6 @@ public class CommunityController {
             boardService.deleteLike(boardId, principalDetails.getId());
         }
 
-        return new ResponseEntity<>(countLike, HttpStatus.OK);
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 }

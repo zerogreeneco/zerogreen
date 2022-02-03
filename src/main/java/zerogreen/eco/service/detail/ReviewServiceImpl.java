@@ -15,7 +15,7 @@ import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.detail.MemberReviewRepository;
-import zerogreen.eco.repository.detail.ReviewRepository;
+//import zerogreen.eco.repository.detail.ReviewRepository;
 import zerogreen.eco.repository.detail.StoreReviewRepository;
 import zerogreen.eco.repository.user.BasicUserRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;

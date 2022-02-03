@@ -137,7 +137,7 @@ public class TestDataInit {
                     UserRole.STORE, "VEGAN_FOOD2", "0519876543", StoreType.VEGAN_FOOD,
                     "부산시 동래구 명장로 22번길 29", "덕천동","0519876541", "33333");
 
-            StoreMember noVegan2 = new StoreMember("noVeganlTest2", "01078945612", "1",
+            StoreMember noVegan2 = new StoreMember("noVeganlTest2", "01799997777", "1",
                     UserRole.STORE, "NO_VEGAN_FOOD2", "0517894561", StoreType.GENERAL_FOOD,
                     "부산 금정구 중앙대로 1777", "장전동","0517894561", "44444");
 
