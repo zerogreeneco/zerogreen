@@ -139,7 +139,12 @@
 
         <!--지도 부분-->
         <script type="text/javascript" th:src="@{/bootstrap/js/map.js}"></script>
-        <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac"></script>
+        <script type="text/javascript"
+                src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac"></script>
+        <div th:each="app : ${approval}">
+            <span th:text="${app.storeAddress}"></span><br>
+            <span th:text="${app.storeType}"></span><hr>
+        </div>
     </th:block>
 </th:block>
 </html>

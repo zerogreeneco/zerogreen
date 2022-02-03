@@ -9,7 +9,7 @@ import zerogreen.eco.entity.userentity.UserRole;
 import java.util.List;
 import java.util.Optional;
 
-public interface StoreMemberRepository extends JpaRepository<StoreMember, Long> {
+public interface StoreMemberRepository extends JpaRepository<StoreMember, Long>, StoreMemberRepositoryCustom{
 
     Optional<StoreMember> findByUsername(String username);
 

@@ -68,7 +68,5 @@ public class StoreDto {
         this.closeTime = closeTime;
         this.menuList = menuList;
     }
-
-
 }
 
