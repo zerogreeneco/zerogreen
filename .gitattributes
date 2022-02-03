@@ -1,2 +1,4 @@
-resources/** linguist-documentation=false
-resources/** linguist-vendored=false
+*.java linguist-detectable=true
+*.javascript linguist-detectable=true
+*.css linguist-detectable=true
+*.html linguist-detectable=true
