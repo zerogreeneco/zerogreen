@@ -25,6 +25,7 @@ public class IndexController {
 
 
     @GetMapping("")
+
     public String  approvedStore(Model model, UserRole userRole) {
         List<NonApprovalStoreDto> result = storeMemberService.findByApprovalStore(userRole);
         log.info("yjyjyjyjyjyjyj>>>>>>>>>>"+result);

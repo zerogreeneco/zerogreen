@@ -3,6 +3,9 @@
     <th:block th:fragment="content">
         <script th:inline="javascript">
             $(function (){
+
+                let likeCount = [[${detailView.like}]];
+
                 $("#like-btn").click(function (){
 
                     let boardId = $("#id").val();
@@ -13,34 +16,27 @@
                         dataType: "json",
                         data: {
                             boardId: boardId
-                        },
-                        success: function (data) {
-                            if (data === 0) {
-                                $("#like-btn").replaceWith("<button type='button' id='dislike-btn'>😍</button>");
-                                $(".like-count").load(location.href + " .like-count");
-                                location.reload();
-                            }
+                        }
+                        // success: function (data) {
+                        //     if (data === 0) {
+                        //         $("#like-btn").replaceWith("<button type='button' id='dislike-btn'>😍</button>");
+                        //         $(".like-count").load(location.href + " .like-count");
+                        //         location.reload();
+                        //     }
+                        // }
+                    })
+                        .done(function (data) {
+                        if (data.count === 1) {
+                            $("#like-btn").html("😒");
+                            $(".test-count").text(data.totalCount);
+                            console.log(data.totalCount)
+                        } else if (data.count === 0) {
+                            $("#like-btn").html("😍");
+                            $(".test-count").text(data.totalCount);
+                            console.log(data.totalCount)
                         }
                     });
                 }); // like-btn end.
-
-                $("#dislike-btn").click(function () {
-                    let boardId = $("#id").val();
-
-                    $.ajax({
-                       url: "/zerogreen/community/like/" + boardId,
-                        method: "post",
-                        dataType: "json",
-                        data: {
-                           boardId: boardId
-                        },
-                        success: function (data) {
-                            if (data === 1) {
-                                location.reload();
-                            }
-                        }
-                    });
-                });
 
 
             });
@@ -53,9 +49,9 @@
             <p th:field="*{nickname}" th:text="*{nickname}"></p>
             <div th:field="*{modifiedDate}" th:text="*{modifiedDate}"></div>
             <div th:field="*{count}" th:text="*{count}"></div>
-            <div sec:authorize="isAuthenticated()">
-                <div class="like-count" th:if="${likeCount} == 0" ><button type="button" id="like-btn">😒</button> [[*{like}]]</div>
-                <div class="like-count" th:if="${likeCount} == 1" ><button type="button" id="dislike-btn">😍</button> [[*{like}]]</div>
+            <div sec:authorize="isAuthenticated()" id="like-wrapper">
+                <div class="like-count" th:if="${likeCount} == 0" ><p id="like-btn">😒</p> <span class="test-count">[[*{like}]]</span></div>
+                <div class="like-count" th:if="${likeCount} == 1" ><p id="like-btn">😍</p> <span class="test-count">[[*{like}]]</span></div>
             </div>
             <div sec:authorize="isAnonymous()">
                 <div>😍 [[*{like}]]</div>
