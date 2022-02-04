@@ -191,8 +191,10 @@ public class TestDataInit {
             MemberReview memberReview8 = new MemberReview("mReview4 by test2",findMember2,findEcoStore2);
             reviewService.saveTest(memberReview8);
 
+            // 커뮤니티 리스트 추가
             communityBoardRepository.save(new CommunityBoard("TEST TITLE", "TEST TEXT", findMember1, Category.PLOGGING));
             communityBoardRepository.save(new CommunityBoard("TEST TITLE2", "TEST TEXT2", findMember1, Category.PLOGGING));
+            communityBoardRepository.save(new CommunityBoard("TEST TITLE3", "TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, END", findMember1, Category.NEWS));
 
             em.flush();
             em.clear();

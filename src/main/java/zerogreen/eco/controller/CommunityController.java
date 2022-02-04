@@ -107,18 +107,26 @@ public class CommunityController {
 
         log.info("LIKE CONTROL OK");
 
+        // 해당 회원이 좋아요를 누른 적이 있는지 확인 -> 있으면 1, 없으면 0
         int countLike = boardService.countLike(boardId, principalDetails.getId());
 
+        // JSON 형태로 View에 데이터를 전달하기 위해서 key:value로 변경
         resultMap.put("count", countLike);
 
+        // 결과에 따라서 insert / delete 쿼리 분기
         if (countLike <= 0) {
+            // insert
             boardService.insertLike(boardId, principalDetails.getBasicUser());
+            // insert 후에 DB에서 해당 게시물의 전체 좋아요 수 카운트 후 json으로 변환
             resultMap.put("totalCount", boardService.countLikeByBoard(boardId));
         } else if (countLike > 0) {
+            // delete
             boardService.deleteLike(boardId, principalDetails.getId());
+            // delete 후에 DB에서 해당 게시물의 전체 좋아요 수 카운트 후 json으로 변환
             resultMap.put("totalCount", boardService.countLikeByBoard(boardId));
         }
 
+        // Map에 JSON 형태로 담긴 데이터를 Response 해줌
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 }
