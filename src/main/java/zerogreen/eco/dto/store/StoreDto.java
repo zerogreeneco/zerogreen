@@ -69,5 +69,30 @@ public class StoreDto {
         this.closeTime = closeTime;
         this.menuList = menuList;
     }
+
+    public StoreDto(Long id, UserRole userRole, StoreType storeType, String storeName, String storePhoneNumber,
+                    String openTime, String closeTime) {
+        this.id = id;
+        this.userRole = userRole;
+        this.storeType = storeType;
+        this.storeName = storeName;
+        this.storePhoneNumber = storePhoneNumber;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+    }
+
+    public StoreDto(Long id, UserRole userRole, StoreType storeType, String storeName, String storePhoneNumber,
+                    String openTime, String closeTime, List<StoreImageFile> imageFiles, List<StoreMenu> menuList) {
+        this.id = id;
+        this.userRole = userRole;
+        this.storeType = storeType;
+        this.storeName = storeName;
+        this.storePhoneNumber = storePhoneNumber;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+        this.imageFiles = imageFiles;
+        this.menuList = menuList;
+    }
+
 }
 
