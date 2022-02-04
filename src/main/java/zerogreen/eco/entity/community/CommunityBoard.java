@@ -24,7 +24,6 @@ public class CommunityBoard extends BaseTimeEntity {
     @Column(name = "board_id")
     private Long id;
 
-    private String title;
     @Lob
     private String text;
 
@@ -45,8 +44,7 @@ public class CommunityBoard extends BaseTimeEntity {
     private List<BoardImage> imageList = new ArrayList<>();
 
     @Builder
-    public CommunityBoard(String title, String text, Member member, Category category) {
-        this.title = title;
+    public CommunityBoard(String text, Member member, Category category) {
         this.text = text;
         this.member = member;
         this.category = category;

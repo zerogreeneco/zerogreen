@@ -13,7 +13,6 @@ import java.util.List;
 public class CommunityResponseDto {
 
     private Long id;
-    private String title;
     private String text;
     private List<BoardImage> imageList;
     private LocalDateTime modifiedDate;
@@ -23,20 +22,18 @@ public class CommunityResponseDto {
 
     private String nickname;
 
-    public CommunityResponseDto(Long id, String title, String text, List<BoardImage> imageList,
+    public CommunityResponseDto(Long id, String text, List<BoardImage> imageList,
                                 LocalDateTime modifiedDate, String nickname) {
         this.id = id;
-        this.title = title;
         this.text = text;
         this.imageList = imageList;
         this.modifiedDate = modifiedDate;
         this.nickname = nickname;
     }
 
-    public CommunityResponseDto(Long id, String title, String text, String nickname, Category category, LocalDateTime modifiedDate,
+    public CommunityResponseDto(Long id, String text, String nickname, Category category, LocalDateTime modifiedDate,
                                 int count, Long like) {
         this.id = id;
-        this.title = title;
         this.text = text;
         this.nickname = nickname;
         this.category = category;
