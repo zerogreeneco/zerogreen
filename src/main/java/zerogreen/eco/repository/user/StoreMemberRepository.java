@@ -2,6 +2,7 @@ package zerogreen.eco.repository.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.web.bind.annotation.RequestParam;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
@@ -23,6 +24,6 @@ public interface StoreMemberRepository extends JpaRepository<StoreMember, Long>,
     @Query("select sm from StoreMember sm left outer join BasicUser bu on sm.id = bu.id " +
             "left outer join StoreMenu su on sm.id = su.id " +
             "left outer join StoreImageFile sif on sm.id = sif.id " +
-            "where sm.id =:id")
-    StoreMember getStoreById(Long id);
+            "where sm.id =:sno")
+    StoreMember getStoreById(@RequestParam("sno") Long sno);
 }

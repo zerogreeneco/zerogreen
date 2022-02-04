@@ -55,15 +55,22 @@ public class ReviewServiceImpl implements ReviewService{
 
     //가게별 멤버 리뷰 수 카운팅
     @Override
+    public Long cntMemberReview(Long sno) {
+        StoreMember findStore = storeMemberRepository.findById(sno).orElseThrow();
+        return memberReviewRepository.counting(findStore);
+    }
+/*
+    @Override
     public Long cntMemberReview(MemberReviewDto memberReviewDto) {
         StoreMember findStore = storeMemberRepository.findById(memberReviewDto.getId()).orElseThrow();
         return memberReviewRepository.counting(findStore);
     }
+*/
 
     //멤버 리뷰 리스트
     @Override
-    public Page<MemberReviewDto> getMemberReviewList(Pageable pageable, Long id) {
-        StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
+    public Page<MemberReviewDto> getMemberReviewList(Pageable pageable, Long sno) {
+        StoreMember findStore = storeMemberRepository.findById(sno).orElseThrow();
         return memberReviewRepository.findByStore(pageable, findStore);
     }
 

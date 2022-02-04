@@ -17,6 +17,6 @@ public interface StoreMemberService {
     void imageSave(Long id, List<StoreImageFile> storeImageFile);
 
     List<NonApprovalStoreDto> findByApprovalStore(UserRole userRole);
-    StoreDto getStore(Long id);
+    StoreDto getStore(Long sno);
 
     }

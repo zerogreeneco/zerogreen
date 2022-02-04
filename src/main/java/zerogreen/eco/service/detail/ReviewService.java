@@ -13,9 +13,9 @@ public interface ReviewService {
     Long saveReview(MemberReviewDto memberReviewDto);
     Long saveTest(MemberReview memberReview);
     //가게별 멤버 리뷰 카운팅
-    Long cntMemberReview(MemberReviewDto memberReviewDto);
+    Long cntMemberReview(Long sno);
     //멤버리뷰 리스팅
-    Page<MemberReviewDto> getMemberReviewList(Pageable pageable, Long id);
+    Page<MemberReviewDto> getMemberReviewList(Pageable pageable, Long sno);
     //멤버리뷰 삭제
     void remove(Long id);
     //멤버리뷰 수정

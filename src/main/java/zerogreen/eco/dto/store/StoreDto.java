@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 public class StoreDto {
+    private Long sno;
     private String storeName;
     private String storeRegNum;
     private StoreType storeType;
@@ -51,13 +52,13 @@ public class StoreDto {
     //Detail에 Store데이터 가져오기
     @Builder
     public StoreDto(String storeName, String storeRegNum, StoreType storeType,
-                    Long id, String username, UserRole userRole, List<StoreImageFile> imageFiles,
+                    Long sno, String username, UserRole userRole, List<StoreImageFile> imageFiles,
                     String postalCode, String storeAddress, String storePhoneNumber, String openTime, String closeTime,
                     List<StoreMenu> menuList) {
         this.storeName = storeName;
         this.storeRegNum = storeRegNum;
         this.storeType = storeType;
-        this.id = id;
+        this.sno = sno;
         this.username = username;
         this.userRole = userRole;
         this.imageFiles = imageFiles;

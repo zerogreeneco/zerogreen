@@ -80,16 +80,16 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     }
 
 
-    //store데이터 넘겨서 상세페이지에.. 왜 되는지 모르겠는데 된다.. ^.ㅠ
+    //상세페이지
     @Override
-    public StoreDto getStore(Long id) {
-        StoreMember storeMember = storeMemberRepository.getStoreById(id);
+    public StoreDto getStore(Long sno) {
+        StoreMember storeMember = storeMemberRepository.getStoreById(sno);
         log.info("??????????"+storeMember);
         return StoreDto.builder()
                 .storeName(storeMember.getStoreName())
                 .storeRegNum(storeMember.getStoreRegNum())
                 .storeType(storeMember.getStoreType())
-                .id(storeMember.getId())
+                .sno(storeMember.getId())
                 .username(storeMember.getUsername())
                 .userRole(storeMember.getUserRole())
                 .imageFiles(storeMember.getImageFiles())
