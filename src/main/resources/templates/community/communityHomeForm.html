@@ -11,11 +11,8 @@
                 margin: 0 auto;
             }
 
+            /* 카테고리 리스트 */
             ul.category-list {
-/*                list-style-type: none;
-                margin: 0px;
-                padding: 0px;
-                width: 100%;*/
                 text-align: center;
                 display: table;
                 width: 100%;
@@ -24,7 +21,6 @@
             }
 
             ul.category-list li {
-                /*display: inline-block;*/
                 display: table-cell;
                 vertical-align: middle;
                 text-align: center;
@@ -39,14 +35,52 @@
             #list-wrapper {
                 display: table;
                 margin: 0 auto;
-                border: solid black 1px;
+                border-bottom: solid black 1px;
                 width: 700px;
                 height: 150px;
                 margin-bottom: 10px;
             }
 
-            .test-table{
+            .cm-content{
                 display: table-cell;
+                height: 150px;
+            }
+
+            /* 리스트 카테고리 */
+            .main-list-category {
+                margin: 15px 0 10px 0;
+            }
+            .cm-category {
+                display: inline-block;
+                border: 1px solid black;
+                background-color: #16a085;
+                font-size: 0.9em;
+                color: #FFF;
+                text-decoration: none;
+                padding: 4px;
+            }
+
+            /* 리스트 텍스트 */
+            .main-list-text {
+                height: 60px;
+                display: block;
+                overflow:hidden;
+                text-overflow:ellipsis;
+            }
+
+            .main-list-text p {
+                display: block;
+                height: 60px;
+            }
+
+            .main-list-text a {
+                display: block;
+                text-decoration: none;
+                color: #000;
+                height: 50px;
+                width: 700px;
+                overflow:hidden;
+                text-overflow:ellipsis;
             }
 
         </style>
@@ -63,13 +97,23 @@
                     <button type="button" th:onclick="|location.href='@{/community/write}'|">글쓰기</button>
                 </div>
             </div>
+            <!-- 리스트 -->
             <div id="list-wrapper" th:each="community : ${communityList}">
-                <div class="test-table">
+                <div class="cm-content">
+                    <div class="main-list-category" >
+                        <span>
+                            <a th:href="@{/community(category=${community.category.name()}) }"
+                               th:text="${community.category.categoryName}" class="cm-category">카테고리</a>
+                        </span>
+                    </div>
+                    <div class="main-list-text" >
+                        <p><a th:href="@{/community/read/{boardId}(boardId = ${community.id})}" th:text="${community.text}">글 내용</a></p>
+                    </div>
                     <div class="main-list-nickname" th:text="${community.nickname}">닉네임</div>
-                    <div class="main-list-category" th:text="${community.category.categoryName}">카테고리</div>
-                    <div class="main-list-text" ><a th:href="@{/community/read/{boardId}(boardId = ${community.id})}" th:text="${community.text}">글 내용</a></div>
-                    <div class="main-list-text" th:text="${community.count}"></div>
-                    <div class="main-list-text" >💖[[${community.like}]]</div>
+                    <div>
+                        <span class="main-list-views" th:text="${community.count}"></span>
+                        <span class="main-list-like" ><img th:src="@{/bootstrap/images/like/like.png}" width="17px" height="17px">[[${community.like}]]</span>
+                    </div>
                 </div>
             </div>
         </div>

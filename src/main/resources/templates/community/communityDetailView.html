@@ -17,21 +17,16 @@
                         data: {
                             boardId: boardId
                         }
-                        // success: function (data) {
-                        //     if (data === 0) {
-                        //         $("#like-btn").replaceWith("<button type='button' id='dislike-btn'>😍</button>");
-                        //         $(".like-count").load(location.href + " .like-count");
-                        //         location.reload();
-                        //     }
-                        // }
                     })
                         .done(function (data) {
                         if (data.count === 1) {
-                            $("#like-btn").html("😒");
+                            $(".like-img").attr("src", "/zerogreen/bootstrap/images/like/disLike.png")
+                            // $("#like-btn").html("😒");
                             $(".test-count").text(data.totalCount);
                             console.log(data.totalCount)
                         } else if (data.count === 0) {
-                            $("#like-btn").html("😍");
+                            $(".like-img").attr("src", "/zerogreen/bootstrap/images/like/like.png")
+                            // $("#like-btn").html("😍");
                             $(".test-count").text(data.totalCount);
                             console.log(data.totalCount)
                         }
@@ -50,11 +45,17 @@
             <div th:field="*{modifiedDate}" th:text="*{modifiedDate}"></div>
             <div th:field="*{count}" th:text="*{count}"></div>
             <div sec:authorize="isAuthenticated()" id="like-wrapper">
-                <div class="like-count" th:if="${likeCount} == 0" ><p id="like-btn">😒</p> <span class="test-count">[[*{like}]]</span></div>
-                <div class="like-count" th:if="${likeCount} == 1" ><p id="like-btn">😍</p> <span class="test-count">[[*{like}]]</span></div>
+                <div class="like-count" th:if="${likeCount} == 0" >
+                    <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"></span>
+                    <span class="test-count">[[*{like}]]</span>
+                </div>
+                <div class="like-count" th:if="${likeCount} == 1" >
+                    <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/like.png}" class="like-img"></span>
+                    <span class="test-count">[[*{like}]]</span>
+                </div>
             </div>
             <div sec:authorize="isAnonymous()">
-                <div>😍 [[*{like}]]</div>
+                <div><img th:attr="src = @{/bootstrap/images/like/like.png}" class="like-img"> [[*{like}]]</div>
             </div>
         </div>
         <!--/*            <div th:field="*{like}"></div>*/-->
