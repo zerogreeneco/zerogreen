@@ -29,17 +29,31 @@
                 <span class="js-storeName">[[${getStore.storeName}]]</span>
             </div>
             <div class="sec-flex">
+                <!-- 좋아요 정보 -->
                 <div class="inline sec sec-left">
+                    <div sec:authorize="isAuthenticated()" id="like-wrapper">
 
-                    <!--이건 지울것-->
+                        <div class="liking" th:if="${cntLike} == 0">
+                            <img th:attr="src = @{/bootstrap/images/like/disLike.png}">
+                            <span class="test-count">[[${cntLike}]]</span>
+                        </div>
 
-                    <span class="liking" th:if="${cntLike} == 0">♡♡♡♡♡</span>
-                    <span class="liking" th:if="${cntLike} == 1">☆☆☆☆☆</span>
-                    <span> cntLike [[${cntLike}]]</span>
+                        <div class="liking" th:if="${cntLike} == 1">
+                            <img th:attr="src = @{/bootstrap/images/like/like.png}">
+                            <span class="test-count">[[${cntLike}]]</span>
+                        </div>
+                    </div>
+                    <div sec:authorize="isAnonymous()">
+                        <div><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"> [[*{like}]]</div>
+                    </div>
 
-                    <span>좋아요 수: </span>
-                    <span class="like-cnt">[[${cnt}]]</span>
+                    <div>
+                        <span>좋아요 수: </span>
+                        <span class="like-cnt">[[${cnt}]]</span>
+                    </div>
                 </div>
+
+                <!-- 리뷰정보 -->
                 <div class="inline sec sec-right">
                     <span>리뷰 이모티콘</span>
                     <span>리뷰 수: </span>
@@ -51,7 +65,7 @@
             <div sec:authorize="isAuthenticated()">
                 <div class="js-username" th:text="${member}"></div>
             </div>
-            <span class="js-storeId">[[${getStore.id}]]</span>
+            <span class="js-storeId">[[${getStore.sno}]]</span>
         </div>
 
         <!-- 3열 -->
@@ -113,6 +127,7 @@
                             <span class="mrv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.basicUser.id}">수정하기</span>
                             <span class="mrv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.basicUser.id}">삭제하기</span>
                         </div>
+
                         <!-- 스토어 리뷰 입력창 -->
                         <div class="srv-input" style="display:none;">
                             <textarea class="srv-input-textarea" name="storeReviewText" ></textarea>
@@ -129,8 +144,8 @@
                            <span></span><br>
                            <textarea class="srv-textarea" name="storeReviewText" readonly>[[${mReview.storeReview.storeReviewText}]]</textarea>
                            <div class="btn-Box">
-                                <span class="srv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.basicUser.id}">수정하기</span>
-                                <span class="srv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.basicUser.id}">삭제하기</span>
+                                <span class="srv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.storeMember.id}">수정하기</span>
+                                <span class="srv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.storeMember.id}">삭제하기</span>
                            </div>
                        </div>
 
