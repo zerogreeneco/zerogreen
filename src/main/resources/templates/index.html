@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml"
+          xmlns:sec="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
         <link rel="stylesheet" th:href="@{/bootstrap/css/index/index.css}" />
         <link rel="stylesheet" th:href="@{/bootstrap/css/index/slider.css}" />
         <script type="text/javascript" th:src="@{/bootstrap/js/index/loginmodal.js}"></script>
         <script type="text/javascript" th:src="@{/bootstrap/js/index/slickslider.js}"></script>
+<!--        <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>-->
+<!--        <script type="text/javascript"-->
+<!--                th:src="@{http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js}"></script>-->
+
         <!--login pop-up-->
-        <div>
+        <div sec:authorize="isAnonymous()">
             <div id="popup-wrap">
                 <div class="popup">
                     <span id="popup-text">로그인시 추가적인 서비스<br>이용이 가능합니다.</span>
@@ -20,102 +25,81 @@
 
         <div class="row gtr-200">
             <!--Shop List-->
-            <div id="slider">
-                <div class="slider responsive" id="carousel">
-                    <div class="category">
-                        <h3>1</h3>
-                    </div>
-                    <div class="category">
-                        <h3>2</h3>
-                    </div>
-                    <div class="category">
-                        <h3>3</h3>
-                    </div>
-                    <div class="category">
-                        <h3>4</h3>
-                    </div>
-                    <div class="category">
-                        <h3>5</h3>
-                    </div>
-                    <div class="category">
-                        <h3>6</h3>
-                    </div>
-                    <div class="category">
-                        <h3>7</h3>
-                    </div>
-                    <div class="category">
-                        <h3>8</h3>
-                    </div>
+            <div id="shop-section">
+                <span class="cate-title">내 주변 맛집</span>
+                <div class="slider">
+                    <span class="controller prev">&lang;</span>
+                    <ul class="shopList-box">
+                        <li>
+                            <div class="card">
+                                <div class="card-header">
+                                    <img src="http://placehold.it/300x300" />
+                                </div>
+                                <div class="card-body">
+                                    <span class="shop-name">가게명</span>
+                                    <span>가게 거리 ?KM</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="card">
+                                <div class="card-header">
+                                    <img src="http://placehold.it/300x300" />
+                                </div>
+                                <div class="card-body">
+                                    <span class="shop-name">가게명</span>
+                                    <span>가게 거리 ?KM</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="card">
+                                <div class="card-header">
+                                    <img src="http://placehold.it/300x300" />
+                                </div>
+                                <div class="card-body">
+                                    <span class="shop-name">가게명</span>
+                                    <span>가게 거리 ?KM</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="card">
+                                <div class="card-header">
+                                    <img src="http://placehold.it/300x300" />
+                                </div>
+                                <div class="card-body">
+                                    <span class="shop-name">가게명</span>
+                                    <span>가게 거리 ?KM</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="card">
+                                <div class="card-header">
+                                    <img src="http://placehold.it/300x300" />
+                                </div>
+                                <div class="card-body">
+                                    <span class="shop-name">가게명</span>
+                                    <span>가게 거리 ?KM</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="card">
+                                <div class="card-header">
+                                    <img src="http://placehold.it/300x300" />
+                                </div>
+                                <div class="card-body">
+                                    <span class="shop-name">가게명</span>
+                                    <span>가게 거리 ?KM</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <span class="controller next">&rang;</span>
                 </div>
             </div>
-<!--            <div id="slider">-->
-<!--                <span class="cate-title">내 주변 맛집</span>-->
-<!--                <div class="shopList-box">-->
-<!--                    <div class="card">-->
-<!--                        <div class="card-header">-->
-<!--                            <img src="http://placehold.it/300x300" />-->
-<!--                        </div>-->
-<!--                        <div class="card-body">-->
-<!--                            <span class="shop-name">가게명</span>-->
-<!--                            <span>가게 거리 ?KM</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="card">-->
-<!--                        <div class="card-header">-->
-<!--                            <img src="http://placehold.it/300x300" />-->
-<!--                        </div>-->
-<!--                        <div class="card-body">-->
-<!--                            <span class="shop-name">가게명</span>-->
-<!--                            <span>가게 거리 ?KM</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="card">-->
-<!--                        <div class="card-header">-->
-<!--                            <img src="http://placehold.it/300x300" />-->
-<!--                        </div>-->
-<!--                        <div class="card-body">-->
-<!--                            <span class="shop-name">가게명</span>-->
-<!--                            <span>가게 거리 ?KM</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="card">-->
-<!--                        <div class="card-header">-->
-<!--                            <img src="http://placehold.it/300x300" />-->
-<!--                        </div>-->
-<!--                        <div class="card-body">-->
-<!--                            <span class="shop-name">가게명</span>-->
-<!--                            <span>가게 거리 ?KM</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="card">-->
-<!--                        <div class="card-header">-->
-<!--                            <img src="http://placehold.it/300x300" />-->
-<!--                        </div>-->
-<!--                        <div class="card-body">-->
-<!--                            <span class="shop-name">가게명</span>-->
-<!--                            <span>가게 거리 ?KM</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="card">-->
-<!--                        <div class="card-header">-->
-<!--                            <img src="http://placehold.it/300x300" />-->
-<!--                        </div>-->
-<!--                        <div class="card-body">-->
-<!--                            <span class="shop-name">가게명</span>-->
-<!--                            <span>가게 거리 ?KM</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="card">-->
-<!--                        <div class="card-header">-->
-<!--                            <img src="http://placehold.it/300x300" />-->
-<!--                        </div>-->
-<!--                        <div class="card-body">-->
-<!--                            <span class="shop-name">가게명</span>-->
-<!--                            <span>가게 거리 ?KM</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
 
             <!--Google Map-->
             <div id="map-section">
