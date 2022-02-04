@@ -195,6 +195,10 @@ public class TestDataInit {
             communityBoardRepository.save(new CommunityBoard("TEST TITLE", "TEST TEXT", findMember1, Category.PLOGGING));
             communityBoardRepository.save(new CommunityBoard("TEST TITLE2", "TEST TEXT2", findMember1, Category.PLOGGING));
             communityBoardRepository.save(new CommunityBoard("TEST TITLE3", "TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, END", findMember1, Category.NEWS));
+            for (int i = 4; i < 20; i++) {
+                communityBoardRepository.save(new CommunityBoard("TEST TITLE"+i, "TEST TEXT"+i, findMember1, Category.PLOGGING));
+
+            }
 
             em.flush();
             em.clear();

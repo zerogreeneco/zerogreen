@@ -28,4 +28,10 @@ public class BoardReply extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private CommunityBoard board;
+
+    public BoardReply(String replyContent, BasicUser replier, CommunityBoard board) {
+        this.replyContent = replyContent;
+        this.replier = replier;
+        this.board = board;
+    }
 }

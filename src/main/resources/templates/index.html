@@ -3,13 +3,46 @@
           xmlns:sec="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
         <link rel="stylesheet" th:href="@{/bootstrap/css/index/index.css}" />
-        <link rel="stylesheet" th:href="@{/bootstrap/css/index/slider.css}" />
+<!--        <link rel="stylesheet" th:href="@{/bootstrap/css/index/slider.css}" />-->
         <script type="text/javascript" th:src="@{/bootstrap/js/index/loginmodal.js}"></script>
-        <script type="text/javascript" th:src="@{/bootstrap/js/index/slickslider.js}"></script>
+        <script type="text/javascript" th:src="@{/bootstrap/js/index/slider.js}"></script>
 <!--        <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>-->
 <!--        <script type="text/javascript"-->
 <!--                th:src="@{http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js}"></script>-->
 
+        <script>
+            $(function (){
+                const slides = document.querySelector('.slider');
+                const slideImg = document.querySelectorAll('.shopList-box li');
+                let currentIdx = 0;
+// index
+                console.log("이미지 길이="+ slideImg.length)
+                const slideCount = slideImg.length;
+                const prev = document.querySelector('.prev');
+                const next = document.querySelector('.next');
+                const slideWidth = 300;
+                const slideMargin = 100;
+
+                let aa = slides.style.width = (slideWidth + slideMargin) * slideCount + "px";
+                console.log("aa = " + aa)
+                function moveSlide(num) {
+                    let s = slides.style.left = -num * 400 + 'px';
+                    console.log("S - " + s);
+                    currentIdx = num;
+                }
+
+                prev.addEventListener('click', function () {
+                    console.log(currentIdx);
+                    if (currentIdx !== 0) moveSlide(currentIdx - 1);
+                });
+                next.addEventListener('click', function () {
+                    console.log(currentIdx);
+                    if (currentIdx !== slideCount - 1) {
+                        moveSlide(currentIdx + 1);
+                    }
+                });
+            })
+        </script>
         <!--login pop-up-->
         <div sec:authorize="isAnonymous()">
             <div id="popup-wrap">
@@ -36,7 +69,7 @@
                                     <img src="http://placehold.it/300x300" />
                                 </div>
                                 <div class="card-body">
-                                    <span class="shop-name">가게명</span>
+                                    <span class="shop-name">가게명1</span>
                                     <span>가게 거리 ?KM</span>
                                 </div>
                             </div>
@@ -47,7 +80,7 @@
                                     <img src="http://placehold.it/300x300" />
                                 </div>
                                 <div class="card-body">
-                                    <span class="shop-name">가게명</span>
+                                    <span class="shop-name">가게명2</span>
                                     <span>가게 거리 ?KM</span>
                                 </div>
                             </div>
@@ -58,7 +91,7 @@
                                     <img src="http://placehold.it/300x300" />
                                 </div>
                                 <div class="card-body">
-                                    <span class="shop-name">가게명</span>
+                                    <span class="shop-name">가게명3</span>
                                     <span>가게 거리 ?KM</span>
                                 </div>
                             </div>
@@ -69,7 +102,7 @@
                                     <img src="http://placehold.it/300x300" />
                                 </div>
                                 <div class="card-body">
-                                    <span class="shop-name">가게명</span>
+                                    <span class="shop-name">가게명4</span>
                                     <span>가게 거리 ?KM</span>
                                 </div>
                             </div>
@@ -80,7 +113,7 @@
                                     <img src="http://placehold.it/300x300" />
                                 </div>
                                 <div class="card-body">
-                                    <span class="shop-name">가게명</span>
+                                    <span class="shop-name">가게명5</span>
                                     <span>가게 거리 ?KM</span>
                                 </div>
                             </div>
@@ -91,7 +124,7 @@
                                     <img src="http://placehold.it/300x300" />
                                 </div>
                                 <div class="card-body">
-                                    <span class="shop-name">가게명</span>
+                                    <span class="shop-name">가게명6</span>
                                     <span>가게 거리 ?KM</span>
                                 </div>
                             </div>
