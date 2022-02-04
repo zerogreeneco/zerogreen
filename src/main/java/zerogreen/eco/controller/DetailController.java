@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import zerogreen.eco.dto.detail.LikesDto;
@@ -41,50 +42,40 @@ public class DetailController {
     private final LikesService likesService;
     private final ReviewService reviewService;
 
-    @GetMapping("/page/detail")
-    public void detail(Long id, Model model, LikesDto likesDto, RequestPageSortDto requestPageSortDto,
+    @GetMapping("/page/detail/{sno}")
+    public String detail(Long id,@PathVariable("sno") Long sno, Model model, LikesDto likesDto, RequestPageSortDto requestPageSortDto,
                        MemberReviewDto memberReviewDto,
                        @PrincipalUser BasicUser basicUser, @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException{
         //스토어 데이터 + 회원/비회원
-        StoreDto storeDto = storeMemberService.getStore(id);
-        if (basicUser == null) {
+        StoreDto storeDto = storeMemberService.getStore(sno);
+        log.info("?????Controller " + sno);
+
+        if (principalDetails == null) {
             model.addAttribute("getStore",storeDto);
         } else {
             model.addAttribute("getStore",storeDto);
-            model.addAttribute("member", basicUser.getUsername());
+            model.addAttribute("member", principalDetails.getUsername());
             //리뷰어쩌구..
             model.addAttribute("rvMember", principalDetails.getId());
+            //가게별 개별 라이크
+            model.addAttribute("cntLike", likesService.cntMemberLike(storeDto.getId(), principalDetails.getId()));
+            log.info("bbbbbcntLike " + storeDto.getId());
+            log.info("bbbbbcntLike " + likesDto.getSno());
         }
 
         //가게별 라이크 카운팅
-        Long cnt = likesService.cntLikes(likesDto);
-        if (cnt != null) {
-            model.addAttribute("cnt",cnt);
-        }
+        model.addAttribute("cnt", likesService.cntLikes(sno));
 
-        //가게별 멤버리뷰 카운팅
-        Long cnt2 = reviewService.cntMemberReview(memberReviewDto);
-        if (cnt2 != null) {
-            model.addAttribute("cnt2",cnt2);
-        }
+        //가게별 멤버리뷰 카운팅 **수정해야함**
+        model.addAttribute("cnt2", reviewService.cntMemberReview(sno));
 
         //상세페이지 멤버리뷰 리스트
         Pageable pageable = requestPageSortDto.getPageableSort(Sort.by("id").descending());
-        Page<MemberReviewDto> reviewList = reviewService.getMemberReviewList(pageable, id);
+        Page<MemberReviewDto> reviewList = reviewService.getMemberReviewList(pageable, sno);
         PagingDto memberReview = new PagingDto(reviewList);
         model.addAttribute("memberReview",memberReview);
 
-
-        //라이크 데이터 ** 수정예정 **
-        LikesDto result;
-        try {
-            assert basicUser != null;
-            result = likesService.liking(id, basicUser.getUsername());
-            model.addAttribute("liking", result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        return "page/detail";
     }
 
     @GetMapping("/member/memberMyInfo")

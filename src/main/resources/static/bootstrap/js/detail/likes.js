@@ -7,33 +7,57 @@ $(document).ready(function(e){
     let lno = $(".lno").text();
     let cnt = $(".like-cnt");
 
-    //Like status
-    if (lno == "") {
-        $(".liking").html("♡♡♡♡♡");
-    } else if (lno != ""){
-      $(".liking").html("☆☆☆☆☆");
-    }
+
+    $(".liking").on("click", function(){
+        $.ajax({
+           url: contextPath+'/detailLikes/'+sno,
+           type: "POST",
+           contentType:"application/json; charset=utf-8",
+           dataType: "json",
+           data: {
+                sno: sno
+           }
+        }) // end of ajax
+
+        .done(function (data) {
+        if (data.count === 1) {
+            $(".liking").attr("src", "/zerogreen/bootstrap/images/like/disLike.png")
+            console.log("likelike")
+            //$(".test-count").text(data.totalCount);
+            //console.log(data.totalCount)
+        } else if (data.count === 0) {
+            $(".liking").attr("src", "/zerogreen/bootstrap/images/like/like.png")
+            console.log("unlikeunlike")
+
+            // $("#like-btn").html("😍");
+            //$(".test-count").text(data.totalCount);
+            //console.log(data.totalCount)
+        }
+        })
+    }); //end of function
+
+
+
+
 
     //Like
+
+
+/*
     $(".liking").on("click", function(){
        if(liking.text() == "♡♡♡♡♡") {
        //let cnt = 0;
        console.log("likelike");
 
        $.ajax({
-           url: contextPath+'/addLikes/'+sno,
+           url: contextPath+'/detailLikes/'+sno,
            type: "POST",
            contentType:"application/json; charset=utf-8",
            dataType: "json",
-           data: JSON.stringify({
-                username: username,
-                id: sno
-           }),
+           data: {
+                sno: sno
+           },
             success: function(data){
-                //console.log("result: "+data);
-                let id = parseInt(data);
-                //console.log("result: "+id);
-                //self.location.reload();
                 $(".liking").html("☆☆☆☆☆");
                 $(".like-cnt").html(Number(cnt.text())+1);
             },
@@ -42,6 +66,10 @@ $(document).ready(function(e){
             }
        }); // end of ajax
        } // end of If statement
+   }); // end of function
+*/
+
+/*
 
        //Unlike
        else if (liking.text() == "☆☆☆☆☆") {
@@ -66,5 +94,6 @@ $(document).ready(function(e){
             $(".like-cnt").html(Number(cnt.text())-1);
         } //end of else if statement
     }); // end of function
+*/
 
 }); //end script

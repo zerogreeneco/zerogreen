@@ -32,18 +32,11 @@
                 <div class="inline sec sec-left">
 
                     <!--이건 지울것-->
-                    <span class="liking" th:if="${liking} == null">♡♡♡♡♡</span>
-                    <span class="liking" th:if="${liking} != null">☆☆☆☆☆</span>
 
-                    <!--이건 쓸 것-->
-                    <div th:if="${liking} == null">
-                        <img th:src="@{/bootstrap/images/like/dislike.png}">
-                    </div>
-                    <div th:if="${liking} != null">
-                        <img th:src="@{/bootstrap/images/like/like.png}">
-                    </div>
+                    <span class="liking" th:if="${cntLike} == 0">♡♡♡♡♡</span>
+                    <span class="liking" th:if="${cntLike} == 1">☆☆☆☆☆</span>
+                    <span> cntLike [[${cntLike}]]</span>
 
-                    <span class="lno">[[${liking?.lno}]]</span>
                     <span>좋아요 수: </span>
                     <span class="like-cnt">[[${cnt}]]</span>
                 </div>

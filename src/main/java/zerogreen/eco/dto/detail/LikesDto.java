@@ -20,17 +20,21 @@ public class LikesDto {
     private Long sno;
     private String storeName;
 
+    private int count;
+
     private StoreMember storeMember;
     private BasicUser basicUser;
 
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
+
+
     //이하 생성자 정리예정
     public LikesDto() {
-
     }
 
+    //데이터 뿌리기
     public LikesDto(Long lno, StoreMember storeMember, BasicUser basicUser){
         this.lno = lno;
         this.storeMember = storeMember;

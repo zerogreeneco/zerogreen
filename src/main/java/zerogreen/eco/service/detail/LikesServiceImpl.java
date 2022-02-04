@@ -25,37 +25,33 @@ public class LikesServiceImpl implements LikesService {
     //좋아요
     @Override
     @Transactional
-    public Long addLikes(LikesDto likesDto) {
-        BasicUser findUser = basicUserRepository.findByUsername(likesDto.getUsername()).orElseThrow();
-        StoreMember findStore = storeMemberRepository.findById(likesDto.getId()).orElseThrow();
-        return likesRepository.save(new Likes(findUser, findStore))
-                .getId();
+    public void addLikes(Long sno, BasicUser basicUser) {
+        StoreMember findStore = storeMemberRepository.findById(sno).orElseThrow();
+        likesRepository.save(new Likes(basicUser, findStore));
     }
 
     //안좋아요 흥!
     @Override
-    public String remove(Long id) {
-        String key = "Delete";
-        likesRepository.deleteById(id);
-        return key;
+    public void removeLike(Long sno, Long mno) {
+        log.info("bbbbbb9999: "+ sno);
+        log.info("bbbbbb1010: "+ mno);
+        likesRepository.deleteMemberLikes(sno, mno);
     }
 
     //카운팅스타~ 밤하늘의 퍼어어얼
     @Override
-    public Long cntLikes(LikesDto likesDto) {
-        StoreMember findStore = storeMemberRepository.findById(likesDto.getId()).orElseThrow();
+    public Long cntLikes(Long sno) {
+        StoreMember findStore = storeMemberRepository.findById(sno).orElseThrow();
         return likesRepository.counting(findStore);
     }
 
-    //라이크 데이터 뿌리기 ** 작업중 **
+    //개별 라이크 카운팅
     @Override
-    public LikesDto liking(Long id, String username) {
-        BasicUser findUser = basicUserRepository.findByUsername(username).orElseThrow();
-        StoreMember findStore = storeMemberRepository.findById(id).orElseThrow();
-        Likes likes = likesRepository.getLikesByStoreAndUser(findStore, findUser);
-        return new LikesDto(likes.getId(),findStore, findUser);
-
+    public int cntMemberLike(Long sno, Long mno) {
+        log.info("bbbbbb6666: "+ sno);
+        log.info("bbbbbb7777: "+ mno);
+        return likesRepository.cntMemberLike(sno, mno);
     }
 
-    }
+}
 
