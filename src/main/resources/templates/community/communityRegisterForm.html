@@ -7,7 +7,6 @@
                     <option th:each="categories : ${category}" th:value="${categories.name()}"
                             th:text="${categories.categoryName}"></option>
                 </select>
-                <input type="text" th:field="*{title}">
                 <textarea th:field="*{text}"></textarea>
                 <input type="file" multiple="multiple" th:field="*{imageFiles}">
                 <div class="select-img"><img src="" /></div>

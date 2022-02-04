@@ -144,12 +144,12 @@ public class TestDataInit {
             // 일반 회원
             Member member = new Member("test", "tester", "01022223333", "1",
                     UserRole.USER, VegetarianGrade.LACTO);
-            CommunityRequestDto dto = new CommunityRequestDto("TEST TITLE", "TEST TEXT", Category.PLOGGING);
+            CommunityRequestDto dto = new CommunityRequestDto("TEST TEXT", Category.PLOGGING);
             memberService.save(member);
 
             Member member2 = new Member("test2", "tester2", "01022224444", "1",
                     UserRole.USER, VegetarianGrade.LACTO);
-            CommunityRequestDto dto2 = new CommunityRequestDto("TEST TITLE2", "TEST TEXT2", Category.PLOGGING);
+            CommunityRequestDto dto2 = new CommunityRequestDto("TEST TEXT2", Category.PLOGGING);
             memberService.save(member2);
 
             // 가게 회원
@@ -192,11 +192,11 @@ public class TestDataInit {
             reviewService.saveTest(memberReview8);
 
             // 커뮤니티 리스트 추가
-            communityBoardRepository.save(new CommunityBoard("TEST TITLE", "TEST TEXT", findMember1, Category.PLOGGING));
-            communityBoardRepository.save(new CommunityBoard("TEST TITLE2", "TEST TEXT2", findMember1, Category.PLOGGING));
-            communityBoardRepository.save(new CommunityBoard("TEST TITLE3", "TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, END", findMember1, Category.NEWS));
+            communityBoardRepository.save(new CommunityBoard("TEST TEXT", findMember1, Category.PLOGGING));
+            communityBoardRepository.save(new CommunityBoard("TEST TEXT2", findMember1, Category.PLOGGING));
+            communityBoardRepository.save(new CommunityBoard("TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, END", findMember1, Category.NEWS));
             for (int i = 4; i < 20; i++) {
-                communityBoardRepository.save(new CommunityBoard("TEST TITLE"+i, "TEST TEXT"+i, findMember1, Category.PLOGGING));
+                communityBoardRepository.save(new CommunityBoard("TEST TEXT"+i, findMember1, Category.PLOGGING));
 
             }
 

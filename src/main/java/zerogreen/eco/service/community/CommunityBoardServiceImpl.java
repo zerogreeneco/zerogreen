@@ -41,7 +41,6 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     public void boardRegister(CommunityRequestDto dto, Member writer, List<BoardImage> imageList) {
 
         CommunityBoard saveBoard = boardRepository.save(CommunityBoard.builder()
-                .title(dto.getTitle())
                 .text(dto.getText())
                 .category(dto.getCategory())
                 .member(writer)

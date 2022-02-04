@@ -44,7 +44,6 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
         List<CommunityResponseDto> content = queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
-                        communityBoard.title,
                         communityBoard.text,
                         member.nickname,
                         communityBoard.category,
@@ -80,7 +79,6 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
         List<CommunityResponseDto> content = queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
-                        communityBoard.title,
                         communityBoard.text,
                         member.nickname,
                         communityBoard.category,
@@ -118,7 +116,6 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
         return queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
-                        communityBoard.title,
                         communityBoard.text,
                         member.nickname,
                         communityBoard.category,

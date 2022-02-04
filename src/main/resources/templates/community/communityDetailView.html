@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
+        <style>
+            .cm-main-wrapper {
+                width: 750px;
+                margin: 0 auto;
+            }
+        </style>
         <script th:inline="javascript">
-            $(function (){
+            $(function () {
 
                 let boardId = $("#id").val();
 
-                $("#like-btn").click(function (){
+                $("#like-btn").click(function () {
 
                     $.ajax({
                         url: "/zerogreen/community/like/" + boardId,
@@ -17,81 +23,94 @@
                         }
                     })
                         .done(function (data) {
-                        if (data.count === 1) {
-                            $(".like-img").attr("src", "/zerogreen/bootstrap/images/like/disLike.png")
-                            // $("#like-btn").html("😒");
-                            $(".test-count").text(data.totalCount);
-                            console.log(data.totalCount)
-                        } else if (data.count === 0) {
-                            $(".like-img").attr("src", "/zerogreen/bootstrap/images/like/like.png")
-                            // $("#like-btn").html("😍");
-                            $(".test-count").text(data.totalCount);
-                            console.log(data.totalCount)
-                        }
-                    });
+                            if (data.count === 1) {
+                                $(".like-img").attr("src", "/zerogreen/bootstrap/images/like/disLike.png")
+                                $(".test-count").text(data.totalCount);
+                            } else if (data.count === 0) {
+                                $(".like-img").attr("src", "/zerogreen/bootstrap/images/like/like.png")
+                                $(".test-count").text(data.totalCount);
+                            }
+                        });
                 }); // like-btn end.
 
-                $("#review-send-btn").click(function (){
+                $("#review-send-btn").click(function () {
 
                     let text = $("#text").val();
                     console.log("Text= " + text)
                     $.ajax({
-                       url: "/zerogreen/community/" + boardId + "/reply",
-                       method: "post",
-                       data: {
-                           boardId: boardId,
-                           text: text
-                       }
+                        url: "/zerogreen/community/" + boardId + "/reply",
+                        method: "post",
+                        data: {
+                            boardId: boardId,
+                            text: text
+                        }
                     })
-                    .done(function (fragment) {
-                        console.log("댓글 성공");
-                        $("#review-table").replaceWith(fragment);
+                        .done(function (fragment) {
+                            $("#review-table").replaceWith(fragment);
+                        });
+                }); // review send end.
+
+                function replaceTag() {
+                    alert("왜????");
+                    $(".rp-text").replaceWith(function () {
+                        return $('<input>', {type: 'text', name: 'text'})
                     });
-                })
+                }
+
             });
         </script>
-        <div th:object="${detailView}">
+        <div th:object="${detailView}" class="cm-main-wrapper">
             <!-- 상세보기 제목 -->
             <input type="hidden" th:field="*{id}">
-            <h1 th:field="*{category}" th:text="*{category.categoryName}"></h1>
-            <h2 th:field="*{title}" th:text="*{title}"></h2>
+            <h1 th:field="*{category}" th:text="*{category.categoryName}"><a></a></h1>
             <p th:field="*{nickname}" th:text="*{nickname}"></p>
-            <div th:field="*{modifiedDate}" th:text="${#temporals.format(detailView.modifiedDate, 'yyyy-MM-dd HH:mm')}"></div>
-            <div th:field="*{count}" th:text="*{count}"></div>
-            <div sec:authorize="isAuthenticated()" id="like-wrapper">
-                <div class="like-count" th:if="${likeCount} == 0" >
-                    <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"></span>
+            <div th:field="*{modifiedDate}"
+                 th:text="${#temporals.format(detailView.modifiedDate, 'yyyy-MM-dd HH:mm')}"></div>
+            <span th:field="*{count}" th:text="*{count}"></span>
+            <span sec:authorize="isAuthenticated()" id="like-wrapper">
+                <span class="like-count" th:if="${likeCount} == 0">
+                    <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"
+                                             width="17px" height="17px"></span>
                     <span class="test-count">[[*{like}]]</span>
-                </div>
-                <div class="like-count" th:if="${likeCount} == 1" >
-                    <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/like.png}" class="like-img"></span>
+                </span>
+                <span class="like-count" th:if="${likeCount} == 1">
+                    <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/like.png}" class="like-img"
+                                             width="17px" height="17px"></span>
                     <span class="test-count">[[*{like}]]</span>
-                </div>
-            </div>
+                </span>
+            </span>
             <div sec:authorize="isAnonymous()">
-                <div><img th:attr="src = @{/bootstrap/images/like/like.png}" class="like-img"> [[*{like}]]</div>
+                <div><img th:attr="src = @{/bootstrap/images/like/like.png}" class="like-img" width="17px"
+                          height="17px"> [[*{like}]]
+                </div>
             </div>
         </div>
         <!-- 상세보기 내용 -->
-        <hr />
-        <div th:object="${detailView}">
+        <hr/>
+        <div th:object="${detailView}" class="cm-main-wrapper">
             <div th:field="*{text}" th:text="*{text}"></div>
         </div>
-        <hr />
-            <!-- 상세보기 리뷰 -->
-        <div id="cm-review-wrapper">
+        <hr/>
+        <!-- 상세보기 리뷰 -->
+        <div id="cm-review-wrapper cm-main-wrapper">
             <div class="review-send" sec:authorize="isAuthenticated()">
                 <form th:object="${reply}" method="post">
                     <textarea th:field="*{text}"></textarea>
                 </form>
-                    <button type="button" id="review-send-btn">리뷰 작성</button>
+                <button type="button" id="review-send-btn">리뷰 작성</button>
             </div>
             <div id="review-table">
                 <div th:each="replyList : ${replyList}">
-                    <div th:text="${replyList.replier}"></div>
-                    <div th:text="${replyList.text}"></div>
-                    <div th:text="${#temporals.format(replyList.createdTime, 'yyyy-MM-dd HH:mm')}"></div>
-                    <hr />
+                    <form>
+                        <div th:text="${replyList.replier}"></div>
+                        <div class="rp-text" th:text="${replyList.text}"></div>
+                        <div th:text="${#temporals.format(replyList.createdTime, 'yyyy-MM-dd HH:mm')}"></div>
+                        <div>
+                        </div>
+                        <hr/>
+                    </form>
+                    <button type="button" id="rp-modify-btn" onclick="replaceTag()">수정</button>
+                    <button type="button">삭제</button>
                 </div>
             </div>
         </div>
