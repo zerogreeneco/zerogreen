@@ -4,11 +4,9 @@
         <script th:inline="javascript">
             $(function (){
 
-                let likeCount = [[${detailView.like}]];
+                let boardId = $("#id").val();
 
                 $("#like-btn").click(function (){
-
-                    let boardId = $("#id").val();
 
                     $.ajax({
                         url: "/zerogreen/community/like/" + boardId,
@@ -33,7 +31,23 @@
                     });
                 }); // like-btn end.
 
+                $("#review-send-btn").click(function (){
 
+                    let text = $("#text").val();
+                    console.log("Text= " + text)
+                    $.ajax({
+                       url: "/zerogreen/community/" + boardId + "/reply",
+                       method: "post",
+                       data: {
+                           boardId: boardId,
+                           text: text
+                       }
+                    })
+                    .done(function (fragment) {
+                        console.log("댓글 성공");
+                        $("#review-table").replaceWith(fragment);
+                    });
+                })
             });
         </script>
         <div th:object="${detailView}">
@@ -42,7 +56,7 @@
             <h1 th:field="*{category}" th:text="*{category.categoryName}"></h1>
             <h2 th:field="*{title}" th:text="*{title}"></h2>
             <p th:field="*{nickname}" th:text="*{nickname}"></p>
-            <div th:field="*{modifiedDate}" th:text="*{modifiedDate}"></div>
+            <div th:field="*{modifiedDate}" th:text="${#temporals.format(detailView.modifiedDate, 'yyyy-MM-dd HH:mm')}"></div>
             <div th:field="*{count}" th:text="*{count}"></div>
             <div sec:authorize="isAuthenticated()" id="like-wrapper">
                 <div class="like-count" th:if="${likeCount} == 0" >
@@ -58,14 +72,29 @@
                 <div><img th:attr="src = @{/bootstrap/images/like/like.png}" class="like-img"> [[*{like}]]</div>
             </div>
         </div>
-        <!--/*            <div th:field="*{like}"></div>*/-->
         <!-- 상세보기 내용 -->
         <hr />
         <div th:object="${detailView}">
             <div th:field="*{text}" th:text="*{text}"></div>
         </div>
+        <hr />
             <!-- 상세보기 리뷰 -->
-
+        <div id="cm-review-wrapper">
+            <div class="review-send" sec:authorize="isAuthenticated()">
+                <form th:object="${reply}" method="post">
+                    <textarea th:field="*{text}"></textarea>
+                </form>
+                    <button type="button" id="review-send-btn">리뷰 작성</button>
+            </div>
+            <div id="review-table">
+                <div th:each="replyList : ${replyList}">
+                    <div th:text="${replyList.replier}"></div>
+                    <div th:text="${replyList.text}"></div>
+                    <div th:text="${#temporals.format(replyList.createdTime, 'yyyy-MM-dd HH:mm')}"></div>
+                    <hr />
+                </div>
+            </div>
+        </div>
     </th:block>
 </th:block>
 </html>

@@ -2,9 +2,9 @@
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
         <script>
-            $(function () {
+            window.onload = function () {
 
-            });
+            }
         </script>
         <style>
             .community-container {
@@ -78,7 +78,7 @@
                 text-decoration: none;
                 color: #000;
                 height: 50px;
-                width: 700px;
+                width: 500px;
                 overflow:hidden;
                 text-overflow:ellipsis;
             }
@@ -111,7 +111,7 @@
                     </div>
                     <div class="main-list-nickname" th:text="${community.nickname}">닉네임</div>
                     <div>
-                        <span class="main-list-views" th:text="${community.count}"></span>
+                        <span class="main-list-views"><img th:src="@{/bootstrap/images/list/visibility.png}" width="17px" height="17px">[[${community.count}]]</span>
                         <span class="main-list-like" ><img th:src="@{/bootstrap/images/like/like.png}" width="17px" height="17px">[[${community.like}]]</span>
                     </div>
                 </div>

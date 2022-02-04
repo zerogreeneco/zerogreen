@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import zerogreen.eco.dto.community.CommunityReplyDto;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
@@ -20,6 +21,7 @@ import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.community.CommunityBoardService;
+import zerogreen.eco.service.community.CommunityReplyService;
 import zerogreen.eco.service.file.FileService;
 
 import javax.servlet.http.Cookie;
@@ -38,6 +40,7 @@ public class CommunityController {
 
     private final CommunityBoardService boardService;
     private final FileService fileService;
+    private final CommunityReplyService replyService;
 
     @ModelAttribute("category")
     public Category[] categories() {
@@ -70,7 +73,8 @@ public class CommunityController {
 
     @PostMapping("/write")
     public String write(@Validated @ModelAttribute("writeForm") CommunityRequestDto dto,
-                        BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+                        BindingResult bindingResult,
+                        @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
 
         List<BoardImage> storeImages = fileService.boardImageFiles(dto.getImageFiles());
 
@@ -82,6 +86,7 @@ public class CommunityController {
     /* 게시글 상세보기 */
     @GetMapping("/read/{boardId}")
     public String detailView(@PathVariable("boardId") Long boardId, Model model,
+                             @ModelAttribute("reply") CommunityReplyDto replyDto,
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
                              HttpServletRequest request, HttpServletResponse response) {
 
@@ -94,6 +99,7 @@ public class CommunityController {
 
         CommunityResponseDto detailView = boardService.findDetailView(boardId, request, response);
         model.addAttribute("detailView", detailView);
+        model.addAttribute("replyList", replyService.findReplyByBoardId(boardId));
 
         return "community/communityDetailView";
     }
@@ -101,7 +107,8 @@ public class CommunityController {
     /* 좋아요 */
     @PostMapping("/like/{boardId}")
     @ResponseBody
-    public ResponseEntity<Map<String, Integer>> communityLike(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity<Map<String, Integer>> communityLike(@PathVariable("boardId") Long boardId,
+                                                              @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         Map<String, Integer> resultMap = new HashMap<>();
 
@@ -117,16 +124,28 @@ public class CommunityController {
         if (countLike <= 0) {
             // insert
             boardService.insertLike(boardId, principalDetails.getBasicUser());
-            // insert 후에 DB에서 해당 게시물의 전체 좋아요 수 카운트 후 json으로 변환
+            // insert 후에 DB에서 해당 게시물의 전체 좋아요 수 카운트 후 json 형태로 변환
             resultMap.put("totalCount", boardService.countLikeByBoard(boardId));
         } else if (countLike > 0) {
             // delete
             boardService.deleteLike(boardId, principalDetails.getId());
-            // delete 후에 DB에서 해당 게시물의 전체 좋아요 수 카운트 후 json으로 변환
+            // delete 후에 DB에서 해당 게시물의 전체 좋아요 수 카운트 후 json 형태로 변환
             resultMap.put("totalCount", boardService.countLikeByBoard(boardId));
         }
 
         // Map에 JSON 형태로 담긴 데이터를 Response 해줌
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
+    @PostMapping("/{boardId}/reply")
+    public String replySend(@PathVariable("boardId") Long boardId, Model model,
+                            @ModelAttribute("reply") CommunityReplyDto replyDto,
+                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        replyService.replySave(replyDto.getText(),boardId, principalDetails.getBasicUser());
+
+        model.addAttribute("replyList", replyService.findReplyByBoardId(boardId));
+
+        return "community/communityDetailView :: #review-table";
     }
 }

@@ -3,6 +3,7 @@ package zerogreen.eco.entity.community;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import zerogreen.eco.entity.baseentity.BaseTimeEntity;
 import zerogreen.eco.entity.userentity.BasicUser;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BoardNestedReply {
+public class BoardNestedReply extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
