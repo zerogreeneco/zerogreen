@@ -1,12 +1,6 @@
 @font-face {
-    font-family: 'Cafe24Ssurround';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Cafe24SsurroundAir';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff') format('woff');
+    font-family: 'CookieRunOTF-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/CookieRunOTF-Bold00.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -1643,6 +1637,16 @@ html {
 			color: inherit;
 		}
 
+	@media screen and (max-width: 1045px) {
+        #profile {
+            margin-right: 2em !important;
+        }
+
+        #btn-logout {
+            margin-right: 4em;
+        }
+    }
+
 /* Medium */
 	@media screen and (max-width: 980px) {
 
@@ -1932,6 +1936,17 @@ html {
 /* Small */
 
 	@media screen and (max-width: 710px) {
+
+        #btn-logout {
+            left: 40px !important;
+        }
+
+        #profile {
+            width : 2.5em !important;
+            height: 2.5em !important;
+            top: 5% !important;
+        }
+
 	#content {
         margin-top: 4em;
 	}
@@ -2166,6 +2181,7 @@ html {
 
         .btn-login {
             height: 70% !important;
+            width: 15% !important;
             padding: 4px 0 6px 0 !important;
         }
 

@@ -38,13 +38,16 @@
                         <li><a th:href="@{/community}">커뮤니티</a></li>
                     </ul>
                 </nav>
-                <!--Login Button-->
+                <!--Before Login-->
                 <div sec:authorize="isAnonymous()">
                     <button class="btn-login" th:onclick="|location.href='@{/login}'|">로그인</button>
                 </div>
+                <!--After Login-->
                 <div sec:authorize="isAuthenticated()">
-                    <button class="btn-login" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
+                    <button id="btn-logout" class="btn-login" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
+                    <div id="profile" sec:authorize="isAuthenticated()" th:onclick="|location.href='@{/member/memberMyInfo}'|"></div>
                 </div>
+
             </header>
         </div>
         <!-- Main -->
