@@ -21,6 +21,9 @@ public class StoreMember extends BasicUser{
     // 사업자 등록번호
     private String storeRegNum;
 
+    //상세페이지 db 뿌릴때 like count할 때 필요함
+    private Long count;
+
     @Enumerated(EnumType.STRING)
     private StoreType storeType;
 

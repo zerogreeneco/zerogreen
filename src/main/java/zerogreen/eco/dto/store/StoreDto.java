@@ -29,6 +29,7 @@ public class StoreDto {
     private StoreMember storeMember;
     private String storeRegNum;
 
+    private StoreImageFile storeImageFile;
     private VegetarianGrade vegetarianGrades;
 
     //여기서부터..
@@ -38,12 +39,12 @@ public class StoreDto {
     private StoreType storeType;
     private StoreInfo storeInfo;
 
-    private StoreImageFile StoreImageFile;
     private List<StoreImageFile> imageFiles;
-    private List<StoreSocialAddress> socialAddresses;
     private List<StoreMenu> menuList;
+    private List<StoreSocialAddress> socialAddresses;
 
     private Long count;
+    private Long like;
 
 //    public StoreDto(){}
 
@@ -58,33 +59,28 @@ public class StoreDto {
         this.storeType = storeType;
     }
 
-    //StoreMemberRespositoryImpl에서 쓰는 생성자 ** 작업중 **
-    public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo) {
+    //StoreMemberRespositoryImpl에서 쓰는 생성자 ** 아래 주석포함 작업중 **
+    public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo,
+                    Long count, Long like) {
         this.sno = sno;
         this.storeName = storeName;
         this.storeType = storeType;
         this.storeInfo = storeInfo;
+        this.count = count;
+        this.like = like;
     }
+
 
     //Detail에 Store데이터 가져오기
 /*
     @Builder
-    public StoreDto(String storeName, String storeRegNum, StoreType storeType,
-                    Long sno, String username, UserRole userRole, List<StoreImageFile> imageFiles,
-                    String postalCode, String storeAddress, String storePhoneNumber, String openTime, String closeTime,
-                    List<StoreMenu> menuList) {
-        this.storeName = storeName;
-        this.storeRegNum = storeRegNum;
-        this.storeType = storeType;
+    public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo,
+                    List<StoreImageFile> imageFiles, List<StoreMenu> menuList, List<StoreSocialAddress> socialAddresses) {
         this.sno = sno;
-        this.username = username;
-        this.userRole = userRole;
+        this.storeName = storeName;
+        this.storeType = storeType;
+        this.storeInfo = storeInfo;
         this.imageFiles = imageFiles;
-        this.postalCode = postalCode;
-        this.storeAddress = storeAddress;
-        this.storePhoneNumber = storePhoneNumber;
-        this.openTime = openTime;
-        this.closeTime = closeTime;
         this.menuList = menuList;
     }
 
@@ -111,6 +107,7 @@ public class StoreDto {
         this.closeTime = closeTime;
         this.imageFiles = imageFiles;
         this.menuList = menuList;
+        this.socialAddresses = socialAddresses;
     }
 
 }
