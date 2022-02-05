@@ -1,5 +1,7 @@
 package zerogreen.eco.service.user;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
@@ -18,5 +20,7 @@ public interface StoreMemberService {
 
     List<NonApprovalStoreDto> findByApprovalStore(UserRole userRole);
     StoreDto getStore(Long sno);
+
+    Slice<StoreDto> getShopList(Pageable pageable);
 
     }

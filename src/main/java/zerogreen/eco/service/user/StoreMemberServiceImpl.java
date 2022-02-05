@@ -3,6 +3,8 @@ package zerogreen.eco.service.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,14 +14,10 @@ import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.StoreInfo;
 import zerogreen.eco.entity.userentity.StoreMember;
-import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.file.StoreImageFileRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 
-import javax.mail.Store;
-import java.util.AbstractList;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -119,5 +117,11 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     @Override
     public List<NonApprovalStoreDto> findByApprovalStore(UserRole userRole) {
         return storeMemberRepository.findByApprovalStore(userRole);
+    }
+
+    @Override
+    @Transactional
+    public Slice<StoreDto> getShopList(Pageable pageable) {
+       return storeMemberRepository.getShopList(pageable);
     }
 }
