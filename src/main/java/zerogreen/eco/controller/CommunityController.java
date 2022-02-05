@@ -3,6 +3,7 @@ package zerogreen.eco.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -51,14 +53,27 @@ public class CommunityController {
     /* 커뮤티니 메인 화면 및 카테고리 페이징 */
     @GetMapping("")
     public String communityHomeForm(@RequestParam(value = "category", required = false) Category category,
-                                    RequestPageSortDto requestPageDto, Model model) {
+                                    RequestPageSortDto requestPageDto, Model model,
+                                    @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
+
+//        if (principalDetails != null) {
+//            model.addAttribute("likeCount", boardService.countLike(boardId, principalDetails.getBasicUser().getId()));
+//        }
 
         log.info("CATEGORY={}", category);
 
         if (category == null) {
-            model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable));
+            Slice<CommunityResponseDto> allCommunityBoard = boardService.findAllCommunityBoard(pageable);
+            List<CommunityResponseDto> collect = allCommunityBoard.get().collect(Collectors.toList());
+
+            model.addAttribute("communityList", allCommunityBoard);
+//            if (principalDetails != null) {
+//                for (int i = 0; i < collect.size(); i++) {
+//                model.addAttribute("likeCount", boardService.countLike(collect.get(i).getId(), principalDetails.getBasicUser().getId()));
+//                }
+//            }
         } else {
             model.addAttribute("communityList", boardService.findByCategory(pageable, category));
         }
