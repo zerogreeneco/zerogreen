@@ -4,11 +4,11 @@
         <script th:inline="javascript">
             $(function () {
 
+                $(".main-like-btn").click(function (e) {
 
-                $(".like-btn").click(function (e) {
+                    let likeBtn = $(this);
+                    let boardId = likeBtn.closest("#list-wrapper").children(".list-board-id").val();
 
-                    let boardId = $(this).closest("#list-wrapper").children(".list-board-id").val();
-                    let thisTag = $(this);
                     $.ajax({
                         url: "/zerogreen/community/like/" + boardId,
                         method: "post",
@@ -19,17 +19,11 @@
                     })
                         .done(function (data) {
                             if (data.count === 1) {
-                                alert(1);
-                                // $(this).closest(".like-img").attr("src", "/zerogreen/bootstrap/images/like/disLike.png")
-                                thisTag.closest(".like-count").find(".like-img").attr("src", "/zerogreen/bootstrap/images/like/disLike.png")
-                                thisTag.closest(".like-count").children(".test-count").text(data.totalCount);
-                                // $(this).closest(".test-count").text(data.totalCount);
+                                likeBtn.closest(".like-count").find(".like-img").attr("src", "/zerogreen/bootstrap/images/like/disLike.png")
+                                likeBtn.closest(".like-count").children(".test-count").text(data.totalCount);
                             } else if (data.count === 0) {
-                                alert(0);
-                                // $(this).closest(".like-img").attr("src", "/zerogreen/bootstrap/images/like/like.png")
-                                thisTag.closest(".like-count").find(".like-img").attr("src", "/zerogreen/bootstrap/images/like/like.png")
-                                thisTag.closest(".like-count").children(".test-count").text(data.totalCount);
-                                // $(this).closest(".test-count").text(data.totalCount);
+                                likeBtn.closest(".like-count").find(".like-img").attr("src", "/zerogreen/bootstrap/images/like/like.png")
+                                likeBtn.closest(".like-count").children(".test-count").text(data.totalCount);
                             }
                         });
                 }); // like-btn end.
@@ -113,6 +107,10 @@
                 text-overflow: ellipsis;
             }
 
+            .main-like-btn {
+                cursor: pointer;
+            }
+
         </style>
         <!--카테고리-->
         <div class="community-container">
@@ -151,7 +149,7 @@
                         <!-- 회원 좋아요 -->
                         <span sec:authorize="isAuthenticated()" id="like-wrapper">
                 <span class="like-count">
-                    <span class="like-btn">
+                    <span class="main-like-btn">
                         <img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"
                                              width="17px" height="17px"></span>
                     <span class="test-count">[[${community.like}]]</span>

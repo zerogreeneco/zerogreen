@@ -9,5 +9,9 @@ public interface CommunityReplyService {
 
     void replySave(String text, Long boardId, BasicUser basicUser);
 
+    void modifyReply(Long replyId, String text);
+
+    void deleteReply(Long replyId);
+
     List<CommunityReplyDto> findReplyByBoardId(Long boardId);
 }

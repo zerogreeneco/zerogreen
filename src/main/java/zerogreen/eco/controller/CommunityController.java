@@ -3,7 +3,6 @@ package zerogreen.eco.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +21,7 @@ import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.community.CommunityBoardService;
+import zerogreen.eco.service.community.CommunityNestedReplyService;
 import zerogreen.eco.service.community.CommunityReplyService;
 import zerogreen.eco.service.file.FileService;
 
@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -43,6 +42,7 @@ public class CommunityController {
     private final CommunityBoardService boardService;
     private final FileService fileService;
     private final CommunityReplyService replyService;
+    private final CommunityNestedReplyService nestedReplyService;
 
     @ModelAttribute("category")
     public Category[] categories() {
@@ -65,15 +65,7 @@ public class CommunityController {
         log.info("CATEGORY={}", category);
 
         if (category == null) {
-            Slice<CommunityResponseDto> allCommunityBoard = boardService.findAllCommunityBoard(pageable);
-            List<CommunityResponseDto> collect = allCommunityBoard.get().collect(Collectors.toList());
-
-            model.addAttribute("communityList", allCommunityBoard);
-//            if (principalDetails != null) {
-//                for (int i = 0; i < collect.size(); i++) {
-//                model.addAttribute("likeCount", boardService.countLike(collect.get(i).getId(), principalDetails.getBasicUser().getId()));
-//                }
-//            }
+            model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable));
         } else {
             model.addAttribute("communityList", boardService.findByCategory(pageable, category));
         }
@@ -152,6 +144,9 @@ public class CommunityController {
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
+    /*
+    * 댓글
+    * */
     @PostMapping("/{boardId}/reply")
     public String replySend(@PathVariable("boardId") Long boardId, Model model,
                             @ModelAttribute("reply") CommunityReplyDto replyDto,
@@ -163,4 +158,20 @@ public class CommunityController {
 
         return "community/communityDetailView :: #review-table";
     }
+
+    /*
+     * 대댓글
+     * */
+    @PostMapping("/{boardId}/{replyId}/reply")
+    public String nestedReplySend(@PathVariable("boardId")Long boardId, @PathVariable("replyId")Long replyId,
+                                  @ModelAttribute("nestedReplyForm") CommunityReplyDto replyDto,
+                                  Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        nestedReplyService.nestedReplySave(replyId, principalDetails.getBasicUser(), replyDto.getText());
+
+        model.addAttribute("nestedReply", nestedReplyService.findNestedReplyByReplyId(replyId));
+
+        return "/community/communityDetailView :: #nested-reply";
+    }
+
 }

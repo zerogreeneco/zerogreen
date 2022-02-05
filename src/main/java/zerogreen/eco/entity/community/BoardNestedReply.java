@@ -29,4 +29,10 @@ public class BoardNestedReply extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private BasicUser basicUser;
+
+    public BoardNestedReply(String replyContent, BoardReply boardReply, BasicUser basicUser) {
+        this.replyContent = replyContent;
+        this.boardReply = boardReply;
+        this.basicUser = basicUser;
+    }
 }
