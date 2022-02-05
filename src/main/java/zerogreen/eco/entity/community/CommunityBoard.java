@@ -24,7 +24,6 @@ public class CommunityBoard extends BaseTimeEntity {
     @Column(name = "board_id")
     private Long id;
 
-    private String title;
     @Lob
     private String text;
 
@@ -37,16 +36,17 @@ public class CommunityBoard extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = REMOVE)
     private List<CommunityLike> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "board", cascade = REMOVE)
+    private List<BoardReply> boardReplies = new ArrayList<>();
 
     @OneToMany(mappedBy = "board", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
     private List<BoardImage> imageList = new ArrayList<>();
 
     @Builder
-    public CommunityBoard(String title, String text, Member member, Category category) {
-        this.title = title;
+    public CommunityBoard(String text, Member member, Category category) {
         this.text = text;
         this.member = member;
         this.category = category;

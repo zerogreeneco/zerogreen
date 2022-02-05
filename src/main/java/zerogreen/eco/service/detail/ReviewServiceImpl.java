@@ -59,13 +59,6 @@ public class ReviewServiceImpl implements ReviewService{
         StoreMember findStore = storeMemberRepository.findById(sno).orElseThrow();
         return memberReviewRepository.counting(findStore);
     }
-/*
-    @Override
-    public Long cntMemberReview(MemberReviewDto memberReviewDto) {
-        StoreMember findStore = storeMemberRepository.findById(memberReviewDto.getId()).orElseThrow();
-        return memberReviewRepository.counting(findStore);
-    }
-*/
 
     //멤버 리뷰 리스트
     @Override
@@ -97,8 +90,6 @@ public class ReviewServiceImpl implements ReviewService{
     public Long saveStoreReview(StoreReviewDto storeReviewDto) {
         StoreMember findStore = storeMemberRepository.findById(storeReviewDto.getSno()).orElseThrow();
         MemberReview findReview = memberReviewRepository.findById(storeReviewDto.getRno()).orElseThrow();
-        log.info("qqqqq6666: "+ findStore);
-        log.info("qqqqq7777: "+ findReview);
         return storeReviewRepository.save( new StoreReview(storeReviewDto.getStoreReviewText(),
                         findStore, findReview))
                 .getId();

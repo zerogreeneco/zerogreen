@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import zerogreen.eco.dto.detail.LikesDto;
 import zerogreen.eco.entity.detail.Likes;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
@@ -47,7 +46,7 @@ public class LikesServiceImpl implements LikesService {
 
     //개별 라이크 카운팅
     @Override
-    public int cntMemberLike(Long sno, Long mno) {
+    public Long cntMemberLike(Long sno, Long mno) {
         log.info("bbbbbb6666: "+ sno);
         log.info("bbbbbb7777: "+ mno);
         return likesRepository.cntMemberLike(sno, mno);

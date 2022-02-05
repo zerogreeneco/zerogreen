@@ -170,7 +170,7 @@ html {
 		box-sizing: inherit;
 	}
 
-	input, select, textarea {
+	input, select {
 		font-family: 'Open Sans', sans-serif;
 		font-size: 13pt;
 		color: #696969;
@@ -1066,7 +1066,7 @@ html {
 	}
 
 	form textarea {
-		min-height: 9em;
+		//min-height: 9em;
 		padding: 1em;
 	}
 

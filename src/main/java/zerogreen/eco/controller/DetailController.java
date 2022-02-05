@@ -43,9 +43,10 @@ public class DetailController {
     private final ReviewService reviewService;
 
     @GetMapping("/page/detail/{sno}")
-    public String detail(Long id,@PathVariable("sno") Long sno, Model model, LikesDto likesDto, RequestPageSortDto requestPageSortDto,
+    public String detail(Long id,@PathVariable("sno") Long sno, Model model, RequestPageSortDto requestPageSortDto,
                        MemberReviewDto memberReviewDto,
                        @PrincipalUser BasicUser basicUser, @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException{
+
         //스토어 데이터 + 회원/비회원
         StoreDto storeDto = storeMemberService.getStore(sno);
         log.info("?????Controller " + sno);
@@ -58,16 +59,20 @@ public class DetailController {
             //리뷰어쩌구..
             model.addAttribute("rvMember", principalDetails.getId());
             //가게별 개별 라이크
-            model.addAttribute("cntLike", likesService.cntMemberLike(storeDto.getId(), principalDetails.getId()));
-            log.info("bbbbbcntLike " + storeDto.getId());
-            log.info("bbbbbcntLike " + likesDto.getSno());
+            model.addAttribute("cntLike", likesService.cntMemberLike(sno, principalDetails.getId()));
         }
 
         //가게별 라이크 카운팅
-        model.addAttribute("cnt", likesService.cntLikes(sno));
+        Long cnt = likesService.cntLikes(sno);
+        if (cnt != null) {
+            model.addAttribute("cnt", cnt);
+        }
 
-        //가게별 멤버리뷰 카운팅 **수정해야함**
-        model.addAttribute("cnt2", reviewService.cntMemberReview(sno));
+        //가게별 멤버리뷰 카운팅
+        Long cnt2 = reviewService.cntMemberReview(sno);
+        if (cnt2 != null) {
+            model.addAttribute("cnt2", cnt2);
+        }
 
         //상세페이지 멤버리뷰 리스트
         Pageable pageable = requestPageSortDto.getPageableSort(Sort.by("id").descending());

@@ -16,16 +16,14 @@ import java.util.List;
 public class CommunityRequestDto {
 
     @NotBlank
-    private String title;
-    @NotBlank
     private String text;
     @NotNull
     private Category category;
     private Member writer;
     private List<MultipartFile> imageFiles;
 
-    public CommunityRequestDto(String title, String text, Category category) {
-        this.title = title;
+    public CommunityRequestDto(String text, Category category) {
+
         this.text = text;
         this.category = category;
     }

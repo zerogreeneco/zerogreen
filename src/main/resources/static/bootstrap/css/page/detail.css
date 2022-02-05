@@ -1,10 +1,8 @@
 .temp1 {
     background: #cbced4;
-    //height: 200px;
 }
 .temp2 {
     background: #898c91;
-    //height: 200px;
 }
 
 .detail-top {
@@ -22,10 +20,15 @@
     margin: 15px 0 15px 0;
 }
 
+.js-storeName {
+    margin-top: 8px;
+}
+
+/* 2열 */
 .sec {
     width: 50%;
     font-size: 1.2em;
-    margin-bottom: 15px;
+    margin-bottom: 150;
     padding: 10px;
 }
 
@@ -33,6 +36,7 @@
     text-align: right;
 }
 
+/* 3열 */
 .detail-thr {
     height: auto;
     margin: 10px 0 10px 0;
@@ -44,6 +48,7 @@
     padding: 10px;
 }
 
+/* 4열 지도 */
 .detail-map {
     text-align: center;
     margin: 10px 0 10px 0;
@@ -108,7 +113,7 @@ textarea:focus {
 
 .mrv-textarea, .srv-textarea {
     background: none;
-    border: none;
+    border: 1px solid black;
     width: 900px;
     margin: 8px;
     height: auto;
@@ -132,6 +137,13 @@ textarea:focus {
 
 .mrv-delete, .srv-adding, .srv-toAdd, .srv-delete {
     margin: 0 20px 15px 10px;
+}
+
+.rv-nickname {
+    font-size: 1.1em;
+    display: inline-block;
+    margin-top: 8px;
+    margin-left: 8px;
 }
 
 /* mixed css */

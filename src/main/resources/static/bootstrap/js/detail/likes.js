@@ -4,15 +4,13 @@ $(document).ready(function(e){
     let storeName = $(".js-storeName").text();
     let username = $(".js-username").text();
     let liking = $(".liking");
-    let lno = $(".lno").text();
     let cnt = $(".like-cnt");
 
 
     $(".liking").on("click", function(){
         $.ajax({
            url: contextPath+'/detailLikes/'+sno,
-           type: "POST",
-           contentType:"application/json; charset=utf-8",
+           method: "POST",
            dataType: "json",
            data: {
                 sno: sno
@@ -20,27 +18,21 @@ $(document).ready(function(e){
         }) // end of ajax
 
         .done(function (data) {
-        if (data.count === 1) {
-            $(".liking").attr("src", "/zerogreen/bootstrap/images/like/disLike.png")
-            console.log("likelike")
-            //$(".test-count").text(data.totalCount);
-            //console.log(data.totalCount)
-        } else if (data.count === 0) {
-            $(".liking").attr("src", "/zerogreen/bootstrap/images/like/like.png")
-            console.log("unlikeunlike")
+            if (data.count === 1) {
+                $(".liking").attr("src", "/zerogreen/bootstrap/images/like/disLike.png");
+                console.log("likelike");
+                console.log(data.count);
+                $(".test-count").text(data.totalCount);
+                console.log(data.totalCount);
 
-            // $("#like-btn").html("😍");
-            //$(".test-count").text(data.totalCount);
-            //console.log(data.totalCount)
-        }
-        })
+            } else if (data.count === 0) {
+                $(".liking").attr("src", "/zerogreen/bootstrap/images/like/like.png");
+                console.log("unlikeunlike")
+                $(".test-count").text(data.totalCount);
+                console.log(data.totalCount);
+            }
+        }) //end of done
     }); //end of function
-
-
-
-
-
-    //Like
 
 
 /*
@@ -67,20 +59,19 @@ $(document).ready(function(e){
        }); // end of ajax
        } // end of If statement
    }); // end of function
-*/
 
-/*
 
        //Unlike
-       else if (liking.text() == "☆☆☆☆☆") {
+       $(".liking").on("click", function(){
+
 
        $.ajax({
-           url: contextPath+'/deleteLikes/'+sno+'/'+lno,
+           url: contextPath+'/detailLikes/'+sno,
            type: "DELETE",
            contentType:"application/json; charset=utf-8",
            dataType: "json",
            data: JSON.stringify({
-                id: lno
+                sno: sno
            }),
             success: function(data){
                 console.log("result: "+data);
@@ -90,8 +81,8 @@ $(document).ready(function(e){
                 //alert("errorrrrrrrrrrrrrrrr");
             }
         }); // end of ajax
-            $(".liking").html("♡♡♡♡♡");
-            $(".like-cnt").html(Number(cnt.text())-1);
+//            $(".liking").html("♡♡♡♡♡");
+//            $(".like-cnt").html(Number(cnt.text())-1);
         } //end of else if statement
     }); // end of function
 */
