@@ -8,6 +8,8 @@ import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.Member;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,6 +30,9 @@ public class BoardReply extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private CommunityBoard board;
+
+    @OneToMany(mappedBy = "boardReply", cascade = CascadeType.REMOVE)
+    private List<BoardNestedReply> nestedReplies = new ArrayList<>();
 
     public BoardReply(String replyContent, BasicUser replier, CommunityBoard board) {
         this.replyContent = replyContent;

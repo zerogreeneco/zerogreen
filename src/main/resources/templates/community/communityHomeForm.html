@@ -1,10 +1,39 @@
 <!DOCTYPE html>
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
-        <script>
-            window.onload = function () {
+        <script th:inline="javascript">
+            $(function () {
 
-            }
+
+                $(".like-btn").click(function (e) {
+
+                    let boardId = $(this).closest("#list-wrapper").children(".list-board-id").val();
+                    let thisTag = $(this);
+                    $.ajax({
+                        url: "/zerogreen/community/like/" + boardId,
+                        method: "post",
+                        dataType: "json",
+                        data: {
+                            boardId: boardId
+                        }
+                    })
+                        .done(function (data) {
+                            if (data.count === 1) {
+                                alert(1);
+                                // $(this).closest(".like-img").attr("src", "/zerogreen/bootstrap/images/like/disLike.png")
+                                thisTag.closest(".like-count").find(".like-img").attr("src", "/zerogreen/bootstrap/images/like/disLike.png")
+                                thisTag.closest(".like-count").children(".test-count").text(data.totalCount);
+                                // $(this).closest(".test-count").text(data.totalCount);
+                            } else if (data.count === 0) {
+                                alert(0);
+                                // $(this).closest(".like-img").attr("src", "/zerogreen/bootstrap/images/like/like.png")
+                                thisTag.closest(".like-count").find(".like-img").attr("src", "/zerogreen/bootstrap/images/like/like.png")
+                                thisTag.closest(".like-count").children(".test-count").text(data.totalCount);
+                                // $(this).closest(".test-count").text(data.totalCount);
+                            }
+                        });
+                }); // like-btn end.
+            });
         </script>
         <style>
             .community-container {
@@ -41,7 +70,7 @@
                 margin-bottom: 10px;
             }
 
-            .cm-content{
+            .cm-content {
                 display: table-cell;
                 height: 150px;
             }
@@ -50,6 +79,7 @@
             .main-list-category {
                 margin: 15px 0 10px 0;
             }
+
             .cm-category {
                 display: inline-block;
                 border: 1px solid black;
@@ -64,8 +94,8 @@
             .main-list-text {
                 height: 60px;
                 display: block;
-                overflow:hidden;
-                text-overflow:ellipsis;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             .main-list-text p {
@@ -79,8 +109,8 @@
                 color: #000;
                 height: 50px;
                 width: 500px;
-                overflow:hidden;
-                text-overflow:ellipsis;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
         </style>
@@ -99,20 +129,45 @@
             </div>
             <!-- 리스트 -->
             <div id="list-wrapper" th:each="community : ${communityList}">
+                <input type="hidden" th:value="${community.id}" class="list-board-id">
+
                 <div class="cm-content">
-                    <div class="main-list-category" >
+                    <div class="main-list-category">
                         <span>
                             <a th:href="@{/community(category=${community.category.name()}) }"
                                th:text="${community.category.categoryName}" class="cm-category">카테고리</a>
                         </span>
                     </div>
-                    <div class="main-list-text" >
-                        <p><a th:href="@{/community/read/{boardId}(boardId = ${community.id})}" th:text="${community.text}">글 내용</a></p>
+                    <div class="main-list-text">
+                        <p><a th:href="@{/community/read/{boardId}(boardId = ${community.id})}"
+                              th:text="${community.text}">글 내용</a></p>
                     </div>
                     <div class="main-list-nickname" th:text="${community.nickname}">닉네임</div>
                     <div>
-                        <span class="main-list-views"><img th:src="@{/bootstrap/images/list/visibility.png}" width="17px" height="17px">[[${community.count}]]</span>
-                        <span class="main-list-like" ><img th:src="@{/bootstrap/images/like/like.png}" width="17px" height="17px">[[${community.like}]]</span>
+                        <span class="main-list-views">
+                            <img th:src="@{/bootstrap/images/list/visibility.png}"
+                                                           width="17px" height="17px">[[${community.count}]]
+                        </span>
+                        <!-- 회원 좋아요 -->
+                        <span sec:authorize="isAuthenticated()" id="like-wrapper">
+                <span class="like-count">
+                    <span class="like-btn">
+                        <img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"
+                                             width="17px" height="17px"></span>
+                    <span class="test-count">[[${community.like}]]</span>
+                </span>
+                            <!--/*                <span class="like-count" th:if="${likeCount} == 1">
+                                                <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/like.png}" class="like-img"
+                                                                         width="17px" height="17px"></span>
+                                                <span class="test-count">[[${community.like}]]</span>
+                                            </span>*/-->
+            </span>
+                        <!-- 비회원 좋아요 -->
+                        <span sec:authorize="isAnonymous()">
+                <span><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img" width="17px"
+                           height="17px"> [[${community.like}]]
+                </span>
+            </span>
                     </div>
                 </div>
             </div>

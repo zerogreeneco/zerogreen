@@ -36,9 +36,11 @@ public class CommunityBoard extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = REMOVE)
     private List<CommunityLike> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "board", cascade = REMOVE)
+    private List<BoardReply> boardReplies = new ArrayList<>();
 
     @OneToMany(mappedBy = "board", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
     private List<BoardImage> imageList = new ArrayList<>();
