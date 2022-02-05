@@ -15,7 +15,9 @@ import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.StoreInfo;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
+import zerogreen.eco.entity.userentity.*;
 import zerogreen.eco.repository.file.StoreImageFileRepository;
+import zerogreen.eco.repository.store.StoreMenuRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 
 import java.util.List;
@@ -27,6 +29,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
 
     private final StoreMemberRepository storeMemberRepository;
     private final StoreImageFileRepository storeImageFileRepository;
+    private final StoreMenuRepository storeMenuRepository;
     @Lazy
     private final PasswordEncoder passwordEncoder;
 
@@ -83,6 +86,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     public StoreDto getStore(Long sno) {
         return storeMemberRepository.getStoreById(sno);
     }
+
 /*
     public StoreDto getStore(Long sno) {
         StoreMember storeMember = storeMemberRepository.getStoreById(sno);

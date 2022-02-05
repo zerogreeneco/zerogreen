@@ -27,8 +27,7 @@ public interface StoreMemberRepository extends JpaRepository<StoreMember, Long>,
 
     //Store db 가져오기
 /*
-    @Query("select sm from StoreMember sm left outer join BasicUser bu on sm.id = bu.id " +
-            "left outer join StoreMenu su on sm.id = su.id " +
+    @Query("select sm from StoreMember sm left outer join StoreMenu su on sm.id = su.id " +
             "left outer join StoreImageFile sif on sm.id = sif.id " +
             "where sm.id =:sno")
     StoreMember getStoreById(@RequestParam("sno") Long sno);

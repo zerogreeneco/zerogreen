@@ -6,11 +6,13 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.dto.store.StoreDto;
+import zerogreen.eco.entity.community.QCommunityLike;
 import zerogreen.eco.entity.detail.QLikes;
 import zerogreen.eco.entity.file.QStoreImageFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.QBasicUser;
 import zerogreen.eco.entity.userentity.QStoreMember;
+import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
 
 import javax.persistence.EntityManager;
@@ -20,6 +22,7 @@ import static com.querydsl.core.types.ExpressionUtils.count;
 import static zerogreen.eco.entity.file.QStoreImageFile.storeImageFile;
 import static zerogreen.eco.entity.userentity.QBasicUser.basicUser;
 import static zerogreen.eco.entity.userentity.QStoreMember.storeMember;
+import static zerogreen.eco.entity.userentity.QStoreMenu.storeMenu;
 
 public class StoreMemberRepositoryImpl implements StoreMemberRepositoryCustom {
 
@@ -50,17 +53,24 @@ public class StoreMemberRepositoryImpl implements StoreMemberRepositoryCustom {
     //get Store DB in page Detail
     @Override
     public StoreDto getStoreById(Long sno) {
-
+        QLikes subLike = new QLikes("subLike");
         return queryFactory
                 .select(Projections.constructor(StoreDto.class,
                         storeMember.id,
                         storeMember.storeName,
                         storeMember.storeType,
-                        storeMember.storeInfo
+                        storeMember.storeInfo,
+                        storeMember.count,
+                        ExpressionUtils.as(
+                                JPAExpressions
+                                        .select(count(subLike.id))
+                                        .from(subLike, subLike)
+                                        .where(subLike.storeMember.id.eq(sno)),"likeCount")
                 ))
-                .from(storeMember)
+                .from(storeMember, storeMember)
                 .where(storeMember.id.eq(sno))
                 .fetchFirst();
     }
+
 
 }
