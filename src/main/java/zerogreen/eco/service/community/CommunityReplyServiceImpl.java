@@ -31,6 +31,20 @@ public class CommunityReplyServiceImpl implements CommunityReplyService{
     }
 
     @Override
+    @Transactional
+    public void modifyReply(Long replyId, String text) {
+
+        BoardReply boardReply = boardReplyRepository.findById(replyId).orElseThrow();
+        boardReply.changeText(text);
+    }
+
+    @Override
+    @Transactional
+    public void deleteReply(Long replyId) {
+        boardReplyRepository.deleteById(replyId);
+    }
+
+    @Override
     public List<CommunityReplyDto> findReplyByBoardId(Long boardId) {
         List<BoardReply> boardRepliesByBoardId = boardReplyRepository.findBoardRepliesByBoardId(boardId);
 

@@ -16,6 +16,15 @@
                 padding: 10px;
             }
 
+            like-btn {
+                cursor: pointer;
+            }
+
+            .like-img {
+                width: 17px;
+                height: 17px;
+            }
+
         </style>
         <script th:inline="javascript">
             $(function () {
@@ -42,6 +51,10 @@
                             }
                         });
                 }); // like-btn end.
+
+                $(".nested-reply-btn").on("click", function () {
+
+                });
 
                 $("#review-send-btn").click(function () {
 
@@ -87,20 +100,17 @@
             <!-- 회원 좋아요 -->
             <span sec:authorize="isAuthenticated()" id="like-wrapper">
                 <span class="like-count" th:if="${likeCount} == 0">
-                    <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"
-                                             width="17px" height="17px"></span>
+                    <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"></span>
                     <span class="test-count">[[*{like}]]</span>
                 </span>
                 <span class="like-count" th:if="${likeCount} == 1">
-                    <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/like.png}" class="like-img"
-                                             width="17px" height="17px"></span>
+                    <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/like.png}" class="like-img"></span>
                     <span class="test-count">[[*{like}]]</span>
                 </span>
             </span>
             <!-- 비회원 좋아요 -->
             <span sec:authorize="isAnonymous()">
-                <span><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img" width="17px"
-                          height="17px"> [[*{like}]]
+                <span><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"> [[*{like}]]
                 </span>
             </span>
         </div>
@@ -121,20 +131,33 @@
             <div id="review-table">
                 <div th:each="replyList : ${replyList}">
                     <form>
+                        <input type="hidden" th:value="${replyList.id}">
                         <div th:text="${replyList.replier}"></div>
-                        <div class="rp-text" th:text="${replyList.text}"></div>
+                        <p class="rp-text" th:text="${replyList.text}"></p>
                         <div th:text="${#temporals.format(replyList.createdTime, 'yyyy-MM-dd HH:mm')}"></div>
                         <div>
                         </div>
                         <hr/>
                     </form>
-                    <button type="button" id="rp-modify-btn" onclick="function replaceTag() {
-                                        alert('왜????');
-                                        $('.rp-text').replaceWith(function () {
-                                        return $('<input>', {type: 'text', name: 'text'})
-                                    });
-                                }
-                    replaceTag()">수정</button>
+                    <!-- 대댓글 입력 -->
+                    <div style="display: none;">
+                        <form th:object="${nestedReplyForm}">
+                            <input type="text" th:field="*{text}">
+                        </form>
+                        <button type="button" >대댓글 전송</button>
+                    </div>
+                    <!-- 대댓글 -->
+                    <div id="nested-reply">
+                        <form>
+                            <div th:each="nestedReply : ${nestedReply}">
+                                <div th:text="${nestedReply.replier}"></div>
+                                <p th:text="${nestedReply.text}"></p>
+                                <div th:text="${#temporals.format(nestedReply.createdTime, 'yyyy-MM-dd HH:mm')}"></div>
+                            </div>
+                        </form>
+                    </div>
+                    <button type="button" class="rp-modify-btn" th:onclick="replaceTag()">수정</button>
+                    <button type="button" class="nested-reply-btn">대댓글</button>
                     <button type="button">삭제</button>
                 </div>
             </div>

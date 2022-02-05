@@ -39,4 +39,8 @@ public class BoardReply extends BaseTimeEntity {
         this.replier = replier;
         this.board = board;
     }
+
+    public void changeText(String replyContent) {
+        this.replyContent = replyContent;
+    }
 }

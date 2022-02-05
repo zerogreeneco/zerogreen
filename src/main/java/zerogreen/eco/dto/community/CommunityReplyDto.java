@@ -2,6 +2,7 @@ package zerogreen.eco.dto.community;
 
 import lombok.Getter;
 import lombok.Setter;
+import zerogreen.eco.entity.community.BoardNestedReply;
 import zerogreen.eco.entity.community.BoardReply;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.StoreMember;
@@ -20,16 +21,19 @@ public class CommunityReplyDto {
 
     public CommunityReplyDto() {}
 
+    // 댓글
     public CommunityReplyDto(BoardReply boardReply) {
-//        Member member = (Member) boardReply.getReplier();
-//        StoreMember store = (StoreMember) boardReply.getReplier();
-
-        boolean b = boardReply.getReplier() instanceof StoreMember;
-
         this.id = boardReply.getId();
         this.text = boardReply.getReplyContent();
-
         this.replier = boardReply.getReplier().getUsername();
         this.createdTime = boardReply.getCreatedDate();
+    }
+
+    // 대댓글
+    public CommunityReplyDto(BoardNestedReply nestedReply) {
+        this.id = nestedReply.getId();
+        this.text = nestedReply.getReplyContent();
+        this.replier = nestedReply.getBasicUser().getUsername();
+        this.createdTime = nestedReply.getCreatedDate();
     }
 }
