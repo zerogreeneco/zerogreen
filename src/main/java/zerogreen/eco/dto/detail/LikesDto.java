@@ -20,7 +20,7 @@ public class LikesDto {
     private Long sno;
     private String storeName;
 
-    private int count;
+    private Long count;
 
     private StoreMember storeMember;
     private BasicUser basicUser;
