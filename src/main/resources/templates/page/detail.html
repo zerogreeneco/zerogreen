@@ -31,23 +31,25 @@
             <div class="sec-flex">
                 <!-- 좋아요 정보 -->
                 <div class="inline sec sec-left">
-                    <div sec:authorize="isAuthenticated()" id="like-wrapper">
+                    <div class="inline">
+                        <div sec:authorize="isAuthenticated()" id="like-wrapper">
 
-                        <div class="liking" th:if="${cntLike} == 0">
-                            <img th:attr="src = @{/bootstrap/images/like/disLike.png}">
-                            <span class="test-count">[[${cntLike}]]</span>
+                            <div class="liking" th:if="${cntLike} == 0">
+                                <img th:attr="src = @{/bootstrap/images/like/disLike.png}">
+                                <span class="test-count">[[${cntLike}]]</span>
+                            </div>
+
+                            <div class="liking" th:if="${cntLike} == 1">
+                                <img th:attr="src = @{/bootstrap/images/like/like.png}">
+                                <span class="test-count">[[${cntLike}]]</span>
+                            </div>
                         </div>
-
-                        <div class="liking" th:if="${cntLike} == 1">
-                            <img th:attr="src = @{/bootstrap/images/like/like.png}">
-                            <span class="test-count">[[${cntLike}]]</span>
+                        <div sec:authorize="isAnonymous()">
+                            <div><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"> [[*{like}]]</div>
                         </div>
                     </div>
-                    <div sec:authorize="isAnonymous()">
-                        <div><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"> [[*{like}]]</div>
-                    </div>
 
-                    <div>
+                    <div class="inline">
                         <span>좋아요 수: </span>
                         <span class="like-cnt">[[${cnt}]]</span>
                     </div>
@@ -78,12 +80,11 @@
             </div>
             <!-- 3열 우측 -->
             <div class="thr thr-right">
-                <span>가게소개</span><br>
-                <span>영업시간</span><br>
-                <span>전화번호</span><br>
-                <span>영업시간</span><br>
-                <span>[[${getStore.storeAddress}]]</span><br>
-                <span>기타기타</span><br>
+                <span>가게 소개 : </span><span>[[${getStore.storeInfo.storeDescription}]]</span><br>
+                <span>전화 번호 : </span><span>[[${getStore.storeInfo.storePhoneNumber}]]</span><br>
+                <span>영업 시간 : </span><span>[[${getStore.storeInfo.openTime}]] -
+                    [[${getStore.storeInfo.closeTime}]]</span><br>
+
             </div>
         </div>
 
@@ -116,8 +117,8 @@
                     <!-- 멤버리뷰 리스트 -->
                     <div class="reviewBox">
                         <span class="rno" style="display:none;">[[${mReview.rno}]]</span>
+                        <span class="rv-nickname">[[${mReview.nickname}]]</span>
                         <span>[[${mReview.rno}]]</span>
-                        <span>[[${mReview.nickname}]]</span>
                         <span>[[${mReview.basicUser.id}]]</span><br>
                         <textarea class="mrv-textarea" name="reviewText"
                                   onkeyup="this.style.height = this.scrollHeight + 'px';" readonly>[[${mReview.reviewText}]]</textarea>
@@ -138,6 +139,7 @@
 
                        <!-- 스토어 리뷰 리스트 -->
                        <div class="sReview-Box" th:if="${mReview.storeReview != null}">
+                           <span class="srv-storeName">[[${mReview.storeReview.storeMember.storeName}]]</span>
                            <span class="srno">[[${mReview.storeReview.id}]]</span>
                            <span class="rno">[[${mReview.storeReview.memberReview.id}]]</span>
                            <span></span>

@@ -80,27 +80,23 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     }
 
 
-    //상세페이지
+    //상세페이지 ** 아래 주석포함 작업중**
     @Override
+    public StoreDto getStore(Long sno) {
+        return storeMemberRepository.getStoreById(sno);
+    }
+/*
     public StoreDto getStore(Long sno) {
         StoreMember storeMember = storeMemberRepository.getStoreById(sno);
         log.info("??????????"+storeMember);
         return StoreDto.builder()
-                .storeName(storeMember.getStoreName())
-                .storeRegNum(storeMember.getStoreRegNum())
-                .storeType(storeMember.getStoreType())
-                .sno(storeMember.getId())
-                .username(storeMember.getUsername())
-                .userRole(storeMember.getUserRole())
+                .storeMember(storeMember)
                 .imageFiles(storeMember.getImageFiles())
-                .postalCode(storeMember.getStoreInfo().getPostalCode())
-                .storeAddress(storeMember.getStoreInfo().getStoreAddress())
-                .storePhoneNumber(storeMember.getStoreInfo().getStorePhoneNumber())
-                .openTime(storeMember.getStoreInfo().getOpenTime())
-                .closeTime(storeMember.getStoreInfo().getCloseTime())
+                .socialAddresses(storeMember.getSocialAddresses())
                 .menuList(storeMember.getMenuList())
                 .build();
     }
+*/
 
     /*
     * 이미지 DB 저장

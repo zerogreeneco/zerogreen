@@ -18,20 +18,20 @@ $(document).ready(function(e){
         }) // end of ajax
 
         .done(function (data) {
-        if (data.count === 1) {
-            $(".liking").attr("src", "/zerogreen/bootstrap/images/like/disLike.png");
-            console.log("likelike");
-            console.log(data.count);
-            $(".test-count").text(data.totalCount);
-            console.log(data.totalCount);
+            if (data.count === 1) {
+                $(".liking").attr("src", "/zerogreen/bootstrap/images/like/disLike.png");
+                console.log("likelike");
+                console.log(data.count);
+                $(".test-count").text(data.totalCount);
+                console.log(data.totalCount);
 
-        } else if (data.count === 0) {
-            $(".liking").attr("src", "/zerogreen/bootstrap/images/like/like.png");
-            console.log("unlikeunlike")
-            $(".test-count").text(data.totalCount);
-            console.log(data.totalCount);
-        }
-        })
+            } else if (data.count === 0) {
+                $(".liking").attr("src", "/zerogreen/bootstrap/images/like/like.png");
+                console.log("unlikeunlike")
+                $(".test-count").text(data.totalCount);
+                console.log(data.totalCount);
+            }
+        }) //end of done
     }); //end of function
 
 
