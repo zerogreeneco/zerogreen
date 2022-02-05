@@ -1,12 +1,10 @@
 package zerogreen.eco.dto.store;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -47,7 +45,7 @@ public class StoreDto {
 
     private Long count;
 
-    public StoreDto(){}
+//    public StoreDto(){}
 
     //이친구...뭐죠..?
     public StoreDto(Long id) {
@@ -93,11 +91,9 @@ public class StoreDto {
 */
 
     //List DTO
-    public StoreDto(Long id, UserRole userRole, StoreType storeType, String storeName, String storePhoneNumber,
+    public StoreDto(Long id,String storeName, String storePhoneNumber,
     String openTime, String closeTime) {
         this.id = id;
-        this.userRole = userRole;
-        this.storeType = storeType;
         this.storeName = storeName;
         this.storePhoneNumber = storePhoneNumber;
         this.openTime = openTime;

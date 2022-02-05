@@ -44,7 +44,7 @@ public class ListController {
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("storeName").descending());
 
         Slice<StoreDto> getShopList = storeMemberService.getShopList(pageable);
-        log.info("List" + getShopList);
+        log.info("List>>>" + getShopList);
 
         return "page/shopList";
     }
