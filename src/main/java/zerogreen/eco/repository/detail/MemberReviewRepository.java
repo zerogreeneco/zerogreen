@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.userentity.BasicUser;
@@ -16,7 +17,7 @@ public interface MemberReviewRepository extends JpaRepository<MemberReview, Long
 
     @Query("select count(mr.id) from MemberReview mr " +
             "left outer join BasicUser bu on mr.basicUser.id = bu.id " +
-            "where bu.userRole ='USER' and mr.storeMember =:storeMember")
-    Long counting(StoreMember storeMember);
+            "where bu.userRole ='USER' and mr.storeMember.id =:sno")
+    Long counting(@Param("sno") Long sno);
 
 }

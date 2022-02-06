@@ -56,8 +56,7 @@ public class ReviewServiceImpl implements ReviewService{
     //가게별 멤버 리뷰 수 카운팅
     @Override
     public Long cntMemberReview(Long sno) {
-        StoreMember findStore = storeMemberRepository.findById(sno).orElseThrow();
-        return memberReviewRepository.counting(findStore);
+        return memberReviewRepository.counting(sno);
     }
 
     //멤버 리뷰 리스트
