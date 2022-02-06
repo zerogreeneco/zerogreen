@@ -42,23 +42,31 @@ public class MemberReviewDto {
     }
 
     //멤버리뷰 리스팅
-    public MemberReviewDto(Long rno, String reviewText, BasicUser basicUser, StoreMember storeMember, String nickname) {
+    public MemberReviewDto(Long rno, String reviewText, BasicUser basicUser, StoreMember storeMember, String nickname,
+                           LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.rno = rno;
         this.reviewText = reviewText;
         this.basicUser = basicUser;
         this.storeMember = storeMember;
         this.nickname = nickname;
+        this.createdDate = createdDate;
+        this.modifiedDate = modifiedDate;
+
     }
 
     //멤버리뷰 리스팅+스토어 리뷰 (리스팅작업중)
     public MemberReviewDto(Long rno, String reviewText, BasicUser basicUser,
-                           StoreMember storeMember, String nickname, StoreReview storeReview) {
+                           StoreMember storeMember, String nickname, StoreReview storeReview,
+                           LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.rno = rno;
         this.reviewText = reviewText;
         this.basicUser = basicUser;
         this.storeMember = storeMember;
         this.nickname = nickname;
         this.storeReview = storeReview;
+        this.createdDate = createdDate;
+        this.modifiedDate = modifiedDate;
+
     }
 
 

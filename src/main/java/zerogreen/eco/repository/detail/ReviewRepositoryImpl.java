@@ -38,7 +38,10 @@ public class ReviewRepositoryImpl implements ReviewRepository{
                         memberReview.basicUser,
                         memberReview.storeMember,
                         member.nickname,
-                        storeReview
+                        storeReview,
+                        memberReview.createdDate,
+                        memberReview.modifiedDate
+
 
                 ))
                 .from(memberReview, memberReview)

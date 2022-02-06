@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import zerogreen.eco.entity.baseentity.BaseTimeEntity;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 
@@ -15,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MemberReview {
+public class MemberReview extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

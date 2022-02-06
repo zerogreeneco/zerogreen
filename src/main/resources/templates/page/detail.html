@@ -32,18 +32,20 @@
                 <!-- 좋아요 정보 -->
                 <div class="inline sec sec-left">
                     <div class="inline">
+                        <!-- 회원 좋아요 -->
                         <div sec:authorize="isAuthenticated()" id="like-wrapper">
 
-                            <div class="liking" th:if="${cntLike} == 0">
-                                <img th:attr="src = @{/bootstrap/images/like/disLike.png}">
+                            <div th:if="${cntLike} == 0">
+                                <img class="liking" th:attr="src = @{/bootstrap/images/like/disLike.png}">
                                 <span class="test-count">[[${cntLike}]]</span>
                             </div>
 
-                            <div class="liking" th:if="${cntLike} == 1">
-                                <img th:attr="src = @{/bootstrap/images/like/like.png}">
+                            <div  th:if="${cntLike} == 1">
+                                <img class="liking" th:attr="src = @{/bootstrap/images/like/like.png}">
                                 <span class="test-count">[[${cntLike}]]</span>
                             </div>
                         </div>
+                        <!-- 비회원 좋아요 -->
                         <div sec:authorize="isAnonymous()">
                             <div><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"> [[*{like}]]</div>
                         </div>
@@ -122,6 +124,8 @@
                         <span>[[${mReview.basicUser.id}]]</span><br>
                         <textarea class="mrv-textarea" name="reviewText"
                                   onkeyup="this.style.height = this.scrollHeight + 'px';" readonly>[[${mReview.reviewText}]]</textarea>
+                        <span>[[${#temporals.format(mReview.createdDate, 'yyyy-MM-dd HH:mm')}]]</span><br>
+
                         <div class="btn-Box">
                             <span class="srv-toAdd inline mrv-btn"
                                   th:if="${rvMember == mReview.storeMember.id and mReview.storeReview == null}">댓글달기</span>

@@ -18,6 +18,9 @@ $(document).ready(function(e){
         })
 
         .done(function (data) {
+        console.log("dddd"+data);
+        console.log("dddd"+data.count);
+
             if (data.count === 1) {
                 $(".liking").attr("src", "/zerogreen/bootstrap/images/like/disLike.png");
                 console.log("likelike");
