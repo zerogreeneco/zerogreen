@@ -15,7 +15,7 @@ import java.util.List;
 public interface MemberReviewRepository extends JpaRepository<MemberReview, Long>, ReviewRepository {
 
     @Query("select count(mr.id) from MemberReview mr " +
-            "left outer join BasicUser bu on mr.basicUser = bu.id " +
+            "left outer join BasicUser bu on mr.basicUser.id = bu.id " +
             "where bu.userRole ='USER' and mr.storeMember =:storeMember")
     Long counting(StoreMember storeMember);
 

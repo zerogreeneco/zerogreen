@@ -15,7 +15,7 @@ $(document).ready(function(e){
            data: {
                 sno: sno
            }
-        }) // end of ajax
+        })
 
         .done(function (data) {
             if (data.count === 1) {

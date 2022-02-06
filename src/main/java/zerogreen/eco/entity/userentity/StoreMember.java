@@ -56,6 +56,7 @@ public class StoreMember extends BasicUser{
     }
 
     //회원가입 테스트데이터용, 예진이
+    //@Builder(builderMethodName = "testBuilder")
 /*
     public StoreMember(String username, String phoneNumber, String password, UserRole userRole,
                        String storeName, String storeRegNum, StoreType storeType, String postalCode, String storeAddress,
