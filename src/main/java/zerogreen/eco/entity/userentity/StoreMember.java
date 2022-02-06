@@ -40,8 +40,6 @@ public class StoreMember extends BasicUser{
     @OneToMany(mappedBy = "storeMember")
     private List<StoreImageFile> imageFiles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "storeMember")
-    private List<StoreSocialAddress> socialAddresses = new ArrayList<>();
 
     // 회원 가입
     @Builder

@@ -2,6 +2,7 @@ package zerogreen.eco.dto.detail;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.LastModifiedDate;
 import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.detail.StoreReview;
 import zerogreen.eco.entity.userentity.BasicUser;
@@ -21,9 +22,6 @@ public class MemberReviewDto {
     private Long id;
     private String username;
 
-    private Long sno;
-    private String storeName;
-
     private String nickname;
     private Member member;
 
@@ -34,6 +32,9 @@ public class MemberReviewDto {
     @NotBlank
     private String storeReviewText;
     private StoreReview storeReview;
+
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 
 
     //이하 생성자 정리예정
@@ -60,14 +61,5 @@ public class MemberReviewDto {
         this.storeReview = storeReview;
     }
 
-    public MemberReviewDto(Long rno, String reviewText, String username, Long sno,
-                           Long srno, String storeReviewText){
-        this.rno = rno;
-        this.reviewText = reviewText;
-        this.username = username;
-        this.sno = sno;
-        this.srno = srno;
-        this.storeReviewText = storeReviewText;
-    }
 
 }

@@ -1,5 +1,6 @@
 package zerogreen.eco.dto.store;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import zerogreen.eco.entity.file.StoreImageFile;
@@ -29,7 +30,6 @@ public class StoreDto {
     private StoreMember storeMember;
     private String storeRegNum;
 
-    private StoreImageFile storeImageFile;
     private VegetarianGrade vegetarianGrades;
 
     //여기서부터..
@@ -41,7 +41,6 @@ public class StoreDto {
 
     private List<StoreImageFile> imageFiles;
     private List<StoreMenu> menuList;
-    private List<StoreSocialAddress> socialAddresses;
 
     private Long count;
     private Long like;
@@ -70,21 +69,20 @@ public class StoreDto {
         this.like = like;
     }
 
+    public StoreDto(List<StoreMenu> menuList) {
+        this.menuList = menuList;
+    }
 
     //Detail에 Store데이터 가져오기
-/*
     @Builder
-    public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo,
-                    List<StoreImageFile> imageFiles, List<StoreMenu> menuList, List<StoreSocialAddress> socialAddresses) {
+    public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo) {
         this.sno = sno;
         this.storeName = storeName;
         this.storeType = storeType;
         this.storeInfo = storeInfo;
-        this.imageFiles = imageFiles;
-        this.menuList = menuList;
     }
+    //ㄴ이상 예진이 작업중
 
-*/
 
     //List DTO
     public StoreDto(Long id,String storeName, String storePhoneNumber,
@@ -107,7 +105,6 @@ public class StoreDto {
         this.closeTime = closeTime;
         this.imageFiles = imageFiles;
         this.menuList = menuList;
-        this.socialAddresses = socialAddresses;
     }
 
 }
