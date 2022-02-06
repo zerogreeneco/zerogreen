@@ -7,10 +7,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.entity.detail.MemberReview;
+import zerogreen.eco.entity.detail.QStoreReview;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static zerogreen.eco.entity.detail.QMemberReview.memberReview;
@@ -35,7 +38,8 @@ public class ReviewRepositoryImpl implements ReviewRepository{
                         memberReview.basicUser,
                         memberReview.storeMember,
                         member.nickname,
-                        storeReview.storeReview
+                        storeReview
+
                 ))
                 .from(memberReview, memberReview)
                 .leftJoin(member)
