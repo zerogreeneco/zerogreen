@@ -63,10 +63,6 @@ public class CommunityController {
 
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
 
-//        if (principalDetails != null) {
-//            model.addAttribute("likeCount", boardService.countLike(boardId, principalDetails.getBasicUser().getId()));
-//        }
-
         log.info("CATEGORY={}", category);
 
         if (category == null) {
@@ -169,6 +165,24 @@ public class CommunityController {
         model.addAttribute("replyList", replyService.findReplyByBoardId(boardId));
 
         return "community/communityDetailView :: #review-table";
+    }
+
+    @PostMapping("/{boradId}/replyModify/{replyId}")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> modifyReply(@PathVariable("boardId")Long boardId, @PathVariable("replyId")Long replyId,
+                                                           HttpServletRequest request) {
+        Map<String, String> resultMap = new HashMap<>();
+        String text = request.getParameter("text");
+
+        log.info("BOARDID={}", boardId);
+        log.info("REPLYID={}", replyId);
+        log.info("TEXT={}", text);
+
+        replyService.modifyReply(replyId, text);
+
+        resultMap.put("result", "success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     /*

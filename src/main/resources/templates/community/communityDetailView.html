@@ -14,6 +14,10 @@
                 margin-bottom: 15px;
             }
 
+            hr {
+                width: 700px;
+            }
+
             .review-text {
                 resize: none;
                 height: 100px;
@@ -66,7 +70,6 @@
                 $("#review-send-btn").click(function () {
 
                     let text = $("#text").val();
-                    console.log("Text= " + text)
                     $.ajax({
                         url: "/zerogreen/community/" + boardId + "/reply",
                         method: "post",
@@ -80,15 +83,41 @@
                             alert("댓글이 등록되었습니다.");
                         });
                 }); // review send end.
+            }); // onload end.
 
-                function replaceTag() {
-                    alert("왜????");
-                    $(".rp-text").replaceWith(function () {
-                        return $('<input>', {type: 'text', name: 'text'})
-                    });
-                }
+            function replaceTag(event) {
+                let thisBtn = $(event);
+                let rpText = thisBtn.parent().find(".rp-text");
+                let text = rpText.text();
+                rpText.replaceWith("<input class='modify-test' type='text' name='text' value=" + text + ">");
+                thisBtn.parent().find(".modify-test").show();
+            }
 
-            });
+            function modifyReply(event){
+
+                let modifyBtn = $(event);
+                let boardId = $("#id").val();
+                let replyId = modifyBtn.parent().find(".replyId").val();
+                let text = modifyBtn.parent().find(".modify-test").val();
+
+                $.ajax({
+                    url: "/zerogreen/community/" + boardId +"/replyModify/" + replyId,
+                    method: "post",
+                    dataType: "json",
+                    data: {
+                        boardId: boardId,
+                        replyId: replyId,
+                        text: text
+                    }
+                })
+                    .done(function (data) {
+                        if (data.result === "success") {
+                            alert("성공");
+                        } else {
+                            alert("실패");
+                        }
+                    })
+            }
         </script>
         <div th:object="${detailView}" class="cm-main-wrapper">
             <!-- 상세보기 제목 -->
@@ -107,7 +136,8 @@
             <!-- 회원 좋아요 -->
             <span sec:authorize="isAuthenticated()" id="like-wrapper">
                 <span class="like-count" th:if="${likeCount} == 0">
-                    <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"></span>
+                    <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/disLike.png}"
+                                             class="like-img"></span>
                     <span class="test-count">[[*{like}]]</span>
                 </span>
                 <span class="like-count" th:if="${likeCount} == 1">
@@ -117,7 +147,8 @@
             </span>
             <!-- 비회원 좋아요 -->
             <span sec:authorize="isAnonymous()">
-                <span><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"> [[*{like}]]
+                <span>
+                    <img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"> [[*{like}]]
                 </span>
             </span>
         </div>
@@ -126,45 +157,50 @@
         <div th:object="${detailView}" class="cm-main-wrapper">
             <div th:field="*{text}" th:text="*{text}"></div>
         </div>
-            <div th:each="imageFile : ${images}" class="image-wrapper">
-                <img th:src="@{/community/images/{imageFile}(imageFile=*{imageFile.storeFileName})}" th:value="${imageFile.uploadFileName}"
-                width="700px" height="auto">
-            </div>
+        <!-- 이미지 -->
+        <div th:each="imageFile : ${images}" class="image-wrapper">
+            <img th:src="@{/community/images/{imageFile}(imageFile=*{imageFile.storeFileName})}"
+                 th:value="${imageFile.uploadFileName}"
+                 width="700px" height="auto">
+        </div>
         <hr/>
         <!-- 상세보기 리뷰 -->
-        <div id="cm-review-wrapper cm-main-wrapper">
+        <div id="cm-review-wrapper" class="cm-main-wrapper">
             <div class="review-send" sec:authorize="isAuthenticated()">
                 <form th:object="${reply}" method="post">
                     <textarea th:field="*{text}" class="review-text"></textarea>
                 </form>
                 <button type="button" id="review-send-btn">리뷰 작성</button>
             </div>
-            <div id="review-table">
+            <div id="review-table" class="cm-main-wrapper">
                 <div th:each="replyList : ${replyList}">
-                    <form>
-                        <input type="hidden" th:value="${replyList.id}">
-                        <div th:text="${replyList.replier}"></div>
-                        <p class="rp-text" th:text="${replyList.text}"></p>
-                        <div th:text="${#temporals.format(replyList.createdTime, 'yyyy-MM-dd HH:mm')}"></div>
-                        <div>
-                        </div>
-                        <hr/>
-                    </form>
+                    <div>
+                        <form>
+                            <input type="hidden" th:value="${replyList.id}" class="replyId">
+                            <div th:text="${replyList.replier}"></div>
+                            <p class="rp-text" th:text="${replyList.text}"></p>
+                            <button type="button" class="modify-test" style="display: none;" onclick="modifyReply(this)">수정</button>
+                            <div th:text="${#temporals.format(replyList.createdTime, 'yyyy-MM-dd HH:mm')}"></div>
+                            <div>
+                            </div>
+                            <hr/>
+                        </form>
+                        <button type="button" class="rp-modify-btn" onclick="replaceTag(this)">수정</button>
+                        <button type="button" class="nested-reply-btn">대댓글</button>
+                        <button type="button">삭제</button>
+                    </div>
                     <!-- 대댓글 입력 -->
 
                     <!-- 대댓글 -->
                     <div id="nested-reply">
                         <form>
                             <div th:each="nestedReply : ${nestedReply}">
-                                <div th:text="${nestedReply.replier}"></div>
-                                <p th:text="${nestedReply.text}"></p>
+                                <div th:text="${nestedReply.replier}" class="cm-replier"></div>
+                                <p th:text="${nestedReply.text}" class="cm-reply-text"></p>
                                 <div th:text="${#temporals.format(nestedReply.createdTime, 'yyyy-MM-dd HH:mm')}"></div>
                             </div>
                         </form>
                     </div>
-                    <button type="button" class="rp-modify-btn" th:onclick="replaceTag()">수정</button>
-                    <button type="button" class="nested-reply-btn">대댓글</button>
-                    <button type="button">삭제</button>
                 </div>
             </div>
         </div>
