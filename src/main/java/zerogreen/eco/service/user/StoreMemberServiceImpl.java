@@ -65,13 +65,27 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     @Transactional
     @Override
     public Long saveV2(StoreMember storeMember, RegisterFile registerFile) {
-
         String encPassword = passwordEncoder.encode(storeMember.getPassword());
         return storeMemberRepository.save(new StoreMember(storeMember.getUsername(), storeMember.getPhoneNumber(),
                         encPassword, UserRole.STORE, storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(), storeMember.getStoreInfo().getPostalCode(),
                         storeMember.getStoreInfo().getStoreAddress(), storeMember.getStoreInfo().getStoreDetailAddress(),storeMember.getStoreInfo().getStorePhoneNumber(), registerFile))
                 .getId();
     }
+
+    //test data V2,
+/*
+    @Transactional
+    @Override
+    public Long saveV2(StoreMember storeMember, RegisterFile registerFile) {
+        String encPassword = passwordEncoder.encode(storeMember.getPassword());
+        return storeMemberRepository.save(new StoreMember(storeMember.getUsername(), storeMember.getPhoneNumber(),
+                        encPassword, UserRole.STORE, storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(), storeMember.getStoreInfo().getPostalCode(),
+                        storeMember.getStoreInfo().getStoreAddress(), storeMember.getStoreInfo().getStoreDetailAddress(),storeMember.getStoreInfo().getStorePhoneNumber(),
+                        storeMember.getStoreInfo().getStoreDescription(), storeMember.getStoreInfo().getSocialAddress1() ,storeMember.getStoreInfo(). getSocialAddress2(),
+                        storeMember.getStoreInfo().getOpenTime(), storeMember.getStoreInfo().getCloseTime(), registerFile))
+                .getId();
+    }
+*/
 
 
     @Transactional

@@ -102,9 +102,18 @@ public class TestDataInit {
             for (int i = 0; i < ecoAddress.size(); i++) {
                 storeMemberService.saveV2(new StoreMember("ecoTest"+i, "01033334444", "1",
                         UserRole.UN_STORE, "ECO_SHOP"+i, "REGNUM1111",StoreType.ECO_SHOP,
-                        ecoAddress.get(i), "DA","0517778888", "1111"),
-                        new RegisterFile("origin3","store3", "path3"));
+                        ecoAddress.get(i), "DA","0517778888","1111")
+                        , new RegisterFile("origin3","store3", "path3"));
             }
+
+/* 테스트
+            for (int i = 0; i < ecoAddress.size(); i++) {
+                storeMemberService.saveV2(new StoreMember("ecoTest"+i, "01033334444", "1",
+                        UserRole.UN_STORE, "ECO_SHOP"+i, "REGNUM1111",StoreType.ECO_SHOP, "1111",
+                        ecoAddress.get(i), "DA","0517778888", "descript","alalal",
+                                "dddd","10:00","22:00", new RegisterFile("origin3","store3", "path3"));
+            }
+*/
 
             for (int i = 0; i < foodAddress.size(); i++) {
                 storeMemberService.saveV2(new StoreMember("foodTest"+i, "01033334444", "1",
