@@ -51,6 +51,7 @@ public class StoreMemberRepositoryImpl implements StoreMemberRepositoryCustom {
     }
 
     //get Store DB in page Detail
+/*
     @Override
     public StoreDto getStoreById(Long sno) {
         QLikes subLike = new QLikes("subLike");
@@ -71,6 +72,7 @@ public class StoreMemberRepositoryImpl implements StoreMemberRepositoryCustom {
                 .where(storeMember.id.eq(sno))
                 .fetchFirst();
     }
+*/
 
 
 }

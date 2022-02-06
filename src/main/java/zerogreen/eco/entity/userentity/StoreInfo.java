@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Lob;
-import java.time.LocalDateTime;
 
 @Embeddable
 @Getter
@@ -40,4 +39,19 @@ public class StoreInfo {
         this.openTime = openTime;
         this.closeTime = closeTime;
     }
+
+    // 회원가입용
+    public StoreInfo(String postalCode, String storeAddress, String StoreDetailAddress, String storePhoneNumber,
+                     String storeDescription, String socialAddress1, String socialAddress2, String openTime, String closeTime) {
+        this.postalCode = postalCode;
+        this.storeAddress = storeAddress;
+        this.storeDetailAddress = StoreDetailAddress;
+        this.storePhoneNumber = storePhoneNumber;
+        this.storeDescription = storeDescription;
+        this.socialAddress1 = socialAddress1;
+        this.socialAddress2 = socialAddress2;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+    }
+
 }

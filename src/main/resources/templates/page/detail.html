@@ -51,7 +51,7 @@
 
                     <div class="inline">
                         <span>좋아요 수: </span>
-                        <span class="like-cnt">[[${cnt}]]</span>
+                        <span class="like-cnt">[[${getStore.count}]]</span>
                     </div>
                 </div>
 
@@ -74,20 +74,17 @@
         <div class="detail-thr temp1">
             <!-- 3열 좌측 -->
             <div class="thr thr-left">
-                <div th:object="${getStoreMenus}">
+                <div th:object="${getStore}">
                     <span th:text="*{menuName}"></span><span th:text="*{menuPrice}"></span>
                 </div>
             </div>
             <!-- 3열 우측 -->
-            <div class="thr thr-right">
-                <span>가게 소개 : </span><span>[[${getStore.storeInfo.storeDescription}]]</span><br>
-                <span>전화 번호 : </span><span>[[${getStore.storeInfo.storePhoneNumber}]]</span><br>
-                <span>영업 시간 : </span><span>[[${getStore.storeInfo.openTime}]] -
-                    [[${getStore.storeInfo.closeTime}]]</span><br>
+            <div class="thr thr-right" th:object="${getStore}">
+                <span>가게 소개 : </span><span th:text="*{storeInfo.storeDescription}"></span><br>
+                <span>전화 번호 : </span><span th:text="*{storeInfo.storePhoneNumber}"></span><br>
+                <span>영업 시간 : </span><span>[[*{storeInfo.openTime}]] - [[*{storeInfo.closeTime}]]</span><br>
                 <span>소셜 : </span><span>[[${getStore.storeInfo.socialAddress1}]]</span><br>
                 <span>소셜 : </span><span>[[${getStore.storeInfo.socialAddress2}]]</span><br>
-
-
             </div>
         </div>
 

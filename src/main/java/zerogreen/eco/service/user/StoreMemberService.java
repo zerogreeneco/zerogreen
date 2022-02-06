@@ -12,13 +12,16 @@ import zerogreen.eco.entity.userentity.UserRole;
 import java.util.List;
 
 public interface StoreMemberService {
+    //스토어 회원가입
     Long save(StoreMember storeMember, RegisterFile registerFile);
+    //스토어 회원가입 테스트 데이터용
     Long saveV2(StoreMember storeMember, RegisterFile register);
     void storeInfoSave(StoreMember storeMember);
 
     void imageSave(Long id, List<StoreImageFile> storeImageFile);
 
     List<NonApprovalStoreDto> findByApprovalStore(UserRole userRole);
+    //스토어 db 불러오기
     StoreDto getStore(Long sno);
 
     Slice<StoreDto> getShopList(Pageable pageable);

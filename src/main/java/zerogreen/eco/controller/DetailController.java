@@ -50,6 +50,7 @@ public class DetailController {
         //스토어 데이터 + 회원/비회원
         StoreDto storeDto = storeMemberService.getStore(sno);
         log.info("?????Controller " + sno);
+        log.info("<<<<< " + storeDto.getCount());
 
         if (principalDetails == null) {
             model.addAttribute("getStore",storeDto);
@@ -62,11 +63,6 @@ public class DetailController {
             model.addAttribute("cntLike", likesService.cntMemberLike(sno, principalDetails.getId()));
         }
 
-        //가게별 라이크 카운팅
-        Long cnt = likesService.cntLikes(sno);
-        if (cnt != null) {
-            model.addAttribute("cnt", cnt);
-        }
 
         //가게별 멤버리뷰 카운팅
         Long cnt2 = reviewService.cntMemberReview(sno);

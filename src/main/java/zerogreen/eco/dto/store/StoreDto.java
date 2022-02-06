@@ -58,30 +58,19 @@ public class StoreDto {
         this.storeType = storeType;
     }
 
-    //StoreMemberRespositoryImpl에서 쓰는 생성자 ** 아래 주석포함 작업중 **
+
+    //Detail에 Store데이터 가져오기
+    @Builder
     public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo,
-                    Long count, Long like) {
+                    Long count, List<StoreMenu> menuList) {
+
         this.sno = sno;
         this.storeName = storeName;
         this.storeType = storeType;
         this.storeInfo = storeInfo;
         this.count = count;
-        this.like = like;
-    }
-
-    public StoreDto(List<StoreMenu> menuList) {
         this.menuList = menuList;
     }
-
-    //Detail에 Store데이터 가져오기
-    @Builder
-    public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo) {
-        this.sno = sno;
-        this.storeName = storeName;
-        this.storeType = storeType;
-        this.storeInfo = storeInfo;
-    }
-    //ㄴ이상 예진이 작업중
 
 
     //List DTO
