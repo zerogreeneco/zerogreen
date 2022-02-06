@@ -16,6 +16,7 @@ import zerogreen.eco.entity.userentity.StoreInfo;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.entity.userentity.*;
+import zerogreen.eco.repository.detail.LikesRepository;
 import zerogreen.eco.repository.file.StoreImageFileRepository;
 import zerogreen.eco.repository.store.StoreMenuRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
@@ -30,6 +31,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     private final StoreMemberRepository storeMemberRepository;
     private final StoreImageFileRepository storeImageFileRepository;
     private final StoreMenuRepository storeMenuRepository;
+    private final LikesRepository likesRepository;
     @Lazy
     private final PasswordEncoder passwordEncoder;
 
@@ -66,43 +68,23 @@ public class StoreMemberServiceImpl implements StoreMemberService {
 
         String encPassword = passwordEncoder.encode(storeMember.getPassword());
         return storeMemberRepository.save(new StoreMember(storeMember.getUsername(), storeMember.getPhoneNumber(),
-                        encPassword, UserRole.STORE, storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(),
-                        storeMember.getStoreInfo().getStoreAddress(), storeMember.getStoreInfo().getStoreDetailAddress(),storeMember.getStoreInfo().getStorePhoneNumber(), registerFile, storeMember.getStoreInfo().getPostalCode()))
+                        encPassword, UserRole.STORE, storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(), storeMember.getStoreInfo().getPostalCode(),
+                        storeMember.getStoreInfo().getStoreAddress(), storeMember.getStoreInfo().getStoreDetailAddress(),storeMember.getStoreInfo().getStorePhoneNumber(), registerFile))
                 .getId();
     }
+
 
     @Transactional
     @Override
     public void storeInfoSave(StoreMember storeMember) {
         StoreMember findMember = storeMemberRepository.findById(storeMember.getId()).orElseGet(null);
-
         StoreInfo storeInfo = findMember.getStoreInfo();
         findMember.setStoreInfo(findMember.getStoreInfo());
     }
 
-
-    //상세페이지 ** 아래 주석포함 작업중**
-    @Override
-    public StoreDto getStore(Long sno) {
-        return storeMemberRepository.getStoreById(sno);
-    }
-
-/*
-    public StoreDto getStore(Long sno) {
-        StoreMember storeMember = storeMemberRepository.getStoreById(sno);
-        log.info("??????????"+storeMember);
-        return StoreDto.builder()
-                .storeMember(storeMember)
-                .imageFiles(storeMember.getImageFiles())
-                .socialAddresses(storeMember.getSocialAddresses())
-                .menuList(storeMember.getMenuList())
-                .build();
-    }
-*/
-
     /*
-    * 이미지 DB 저장
-    * */
+     * 이미지 DB 저장
+     * */
     @Transactional
     @Override
     public void imageSave(Long id, List<StoreImageFile> storeImageFile) {
@@ -117,6 +99,23 @@ public class StoreMemberServiceImpl implements StoreMemberService {
 
         log.info("파일 저장 OK");
     }
+
+
+    //상세페이지
+    @Override
+    public StoreDto getStore(Long sno) {
+        StoreMember storeMember = storeMemberRepository.getById(sno);
+        List<StoreMenu> storeMenus = storeMenuRepository.getMenuByStore(sno);
+        return StoreDto.builder()
+                .sno(storeMember.getId())
+                .storeName(storeMember.getStoreName())
+                .storeType(storeMember.getStoreType())
+                .storeInfo(storeMember.getStoreInfo())
+                .count(likesRepository.counting(storeMember))
+                .menuList(storeMenus)
+                .build();
+    }
+
 
     @Override
     public List<NonApprovalStoreDto> findByApprovalStore(UserRole userRole) {

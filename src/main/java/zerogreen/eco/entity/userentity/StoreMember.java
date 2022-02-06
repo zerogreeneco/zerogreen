@@ -44,8 +44,8 @@ public class StoreMember extends BasicUser{
     // 회원 가입
     @Builder
     public StoreMember(String username, String phoneNumber, String password, UserRole userRole,
-                       String storeName, String storeRegNum, StoreType storeType, String storeAddress,
-                       String storeDetailAddress, String storePhoneNumber, RegisterFile registerFile, String postalCode) {
+                       String storeName, String storeRegNum, StoreType storeType, String postalCode, String storeAddress,
+                       String storeDetailAddress, String storePhoneNumber, RegisterFile registerFile) {
 
         super(username, phoneNumber, password, userRole);
         this.storeName = storeName;
@@ -54,6 +54,23 @@ public class StoreMember extends BasicUser{
         this.storeInfo = new StoreInfo(postalCode, storeAddress, storeDetailAddress, storePhoneNumber);
         this.setRegisterFile(new RegisterFile(registerFile.getUploadFileName(), registerFile.getStoreFileName(), registerFile.getFilePath()));
     }
+
+    //회원가입 테스트데이터용, 예진이
+/*
+    public StoreMember(String username, String phoneNumber, String password, UserRole userRole,
+                       String storeName, String storeRegNum, StoreType storeType, String postalCode, String storeAddress,
+                       String storeDetailAddress, String storePhoneNumber, String storeDescription, String socialAddress1,
+                       String socialAddress2, String openTime, String closeTime, RegisterFile registerFile) {
+
+        super(username, phoneNumber, password, userRole);
+        this.storeName = storeName;
+        this.storeRegNum = storeRegNum;
+        this.storeType = storeType;
+        this.storeInfo = new StoreInfo(postalCode, storeAddress, storeDetailAddress, storePhoneNumber, storeDescription,
+                socialAddress1, socialAddress2, openTime, closeTime);
+        this.setRegisterFile(new RegisterFile(registerFile.getUploadFileName(), registerFile.getStoreFileName(), registerFile.getFilePath()));
+    }
+*/
 
     // DTO -> 엔티티
     public StoreMember(String username, String phoneNumber, String password, UserRole userRole, String storeName,
