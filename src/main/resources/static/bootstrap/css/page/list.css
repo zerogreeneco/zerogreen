@@ -95,6 +95,7 @@ input[type="radio"]:checked + label{
 /* Card */
 .card{
     margin: 10px 20px 10px 0;
+    display: inline-block;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgb(0 0 0 / 10%);
@@ -117,10 +118,15 @@ input[type="radio"]:checked + label{
     font-size: 13px;
     margin: 0 0 5px;
 }
-.heart{
-    height: 20px;
-    margin-left: 70%;
+.shop-name {
+    font-size: 0.9em !important;
+    font-weight: 600;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 .icon{
     height: 15px;
 }
+.like{
+    margin-left: 100px !important;
+}
+
