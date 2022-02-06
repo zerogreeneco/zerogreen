@@ -2,6 +2,7 @@ package zerogreen.eco.repository.community;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 import zerogreen.eco.entity.community.BoardNestedReply;
 
@@ -13,6 +14,6 @@ public interface CommunityNestedReplyRepository extends JpaRepository<BoardNeste
             " JOIN FETCH nr.basicUser user " +
             " JOIN FETCH nr.boardReply reply " +
             " WHERE nr.boardReply.id=:replyId ")
-    List<BoardNestedReply> findNestedReplyByReplyId(@RequestParam("replyId") Long replyId);
+    List<BoardNestedReply> findNestedReplyByReplyId(@Param("replyId") Long replyId);
 
 }

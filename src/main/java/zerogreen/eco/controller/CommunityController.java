@@ -2,6 +2,8 @@ package zerogreen.eco.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.security.auth.PrincipalDetails;
+import zerogreen.eco.service.community.BoardImageService;
 import zerogreen.eco.service.community.CommunityBoardService;
 import zerogreen.eco.service.community.CommunityNestedReplyService;
 import zerogreen.eco.service.community.CommunityReplyService;
@@ -29,6 +32,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +47,7 @@ public class CommunityController {
     private final FileService fileService;
     private final CommunityReplyService replyService;
     private final CommunityNestedReplyService nestedReplyService;
+    private final BoardImageService boardImageService;
 
     @ModelAttribute("category")
     public Category[] categories() {
@@ -85,9 +90,9 @@ public class CommunityController {
 
         List<BoardImage> storeImages = fileService.boardImageFiles(dto.getImageFiles());
 
-        boardService.boardRegister(dto, (Member) principalDetails.getBasicUser(), storeImages);
+        Long boardId = boardService.boardRegister(dto, (Member) principalDetails.getBasicUser(), storeImages);
 
-        return "redirect:/community";
+        return "redirect:/community/read/" + boardId;
     }
 
     /* 게시글 상세보기 */
@@ -107,8 +112,15 @@ public class CommunityController {
         CommunityResponseDto detailView = boardService.findDetailView(boardId, request, response);
         model.addAttribute("detailView", detailView);
         model.addAttribute("replyList", replyService.findReplyByBoardId(boardId));
+        model.addAttribute("images", boardImageService.findByBoardId(boardId));
 
         return "community/communityDetailView";
+    }
+
+    @ResponseBody
+    @GetMapping("/images/{filename}")
+    private Resource getImages(@PathVariable("filename") String filename) throws MalformedURLException {
+        return new UrlResource("file:" + fileService.getFullPath(filename));
     }
 
     /* 좋아요 */

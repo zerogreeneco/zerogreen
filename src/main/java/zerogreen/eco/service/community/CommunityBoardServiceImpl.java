@@ -38,7 +38,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     * */
     @Override
     @Transactional
-    public void boardRegister(CommunityRequestDto dto, Member writer, List<BoardImage> imageList) {
+    public Long boardRegister(CommunityRequestDto dto, Member writer, List<BoardImage> imageList) {
 
         CommunityBoard saveBoard = boardRepository.save(CommunityBoard.builder()
                 .text(dto.getText())
@@ -55,6 +55,8 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
                         boardImage.getUploadFileName(), boardImage.getStoreFileName(), boardImage.getFilePath(), saveBoard));
             }
         }
+
+        return saveBoard.getId();
     }
 
     /*

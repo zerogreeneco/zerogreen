@@ -18,7 +18,7 @@ import java.util.Optional;
 public interface CommunityBoardService {
 
     /* Community */
-    void boardRegister(CommunityRequestDto dto, Member writer, List<BoardImage> imageList);
+    Long boardRegister(CommunityRequestDto dto, Member writer, List<BoardImage> imageList);
 
     Slice<CommunityResponseDto> findAllCommunityBoard(Pageable pageable);
     Slice<CommunityResponseDto> findByCategory(Pageable pageable, Category category);
