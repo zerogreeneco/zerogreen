@@ -2,6 +2,7 @@ package zerogreen.eco.repository.community;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 import zerogreen.eco.entity.community.BoardReply;
 
@@ -13,5 +14,5 @@ public interface BoardReplyRepository extends JpaRepository<BoardReply, Long> {
             " JOIN FETCH br.board b " +
             " JOIN FETCH br.replier r " +
             " WHERE br.board.id=:boardId ")
-    List<BoardReply> findBoardRepliesByBoardId(@RequestParam("boardId") Long boardId);
+    List<BoardReply> findBoardRepliesByBoardId(@Param("boardId") Long boardId);
 }

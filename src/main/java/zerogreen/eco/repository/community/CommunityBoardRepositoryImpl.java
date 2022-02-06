@@ -10,6 +10,7 @@ import org.springframework.data.domain.Slice;
 import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.community.CommunityBoard;
+import zerogreen.eco.entity.community.QBoardImage;
 import zerogreen.eco.entity.community.QCommunityLike;
 
 import javax.persistence.EntityManager;
@@ -125,8 +126,8 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                                 JPAExpressions
                                         .select(count(subLike.id))
                                         .from(subLike, subLike)
-                                        .where(subLike.board.id.eq(id)),"likeCount")
-                ))
+                                        .where(subLike.board.id.eq(id)), "likeCount")
+                        ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
                 .where(communityBoard.id.eq(id))

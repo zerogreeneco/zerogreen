@@ -1,6 +1,7 @@
 package zerogreen.eco.repository.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 import zerogreen.eco.entity.userentity.BasicUser;
 
@@ -10,12 +11,12 @@ public interface BasicUserRepository extends JpaRepository<BasicUser, Long>, Bas
 
     Optional<BasicUser> findByUsername(String username);
 
-    long countByUsernameAndPhoneNumber(@RequestParam("username") String username, @RequestParam("phoneNumber") String phoneNumber);
-    long countByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
-    long countByUsername(@RequestParam("username") String username);
+    long countByUsernameAndPhoneNumber(@Param("username") String username, @Param("phoneNumber") String phoneNumber);
+    long countByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+    long countByUsername(@Param("username") String username);
 
 
-    Optional<BasicUser> findByUsernameAndPhoneNumber(@RequestParam("username") String username, @RequestParam("phoneNumber") String phoneNumber);
-    Optional<BasicUser> findByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+    Optional<BasicUser> findByUsernameAndPhoneNumber(@Param("username") String username, @Param("phoneNumber") String phoneNumber);
+    Optional<BasicUser> findByPhoneNumber(@Param("phoneNumber") String phoneNumber);
 
 }

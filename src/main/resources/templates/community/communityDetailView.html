@@ -3,8 +3,15 @@
     <th:block th:fragment="content">
         <style>
             .cm-main-wrapper {
-                width: 750px;
+                width: 700px;
                 margin: 0 auto;
+                margin-bottom: 30px;
+            }
+
+            .image-wrapper {
+                width: 700px;
+                margin: 0 auto;
+                margin-bottom: 15px;
             }
 
             .review-text {
@@ -119,6 +126,10 @@
         <div th:object="${detailView}" class="cm-main-wrapper">
             <div th:field="*{text}" th:text="*{text}"></div>
         </div>
+            <div th:each="imageFile : ${images}" class="image-wrapper">
+                <img th:src="@{/community/images/{imageFile}(imageFile=*{imageFile.storeFileName})}" th:value="${imageFile.uploadFileName}"
+                width="700px" height="auto">
+            </div>
         <hr/>
         <!-- 상세보기 리뷰 -->
         <div id="cm-review-wrapper cm-main-wrapper">
@@ -140,12 +151,7 @@
                         <hr/>
                     </form>
                     <!-- 대댓글 입력 -->
-                    <div style="display: none;">
-                        <form th:object="${nestedReplyForm}">
-                            <input type="text" th:field="*{text}">
-                        </form>
-                        <button type="button" >대댓글 전송</button>
-                    </div>
+
                     <!-- 대댓글 -->
                     <div id="nested-reply">
                         <form>
