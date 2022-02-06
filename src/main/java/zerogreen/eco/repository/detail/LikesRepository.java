@@ -3,6 +3,8 @@ package zerogreen.eco.repository.detail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 import zerogreen.eco.dto.detail.LikesDto;
@@ -22,11 +24,11 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
 
     @Query("select count(l.id) from Likes l where l.storeMember.id =:sno " +
             "and l.basicUser.id =:mno")
-    Long cntMemberLike(@RequestParam("sno") Long sno, @RequestParam("mno") Long mno);
+    Long cntMemberLike(@Param("sno") Long sno, @Param("mno") Long mno);
 
     @Transactional
     @Modifying
     @Query("delete from Likes l where l.storeMember.id =:sno and l.basicUser.id =:mno ")
-    void deleteMemberLikes(@RequestParam("sno") Long sno, @RequestParam("mno") Long mno);
+    void deleteMemberLikes(@Param("sno") Long sno, @Param("mno") Long mno);
 
 }
