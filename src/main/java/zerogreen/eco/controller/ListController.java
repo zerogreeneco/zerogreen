@@ -8,6 +8,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.file.TestImageUploadDto;
 import zerogreen.eco.dto.store.StoreDto;
@@ -39,12 +40,14 @@ public class ListController {
     }
 
     @GetMapping("/shop/list")
-    public String shopList(RequestPageSortDto requestPageDto) {
+    public String shopList(Model model, RequestPageSortDto requestPageDto) {
 
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("storeName").descending());
 
-        Slice<StoreDto> getShopList = storeMemberService.getShopList(pageable);
-        log.info("List>>>" + getShopList);
+        Slice<StoreDto> ShopList = storeMemberService.getShopList(pageable);
+        log.info("List>>>" + ShopList);
+
+        model.addAttribute("list", ShopList);
 
         return "page/shopList";
     }

@@ -7,7 +7,7 @@
         <!-- 본문 시작 -->
         <!--검색-->
         <div id="search-wrap">
-            <form th:action="@{/food/list}" method="get" id="foodSearchForm">
+            <form th:action="@{/shop/list}" method="get" id="shopSearchForm">
                 <div class="input-group-prepend">
                     <input type="hidden" name="page" value="1">
                     <select class="dropdown" name="type">
@@ -24,17 +24,17 @@
         </div>
 
         <!-- 가게 리스트 -->
-        <div class="card">
+        <div class="card" th:each="list : ${list}">
             <div class="card-header">
                 <img src="http://placehold.it/300x300"/>
             </div>
             <div class="shopList-box">
                 <div class="card-body">
-                    <img class="heart" th:src="@{/bootstrap/images/list/heart.png}">
-                    <span>가게명</span>
-                    <img class="icon" th:src="@{/bootstrap/images/list/call.png}">
-                    <img class="icon" th:src="@{/bootstrap/images/list/clock.png}">
-                    <img class="icon" th:src="@{/bootstrap/images/list/box.png}">
+                    <span class="like"><img class="icon" th:src="@{/bootstrap/images/list/heart.png}"> 1230</span>
+                    <span class="shop-name">[[${list.storeName}]]</span>
+                    <span><img class="icon" th:src="@{/bootstrap/images/list/call.png}"> [[${list.storePhoneNumber}]]</span>
+                    <span><img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> [[${list.openTime}]] ~ [[${list.closeTime}]]</span>
+                    <span><img class="icon" th:src="@{/bootstrap/images/list/box.png}"> 대나무 헬리콥터</span>
                 </div>
             </div>
         </div>
