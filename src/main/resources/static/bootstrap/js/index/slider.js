@@ -1,30 +1,32 @@
-window.onload = function () {
+            $(document).ready(function() {
+            <!--slick slider JS-->
+            $('.visual').slick({
+              slidesToShow: 5,
+              slidesToScroll: 5,
+              pauseOnHover : true,
+              prevArrow : "<button type='button' class='slick-prev'>Previous</button>",
+              nextArrow : "<button type='button' class='slick-next'>Next</button>",
+              draggable : true,
+              responsive: [
+                { breakpoint: 1400, settings: { slidesToShow: 4, slidesToScroll: 4 }},
+                { breakpoint: 1200, settings: { slidesToShow: 3, slidesToScroll: 3 }},
+                { breakpoint: 765, settings: { slidesToShow: 1, slidesToScroll: 1}}
+              ]
+            });
 
-    const slides = document.querySelector('.slider');
-    const slideImg = document.querySelectorAll('.shopList-box li');
-    let currentIdx = 0;
-// index
-    const slideCount = slideImg.length;
-    const prev = document.querySelector('#prev');
-    const next = document.querySelector('.next');
-    const slideWidth = 300;
-    const slideMargin = 100;
+            var filtered = false;
 
-    slides.style.width = (slideWidth + slideMargin) * slideCount + "px";
+            $('.js-filter').on('click', function(){
+              if (filtered === false) {
+                $('.visual').slick('slickFilter',':even');
+                $(this).text('Unfilter Slides');
+                filtered = true;
+              } else {
+                $('.visual').slick('slickUnfilter');
+                $(this).text('Filter Slides');
+                filtered = false;
+              }
+            });
 
-    function moveSlide(num) {
-        slides.style.left = -num * 400 + 'px';
-        currentIdx = num;
-    }
-
-    prev.addEventListener('click', function () {
-        alert("이전");
-        if (currentIdx !== 0) moveSlide(currentIdx - 1);
-    });
-    next.addEventListener('click', function () {
-        alert("다음");
-        if (currentIdx !== slideCount - 1) {
-            moveSlide(currentIdx + 1);
-        }
-    });
-}
+            <!--Lunch slot JS-->
+            });

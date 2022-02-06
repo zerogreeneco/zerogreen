@@ -43,9 +43,9 @@
                     <button class="btn-login" th:onclick="|location.href='@{/login}'|">로그인</button>
                 </div>
                 <!--After Login-->
-                <div sec:authorize="isAuthenticated()">
+                <div sec:authorize="isAuthenticated()" th:each="member: ${member}">
                     <button id="btn-logout" class="btn-login" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
-                    <div id="profile" sec:authorize="isAuthenticated()" th:onclick="|location.href='@{/member/memberMyInfo}'|"></div>
+                    <img id="profile" th:src="@{'/bootstrap/images/profile/'+${member.vegetarianGrade}+'.png'}" th:onclick="|location.href='@{/member/memberMyInfo}'|" sec:authorize="isAuthenticated()" />
                 </div>
 
             </header>
