@@ -250,6 +250,7 @@
                 })
                     .done(function (fragment) {
                         $("#nested-reply").replaceWith(fragment);
+                        // replyBtn.parents(".nested-reply-wrapper").hide();
                     })
 
             }
@@ -333,14 +334,14 @@
                             <a>취소</a>
                         </div>
                         <hr/>
+                    </div>
+                </div>
                 <!-- 대댓글 -->
                 <div id="nested-reply">
                     <div th:each="nestedReply : ${nestedReply}">
                         <div th:text="${nestedReply.replier}" class="cm-replier"></div>
                         <p th:text="${nestedReply.text}" class="cm-reply-text"></p>
                         <div th:text="${#temporals.format(nestedReply.createdTime, 'yyyy-MM-dd HH:mm')}"></div>
-                    </div>
-                </div>
                     </div>
                 </div>
 

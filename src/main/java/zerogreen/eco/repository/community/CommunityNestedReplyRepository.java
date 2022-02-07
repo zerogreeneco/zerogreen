@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface CommunityNestedReplyRepository extends JpaRepository<BoardNestedReply, Long> {
 
-    @Query("SELECT nr FROM BoardNestedReply  nr " +
+    @Query("SELECT nr FROM BoardNestedReply nr " +
             " JOIN FETCH nr.basicUser user " +
             " JOIN FETCH nr.boardReply reply " +
             " WHERE nr.boardReply.id=:replyId ")

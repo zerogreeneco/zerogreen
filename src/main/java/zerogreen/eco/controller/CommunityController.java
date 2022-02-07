@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.community.CommunityReplyDto;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
+import zerogreen.eco.dto.community.ImageFileDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.community.Category;
@@ -98,8 +99,8 @@ public class CommunityController {
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
                              HttpServletRequest request, HttpServletResponse response) {
 
-        Cookie oldCookie = null;
-        Cookie[] cookies = request.getCookies();
+        List<ImageFileDto> imageList = boardImageService.findByBoardId(boardId);
+        List<CommunityReplyDto> replyList = replyService.findReplyByBoardId(boardId);
 
         if (principalDetails != null) {
             model.addAttribute("likeCount", boardService.countLike(boardId, principalDetails.getBasicUser().getId()));
@@ -107,8 +108,15 @@ public class CommunityController {
 
         CommunityResponseDto detailView = boardService.findDetailView(boardId, request, response);
         model.addAttribute("detailView", detailView);
-        model.addAttribute("replyList", replyService.findReplyByBoardId(boardId));
-        model.addAttribute("images", boardImageService.findByBoardId(boardId));
+        model.addAttribute("replyList", replyList);
+        if (imageList.size() > 0) {
+            model.addAttribute("images", imageList);
+        }
+
+        for (CommunityReplyDto communityReplyDto : replyList) {
+            model.addAttribute("nestedReply", nestedReplyService.findNestedReplyByReplyId(communityReplyDto.getId()));
+        }
+
 
         return "community/communityDetailView";
     }
@@ -153,23 +161,31 @@ public class CommunityController {
     }
 
     /*
-    * 댓글
-    * */
+     * 댓글
+     * */
     @PostMapping("/{boardId}/reply")
     public String replySend(@PathVariable("boardId") Long boardId, Model model,
                             @ModelAttribute("reply") CommunityReplyDto replyDto,
                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        replyService.replySave(replyDto.getText(),boardId, principalDetails.getBasicUser());
+        replyService.replySave(replyDto.getText(), boardId, principalDetails.getBasicUser());
 
-        model.addAttribute("replyList", replyService.findReplyByBoardId(boardId));
+        List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
+        model.addAttribute("replyList", replyByBoardId);
+        for (CommunityReplyDto communityReplyDto : replyByBoardId) {
+            model.addAttribute("nestedReply", nestedReplyService.findNestedReplyByReplyId(communityReplyDto.getId()));
+
+        }
 
         return "community/communityDetailView :: #review-table";
     }
 
+    /*
+    * 댓글 수정
+    * */
     @PostMapping("/{boardId}/replyModify/{replyId}")
     @ResponseBody
-    public ResponseEntity<Map<String, String>> modifyReply(@PathVariable("boardId")Long boardId, @PathVariable("replyId")Long replyId,
+    public ResponseEntity<Map<String, String>> modifyReply(@PathVariable("boardId") Long boardId, @PathVariable("replyId") Long replyId,
                                                            HttpServletRequest request) {
         Map<String, String> resultMap = new HashMap<>();
         String text = request.getParameter("text");
@@ -189,7 +205,7 @@ public class CommunityController {
      * 대댓글
      * */
     @PostMapping("/{boardId}/{replyId}/nestedReply")
-    public String nestedReplySend(@PathVariable("boardId")Long boardId, @PathVariable("replyId")Long replyId,
+    public String nestedReplySend(@PathVariable("boardId") Long boardId, @PathVariable("replyId") Long replyId,
                                   @ModelAttribute("nestedReplyForm") CommunityReplyDto replyDto,
                                   Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request) {
 
