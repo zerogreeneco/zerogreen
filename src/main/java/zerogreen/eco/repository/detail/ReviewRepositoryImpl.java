@@ -17,7 +17,7 @@ import static zerogreen.eco.entity.detail.QMemberReview.memberReview;
 import static zerogreen.eco.entity.detail.QStoreReview.storeReview;
 import static zerogreen.eco.entity.userentity.QMember.member;
 
-public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
+public class ReviewRepositoryImpl implements ReviewRepository{
 
     private final JPAQueryFactory queryFactory;
     public ReviewRepositoryImpl(EntityManager em) {
