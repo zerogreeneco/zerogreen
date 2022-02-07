@@ -8,6 +8,42 @@ $(document).ready(function(e){
     let count = 0;
     //let rno = $(".rno").text();
 
+    //textarea 자동 늘이기
+    $('textarea').keyup(function(e){
+        $(this).css('height', 'auto');
+        $(this).height(this.scrollHeight);
+    });
+
+
+    //Add reviews. 현재 텍스트만 가능
+    $("#rv-btn").on("click", function(){
+       console.log("reviewreview");
+//       console.log(sno);
+//       console.log(username);
+//       console.log(storeName);
+
+       $.ajax({
+           url: contextPath+'/addReview/'+sno,
+           type: "POST",
+           contentType:"application/json; charset=utf-8",
+           dataType: "json",
+           data: JSON.stringify({
+                reviewText: review.val(),
+                username: username,
+                id: sno
+           })
+        })
+
+        .done (function(fragment){
+            console.log("donednone "+ fragment);
+            $("#rv-list").replaceWith(fragment);
+            $(".review-cnt").html(Number(cnt.text())+1);
+
+            //self.location.reload();
+        });
+    }); // end of function addReview
+
+/*
     //Add reviews. 현재 텍스트만 가능
     $("#rv-btn").on("click", function(){
        console.log("reviewreview");
@@ -38,6 +74,7 @@ $(document).ready(function(e){
             }
         }); // end of ajax
     }); // end of function addReview
+*/
 
 
     //delete review
@@ -110,6 +147,7 @@ $(document).ready(function(e){
             count = 0;
         } //end else if
     });// end edit Reviews
+
 
 
 }); //end script

@@ -42,19 +42,24 @@ public class MemberReviewDto {
     }
 
     //멤버리뷰 리스팅
-    public MemberReviewDto(Long rno, String reviewText, BasicUser basicUser, StoreMember storeMember, String nickname,
-                           LocalDateTime createdDate, LocalDateTime modifiedDate) {
+    public MemberReviewDto(MemberReview memberReview) {
+        this.rno = memberReview.getId();
+        this.reviewText = memberReview.getReviewText();
+        this.basicUser = memberReview.getBasicUser();
+        this.storeMember = memberReview.getStoreMember();
+        this.createdDate = memberReview.getCreatedDate();
+    }
+
+    public MemberReviewDto(Long rno,String reviewText, BasicUser basicUser, StoreMember storeMember,
+                           LocalDateTime createdDate) {
         this.rno = rno;
         this.reviewText = reviewText;
         this.basicUser = basicUser;
         this.storeMember = storeMember;
-        this.nickname = nickname;
         this.createdDate = createdDate;
-        this.modifiedDate = modifiedDate;
-
     }
 
-    //멤버리뷰 리스팅+스토어 리뷰 (리스팅작업중)
+    //멤버리뷰 리스팅+스토어 리뷰 (페이징작업중)
     public MemberReviewDto(Long rno, String reviewText, BasicUser basicUser,
                            StoreMember storeMember, String nickname, StoreReview storeReview,
                            LocalDateTime createdDate, LocalDateTime modifiedDate) {
