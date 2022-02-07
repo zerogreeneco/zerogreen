@@ -167,7 +167,7 @@ public class CommunityController {
         return "community/communityDetailView :: #review-table";
     }
 
-    @PostMapping("/{boradId}/replyModify/{replyId}")
+    @PostMapping("/{boardId}/replyModify/{replyId}")
     @ResponseBody
     public ResponseEntity<Map<String, String>> modifyReply(@PathVariable("boardId")Long boardId, @PathVariable("replyId")Long replyId,
                                                            HttpServletRequest request) {
@@ -188,12 +188,13 @@ public class CommunityController {
     /*
      * 대댓글
      * */
-    @PostMapping("/{boardId}/{replyId}/reply")
+    @PostMapping("/{boardId}/{replyId}/nestedReply")
     public String nestedReplySend(@PathVariable("boardId")Long boardId, @PathVariable("replyId")Long replyId,
                                   @ModelAttribute("nestedReplyForm") CommunityReplyDto replyDto,
-                                  Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+                                  Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request) {
 
-        nestedReplyService.nestedReplySave(replyId, principalDetails.getBasicUser(), replyDto.getText());
+        String text = request.getParameter("text");
+        nestedReplyService.nestedReplySave(replyId, principalDetails.getBasicUser(), text);
 
         model.addAttribute("nestedReply", nestedReplyService.findNestedReplyByReplyId(replyId));
 
