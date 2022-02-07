@@ -7,21 +7,17 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.entity.detail.MemberReview;
-import zerogreen.eco.entity.detail.QStoreReview;
+import zerogreen.eco.entity.detail.QMemberReview;
 import zerogreen.eco.entity.userentity.StoreMember;
-import zerogreen.eco.entity.userentity.UserRole;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static zerogreen.eco.entity.detail.QMemberReview.memberReview;
 import static zerogreen.eco.entity.detail.QStoreReview.storeReview;
-import static zerogreen.eco.entity.userentity.QBasicUser.basicUser;
 import static zerogreen.eco.entity.userentity.QMember.member;
 
-public class ReviewRepositoryImpl implements ReviewRepository{
+public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
     public ReviewRepositoryImpl(EntityManager em) {
@@ -39,10 +35,8 @@ public class ReviewRepositoryImpl implements ReviewRepository{
                         memberReview.storeMember,
                         member.nickname,
                         storeReview,
-                        memberReview.createdDate,
-                        memberReview.modifiedDate
-
-
+                        memberReview.modifiedDate,
+                        memberReview.createdDate
                 ))
                 .from(memberReview, memberReview)
                 .leftJoin(member)
