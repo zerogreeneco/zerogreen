@@ -24,6 +24,7 @@ public class CommunityNestedReplyServiceImpl implements CommunityNestedReplyServ
     private final BoardReplyRepository replyRepository;
 
     @Override
+    @Transactional
     public void nestedReplySave(Long replyId, BasicUser basicUser, String text) {
 
         BoardReply boardReply = replyRepository.findById(replyId).orElseThrow();
