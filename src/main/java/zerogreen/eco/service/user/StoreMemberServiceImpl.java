@@ -73,18 +73,18 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     }
 
     //test data V2,
-
     @Transactional
     @Override
     public Long saveV3(StoreMember storeMember) {
         String encPassword = passwordEncoder.encode(storeMember.getPassword());
         RegisterFile registerFile1 = new RegisterFile("testFile", "testFile", "testFile");
-/*        return storeMemberRepository.save(new StoreMember(storeMember.getUsername(), storeMember.getPhoneNumber(),
+        return storeMemberRepository.save(new StoreMember(storeMember.getUsername(), storeMember.getPhoneNumber(),
                         encPassword, UserRole.STORE, storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(), storeMember.getStoreInfo().getPostalCode(),
                         storeMember.getStoreInfo().getStoreAddress(), storeMember.getStoreInfo().getStoreDetailAddress(),storeMember.getStoreInfo().getStorePhoneNumber(),
                         storeMember.getStoreInfo().getStoreDescription(), storeMember.getStoreInfo().getSocialAddress1() ,storeMember.getStoreInfo(). getSocialAddress2(),
                         storeMember.getStoreInfo().getOpenTime(), storeMember.getStoreInfo().getCloseTime(), registerFile1))
-                .getId();*/
+                .getId();
+/*
         return storeMemberRepository.save(StoreMember.testBuilder()
                         .username(storeMember.getUsername())
                         .phoneNumber(storeMember.getPhoneNumber())
@@ -105,6 +105,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
                         .registerFile(registerFile1)
                         .build())
                 .getId();
+*/
     }
 
 

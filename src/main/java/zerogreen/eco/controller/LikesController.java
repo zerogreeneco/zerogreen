@@ -36,12 +36,10 @@ public class LikesController {
 
         if (cntMemberLike <= 0) {
             likesService.addLikes(sno, principalDetails.getBasicUser());
-            // insert 후에 DB에서 해당 게시물의 전체 좋아요 수 카운트 후 json으로 변환
             resultMap.put("totalCount", likesService.cntLikes(sno));
 
         } else {
             likesService.removeLike(sno, principalDetails.getId());
-            // delete 후에 DB에서 해당 게시물의 전체 좋아요 수 카운트 후 json으로 변환
             resultMap.put("totalCount", likesService.cntLikes(sno));
         }
 

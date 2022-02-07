@@ -20,4 +20,9 @@ public interface MemberReviewRepository extends JpaRepository<MemberReview, Long
             "where bu.userRole ='USER' and mr.storeMember.id =:sno")
     Long counting(@Param("sno") Long sno);
 
-}
+/*
+    @Query("select mr from MemberReview mr where mr.storeMember.id =sno")
+    List<MemberReview> findByStore(@Param("sno")Long sno);
+*/
+
+    }

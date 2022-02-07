@@ -17,7 +17,9 @@ import zerogreen.eco.repository.detail.StoreReviewRepository;
 import zerogreen.eco.repository.user.BasicUserRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -35,10 +37,10 @@ public class ReviewServiceImpl implements ReviewService{
     public Long saveReview(MemberReviewDto memberReviewDto) {
         BasicUser findUser = basicUserRepository.findByUsername(memberReviewDto.getUsername()).orElseThrow();
         StoreMember findStore = storeMemberRepository.findById(memberReviewDto.getId()).orElseThrow();
-
         return memberReviewRepository.save( new MemberReview(memberReviewDto.getReviewText(),
                         findUser, findStore))
-                .getId();
+                        .getId();
+
     }
 
     //멤버리뷰 테스트 데이터 저장
@@ -65,6 +67,15 @@ public class ReviewServiceImpl implements ReviewService{
         StoreMember findStore = storeMemberRepository.findById(sno).orElseThrow();
         return memberReviewRepository.findByStore(pageable, findStore);
     }
+/*
+    public List<MemberReviewDto> getMemberReviewList(Long sno) {
+        log.info("~~~~~~66 " + sno);
+        List<MemberReview> result = memberReviewRepository.findByStore(sno);
+        log.info("~~~~~77 " + result);
+
+        return result.stream().map(MemberReviewDto::new).collect(Collectors.toList());
+    }
+*/
 
     //멤버리뷰 삭제
     @Override

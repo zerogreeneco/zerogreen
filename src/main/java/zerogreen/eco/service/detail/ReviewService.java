@@ -8,6 +8,8 @@ import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.detail.StoreReview;
 import zerogreen.eco.entity.userentity.StoreMember;
 
+import java.util.List;
+
 public interface ReviewService {
     //멤버리뷰 DB저장
     Long saveReview(MemberReviewDto memberReviewDto);
@@ -15,6 +17,7 @@ public interface ReviewService {
     //가게별 멤버 리뷰 카운팅
     Long cntMemberReview(Long sno);
     //멤버리뷰 리스팅
+    //List<MemberReviewDto> getMemberReviewList(Long sno);
     Page<MemberReviewDto> getMemberReviewList(Pageable pageable, Long sno);
     //멤버리뷰 삭제
     void remove(Long id);
