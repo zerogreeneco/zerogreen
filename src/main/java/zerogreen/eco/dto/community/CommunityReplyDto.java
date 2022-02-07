@@ -8,6 +8,7 @@ import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.StoreMember;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,6 +19,7 @@ public class CommunityReplyDto {
     private String text;
     private String replier;
     private LocalDateTime createdTime;
+    private List<BoardNestedReply> nestedReplyList = new ArrayList<>();
 
     public CommunityReplyDto() {}
 
@@ -27,6 +29,7 @@ public class CommunityReplyDto {
         this.text = boardReply.getReplyContent();
         this.replier = boardReply.getReplier().getUsername();
         this.createdTime = boardReply.getCreatedDate();
+        this.nestedReplyList = boardReply.getNestedReplies();
     }
 
     // 대댓글
