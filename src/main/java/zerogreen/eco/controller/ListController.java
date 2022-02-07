@@ -32,24 +32,22 @@ public class ListController {
     private final StoreMemberService storeMemberService;
 
 
-    @GetMapping("/food/list")
-    public String foodList() {
-
-
-        return "page/foodList";
-    }
-
     @GetMapping("/shop/list")
     public String shopList(Model model, RequestPageSortDto requestPageDto) {
 
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("storeName").descending());
-
-        Slice<StoreDto> ShopList = storeMemberService.getShopList(pageable);
-        log.info("List>>>" + ShopList);
-
-        model.addAttribute("list", ShopList);
+        model.addAttribute("list", storeMemberService.getShopList(pageable));
 
         return "page/shopList";
+    }
+
+    @GetMapping("/food/list")
+    public String foodList(Model model, RequestPageSortDto requestPageDto) {
+
+        Pageable pageable = requestPageDto.getPageableSort(Sort.by("storeName").descending());
+        model.addAttribute("list", storeMemberService.getFoodList(pageable));
+
+        return "page/foodList";
     }
 
     @GetMapping("/store/storeInfo")

@@ -19,9 +19,4 @@ public interface StoreMemberRepository extends JpaRepository<StoreMember, Long>,
     @Query("select sm from StoreMember sm left outer join BasicUser bu on sm.id = bu.id " +
             "where bu.userRole ='STORE' ")
     List<StoreMember> findByApprovedStore(UserRole userRole);
-
-
-//    @Query("select store from StoreMember store left outer join BasicUser user on store.id = user.id " +
-//            "where user.userRole = 'STORE' and store.storeType = 'ECO_SHOP' ")
-//    Slice<StoreMember> getShopList(RequestPageSortDto requestPageDto);
 }

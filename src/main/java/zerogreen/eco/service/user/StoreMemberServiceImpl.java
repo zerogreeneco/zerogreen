@@ -122,9 +122,16 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         return storeMemberRepository.findByApprovalStore(userRole);
     }
 
+    //Food List 출력
+    @Override
+    public Slice<StoreDto> getFoodList(Pageable pageable) {
+        return storeMemberRepository.getFoodList(pageable);
+    }
+
+    //Shop List 출력
     @Override
     @Transactional
     public Slice<StoreDto> getShopList(Pageable pageable) {
-       return storeMemberRepository.getShopList(pageable);
+        return storeMemberRepository.getShopList(pageable);
     }
 }

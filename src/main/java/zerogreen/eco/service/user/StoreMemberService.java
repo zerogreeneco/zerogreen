@@ -24,6 +24,8 @@ public interface StoreMemberService {
     //스토어 db 불러오기
     StoreDto getStore(Long sno);
 
+    //List 출력
     Slice<StoreDto> getShopList(Pageable pageable);
+    Slice<StoreDto> getFoodList(Pageable pageable);
 
     }

@@ -6,4 +6,5 @@ import zerogreen.eco.dto.store.StoreDto;
 
 public interface StoreListRepository {
     Slice<StoreDto> getShopList(Pageable pageable);
+    Slice<StoreDto> getFoodList(Pageable pageable);
 }

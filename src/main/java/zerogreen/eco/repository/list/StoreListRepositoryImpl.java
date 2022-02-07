@@ -46,4 +46,27 @@ public class StoreListRepositoryImpl implements StoreListRepository {
         return new PageImpl<>(shopList, pageable, countQuery.size());
     }
 
+    @Override
+    public Slice<StoreDto> getFoodList(Pageable pageable) {
+        List<StoreDto> shopList = jpaQueryFactory
+                .select(Projections.constructor(StoreDto.class,
+                        storeMember.id,
+                        storeMember.storeName,
+                        storeMember.storeInfo.storePhoneNumber,
+                        storeMember.storeInfo.openTime,
+                        storeMember.storeInfo.closeTime
+                ))
+                .from(storeMember, storeMember)
+                .where(storeMember._super.userRole.eq(STORE),
+                        storeMember.storeType.ne(StoreType.ECO_SHOP))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        List<StoreMember> countQuery = jpaQueryFactory
+                .selectFrom(storeMember)
+                .fetch();
+
+        return new PageImpl<>(shopList, pageable, countQuery.size());
+    }
 }
