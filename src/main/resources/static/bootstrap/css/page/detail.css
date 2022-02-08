@@ -151,7 +151,7 @@ textarea:focus {
     padding: 5px;
 }
 
-.mrv-btn:hover {
+.mrv-btn:hover, .rvrv-btn.hover {
     cursor: pointer;
 }
 
@@ -160,7 +160,7 @@ textarea:focus {
 }
 
 .rv-nickname {
-    font-size: 1.1em;
+    font-size: 1.05em;
     display: inline-block;
     margin-top: 8px;
     margin-left: 8px;

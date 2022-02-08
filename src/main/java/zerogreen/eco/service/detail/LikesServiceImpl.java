@@ -32,8 +32,6 @@ public class LikesServiceImpl implements LikesService {
     //안좋아요 흥!
     @Override
     public void removeLike(Long sno, Long mno) {
-        log.info("bbbbbb9999: "+ sno);
-        log.info("bbbbbb1010: "+ mno);
         likesRepository.deleteMemberLikes(sno, mno);
     }
 
@@ -44,13 +42,19 @@ public class LikesServiceImpl implements LikesService {
         return likesRepository.counting(findStore);
     }
 
-    //개별 라이크 카운팅
+    //회원의 가게별 라이크 카운팅
     @Override
     public Long cntMemberLike(Long sno, Long mno) {
-        log.info("bbbbbb6666: "+ sno);
-        log.info("bbbbbb7777: "+ mno);
         return likesRepository.cntMemberLike(sno, mno);
     }
+
+    //멤버별 전체 라이크 수 카운팅 (memberMyInfo)
+    @Override
+    public Long countLikesByUser(Long id) {
+        BasicUser findUser = basicUserRepository.findById(id).orElseThrow();
+        return likesRepository.countLikesByUser(findUser);
+    }
+
 
 }
 

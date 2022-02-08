@@ -9,7 +9,9 @@ public interface LikesService {
     void removeLike(Long sno, Long mno);
     //나 얼만큼 좋아해요
     Long cntLikes(Long sno);
-    //개별 라이크
+    //회원의 가게별 라이크 카운팅
     Long cntMemberLike(Long sno, Long mno);
+    //멤버별 전체 라이크 수 카운팅 (memberMyInfo)
+    Long countLikesByUser(Long id);
 
     }

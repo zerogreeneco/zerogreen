@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}">
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
 
     <!-- 페이지 css/ js 추가 -->
@@ -10,10 +10,11 @@
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <div class="row gtr-200">
         <!--    왼쪽 프로필-->
-        <div class="temp1 profile">div
-            <div class="profile-div">
+        <div class="temp1 profile">
+            <div class="profile-div inline">
                 <div>프로필사진 위치</div>
-                <span class="profile-name">김그네님</span>
+                <span class="profile-name">[[${profile.nickname}]]</span>
+                <span class="profile-name">님</span>
             </div>
             <div class="profile-div"><button type="button" class="editMyInfo profile-btn">내정보 수정</button></div>
             <div class="profile-div"><button type="button" class="message profile-btn">쪽지함</button></div>
@@ -23,12 +24,12 @@
         <div class="temp2">
             <!--     우측 상단 찜한가게+내 리뷰-->
             <div class="counting">
-                <div class="div-cnt">
-                    <span>Count</span><br>
+                <div class="div-cnt inline">
+                    <span>[[${likesCount}]]</span><br>
                     <span>찜 한 가게</span>
                 </div>
-                <div class="div-cnt">
-                    <span>Count</span><br>
+                <div class="div-cnt inline">
+                    <span>[[${reviewCount}]]</span><br>
                     <span>내 리뷰</span>
                 </div>
             </div>

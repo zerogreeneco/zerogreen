@@ -8,17 +8,17 @@
     width: 70%;
 }
 
+.inline {
+    display: inline-block;
+}
+
 /* left side */
 .profile {
     text-align: center;
 }
 
-.profile-div {
-    display: inline-block;
-}
-
 .profile-name {
-    font-size: 1.5em;
+    font-size: 1.2em;
 }
 
 .profile-btn {
@@ -27,12 +27,12 @@
 
 /* right side */
 .div-cnt {
-    display: inline-block;
     width: 400px;
-    height: 100px;
-    font-size: 1.5em;
+    height: 80px;
+    font-size: 1.2em;
     text-align: center;
     background: #bcdbeb;
+    line-height: 150%
 }
 
 .counting {
