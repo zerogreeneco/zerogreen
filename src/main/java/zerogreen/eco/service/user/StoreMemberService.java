@@ -7,6 +7,7 @@ import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.StoreMember;
+import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.entity.userentity.UserRole;
 
 import java.util.List;
@@ -26,6 +27,6 @@ public interface StoreMemberService {
 
     //List 출력
     Slice<StoreDto> getShopList(Pageable pageable);
-    Slice<StoreDto> getFoodList(Pageable pageable);
+    Slice<StoreDto> getFoodTypeList(Pageable pageable, StoreType storeType);
 
     }

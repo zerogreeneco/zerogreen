@@ -3,21 +3,18 @@ package zerogreen.eco.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-
-import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.file.TestImageUploadDto;
-import zerogreen.eco.dto.store.StoreDto;
+import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.entity.file.StoreImageFile;
+import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.file.FileService;
 import zerogreen.eco.service.user.StoreMemberService;
-import zerogreen.eco.dto.paging.RequestPageSortDto;
-
 
 import java.io.IOException;
 import java.util.List;
@@ -31,6 +28,11 @@ public class ListController {
     private final FileService fileService;
     private final StoreMemberService storeMemberService;
 
+    @ModelAttribute("storeTypes")
+    private StoreType[] storeTypes() {
+        StoreType[] storeTypes = StoreType.values();
+        return storeTypes;
+    }
 
     @GetMapping("/shop/list")
     public String shopList(Model model, RequestPageSortDto requestPageDto) {
@@ -42,10 +44,11 @@ public class ListController {
     }
 
     @GetMapping("/food/list")
-    public String foodList(Model model, RequestPageSortDto requestPageDto) {
+    public String foodList(@RequestParam(value = "type", required = false) StoreType storeType,
+            Model model, RequestPageSortDto requestPageDto) {
 
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("storeName").descending());
-        model.addAttribute("list", storeMemberService.getFoodList(pageable));
+        model.addAttribute("list", storeMemberService.getFoodTypeList(pageable, storeType));
 
         return "page/foodList";
     }

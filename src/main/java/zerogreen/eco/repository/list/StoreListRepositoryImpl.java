@@ -47,7 +47,7 @@ public class StoreListRepositoryImpl implements StoreListRepository {
     }
 
     @Override
-    public Slice<StoreDto> getFoodList(Pageable pageable) {
+    public Slice<StoreDto> getFoodTypeList(Pageable pageable, StoreType storeType) {
         List<StoreDto> shopList = jpaQueryFactory
                 .select(Projections.constructor(StoreDto.class,
                         storeMember.id,
@@ -58,7 +58,8 @@ public class StoreListRepositoryImpl implements StoreListRepository {
                 ))
                 .from(storeMember, storeMember)
                 .where(storeMember._super.userRole.eq(STORE),
-                        storeMember.storeType.ne(StoreType.ECO_SHOP))
+                        storeMember.storeType.ne(StoreType.ECO_SHOP),
+                        storeMember.storeType.eq(storeType))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
