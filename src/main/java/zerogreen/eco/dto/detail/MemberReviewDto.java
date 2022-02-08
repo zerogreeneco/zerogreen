@@ -3,6 +3,7 @@ package zerogreen.eco.dto.detail;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.web.multipart.MultipartFile;
 import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.detail.StoreReview;
 import zerogreen.eco.entity.userentity.BasicUser;
@@ -11,6 +12,7 @@ import zerogreen.eco.entity.userentity.StoreMember;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,6 +37,8 @@ public class MemberReviewDto {
 
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
+
+    private List<MultipartFile> imageFiles;
 
 
     //이하 생성자 정리예정

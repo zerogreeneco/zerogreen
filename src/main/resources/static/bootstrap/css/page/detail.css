@@ -151,7 +151,7 @@ textarea:focus {
     padding: 5px;
 }
 
-.mrv-btn:hover, .rvrv-btn.hover {
+.mrv-btn:hover, .rvrv-btn:hover {
     cursor: pointer;
 }
 
