@@ -133,5 +133,13 @@ public class ReviewServiceImpl implements ReviewService{
         }
     }
 
+    //멤버별 리뷰 수 카운팅 (memberMyInfo)
+    @Override
+    public Long countReviewByUser(Long id) {
+        BasicUser findUser = basicUserRepository.findById(id).orElseThrow();
+        return memberReviewRepository.countReviewByUser(findUser);
+    }
+
+
 
 }

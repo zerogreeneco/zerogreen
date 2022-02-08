@@ -27,6 +27,7 @@ import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.security.auth.PrincipalUser;
 import zerogreen.eco.service.detail.LikesService;
 import zerogreen.eco.service.detail.ReviewService;
+import zerogreen.eco.service.user.MemberService;
 import zerogreen.eco.service.user.StoreMemberService;
 
 import java.io.IOException;
@@ -41,6 +42,7 @@ public class DetailController {
     private final StoreMemberService storeMemberService;
     private final LikesService likesService;
     private final ReviewService reviewService;
+    private final MemberService memberService;
 
     @GetMapping("/page/detail/{sno}")
     public String detail(Long id,@PathVariable("sno") Long sno, Model model, RequestPageSortDto requestPageSortDto,
@@ -63,7 +65,6 @@ public class DetailController {
             model.addAttribute("cntLike", likesService.cntMemberLike(sno, principalDetails.getId()));
         }
 
-
         //가게별 멤버리뷰 카운팅
         Long cnt2 = reviewService.cntMemberReview(sno);
         if (cnt2 != null) {
@@ -79,9 +80,18 @@ public class DetailController {
         return "page/detail";
     }
 
-    @GetMapping("/member/memberMyInfo")
-    public void connect2(){
 
+    //아직 위치못잡음 ^.ㅠ
+    @GetMapping("/member/memberMyInfo")
+    public String myInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                         Model model) {
+
+        model.addAttribute("reviewCount", reviewService.countReviewByUser(principalDetails.getId()));
+        model.addAttribute("likesCount", likesService.countLikesByUser(principalDetails.getId()));
+        model.addAttribute("profile", memberService.findById(principalDetails.getId()).get());
+
+        return "member/memberMyInfo";
     }
+
 
 }

@@ -30,6 +30,8 @@ public interface ReviewService {
     void modifyStoreReview(StoreReviewDto storeReviewDto);
     //스토어멤버 리뷰 삭제
     void deleteStoreReview(Long id);
+    //멤버별 리뷰 수 카운팅
+    Long countReviewByUser(Long id);
 
 
 

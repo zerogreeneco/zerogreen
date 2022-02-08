@@ -31,4 +31,8 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
     @Query("delete from Likes l where l.storeMember.id =:sno and l.basicUser.id =:mno ")
     void deleteMemberLikes(@Param("sno") Long sno, @Param("mno") Long mno);
 
+    //memberMyInfo에 나타나는 회원별 좋아요 수
+    @Query("select count(l.id) from Likes l where l.basicUser =:basicUser ")
+    Long countLikesByUser(@Param("basicUser") BasicUser basicUser);
+
 }
