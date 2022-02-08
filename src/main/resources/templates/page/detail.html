@@ -105,11 +105,23 @@
 
         <!-- 리뷰작성칸 -->
         <div class="rv temp1">
+
+            <!-- 썸네일 -->
+            <div class="box1"></div>
+            <div class="uploadResult">
+                <ul class="ul1">
+                </ul>
+            </div>
+
+
+            <!-- 리뷰작성 textarea -->
             <div class="inline rv-ta">
                 <textarea name="reviewText" id="reviewText"></textarea>
             </div>
+
             <div class="inline rv-btn">
-                <span class="rvrv-btn inline" id="img-btn">이미지 추가</span><br>
+                <label class="img-input rvrv-btn inline" for="img-input">사진선택</label><br>
+                <input class="img-input" id="img-input" type="file" multiple/>
                 <span class="rvrv-btn inline" id="rv-btn">리뷰등록</span>
 
             </div>
@@ -119,7 +131,6 @@
         <div class="temp2">
             <!-- 리뷰 이미지 리스트 -->
             <div class="rv-images">리뷰이미지 리스트
-
 
             </div>
             <!-- 리뷰리스트 -->

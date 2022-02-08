@@ -18,12 +18,16 @@ import zerogreen.eco.dto.detail.StoreReviewDto;
 import zerogreen.eco.dto.paging.PagingDto;
 import zerogreen.eco.dto.paging.RequestPageDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
+import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.detail.MemberReview;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.security.auth.PrincipalDetails;
+import zerogreen.eco.service.detail.ReviewImageService;
 import zerogreen.eco.service.detail.ReviewService;
 import zerogreen.eco.service.user.StoreMemberService;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,14 +39,19 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final StoreMemberService storeMemberService;
+    private final ReviewImageService reviewImageService;
 
     //멤버 리뷰 db
     @ResponseBody
     @PostMapping("/addReview/{id}")
     public Long addReview(@Validated @RequestBody MemberReviewDto memberReviewdto, BindingResult bindingResult,
-                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Long result = reviewService.saveReview(memberReviewdto);
-        return result;
+                          @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+
+        List<ReviewImage> reviewImages = reviewImageService.reviewImageFiles(memberReviewdto.getImageFiles());
+        log.info("aaaaaacontroller1 "+ reviewImages.size());
+        Long rno = reviewService.saveReview(memberReviewdto, reviewImages);
+
+        return rno;
     }
 
     //멤버 리뷰 db. ajax 작업용

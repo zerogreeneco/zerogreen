@@ -5,12 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
+import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REMOVE;
 
 @Entity
 @Getter
@@ -33,6 +39,10 @@ public class MemberReview extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member")
     private BasicUser basicUser;
+
+    @OneToMany(mappedBy = "memberReview", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
+    private List<ReviewImage> imageList = new ArrayList<>();
+
 
 
     //리뷰 수정하기

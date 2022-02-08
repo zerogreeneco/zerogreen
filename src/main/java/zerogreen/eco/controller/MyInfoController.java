@@ -13,7 +13,6 @@ import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.detail.LikesService;
 import zerogreen.eco.service.detail.ReviewService;
 import zerogreen.eco.service.user.MemberService;
-import zerogreen.eco.service.user.StoreMemberService;
 
 import java.util.List;
 
@@ -39,6 +38,7 @@ public class MyInfoController {
         model.addAttribute("profile", memberService.findById(principalDetails.getId()).get());
         //회원별 리뷰 남긴 가게 리스트
         List<MemberReviewDto> review =  reviewService.getReviewByUser(principalDetails.getId());
+        //review.sort(Collections.reverseOrder());
         model.addAttribute("listOfReview",review);
         //회원별 찜한 가게 리스트 (memberMyInfo)
         List<LikesDto> likes =  likesService.getLikesByUser(principalDetails.getId());

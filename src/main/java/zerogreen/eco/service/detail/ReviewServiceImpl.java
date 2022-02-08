@@ -8,11 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.dto.detail.StoreReviewDto;
+import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.detail.MemberReview;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.detail.StoreReview;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.repository.detail.MemberReviewRepository;
+import zerogreen.eco.repository.detail.ReviewImageRepository;
 import zerogreen.eco.repository.detail.StoreReviewRepository;
 import zerogreen.eco.repository.user.BasicUserRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
@@ -30,17 +33,30 @@ public class ReviewServiceImpl implements ReviewService{
     private final StoreMemberRepository storeMemberRepository;
     private final BasicUserRepository basicUserRepository;
     private final StoreReviewRepository storeReviewRepository;
+    private final ReviewImageRepository reviewImageRepository;
 
-    //멤버리뷰 DB저장(db저장은 엔티티)
+    //멤버리뷰 DB저장
     @Override
     @Transactional
-    public Long saveReview(MemberReviewDto memberReviewDto) {
+    public Long saveReview(MemberReviewDto memberReviewDto, List<ReviewImage> reviewImages) {
         BasicUser findUser = basicUserRepository.findByUsername(memberReviewDto.getUsername()).orElseThrow();
         StoreMember findStore = storeMemberRepository.findById(memberReviewDto.getId()).orElseThrow();
-        return memberReviewRepository.save( new MemberReview(memberReviewDto.getReviewText(),
-                        findUser, findStore))
-                        .getId();
 
+        MemberReview saveReview = memberReviewRepository.save( new MemberReview(memberReviewDto.getReviewText(),
+                        findUser, findStore));
+
+        memberReviewRepository.flush();
+        log.info("aaaaaaaaSaveTextReview " + saveReview);
+
+        if(reviewImages.size() != 0) {
+            for (ReviewImage reviewImage : reviewImages) {
+                log.info("aaaaaaaareviewImage " + reviewImage);
+
+                reviewImageRepository.save(new ReviewImage(
+                        reviewImage.getUploadFileName(), reviewImage.getReviewFileName(), reviewImage.getFilePath(), saveReview));
+            }
+        }
+        return saveReview.getId();
     }
 
     //멤버리뷰 테스트 데이터 저장
