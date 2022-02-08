@@ -5,13 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.detail.LikesDto;
 import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.dto.detail.StoreReviewDto;
@@ -31,6 +30,8 @@ import zerogreen.eco.service.user.MemberService;
 import zerogreen.eco.service.user.StoreMemberService;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -44,6 +45,7 @@ public class DetailController {
     private final ReviewService reviewService;
     private final MemberService memberService;
 
+    //상세페이지
     @GetMapping("/page/detail/{sno}")
     public String detail(Long id,@PathVariable("sno") Long sno, Model model, RequestPageSortDto requestPageSortDto,
                        MemberReviewDto memberReviewDto,
@@ -80,17 +82,30 @@ public class DetailController {
         return "page/detail";
     }
 
+    //좋아요
+    @ResponseBody
+    @PostMapping("/detailLikes/{sno}")
+    public ResponseEntity<Map<String, Long>> detailLikes(@PathVariable("sno") Long sno,
+                                                         @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        Map<String, Long> resultMap = new HashMap<>();
 
-    //아직 위치못잡음 ^.ㅠ
-    @GetMapping("/member/memberMyInfo")
-    public String myInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                         Model model) {
+        // 해당 회원이 좋아요를 누른 적이 있는지 확인 -> 있으면 1, 없으면 0
+        Long cntMemberLike = likesService.cntMemberLike(sno, principalDetails.getId());
 
-        model.addAttribute("reviewCount", reviewService.countReviewByUser(principalDetails.getId()));
-        model.addAttribute("likesCount", likesService.countLikesByUser(principalDetails.getId()));
-        model.addAttribute("profile", memberService.findById(principalDetails.getId()).get());
+        // JSON 형태로 View에 데이터를 전달하기 위해서 key:value로 변경
+        resultMap.put("memberCnt", cntMemberLike);
 
-        return "member/memberMyInfo";
+        if (cntMemberLike <= 0) {
+            likesService.addLikes(sno, principalDetails.getBasicUser());
+            resultMap.put("totalCount", likesService.cntLikes(sno));
+
+        } else {
+            likesService.removeLike(sno, principalDetails.getId());
+            resultMap.put("totalCount", likesService.cntLikes(sno));
+        }
+
+        // Map에 JSON 형태로 담긴 데이터를 Response 해줌
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
 

@@ -26,6 +26,10 @@ public interface MemberReviewRepository extends JpaRepository<MemberReview, Long
            "where mr.basicUser =:basicUser ")
     Long countReviewByUser(@Param("basicUser") BasicUser basicUser);
 
+   //memberMyInfo에 나타나는 회원별 리뷰남긴 가게 리스트
+    @Query("select mr from MemberReview mr where mr.basicUser =:basicUser")
+    List<MemberReview> getReviewByUser(@Param("basicUser") BasicUser basicUser);
+
 /*
     @Query("select mr from MemberReview mr where mr.storeMember.id =sno")
     List<MemberReview> findByStore(@Param("sno")Long sno);

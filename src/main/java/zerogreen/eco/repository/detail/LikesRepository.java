@@ -12,6 +12,7 @@ import zerogreen.eco.entity.detail.Likes;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface LikesRepository extends JpaRepository<Likes, Long> {
@@ -31,8 +32,13 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
     @Query("delete from Likes l where l.storeMember.id =:sno and l.basicUser.id =:mno ")
     void deleteMemberLikes(@Param("sno") Long sno, @Param("mno") Long mno);
 
-    //memberMyInfo에 나타나는 회원별 좋아요 수
+    //회원별 전체 좋아요 수 (memberMyInfo)
     @Query("select count(l.id) from Likes l where l.basicUser =:basicUser ")
     Long countLikesByUser(@Param("basicUser") BasicUser basicUser);
 
-}
+    //회원별 찜한 가게 리스트 (memberMyInfo)
+    @Query("select l from Likes l where l.basicUser =:basicUser")
+    List<Likes> getLikesByUser(@Param("basicUser") BasicUser basicUser);
+
+
+    }
