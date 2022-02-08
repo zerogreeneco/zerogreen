@@ -41,7 +41,7 @@ public class MemberReviewDto {
     public MemberReviewDto() {
     }
 
-    //멤버리뷰 리스팅
+    //멤버리뷰 리스팅 (memberMyInfo)
     public MemberReviewDto(MemberReview memberReview) {
         this.rno = memberReview.getId();
         this.reviewText = memberReview.getReviewText();

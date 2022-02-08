@@ -133,11 +133,19 @@ public class ReviewServiceImpl implements ReviewService{
         }
     }
 
-    //멤버별 리뷰 수 카운팅 (memberMyInfo)
+    //회원별 전체 리뷰 수 카운팅 (memberMyInfo)
     @Override
     public Long countReviewByUser(Long id) {
         BasicUser findUser = basicUserRepository.findById(id).orElseThrow();
         return memberReviewRepository.countReviewByUser(findUser);
+    }
+
+    //회원별 리뷰남긴 가게 리스트 (memberMyInfo)
+    @Override
+    public List<MemberReviewDto> getReviewByUser(Long id) {
+        BasicUser findUser = basicUserRepository.findById(id).orElseThrow();
+        List<MemberReview> result = memberReviewRepository.getReviewByUser(findUser);
+        return result.stream().map(MemberReviewDto::new).collect(Collectors.toList());
     }
 
 

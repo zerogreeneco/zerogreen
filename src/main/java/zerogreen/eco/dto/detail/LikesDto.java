@@ -30,15 +30,16 @@ public class LikesDto {
 
 
 
-    //이하 생성자 정리예정
     public LikesDto() {
     }
 
-    //데이터 뿌리기
-    public LikesDto(Long lno, StoreMember storeMember, BasicUser basicUser){
-        this.lno = lno;
-        this.storeMember = storeMember;
-        this.basicUser = basicUser;
+    //라이크 리스팅 (memberMyInfo)
+    public LikesDto(Likes likes){
+        this.lno = likes.getId();
+        this.storeMember = likes.getStoreMember();
+        this.basicUser = likes.getBasicUser();
     }
+
+
 
 }

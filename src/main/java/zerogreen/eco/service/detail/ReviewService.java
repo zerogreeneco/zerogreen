@@ -32,6 +32,8 @@ public interface ReviewService {
     void deleteStoreReview(Long id);
     //멤버별 리뷰 수 카운팅
     Long countReviewByUser(Long id);
+    //회원별 리뷰남긴 가게 리스팅
+    List<MemberReviewDto> getReviewByUser(Long id);
 
 
 
