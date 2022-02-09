@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import zerogreen.eco.entity.community.BoardNestedReply;
 import zerogreen.eco.entity.community.BoardReply;
 
 import java.time.LocalDateTime;
@@ -45,13 +44,5 @@ public class CommunityReplyDto {
         this.replier = boardReply.getReplier().getUsername();
         this.createdTime = boardReply.getCreatedDate();
         this.nestedReplyList = boardReply.getNestedReplyList();
-    }
-
-    // 대댓글
-    public CommunityReplyDto(BoardNestedReply nestedReply) {
-        this.replyId = nestedReply.getId();
-        this.text = nestedReply.getReplyContent();
-        this.replier = nestedReply.getBasicUser().getUsername();
-        this.createdTime = nestedReply.getCreatedDate();
     }
 }

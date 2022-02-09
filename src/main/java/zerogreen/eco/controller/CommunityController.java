@@ -24,7 +24,6 @@ import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.community.BoardImageService;
 import zerogreen.eco.service.community.CommunityBoardService;
-import zerogreen.eco.service.community.CommunityNestedReplyService;
 import zerogreen.eco.service.community.CommunityReplyService;
 import zerogreen.eco.service.file.FileService;
 
@@ -45,7 +44,6 @@ public class CommunityController {
     private final CommunityBoardService boardService;
     private final FileService fileService;
     private final CommunityReplyService replyService;
-    private final CommunityNestedReplyService nestedReplyService;
     private final BoardImageService boardImageService;
 
     @ModelAttribute("category")
@@ -169,27 +167,6 @@ public class CommunityController {
         return "community/communityDetailView :: #review-table";
     }
 
-/*    @ResponseBody
-    @GetMapping("/{boardId}/replyList")
-    public ResponseEntity<List<CommunityReplyDto>> replyList(@PathVariable("boardId") Long boardId) {
-        return new ResponseEntity<>(replyService.findReplyByBoardId(boardId), HttpStatus.OK);
-    }
-
-    @PostMapping("/{boardId}/reply")
-    @ResponseBody
-    public ResponseEntity<List<CommunityReplyDto>> replySend(@PathVariable("boardId") Long boardId,
-                                                             @ModelAttribute("reply") CommunityReplyDto replyDto,
-                                                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
-
-        replyService.replySave(replyDto.getText(), boardId, principalDetails.getBasicUser());
-
-        List<CommunityReplyDto> replyList = replyService.findReplyByBoardId(boardId);
-//        model.addAttribute("replyList", replyList);
-
-//        return "community/communityDetailView :: #review-table";
-        return new ResponseEntity<>(replyList, HttpStatus.OK);
-    }*/
-
     /*
     * 댓글 수정
     * */
@@ -226,26 +203,4 @@ public class CommunityController {
 
         return "/community/communityDetailView :: #review-table";
     }
-
-/*    @ResponseBody
-    @GetMapping("/{replyId}/nestedReplyList")
-    private ResponseEntity<List<CommunityReplyDto>> nestedReplyList(@PathVariable("replyId") Long replyId) {
-        List<CommunityReplyDto> nestedReplyList = nestedReplyService.findNestedReplyByReplyId(replyId);
-        return new ResponseEntity<>(nestedReplyList, HttpStatus.OK);
-    }
-
-    @ResponseBody
-    @PostMapping("/{boardId}/{replyId}/nestedReply")
-    public ResponseEntity<String> nestedReplySend(@PathVariable("boardId") Long boardId, @PathVariable("replyId") Long replyId,
-                                  @ModelAttribute("nestedReplyForm") CommunityReplyDto replyDto,
-                                  Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request) {
-
-        String text = request.getParameter("text");
-        replyService.replySaveV2(text, boardId, principalDetails.getBasicUser(), replyId);
-
-//        List<CommunityReplyDto> nestedReplyList = nestedReplyService.findNestedReplyByReplyId(replyId);
-//        model.addAttribute("nestedReply", nestedReplyList);
-
-        return new ResponseEntity<>("success", HttpStatus.OK);
-    }*/
 }

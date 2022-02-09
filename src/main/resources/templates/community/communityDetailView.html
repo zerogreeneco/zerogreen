@@ -53,18 +53,21 @@
 
             .review-send #review-send-btn {
                 float: right;
+                text-decoration: navajowhite;
+                cursor: pointer;
             }
 
-            .review-text {
+            #cm-review-wrapper .review-text {
                 resize: none;
                 min-height: 5rem;
-                width: 670px;
+                width: 650px;
                 border-radius: 5px;
                 border: none;
                 font-size: 14px;
                 padding: 10px;
                 overflow: hidden;
                 outline-color: #fff;
+                margin-bottom: 20px;
             }
 
             #text-count {
@@ -93,11 +96,12 @@
             .modify-test {
                 border: 1px solid #898c91;
                 border-radius: 5px;
-                width: 640px;
-                height: 25px;
+                width: 660px;
+                height: 16px;
                 font-size: 14px;
                 overflow: hidden;
                 resize: none;
+                margin-bottom: 32px;
             }
 
             /* 대댓글 */
@@ -111,7 +115,7 @@
             }
 
             .nested-list {
-                padding: 50px;
+                padding-left: 50px;
             }
 
             /* 좋아요*/
@@ -263,7 +267,7 @@
                 let modifyBtn = $(event);
                 let replyId = modifyBtn.parent().find(".replyId").val();
                 let text = modifyBtn.parent().find(".modify-test");
-                console.log(text.text());
+                console.log(text.val());
 
                 $.ajax({
                     url: "/zerogreen/community/" + boardId + "/replyModify/" + replyId,
@@ -272,7 +276,7 @@
                     data: {
                         boardId: boardId,
                         replyId: replyId,
-                        text: text.text()
+                        text: text.val()
                     }
                 })
                     .done(function (data) {
@@ -281,7 +285,7 @@
                             text.replaceWith("<p class='rp-text'>" + text.val() + "</p>")
                             $(".rp-text:eq(1)").remove();
                             $(".replyId").next(".modify-test").hide();
-                            $(".replyId").next(".modify-test-btn").hide();
+                            modifyBtn.hide();
                             // location.reload()
                         } else {
                             alert("실패");
