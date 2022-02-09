@@ -146,7 +146,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
                 .storeName(storeMember.getStoreName())
                 .storeType(storeMember.getStoreType())
                 .storeInfo(storeMember.getStoreInfo())
-                .count(likesRepository.counting(storeMember))
+                .count(likesRepository.counting(storeMember.getId()))
                 .menuList(storeMenus)
                 .build();
     }

@@ -27,7 +27,20 @@ public class CommunityReplyServiceImpl implements CommunityReplyService{
     public void replySave(String text, Long boardId, BasicUser basicUser) {
         CommunityBoard communityBoard = communityBoardRepository.findById(boardId).orElseThrow();
 
-        boardReplyRepository.save(new BoardReply(text, basicUser, communityBoard));
+        boardReplyRepository.save(new BoardReply(text, basicUser, communityBoard)); // 생성자 없음
+    }
+
+    @Override
+    @Transactional
+    public void replySaveV2(String text, Long boardId, BasicUser basicUser, Long replyId) {
+        CommunityBoard communityBoard = communityBoardRepository.findById(boardId).orElseThrow();
+        BoardReply parentReply = boardReplyRepository.findById(replyId).orElseThrow();
+
+        BoardReply childReply = new BoardReply(text, basicUser, communityBoard);
+        boardReplyRepository.save(childReply);
+        log.info("PARENT={}", parentReply);
+        log.info("CHILD={}", childReply);
+        parentReply.addNestedReply(childReply);
     }
 
     @Override
@@ -46,9 +59,8 @@ public class CommunityReplyServiceImpl implements CommunityReplyService{
 
     @Override
     public List<CommunityReplyDto> findReplyByBoardId(Long boardId) {
-        List<BoardReply> boardRepliesByBoardId = boardReplyRepository.findBoardRepliesByBoardId(boardId);
-
-        return boardRepliesByBoardId.stream().map(CommunityReplyDto::new).collect(Collectors.toList());
+        List<BoardReply> replyList = boardReplyRepository.findBoardRepliesByBoardId(boardId);
+        log.info("SERVICE REPLY LIST>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        return replyList.stream().map(CommunityReplyDto::new).collect(Collectors.toList());
     }
 }
-

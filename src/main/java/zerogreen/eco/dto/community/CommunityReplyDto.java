@@ -1,11 +1,11 @@
 package zerogreen.eco.dto.community;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import zerogreen.eco.entity.community.BoardNestedReply;
 import zerogreen.eco.entity.community.BoardReply;
-import zerogreen.eco.entity.userentity.Member;
-import zerogreen.eco.entity.userentity.StoreMember;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,26 +15,41 @@ import java.util.List;
 @Setter
 public class CommunityReplyDto {
 
-    private Long id;
+    private Long replyId;
+    private Long boardId;
+    private Long parentReplyId;
     private String text;
     private String replier;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdTime;
-    private List<BoardNestedReply> nestedReplyList = new ArrayList<>();
+    private List<BoardReply> nestedReplyList = new ArrayList<>();
 
     public CommunityReplyDto() {}
 
+    @Builder
+    public CommunityReplyDto(Long replyId, Long boardId, Long parentReplyId, String text, String replier, LocalDateTime createdTime, List<BoardReply> nestedReplyList) {
+        this.replyId = replyId;
+        this.boardId = boardId;
+        this.parentReplyId = parentReplyId;
+        this.text = text;
+        this.replier = replier;
+        this.createdTime = createdTime;
+        this.nestedReplyList = nestedReplyList;
+    }
+
     // 댓글
     public CommunityReplyDto(BoardReply boardReply) {
-        this.id = boardReply.getId();
+        this.replyId = boardReply.getId();
+        this.boardId = boardReply.getBoard().getId();
         this.text = boardReply.getReplyContent();
         this.replier = boardReply.getReplier().getUsername();
         this.createdTime = boardReply.getCreatedDate();
-        this.nestedReplyList = boardReply.getNestedReplies();
+        this.nestedReplyList = boardReply.getNestedReplyList();
     }
 
     // 대댓글
     public CommunityReplyDto(BoardNestedReply nestedReply) {
-        this.id = nestedReply.getId();
+        this.replyId = nestedReply.getId();
         this.text = nestedReply.getReplyContent();
         this.replier = nestedReply.getBasicUser().getUsername();
         this.createdTime = nestedReply.getCreatedDate();
