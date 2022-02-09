@@ -108,7 +108,10 @@
                 height: 45px;
                 resize: none;
                 overflow: hidden;
+            }
 
+            .nested-list {
+                padding: 50px;
             }
 
             /* 좋아요*/
@@ -157,15 +160,15 @@
                         url: "/zerogreen/community/" + boardId + "/reply",
                         method: "post",
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                        dataType: "json",
+                        // dataType: "json",
                         data: {
                             boardId: boardId,
                             text: text
                         }
                     })
-                        .done(function (data) {
-                            // $("#review-table").replaceWith();
-                            getReplyData(boardId, table);
+                        .done(function (fragment) {
+                            $("#review-table").replaceWith(fragment);
+                            // getReplyData(boardId, table);
                             alert("댓글이 등록되었습니다.");
                             $("#text").val("");
                             $("#text-count").text("0 / 100");
@@ -303,8 +306,10 @@
                         text: text
                     },
                 })
-                    .done(function () {
-                        getNestedReplyData(table, replyId);
+                    .done(function (fragment) {
+                        $("#review-table").replaceWith(fragment);
+
+                        // getNestedReplyData(table, replyId);
                         // $("#nested-reply").replaceWith(fragment);
                         // replyBtn.parents(".nested-reply-wrapper").hide();
                     })
@@ -389,22 +394,15 @@
                             <a onclick="nestedReplySend(this)">답글 달기</a>
                             <a>취소</a>
                         </div>
-                        <div th:each="nestedList : ${replyList.nestedReplyList}">
-                            <p th:text="${nestedList.id}"></p>
-                            <p th:text="${nestedList.replyContent}"></p>
-                        </div>
                         <hr/>
+                        <div class="nested-list" th:each="nestedList : ${replyList.nestedReplyList}">
+                            <p th:text="${nestedList.replier.username}"></p>
+                            <p th:text="${nestedList.replyContent}"></p>
+                            <p th:text="${#temporals.format(nestedList.createdDate, 'yyyy-MM-dd HH:mm')}"></p>
+                            <hr/>
+                        </div>
                     </div>
                 </div>
-                <!-- 대댓글 -->
-                <div id="nested-reply">
-                    <div th:each="nestedReply : ${nestedReply}">
-                        <div th:text="${nestedReply.replier}" class="cm-replier"></div>
-                        <p th:text="${nestedReply.text}" class="cm-reply-text"></p>
-                        <div th:text="${#temporals.format(nestedReply.createdTime, 'yyyy-MM-dd HH:mm')}"></div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </th:block>
