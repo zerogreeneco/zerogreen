@@ -8,9 +8,24 @@ input:focus {
     margin-bottom: 20px;
 }
 
+@media screen and (max-width: 1010px) {
+    #card-align {
+        transform: translate(1%, 0);
+    }
+}
+
+@media screen and (max-width: 916px) {
+    .card {
+        width: 25% !important;
+    }
+    #card-align {
+        transform: translate(5%, 0) !important;
+    }
+}
+
 @media screen and (max-width: 714px) {
     .card {
-        width: 10em !important;
+        width: 86% !important;
         margin: 10px !important;
     }
 }
@@ -115,7 +130,7 @@ input[type="radio"]:checked + label{
 
 /* Card */
 #card-align {
-    text-align: center;
+    transform: translate(3%, 0);
 }
 
 .card{
@@ -125,7 +140,7 @@ input[type="radio"]:checked + label{
     border-radius: 10px;
     box-shadow: 0 2px 5px rgb(0 0 0 / 10%);
     overflow: hidden;
-    width: 12em;
+    width: 20%;
 }
 .card-header img{
     width: 100%;
