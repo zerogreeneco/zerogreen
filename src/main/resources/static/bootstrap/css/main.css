@@ -166,13 +166,9 @@ html {
 		box-sizing: border-box;
 	}
 
-	*, *:before, *:after {
-		box-sizing: inherit;
-	}
-
 	input, select {
 		font-family: 'Open Sans', sans-serif;
-		font-size: 13pt;
+		font-size: 11pt;
 		color: #696969;
 		font-weight: 300;
 		line-height: 2.25em;
@@ -1126,7 +1122,7 @@ html {
 		}
 
 		.image.left {
-			float: left;
+			float: left;f
 			margin: 0 2em 2em 0;
 		}
 
@@ -1162,7 +1158,6 @@ html {
 		outline: 0;
 		border: 0;
 		cursor: pointer;
-		font-size: 1.35em;
 		padding: 0.5em 1.5em;
 	}
 
