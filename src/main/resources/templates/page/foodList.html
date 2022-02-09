@@ -6,8 +6,8 @@
         <link th:href="@{/bootstrap/css/page/list.css}" rel="stylesheet"/>
         <!-- 본문 시작 -->
         <!--검색-->
-        <div style="position: relative;">
-            <form class="form-area" th:action="@{/food/list}" method="get" id="foodSearchForm">
+        <div class="form-area">
+            <form th:action="@{/food/list}" method="get" id="foodSearchForm">
                 <input type="hidden" name="page" value="1">
                 <select class="dropdown" name="type">
                     <option>식당 이름</option>
@@ -34,7 +34,7 @@
         </div>
 
         <!-- 가게 리스트 -->
-        <div>
+        <div id="card-align">
             <div class="card">
                 <div class="card-header">
                     <img src="http://placehold.it/300x300"/>

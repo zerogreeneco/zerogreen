@@ -4,75 +4,29 @@ input:focus {
 }
 
 .form-area{
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0);
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-@media screen and (max-width: 763px) {
+@media screen and (max-width: 710px) {
     .form-area{
-        left: 30% !important;
-        transform: translate(-15%, 0) !important;
-    }
-
-    .search-input {
-        width: 180px !important;
+        margin-top: -50px;
     }
 
     .listNav{
-        left: 48% !important;
+        transform: translate(4%, 0) !important;
     }
 }
 
-@media screen and (max-width: 670px) {
-    .form-area{
-        left: 28% !important;
-        transform: translate(-15%, 0) !important;
-    }
-}
-
-@media screen and (max-width: 615px) {
-    .listNav {
-        left: 68% !important;
-        width: 100%;
-    }
-}
-
-
-@media screen and (max-width: 600px) {
-    .form-area{
-        left: 25% !important;
-        transform: translate(-15%, 0) !important;
-    }
-
-    .listNav {
-        left: 65% !important;
-    }
-}
-
-@media screen and (max-width: 535px) {
-    .form-area{
-        left: 20% !important;
-        transform: translate(-15%, 0) !important;
-    }
-
-    .listNav {
-        left: 60% !important;
+@media screen and (max-width: 763px) {
+    .search-input {
+        width: 180px !important;
     }
 }
 
 @media screen and (max-width: 474px) {
-    .form-area{
-        left: 15% !important;
-        transform: translate(-15%, 0) !important;
-    }
-
     .search-input{
         width: 150px !important;
-    }
-
-    .listNav {
-        left: 52% !important;
     }
 }
 
@@ -126,22 +80,25 @@ input:focus {
 
 /* StroeType */
 .listNav{
-    position: absolute;
-    top: 60px;
-    left: 50%;
-    transform: translate(-40%, 0);
+    transform: translate(3%, 0);
+    margin-top: 12px;
 }
+
 input[type="radio"] {
     display: none;
 }
 label{
+    display: inline-block;
     color: #16a085;
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 18px;
+    font-size: 16px;
+    min-width: 50px;
+    height: 20px;
     border: 2px solid #16a085;
     border-radius: 30px;
-    padding: 0 10px;
+    padding: 5px 15px;
     cursor: pointer;
+    text-align: center;
 }
 input[type="radio"]:checked + label{
     background-color: #16a085;
@@ -149,6 +106,10 @@ input[type="radio"]:checked + label{
 }
 
 /* Card */
+#card-align {
+    text-align: center;
+}
+
 .card{
     margin: 10px 20px 10px 0;
     display: inline-block;
