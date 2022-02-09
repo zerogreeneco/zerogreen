@@ -3,11 +3,13 @@ package zerogreen.eco.service.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import zerogreen.eco.dto.paging.PagingDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
@@ -157,9 +159,22 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         return storeMemberRepository.findByApprovalStore(userRole);
     }
 
+    //Shop List 출력
     @Override
     @Transactional
     public Slice<StoreDto> getShopList(Pageable pageable) {
         return storeMemberRepository.getShopList(pageable);
+    }
+
+    //Food List 출력
+    @Override
+    @Transactional
+    public Slice<StoreDto> getFoodList(Pageable pageable) {
+        return storeMemberRepository.getFoodList(pageable);
+    }
+
+    @Override
+    public Slice<StoreDto> getFoodTypeList(Pageable pageable, StoreType storeType) {
+        return storeMemberRepository.getFoodTypeList(pageable,storeType);
     }
 }

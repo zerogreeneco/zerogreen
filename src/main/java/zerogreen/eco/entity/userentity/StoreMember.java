@@ -30,14 +30,14 @@ public class StoreMember extends BasicUser{
     @Embedded
     private StoreInfo storeInfo;
 
-    @OneToMany(mappedBy = "storeMember")
+    @OneToMany(mappedBy = "storeMember", cascade = ALL)//영속성 전이, 부모 엔티티를 저장/삭제 자식 엔티티도 함께 저장/삭제
     private List<StoreMenu> menuList = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = ALL)
     @JoinColumn(name = "reg_file_id")
     private RegisterFile registerFile;
 
-    @OneToMany(mappedBy = "storeMember")
+    @OneToMany(mappedBy = "storeMember", cascade = ALL)
     private List<StoreImageFile> imageFiles = new ArrayList<>();
 
 

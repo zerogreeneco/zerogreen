@@ -175,8 +175,8 @@ html {
 	}
 
 	a {
-		color: #a1a1a1;
-		text-decoration: underline;
+		color: #000000FF;
+		text-decoration: none;
 	}
 
 		a:hover {
