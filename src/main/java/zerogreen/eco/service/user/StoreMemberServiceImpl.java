@@ -46,7 +46,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
 
         String encPassword = passwordEncoder.encode(storeMember.getPassword());
 
-        return storeMemberRepository.save(StoreMember.builder()
+        return storeMemberRepository.save(StoreMember.regBuilder()
                         .username(storeMember.getUsername())
                         .password(encPassword)
                         .phoneNumber(storeMember.getPhoneNumber())
@@ -67,12 +67,47 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     @Transactional
     @Override
     public Long saveV2(StoreMember storeMember, RegisterFile registerFile) {
-
         String encPassword = passwordEncoder.encode(storeMember.getPassword());
         return storeMemberRepository.save(new StoreMember(storeMember.getUsername(), storeMember.getPhoneNumber(),
                         encPassword, UserRole.STORE, storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(), storeMember.getStoreInfo().getPostalCode(),
-                        storeMember.getStoreInfo().getStoreAddress(), storeMember.getStoreInfo().getStoreDetailAddress(),storeMember.getStoreInfo().getStorePhoneNumber(), registerFile))
+                        storeMember.getStoreInfo().getStoreAddress(), storeMember.getStoreInfo().getStoreDetailAddress(), storeMember.getStoreInfo().getStorePhoneNumber(), registerFile))
                 .getId();
+    }
+
+    //test data V2,
+    @Transactional
+    @Override
+    public Long saveV3(StoreMember storeMember) {
+        String encPassword = passwordEncoder.encode(storeMember.getPassword());
+        RegisterFile registerFile1 = new RegisterFile("testFile", "testFile", "testFile");
+        return storeMemberRepository.save(new StoreMember(storeMember.getUsername(), storeMember.getPhoneNumber(),
+                        encPassword, UserRole.STORE, storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(), storeMember.getStoreInfo().getPostalCode(),
+                        storeMember.getStoreInfo().getStoreAddress(), storeMember.getStoreInfo().getStoreDetailAddress(),storeMember.getStoreInfo().getStorePhoneNumber(),
+                        storeMember.getStoreInfo().getStoreDescription(), storeMember.getStoreInfo().getSocialAddress1() ,storeMember.getStoreInfo(). getSocialAddress2(),
+                        storeMember.getStoreInfo().getOpenTime(), storeMember.getStoreInfo().getCloseTime(), registerFile1))
+                .getId();
+/*
+        return storeMemberRepository.save(StoreMember.testBuilder()
+                        .username(storeMember.getUsername())
+                        .phoneNumber(storeMember.getPhoneNumber())
+                        .password(encPassword)
+                        .userRole(UserRole.STORE)
+                        .storeName(storeMember.getStoreName())
+                        .storeRegNum(storeMember.getStoreRegNum())
+                        .storeType(StoreType.ECO_SHOP)
+                        .storeAddress(storeMember.getStoreInfo().getStoreAddress())
+                        .storeDetailAddress(storeMember.getStoreInfo().getStoreDetailAddress())
+                        .socialAddress1(storeMember.getStoreInfo().getSocialAddress1())
+                        .socialAddress2(storeMember.getStoreInfo().getSocialAddress2())
+                        .storePhoneNumber(storeMember.getStoreInfo().getStorePhoneNumber())
+                        .storeDescription(storeMember.getStoreInfo().getStoreDescription())
+                        .postalCode(storeMember.getStoreInfo().getPostalCode())
+                        .openTime(storeMember.getStoreInfo().getOpenTime())
+                        .closeTime(storeMember.getStoreInfo().getCloseTime())
+                        .registerFile(registerFile1)
+                        .build())
+                .getId();
+*/
     }
 
 
@@ -113,7 +148,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
                 .storeName(storeMember.getStoreName())
                 .storeType(storeMember.getStoreType())
                 .storeInfo(storeMember.getStoreInfo())
-                .count(likesRepository.counting(storeMember))
+                .count(likesRepository.counting(storeMember.getId()))
                 .menuList(storeMenus)
                 .build();
     }

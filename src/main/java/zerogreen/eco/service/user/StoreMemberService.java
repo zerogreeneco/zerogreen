@@ -17,6 +17,7 @@ public interface StoreMemberService {
     Long save(StoreMember storeMember, RegisterFile registerFile);
     //스토어 회원가입 테스트 데이터용
     Long saveV2(StoreMember storeMember, RegisterFile register);
+    Long saveV3(StoreMember storeMember);
     void storeInfoSave(StoreMember storeMember);
 
     void imageSave(Long id, List<StoreImageFile> storeImageFile);

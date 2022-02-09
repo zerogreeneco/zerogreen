@@ -41,8 +41,8 @@ public class StoreMember extends BasicUser{
     private List<StoreImageFile> imageFiles = new ArrayList<>();
 
 
-    // 회원 가입
-    @Builder
+    // 회원 가입 (saveV2까지)
+    @Builder(builderMethodName = "regBuilder")
     public StoreMember(String username, String phoneNumber, String password, UserRole userRole,
                        String storeName, String storeRegNum, StoreType storeType, String postalCode, String storeAddress,
                        String storeDetailAddress, String storePhoneNumber, RegisterFile registerFile) {
@@ -56,7 +56,7 @@ public class StoreMember extends BasicUser{
     }
 
     //회원가입 테스트데이터용, 예진이
-/*
+    @Builder(builderMethodName = "testBuilder")
     public StoreMember(String username, String phoneNumber, String password, UserRole userRole,
                        String storeName, String storeRegNum, StoreType storeType, String postalCode, String storeAddress,
                        String storeDetailAddress, String storePhoneNumber, String storeDescription, String socialAddress1,
@@ -70,9 +70,9 @@ public class StoreMember extends BasicUser{
                 socialAddress1, socialAddress2, openTime, closeTime);
         this.setRegisterFile(new RegisterFile(registerFile.getUploadFileName(), registerFile.getStoreFileName(), registerFile.getFilePath()));
     }
-*/
 
-    // DTO -> 엔티티
+
+    // DTO -> 엔티티 (테스트 saveV2에서 쓰는 생성자)
     public StoreMember(String username, String phoneNumber, String password, UserRole userRole, String storeName,
                        String storeRegNum, StoreType storeType, String storeAddress,
                        String storeDetailAddress,String storePhoneNumber, String postalCode) {

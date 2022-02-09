@@ -5,38 +5,42 @@
         <!-- 페이지 css/ js 추가 -->
         <link th:href="@{/bootstrap/css/page/list.css}" rel="stylesheet"/>
         <!-- 본문 시작 -->
-        <!--검색-->
-        <div id="search-wrap">
-            <form th:action="@{/shop/list}" method="get" id="shopSearchForm">
-                <div class="input-group-prepend">
+        <div>
+            <!--검색-->
+            <div style="position: relative;">
+                <form class="form-area" th:action="@{/shop/list}" method="get" id="shopSearchForm">
                     <input type="hidden" name="page" value="1">
                     <select class="dropdown" name="type">
                         <option>가게 이름</option>
                         <option>상품</option>
                     </select>
-                    <input id="search-bar" name="keyword">
-                    <img class="btn_truncate" th:src="@{/bootstrap/images/list/close.png}"/>
-                    <button type="button" class="btn_search">
-                        <i class="fa fa-search"></i>
+                    <div id="search-bar">
+                        <input class="search-input" name="keyword">
+                        <img class="btn_truncate" th:src="@{/bootstrap/images/list/close.png}"/>
+                    </div>
+                    <button class="btn_search">
+                       <img class="search_icon" th:src="@{/bootstrap/images/list/search.png}">
                     </button>
-                </div>
-            </form>
-        </div>
-
-        <!-- 가게 리스트 -->
-        <div class="card" th:each="list : ${list}"
-             th:onclick="|javascript:goStore('${list.id}')|">
-            <div class="card-header">
-                <img src="http://placehold.it/300x300"/>
+                </form>
             </div>
-            <div class="shopList-box">
-                <div class="card-body">
-                    <span class="like"><img class="icon" th:src="@{/bootstrap/images/list/heart.png}"> 1230</span>
-                    <span class="shop-name">[[${list.storeName}]]</span>
-                    <span><img class="icon" th:src="@{/bootstrap/images/list/call.png}"> [[${list.storePhoneNumber}]]</span>
-                    <span th:if="${list.openTime}==null"><img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> 매장 확인 필요</span>
-                    <span th:if="${list.openTime}!=null"><img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> [[${list.openTime}]] ~ [[${list.closeTime}]]</span>
-                    <span><img class="icon" th:src="@{/bootstrap/images/list/box.png}"> 대나무 헬리콥터</span>
+
+            <div style="position: relative;">
+                <div id="card-align">
+                    <!-- 가게 리스트 -->
+                    <div class="card" th:each="list : ${list}">
+                        <div class="card-header">
+                            <img src="http://placehold.it/300x300"/>
+                        </div>
+                        <div class="shopList-box">
+                            <div class="card-body">
+                                <span class="like"><img class="icon" th:src="@{/bootstrap/images/list/heart.png}"> 1230</span>
+                                <span class="shop-name">[[${list.storeName}]]</span>
+                                <span><img class="icon" th:src="@{/bootstrap/images/list/call.png}"> [[${list.storePhoneNumber}]]</span>
+                                <span><img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> [[${list.openTime}]] ~ [[${list.closeTime}]]</span>
+                                <span><img class="icon" th:src="@{/bootstrap/images/list/box.png}"> 대나무 헬리콥터</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

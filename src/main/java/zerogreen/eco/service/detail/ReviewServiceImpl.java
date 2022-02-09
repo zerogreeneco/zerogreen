@@ -8,16 +8,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.dto.detail.StoreReviewDto;
+import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.detail.MemberReview;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.detail.StoreReview;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.repository.detail.MemberReviewRepository;
+import zerogreen.eco.repository.detail.ReviewImageRepository;
 import zerogreen.eco.repository.detail.StoreReviewRepository;
 import zerogreen.eco.repository.user.BasicUserRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -28,17 +33,30 @@ public class ReviewServiceImpl implements ReviewService{
     private final StoreMemberRepository storeMemberRepository;
     private final BasicUserRepository basicUserRepository;
     private final StoreReviewRepository storeReviewRepository;
+    private final ReviewImageRepository reviewImageRepository;
 
-    //멤버리뷰 DB저장(db저장은 엔티티)
+    //멤버리뷰 DB저장
     @Override
     @Transactional
-    public Long saveReview(MemberReviewDto memberReviewDto) {
+    public Long saveReview(MemberReviewDto memberReviewDto, List<ReviewImage> reviewImages) {
         BasicUser findUser = basicUserRepository.findByUsername(memberReviewDto.getUsername()).orElseThrow();
         StoreMember findStore = storeMemberRepository.findById(memberReviewDto.getId()).orElseThrow();
 
-        return memberReviewRepository.save( new MemberReview(memberReviewDto.getReviewText(),
-                        findUser, findStore))
-                .getId();
+        MemberReview saveReview = memberReviewRepository.save( new MemberReview(memberReviewDto.getReviewText(),
+                        findUser, findStore));
+
+        memberReviewRepository.flush();
+        log.info("aaaaaaaaSaveTextReview " + saveReview);
+
+        if(reviewImages.size() != 0) {
+            for (ReviewImage reviewImage : reviewImages) {
+                log.info("aaaaaaaareviewImage " + reviewImage);
+
+                reviewImageRepository.save(new ReviewImage(
+                        reviewImage.getUploadFileName(), reviewImage.getReviewFileName(), reviewImage.getFilePath(), saveReview));
+            }
+        }
+        return saveReview.getId();
     }
 
     //멤버리뷰 테스트 데이터 저장
@@ -56,8 +74,7 @@ public class ReviewServiceImpl implements ReviewService{
     //가게별 멤버 리뷰 수 카운팅
     @Override
     public Long cntMemberReview(Long sno) {
-        StoreMember findStore = storeMemberRepository.findById(sno).orElseThrow();
-        return memberReviewRepository.counting(findStore);
+        return memberReviewRepository.counting(sno);
     }
 
     //멤버 리뷰 리스트
@@ -66,6 +83,15 @@ public class ReviewServiceImpl implements ReviewService{
         StoreMember findStore = storeMemberRepository.findById(sno).orElseThrow();
         return memberReviewRepository.findByStore(pageable, findStore);
     }
+/*
+    public List<MemberReviewDto> getMemberReviewList(Long sno) {
+        log.info("~~~~~~66 " + sno);
+        List<MemberReview> result = memberReviewRepository.findByStore(sno);
+        log.info("~~~~~77 " + result);
+
+        return result.stream().map(MemberReviewDto::new).collect(Collectors.toList());
+    }
+*/
 
     //멤버리뷰 삭제
     @Override
@@ -122,6 +148,22 @@ public class ReviewServiceImpl implements ReviewService{
             storeReviewRepository.save(review);
         }
     }
+
+    //회원별 전체 리뷰 수 카운팅 (memberMyInfo)
+    @Override
+    public Long countReviewByUser(Long id) {
+        BasicUser findUser = basicUserRepository.findById(id).orElseThrow();
+        return memberReviewRepository.countReviewByUser(findUser);
+    }
+
+    //회원별 리뷰남긴 가게 리스트 (memberMyInfo)
+    @Override
+    public List<MemberReviewDto> getReviewByUser(Long id) {
+        BasicUser findUser = basicUserRepository.findById(id).orElseThrow();
+        List<MemberReview> result = memberReviewRepository.getReviewByUser(findUser);
+        return result.stream().map(MemberReviewDto::new).collect(Collectors.toList());
+    }
+
 
 
 }

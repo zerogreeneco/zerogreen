@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}">
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
 
     <!-- 페이지 css/ js 추가 -->
@@ -10,12 +10,17 @@
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <div class="row gtr-200">
         <!--    왼쪽 프로필-->
-        <div class="temp1 profile">div
-            <div class="profile-div">
+        <div class="temp1 profile">
+            <div class="profile-div inline">
                 <div>프로필사진 위치</div>
-                <span class="profile-name">김그네님</span>
+                <span class="profile-name">[[${profile.nickname}]]</span>
+                <span class="profile-name">님</span>
             </div>
-            <div class="profile-div"><button type="button" class="editMyInfo profile-btn">내정보 수정</button></div>
+            <div class="profile-div">
+                <!-- 내정보 버튼 둘 중에 하나 쓸거임 -->
+                <span th:onclick="|javascript:goAccount('${profile.id}')|" >내정보</span>
+                <button type="button" class="editMyInfo profile-btn">내정보</button>
+            </div>
             <div class="profile-div"><button type="button" class="message profile-btn">쪽지함</button></div>
         </div>
 
@@ -23,12 +28,12 @@
         <div class="temp2">
             <!--     우측 상단 찜한가게+내 리뷰-->
             <div class="counting">
-                <div class="div-cnt">
-                    <span>Count</span><br>
+                <div class="div-cnt inline">
+                    <span>[[${likesCount}]]</span><br>
                     <span>찜 한 가게</span>
                 </div>
-                <div class="div-cnt">
-                    <span>Count</span><br>
+                <div class="div-cnt inline">
+                    <span>[[${reviewCount}]]</span><br>
                     <span>내 리뷰</span>
                 </div>
             </div>
@@ -36,15 +41,43 @@
             <!--     찜한가게-->
             <div class="listing">
                 <span class="textList">찜한가게</span>
-                <div>사진과 가게 명</div>
+                <div>라이크넘버, 가게명</div>
+                <!-- 임시리스트 -->
+                <div th:each="likes: ${listOfLikes}">
+                    <span>[[${likes.lno}]]</span>
+                    <span>[[${likes.storeMember.storeName}]]</span>
+                </div>
+
             </div>
+            <!-- end liked stores -->
 
             <!--     내 리뷰-->
             <div class="listing">
                 <span class="textList">내 리뷰</span>
-                <div>사진, 가게명, 리뷰내용</div>
+                <div>리뷰넘버, 가게명, 등록시간</div>
+
+                <!-- 임시리스트 -->
+                <div th:each="review: ${listOfReview}">
+                    <span>[[${review.rno}]]</span>
+                    <span>[[${review.storeMember.storeName}]]</span>
+                    <span>[[${#temporals.format(review.createdDate, 'yyyy-MM-dd HH:mm')}]]</span>
+                </div>
+
             </div>
+            <!-- end myReviews -->
         </div>
+        <!-- end of right section -->
     </div>
+    <!-- end page -->
+
+
+    <script th:inline="javascript">
+        function goAccount(id) {
+            //alert('goAccount');
+            var url = [[@{/members/account}]];
+            location.href = url;
+        }
+    </script>
+
     </th:block>
 </th:block>

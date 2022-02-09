@@ -5,23 +5,23 @@
         <!-- 페이지 css/ js 추가 -->
         <link th:href="@{/bootstrap/css/page/list.css}" rel="stylesheet"/>
         <!-- 본문 시작 -->
-        <div id="search-wrap">
+        <!--검색-->
+        <div class="form-area">
             <form th:action="@{/food/list}" method="get" id="foodSearchForm">
-                <div class="input-group-prepend">
-                    <input type="hidden" name="page" value="1">
-<!--                    <select class="dropdown" name="type">-->
-<!--                        <option>식당 이름</option>-->
-<!--                        <option>메뉴</option>-->
-<!--                    </select>-->
-                    <input id="search-bar" name="keyword">
+                <input type="hidden" name="page" value="1">
+                <select class="dropdown" name="type">
+                    <option>식당 이름</option>
+                    <option>메뉴</option>
+                </select>
+                <div id="search-bar">
+                    <input class="search-input" name="keyword">
                     <img class="btn_truncate" th:src="@{/bootstrap/images/list/close.png}"/>
-                    <button type="button" class="btn_search">
-                        <i class="fa fa-search"></i>
-                    </button>
                 </div>
+                <button class="btn_search">
+                    <img class="search_icon" th:src="@{/bootstrap/images/list/search.png}">
+                </button>
             </form>
-        </div>
-
+          
         <!-- 사업장 종류 -->
         <div class="listNav">
             <input type="radio" class="form-check-input storeType" id="radio1" name="storeType" checked>
@@ -40,7 +40,6 @@
 <!--            <label class="form-check-label" for="radio3">친환경 포장</label>-->
             <label class="form-check-label" for="radio3">친환경 포장</label>
 <!--                <a class="storeType" th:href="@{/food/list(type=GENERAL_FOOD)}">친환경 포장</a></label>-->
-
         </div>
 
         <!-- 가게 리스트 -->

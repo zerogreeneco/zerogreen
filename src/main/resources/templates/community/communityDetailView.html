@@ -2,6 +2,7 @@
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
         <style>
+            /* 공통 설정 */
             .cm-main-wrapper {
                 width: 700px;
                 margin: 0 auto;
@@ -14,15 +15,106 @@
                 margin-bottom: 15px;
             }
 
-            .review-text {
-                resize: none;
-                height: 100px;
+            hr {
                 width: 700px;
-                border-radius: 5px;
-                font-size: 14px;
-                padding: 10px;
             }
 
+            /* 제목 */
+            .cm-main-wrapper #category {
+                border: 1px solid #fff;
+                border-radius: 5px;
+                text-decoration: none;
+                background-color: #16a085;
+                padding: 3px;
+                color: #fff;
+            }
+
+            #category {
+                margin-bottom: 20px;
+            }
+
+            #nickname {
+                font-weight: bold;
+                font-size: 1.2em;
+            }
+
+            /* 리뷰 작성란 */
+            .review-send {
+                border: 1px solid #898c91;
+                border-radius: 5px;
+                height: 165px;
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+
+            .review-send #cm-input-name {
+                margin-bottom: 15px;
+            }
+
+            .review-send #review-send-btn {
+                float: right;
+            }
+
+            .review-text {
+                resize: none;
+                min-height: 5rem;
+                width: 670px;
+                border-radius: 5px;
+                border: none;
+                font-size: 14px;
+                padding: 10px;
+                overflow: hidden;
+                outline-color: #fff;
+            }
+
+            #text-count {
+                float: right;
+                font-size: 0.8em;
+            }
+
+
+            /* 리뷰 출력란 */
+            #review-table a {
+                float: right;
+                cursor: pointer;
+                text-decoration: none;
+                padding: 8px;
+                margin-bottom: 7px;
+            }
+
+            .comment-wrapper {
+                padding: 20px;
+            }
+
+            .rp-text {
+                word-wrap: break-word;
+            }
+
+            .modify-test {
+                border: 1px solid #898c91;
+                border-radius: 5px;
+                width: 640px;
+                height: 25px;
+                font-size: 14px;
+                overflow: hidden;
+                resize: none;
+            }
+
+            /* 대댓글 */
+            .nested-reply-input {
+                border: 1px solid #898c91;
+                border-radius: 5px;
+                width: 660px;
+                height: 45px;
+                resize: none;
+                overflow: hidden;
+            }
+
+            .nested-list {
+                padding: 50px;
+            }
+
+            /* 좋아요*/
             like-btn {
                 cursor: pointer;
             }
@@ -30,6 +122,7 @@
             .like-img {
                 width: 17px;
                 height: 17px;
+                margin-right: 5px;
             }
 
         </style>
@@ -37,6 +130,7 @@
             $(function () {
 
                 let boardId = $("#id").val();
+                let table = $("#review-table");
 
                 $("#like-btn").click(function () {
 
@@ -59,17 +153,14 @@
                         });
                 }); // like-btn end.
 
-                $(".nested-reply-btn").on("click", function () {
-
-                });
-
                 $("#review-send-btn").click(function () {
-
                     let text = $("#text").val();
-                    console.log("Text= " + text)
+
                     $.ajax({
                         url: "/zerogreen/community/" + boardId + "/reply",
                         method: "post",
+                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                        // dataType: "json",
                         data: {
                             boardId: boardId,
                             text: text
@@ -77,29 +168,167 @@
                     })
                         .done(function (fragment) {
                             $("#review-table").replaceWith(fragment);
+                            // getReplyData(boardId, table);
                             alert("댓글이 등록되었습니다.");
+                            $("#text").val("");
+                            $("#text-count").text("0 / 100");
                         });
+
                 }); // review send end.
 
-                function replaceTag() {
-                    alert("왜????");
-                    $(".rp-text").replaceWith(function () {
-                        return $('<input>', {type: 'text', name: 'text'})
-                    });
-                }
+                $("#text").on("keyup", function () {
+                    $("#text-count").html($(this).val().length + " / 100");
 
-            });
+                    if ($(this).val().length > 100) {
+                        $(this).val($(this).val().substring(0, 100));
+                        alert("100자까지 입력이 가능합니다.");
+                        $("#text-count").html("100 / 100");
+                    }
+                });
+
+            }); // onload end.
+
+            let boardId = $("#id").val();
+
+            function textareaResize(obj) {
+                obj.style.height = "1px";
+                obj.style.height = (12 + obj.scrollHeight) + "px";
+            }
+
+            function getReplyData(boardId, table) {
+
+                $.getJSON("/zerogreen/community/" + boardId + "/replyList", function (list) {
+
+                    let html= "";
+
+                    $.each(list, function (key, value) {
+                        console.log("key=" + key);
+                        console.log("value= " + value.text);
+
+                        html += "<div class='comment-wrapper'>";
+                        // html += "<input type='hidden' class='replyId' value=" + value.id + ">";
+                        html += "<div>" + value.replier + "</div>";
+                        html += "<p class='rp-text'>"+ value.text +"</p>"
+                        html += "<a type='button' class='modify-test-btn' style='display: none;' onclick='modifyReply(this)'>수정</a>";
+                        html += "<div>" + value.createdTime + "</div>";
+                        html += "<a class='nested-reply-btn' onClick='nestedReplyInput(this)'>답글</a>";
+                        html += "<a>삭제</a>";
+                        html += "<a class='rp-modify-btn' onclick='replaceTag(this)'>수정</a>";
+                        html += "<div></div>";
+                        html += "<div class='nested-reply-wrapper' style='display: none;'>";
+                        html += "<textarea class='nested-reply-input'></textarea>";
+                        html += "<span>0 / 100</span>";
+                        html += "<a onclick='nestedReplySend(this)'>답글 달기</a>";
+                        html += "<a>취소</a>";
+                        html += "</div>";
+                        html += "<hr/>";
+                        html += "</div>"
+                    })
+                    table.html(html);
+                });
+            } // getReplyData end
+
+            function getNestedReplyData(table, replyId) {
+                let html = "";
+
+                $.getJSON("/zerogreen/community/" + replyId + "/nestedReplyList", function (list) {
+                    $.each(list, function (key, value) {
+                        html += "<div id='nested-reply'>";
+                        html += "<div class='cm-replier'>" + value.replier + "</div>";
+                        html += "<p class='cm-reply-text'>" + value.text + "</p>";
+                        html += "<div>" + value.createdTime + "</div>";
+                        html += "</div>";
+                    })
+                table.append(html);
+                });
+            }
+
+            // 태그 변경
+            function replaceTag(event) {
+                let thisBtn = $(event);
+                let rpText = thisBtn.parent().find(".rp-text");
+                let text = rpText.text();
+                rpText.replaceWith("<textarea class='modify-test' name='text'>" + text + "</textarea>");
+                thisBtn.parent().find(".modify-test-btn").show();
+            }
+
+            function nestedReplyInput(event) {
+                let inputAdd = $(event);
+                inputAdd.parent().find(".nested-reply-wrapper").show();
+            }
+
+            // 댓글 수정
+            function modifyReply(event) {
+                let boardId = $("#id").val();
+                let modifyBtn = $(event);
+                let replyId = modifyBtn.parent().find(".replyId").val();
+                let text = modifyBtn.parent().find(".modify-test");
+                console.log(text.text());
+
+                $.ajax({
+                    url: "/zerogreen/community/" + boardId + "/replyModify/" + replyId,
+                    method: "post",
+                    dataType: "json",
+                    data: {
+                        boardId: boardId,
+                        replyId: replyId,
+                        text: text.text()
+                    }
+                })
+                    .done(function (data) {
+                        if (data.result === "success") {
+                            alert("성공");
+                            text.replaceWith("<p class='rp-text'>" + text.val() + "</p>")
+                            $(".rp-text:eq(1)").remove();
+                            $(".replyId").next(".modify-test").hide();
+                            $(".replyId").next(".modify-test-btn").hide();
+                            // location.reload()
+                        } else {
+                            alert("실패");
+                        }
+                    })
+            }
+
+            // 대댓글
+            function nestedReplySend(event) {
+                let boardId = $("#id").val();
+                let replyBtn = $(event);
+                let replyId = replyBtn.parents(".comment-wrapper").find(".replyId").val();
+                let text = replyBtn.parent().children(".nested-reply-input").val();
+                let table = replyBtn.closest("#nested-reply");
+                console.log(replyBtn.parents(".comment-wrapper").find(".replyId"));
+                $.ajax({
+                    url: "/zerogreen/community/" + boardId + "/" + replyId + "/nestedReply",
+                    method: "post",
+                    data: {
+                        boardId: boardId,
+                        replyId: replyId,
+                        text: text
+                    },
+                })
+                    .done(function (fragment) {
+                        $("#review-table").replaceWith(fragment);
+
+                        // getNestedReplyData(table, replyId);
+                        // $("#nested-reply").replaceWith(fragment);
+                        // replyBtn.parents(".nested-reply-wrapper").hide();
+                    })
+
+            }
         </script>
         <div th:object="${detailView}" class="cm-main-wrapper">
             <!-- 상세보기 제목 -->
             <input type="hidden" th:field="*{id}">
             <!-- 카테고리 -->
-            <h1 th:field="*{category}" th:text="*{category.categoryName}"><a></a></h1>
+            <div th:field="*{category}">
+                <a id="category" th:href="@{/community(category=${detailView.category.name()}) }"
+                   th:text="*{category.categoryName}"></a>
+            </div>
             <!-- 작성자 -->
-            <p th:field="*{nickname}" th:text="*{nickname}"></p>
+            <p id="nickname" th:field="*{nickname}" th:text="*{nickname}"></p>
             <!-- 작성일자 -->
-            <div th:field="*{modifiedDate}"
-                 th:text="${#temporals.format(detailView.modifiedDate, 'yyyy-MM-dd HH:mm')}"></div>
+            <span th:field="*{modifiedDate}"
+                  th:text="${#temporals.format(detailView.modifiedDate, 'yyyy-MM-dd HH:mm')}"></span>
             <!-- 조회수 -->
             <span th:field="*{count}">
                 <img th:src="@{/bootstrap/images/list/visibility.png}" width="17px" height="17px">[[*{count}]]
@@ -107,7 +336,8 @@
             <!-- 회원 좋아요 -->
             <span sec:authorize="isAuthenticated()" id="like-wrapper">
                 <span class="like-count" th:if="${likeCount} == 0">
-                    <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"></span>
+                    <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/disLike.png}"
+                                             class="like-img"></span>
                     <span class="test-count">[[*{like}]]</span>
                 </span>
                 <span class="like-count" th:if="${likeCount} == 1">
@@ -117,7 +347,8 @@
             </span>
             <!-- 비회원 좋아요 -->
             <span sec:authorize="isAnonymous()">
-                <span><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"> [[*{like}]]
+                <span>
+                    <img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"> [[*{like}]]
                 </span>
             </span>
         </div>
@@ -126,45 +357,51 @@
         <div th:object="${detailView}" class="cm-main-wrapper">
             <div th:field="*{text}" th:text="*{text}"></div>
         </div>
-            <div th:each="imageFile : ${images}" class="image-wrapper">
-                <img th:src="@{/community/images/{imageFile}(imageFile=*{imageFile.storeFileName})}" th:value="${imageFile.uploadFileName}"
-                width="700px" height="auto">
-            </div>
+        <!-- 이미지 -->
+        <div th:each="imageFile : ${images}" class="image-wrapper">
+            <img th:src="@{/community/images/{imageFile}(imageFile=*{imageFile.storeFileName})}"
+                 th:value="${imageFile.uploadFileName}"
+                 width="700px" height="auto">
+        </div>
         <hr/>
         <!-- 상세보기 리뷰 -->
-        <div id="cm-review-wrapper cm-main-wrapper">
+        <div id="cm-review-wrapper" class="cm-main-wrapper">
             <div class="review-send" sec:authorize="isAuthenticated()">
                 <form th:object="${reply}" method="post">
-                    <textarea th:field="*{text}" class="review-text"></textarea>
+                    <input type="hidden" th:field="*{replyId}">
+                    <p id="cm-input-name">작성자<span id="text-count">0 / 100</span></p>
+                    <textarea th:field="*{text}" class="review-text" placeholder="댓글을 남겨주세요."></textarea>
+                    <a type="button" id="review-send-btn">리뷰 작성</a>
                 </form>
-                <button type="button" id="review-send-btn">리뷰 작성</button>
             </div>
-            <div id="review-table">
+            <div id="review-table" class="cm-main-wrapper">
                 <div th:each="replyList : ${replyList}">
-                    <form>
-                        <input type="hidden" th:value="${replyList.id}">
+                    <div class="comment-wrapper">
+                        <input type="hidden" th:value="${replyList.replyId}" class="replyId">
                         <div th:text="${replyList.replier}"></div>
                         <p class="rp-text" th:text="${replyList.text}"></p>
+                        <a type="button" class="modify-test-btn" style="display: none;"
+                           onclick="modifyReply(this)">수정
+                        </a>
                         <div th:text="${#temporals.format(replyList.createdTime, 'yyyy-MM-dd HH:mm')}"></div>
-                        <div>
+                        <a class="nested-reply-btn" onclick="nestedReplyInput(this)">답글</a>
+                        <a>삭제</a>
+                        <a class="rp-modify-btn" onclick="replaceTag(this)">수정</a>
+                        <div></div>
+                        <div class="nested-reply-wrapper" style="display: none;">
+                            <textarea class="nested-reply-input"></textarea>
+                            <span>0 / 100</span>
+                            <a onclick="nestedReplySend(this)">답글 달기</a>
+                            <a>취소</a>
                         </div>
                         <hr/>
-                    </form>
-                    <!-- 대댓글 입력 -->
-
-                    <!-- 대댓글 -->
-                    <div id="nested-reply">
-                        <form>
-                            <div th:each="nestedReply : ${nestedReply}">
-                                <div th:text="${nestedReply.replier}"></div>
-                                <p th:text="${nestedReply.text}"></p>
-                                <div th:text="${#temporals.format(nestedReply.createdTime, 'yyyy-MM-dd HH:mm')}"></div>
-                            </div>
-                        </form>
+                        <div class="nested-list" th:each="nestedList : ${replyList.nestedReplyList}">
+                            <p th:text="${nestedList.replier.username}"></p>
+                            <p th:text="${nestedList.replyContent}"></p>
+                            <p th:text="${#temporals.format(nestedList.createdDate, 'yyyy-MM-dd HH:mm')}"></p>
+                            <hr/>
+                        </div>
                     </div>
-                    <button type="button" class="rp-modify-btn" th:onclick="replaceTag()">수정</button>
-                    <button type="button" class="nested-reply-btn">대댓글</button>
-                    <button type="button">삭제</button>
                 </div>
             </div>
         </div>

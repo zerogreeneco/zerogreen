@@ -2,7 +2,7 @@
     background: #cbced4;
 }
 .temp2 {
-    background: #898c91;
+    background:#f5f5f5;
 }
 
 .detail-top {
@@ -11,7 +11,7 @@
 
 .top, .thr {
     display: inline-block;
-    background: #7e9cd9;
+    background: #c7c7c7;
 }
 
 .store-name {
@@ -36,16 +36,27 @@
     text-align: right;
 }
 
+.liking {
+    width: 30px;
+    height: 30px;
+}
+
 /* 3열 */
 .detail-thr {
     height: auto;
     margin: 10px 0 10px 0;
+    line-height: 130%;
 }
 
-.thr {
+.thr-thr {
     height: auto;
     width: 50%;
     padding: 10px;
+    text-align: center;
+}
+
+.thr {
+    text-align: left;
 }
 
 /* 4열 지도 */
@@ -62,6 +73,9 @@
 
 textarea {
     resize: none;
+    overflow: hidden;
+    font-size: 1.1em;
+    padding: 5px 5px 5px 8px;
 }
 
 textarea:focus {
@@ -69,7 +83,7 @@ textarea:focus {
 }
 
 .rv {
-    height: 130px;
+    height: auto;
     text-align: center;
 }
 
@@ -84,7 +98,7 @@ textarea:focus {
 
 #reviewText {
     width: 900px;
-    height: 80px;
+    min-height: 80px;
     border: none;
     padding: 10px;
     font-size: 0.9em;
@@ -95,7 +109,7 @@ textarea:focus {
 }
 
 #rv-btn {
-    margin-bottom: 20px;
+    margin: 10px 0 15px;
 }
 
 .reviewBox {
@@ -113,17 +127,18 @@ textarea:focus {
 
 .mrv-textarea, .srv-textarea {
     background: none;
-    border: 1px solid black;
-    width: 900px;
-    margin: 8px;
-    height: auto;
+    //border: 1px solid black;
+    border: none;
+    max-width: 900px;
+    margin: 8px 8px 3px 8px;
+    //height: auto;
 }
 
 .srv-input-textarea {
     border: #16a085;
 }
 
-.mrv-btn {
+.rvrv-btn {
     background: #3498db;
     color: #ffffff;
     border-radius: 5px;
@@ -131,24 +146,42 @@ textarea:focus {
     padding: 8px;
 }
 
-.mrv-btn:hover {
+.mrv-btn {
+    font-size: 0.9em;
+    padding: 5px;
+}
+
+.mrv-btn:hover, .rvrv-btn:hover {
     cursor: pointer;
 }
 
 .mrv-delete, .srv-adding, .srv-toAdd, .srv-delete {
-    margin: 0 20px 15px 10px;
+    margin: 0 5px 10px 5px;
 }
 
 .rv-nickname {
+    font-size: 1.05em;
+    display: inline-block;
+    margin-top: 8px;
+    margin-left: 8px;
+}
+
+.srv-storeName {
     font-size: 1.1em;
     display: inline-block;
     margin-top: 8px;
     margin-left: 8px;
 }
 
+.rv-date {
+    font-size: 0.9em;
+    margin-bottom:5px;
+}
+
 /* mixed css */
 .inline {
-    display: inline-block;
+    display: inline-flex;
+    line-height: 22px;
 }
 
 .sec-flex, .detail-thr {

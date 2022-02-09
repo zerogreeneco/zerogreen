@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,12 +17,17 @@ import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.dto.detail.StoreReviewDto;
 import zerogreen.eco.dto.paging.PagingDto;
 import zerogreen.eco.dto.paging.RequestPageDto;
+import zerogreen.eco.dto.paging.RequestPageSortDto;
+import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.detail.MemberReview;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.security.auth.PrincipalDetails;
+import zerogreen.eco.service.detail.ReviewImageService;
 import zerogreen.eco.service.detail.ReviewService;
 import zerogreen.eco.service.user.StoreMemberService;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,15 +39,36 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final StoreMemberService storeMemberService;
+    private final ReviewImageService reviewImageService;
 
     //멤버 리뷰 db
     @ResponseBody
     @PostMapping("/addReview/{id}")
     public Long addReview(@Validated @RequestBody MemberReviewDto memberReviewdto, BindingResult bindingResult,
-                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
-            Long result = reviewService.saveReview(memberReviewdto);
-            return result;
+                          @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+
+        List<ReviewImage> reviewImages = reviewImageService.reviewImageFiles(memberReviewdto.getImageFiles());
+        log.info("aaaaaacontroller1 "+ reviewImages.size());
+        Long rno = reviewService.saveReview(memberReviewdto, reviewImages);
+
+        return rno;
     }
+
+    //멤버 리뷰 db. ajax 작업용
+/*
+    @ResponseBody
+    @PostMapping("/addReview/{sno}")
+    public String addReview(@PathVariable("sno") Long sno, RequestPageSortDto requestPageSortDto,
+                            @Validated @RequestBody MemberReviewDto memberReviewdto, BindingResult bindingResult,
+                            @AuthenticationPrincipal PrincipalDetails principalDetails,
+                            Model model) {
+            //저장 됨
+            reviewService.saveReview(memberReviewdto);
+            model.addAttribute("memberReview",reviewService.getMemberReviewList(sno));
+            log.info("~~~~~~List: " + reviewService.getMemberReviewList(sno));
+            return "page/detail :: #rv-list";
+    }
+*/
 
     //멤버리뷰 삭제
     @ResponseBody

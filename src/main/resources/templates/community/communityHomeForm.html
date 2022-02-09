@@ -27,6 +27,11 @@
                             }
                         });
                 }); // like-btn end.
+
+                $("#top-btn").click(function () {
+                    $('html, body').animate({scrollTop: 0}, '400');
+                });
+
             });
         </script>
         <style>
@@ -111,6 +116,27 @@
                 cursor: pointer;
             }
 
+            #write-btn {
+                position: fixed;
+                bottom: 16%;
+                right: 4%;
+                width: 70px;
+                height: 70px;
+                border-radius: 50px;
+                background: #f1c40f;
+                padding: 5px;
+            }
+            #top-btn {
+                position: fixed;
+                bottom: 5%;
+                right: 4%;
+                width: 70px;
+                height: 70px;
+                border-radius: 50px;
+                background: #f1c40f;
+                padding: 5px;
+            }
+
         </style>
         <!--카테고리-->
         <div class="community-container">
@@ -121,8 +147,15 @@
                            th:href="@{/community(category=${categories.name()}) }"></a>
                     </li>
                 </ul>
+                <div>
+                    <button id="top-btn">
+                        <img th:src="@{/bootstrap/images/arrowup.png}" style="width: 35px;"/>
+                    </button>
+                </div>
                 <div sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-                    <button type="button" th:onclick="|location.href='@{/community/write}'|">글쓰기</button>
+                    <button id="write-btn" type="button" th:onclick="|location.href='@{/community/write}'|">
+                        <img th:src="@{/bootstrap/images/edit.png}" style="width: 35px;"/>
+                    </button>
                 </div>
             </div>
             <!-- 리스트 -->
