@@ -8,9 +8,17 @@ input:focus {
     margin-bottom: 20px;
 }
 
+@media screen and (max-width: 714px) {
+    .card {
+        width: 10em !important;
+        margin: 10px !important;
+    }
+}
+
 @media screen and (max-width: 710px) {
     .form-area{
         margin-top: -50px;
+        transform: translate(-5%, 0);
     }
 
     .listNav{
@@ -111,13 +119,13 @@ input[type="radio"]:checked + label{
 }
 
 .card{
-    margin: 10px 20px 10px 0;
+    margin: 10px 20px 10px 20px;
     display: inline-block;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgb(0 0 0 / 10%);
     overflow: hidden;
-    width: 180px;
+    width: 12em;
 }
 .card-header img{
     width: 100%;
