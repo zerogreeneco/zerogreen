@@ -13,6 +13,6 @@ public interface BoardReplyRepository extends JpaRepository<BoardReply, Long> {
     @Query("SELECT br FROM BoardReply br " +
             " JOIN FETCH br.board b " +
             " JOIN FETCH br.replier r " +
-            " WHERE br.board.id=:boardId ")
+            " WHERE br.depth = 1 AND br.board.id=:boardId ")
     List<BoardReply> findBoardRepliesByBoardId(@Param("boardId") Long boardId);
 }
