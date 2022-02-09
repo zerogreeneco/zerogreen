@@ -9,10 +9,10 @@
             <form th:action="@{/food/list}" method="get" id="foodSearchForm">
                 <div class="input-group-prepend">
                     <input type="hidden" name="page" value="1">
-                    <select class="dropdown" name="type">
-                        <option>식당 이름</option>
-                        <option>메뉴</option>
-                    </select>
+<!--                    <select class="dropdown" name="type">-->
+<!--                        <option>식당 이름</option>-->
+<!--                        <option>메뉴</option>-->
+<!--                    </select>-->
                     <input id="search-bar" name="keyword">
                     <img class="btn_truncate" th:src="@{/bootstrap/images/list/close.png}"/>
                     <button type="button" class="btn_search">
@@ -24,17 +24,28 @@
 
         <!-- 사업장 종류 -->
         <div class="listNav">
-            <input type="radio" class="form-check-input storeType" id="radio1" name="storeType" value="Food" checked>
-            <label class="form-check-label" for="radio1">전체</label>
-                        <input type="radio" class="form-check-input storeType" id="radio2" name="storeType" value="VeganFood">
+            <input type="radio" class="form-check-input storeType" id="radio1" name="storeType" checked>
+                <label class="form-check-label" for="radio1">
+                    <a th:href="@{/food/list}">전체</a></label>
+            <input type="radio" class="form-check-input storeType" id="radio2" name="storeType"
+                   th:value="${T(zerogreen.eco.entity.userentity.StoreType).VEGAN_FOOD}" th:href="@{/food/list(type=VEGAN_FOOD)}">
+<!--                   th:onclick="|javascript:getTypeList(${T(zerogreen.eco.entity.userentity.StoreType).VEGAN_FOOD},'1')|">-->
+<!--            <label class="form-check-label" for="radio2">비건 음식점</label>-->
             <label class="form-check-label" for="radio2">비건 음식점</label>
-            <input type="radio" class="form-check-input storeType" id="radio3" name="storeType" value="GeneralFood">
+
+
+            <input type="radio" class="form-check-input storeType" id="radio3" name="storeType"
+                   th:value="${T(zerogreen.eco.entity.userentity.StoreType).GENERAL_FOOD}" th:href="@{/food/list(type=GENERAL_FOOD)}">
+<!--                   th:onclick="|javascript:getTypeList(${T(zerogreen.eco.entity.userentity.StoreType).GNENRAL_FOOD},'1')|">-->
+<!--            <label class="form-check-label" for="radio3">친환경 포장</label>-->
             <label class="form-check-label" for="radio3">친환경 포장</label>
+<!--                <a class="storeType" th:href="@{/food/list(type=GENERAL_FOOD)}">친환경 포장</a></label>-->
+
         </div>
 
         <!-- 가게 리스트 -->
         <div class="card" th:each="list : ${list}"
-             th:onclick="|javascript:goStore('${list.id}')|">
+             th:onclick="|javascript: goStore('${list.id}')|">
             <div class="card-header">
                 <img src="http://placehold.it/300x300"/>
             </div>
@@ -42,7 +53,8 @@
                 <div class="card-body">
                     <span class="like"><img class="icon" th:src="@{/bootstrap/images/list/heart.png}"> 1230</span>
                     <span class="shop-name">[[${list.storeName}]]</span>
-                    <span><img class="icon" th:src="@{/bootstrap/images/list/call.png}"> [[${list.storePhoneNumber}]]</span>
+                    <span><img class="icon"
+                               th:src="@{/bootstrap/images/list/call.png}"> [[${list.storePhoneNumber}]]</span>
                     <span th:if="${list.openTime}==null"><img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> 매장 확인 필요</span>
                     <span th:if="${list.openTime}!=null"><img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> [[${list.openTime}]] ~ [[${list.closeTime}]]</span>
                     <span><img class="icon" th:src="@{/bootstrap/images/list/dish.png}"> 감자뇨끼</span>
@@ -61,6 +73,24 @@
             $('.btn_truncate').click(function () {
                 $('#search-bar').val('');
             });
+
+            //카테고리 페이지 이동
+            function getTypeList(name, page) {
+                /*[+
+                var url = [[@{/food/list}]] +
+                    "?type=" +name + "&page=" + page;
+                +]*/
+
+                location.href = url;
+            }
+
+            //상세 페이지 이동
+            function goStore(sno) {
+                /*[+
+                var url = [[@{/page/detail}]] + "/" +sno ;
+                +]*/
+                location.href = url;
+            }
 
         </script>
     </th:block>

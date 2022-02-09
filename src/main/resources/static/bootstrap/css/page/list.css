@@ -87,7 +87,21 @@ label{
     padding: 0 10px;
     cursor: pointer;
 }
+label a{
+    color: #16a085;
+    /*font-family: 'Noto Sans KR', sans-serif;*/
+    /*font-size: 18px;*/
+    /*border: 2px solid #16a085;*/
+    /*border-radius: 30px;*/
+    /*padding: 0 10px;*/
+    /*cursor: pointer;*/
+}
 input[type="radio"]:checked + label{
+    background-color: #16a085;
+    color: #ffffff;
+}
+
+input[type="radio"]:checked + label a{
     background-color: #16a085;
     color: #ffffff;
 }

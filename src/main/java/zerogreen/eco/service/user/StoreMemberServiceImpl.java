@@ -133,6 +133,12 @@ public class StoreMemberServiceImpl implements StoreMemberService {
 
     //Food List 출력
     @Override
+    @Transactional
+    public Slice<StoreDto> getFoodList(Pageable pageable) {
+        return storeMemberRepository.getFoodList(pageable);
+    }
+
+    @Override
     public Slice<StoreDto> getFoodTypeList(Pageable pageable, StoreType storeType) {
         return storeMemberRepository.getFoodTypeList(pageable,storeType);
     }

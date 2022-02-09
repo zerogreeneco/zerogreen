@@ -45,10 +45,23 @@ public class ListController {
 
     @GetMapping("/food/list")
     public String foodList(@RequestParam(value = "type", required = false) StoreType storeType,
-            Model model, RequestPageSortDto requestPageDto) {
+                           Model model, RequestPageSortDto requestPageDto) {
+
+//        try {
+//            if ("L".equals(storeType)) {
+//                Pageable pageable = requestPageDto.getPageableSort(Sort.by("storeName").descending());
+//                model.addAttribute("list", storeMemberService.getFoodTypeList(pageable, storeType));
+//            }
+//        } catch (Exception e) {
+//
+//        }
 
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("storeName").descending());
-        model.addAttribute("list", storeMemberService.getFoodTypeList(pageable, storeType));
+        if (storeType == null) {
+            model.addAttribute("list", storeMemberService.getFoodList(pageable));
+        } else {
+            model.addAttribute("list", storeMemberService.getFoodTypeList(pageable, storeType));
+        }
 
         return "page/foodList";
     }
@@ -60,8 +73,8 @@ public class ListController {
     }
 
     /*
-    * 이미지 업로드 테스트
-    * */
+     * 이미지 업로드 테스트
+     * */
     @PostMapping("/store/storeInfo/imageUpload")
     public String saveImage(@ModelAttribute("upload") TestImageUploadDto uploadDto, @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
         List<StoreImageFile> storeImageFiles = fileService.storeImageFiles(uploadDto.getFiles(), uploadDto.getStoreName());

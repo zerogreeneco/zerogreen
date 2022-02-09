@@ -27,6 +27,7 @@ public interface StoreMemberService {
 
     //List 출력
     Slice<StoreDto> getShopList(Pageable pageable);
+    Slice<StoreDto> getFoodList(Pageable pageable);
     Slice<StoreDto> getFoodTypeList(Pageable pageable, StoreType storeType);
 
     }
