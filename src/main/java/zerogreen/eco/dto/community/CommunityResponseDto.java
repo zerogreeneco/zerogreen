@@ -1,5 +1,6 @@
 package zerogreen.eco.dto.community;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +19,7 @@ public class CommunityResponseDto {
     private Long id;
     private String text;
     private List<BoardImage> imageList;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asis/Seoul")
     private LocalDateTime modifiedDate;
     private Category category;
     private int count;

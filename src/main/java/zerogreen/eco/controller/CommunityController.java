@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.community.CommunityReplyDto;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
-import zerogreen.eco.dto.community.ImageFileDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.community.Category;
@@ -29,7 +28,6 @@ import zerogreen.eco.service.community.CommunityNestedReplyService;
 import zerogreen.eco.service.community.CommunityReplyService;
 import zerogreen.eco.service.file.FileService;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -99,7 +97,7 @@ public class CommunityController {
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
                              HttpServletRequest request, HttpServletResponse response) {
 
-        List<ImageFileDto> imageList = boardImageService.findByBoardId(boardId);
+
         List<CommunityReplyDto> replyList = replyService.findReplyByBoardId(boardId);
 
         if (principalDetails != null) {
@@ -109,12 +107,12 @@ public class CommunityController {
         CommunityResponseDto detailView = boardService.findDetailView(boardId, request, response);
         model.addAttribute("detailView", detailView);
         model.addAttribute("replyList", replyList);
-        if (imageList.size() > 0) {
-            model.addAttribute("images", imageList);
+        if (boardImageService.findByBoardId(boardId).size() > 0) {
+            model.addAttribute("images", boardImageService.findByBoardId(boardId));
         }
 
         for (CommunityReplyDto communityReplyDto : replyList) {
-            model.addAttribute("nestedReply", nestedReplyService.findNestedReplyByReplyId(communityReplyDto.getId()));
+            model.addAttribute("nestedReply", nestedReplyService.findNestedReplyByReplyId(communityReplyDto.getReplyId()));
         }
 
 
@@ -163,7 +161,7 @@ public class CommunityController {
     /*
      * 댓글
      * */
-    @PostMapping("/{boardId}/reply")
+/*    @PostMapping("/{boardId}/reply")
     public String replySend(@PathVariable("boardId") Long boardId, Model model,
                             @ModelAttribute("reply") CommunityReplyDto replyDto,
                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -174,10 +172,30 @@ public class CommunityController {
         model.addAttribute("replyList", replyByBoardId);
         for (CommunityReplyDto communityReplyDto : replyByBoardId) {
             model.addAttribute("nestedReply", nestedReplyService.findNestedReplyByReplyId(communityReplyDto.getId()));
-
         }
 
         return "community/communityDetailView :: #review-table";
+    }*/
+
+    @ResponseBody
+    @GetMapping("/{boardId}/replyList")
+    public ResponseEntity<List<CommunityReplyDto>> replyList(@PathVariable("boardId") Long boardId) {
+        return new ResponseEntity<>(replyService.findReplyByBoardId(boardId), HttpStatus.OK);
+    }
+
+    @PostMapping("/{boardId}/reply")
+    @ResponseBody
+    public ResponseEntity<List<CommunityReplyDto>> replySend(@PathVariable("boardId") Long boardId,
+                                                             @ModelAttribute("reply") CommunityReplyDto replyDto,
+                                                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        replyService.replySave(replyDto.getText(), boardId, principalDetails.getBasicUser());
+
+        List<CommunityReplyDto> replyList = replyService.findReplyByBoardId(boardId);
+//        model.addAttribute("replyList", replyList);
+
+//        return "community/communityDetailView :: #review-table";
+        return new ResponseEntity<>(replyList, HttpStatus.OK);
     }
 
     /*
@@ -204,7 +222,7 @@ public class CommunityController {
     /*
      * 대댓글
      * */
-    @PostMapping("/{boardId}/{replyId}/nestedReply")
+/*    @PostMapping("/{boardId}/{replyId}/nestedReply")
     public String nestedReplySend(@PathVariable("boardId") Long boardId, @PathVariable("replyId") Long replyId,
                                   @ModelAttribute("nestedReplyForm") CommunityReplyDto replyDto,
                                   Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request) {
@@ -215,6 +233,27 @@ public class CommunityController {
         model.addAttribute("nestedReply", nestedReplyService.findNestedReplyByReplyId(replyId));
 
         return "/community/communityDetailView :: #nested-reply";
+    }*/
+
+    @ResponseBody
+    @GetMapping("/{replyId}/nestedReplyList")
+    private ResponseEntity<List<CommunityReplyDto>> nestedReplyList(@PathVariable("replyId") Long replyId) {
+        List<CommunityReplyDto> nestedReplyList = nestedReplyService.findNestedReplyByReplyId(replyId);
+        return new ResponseEntity<>(nestedReplyList, HttpStatus.OK);
     }
 
+    @ResponseBody
+    @PostMapping("/{boardId}/{replyId}/nestedReply")
+    public ResponseEntity<String> nestedReplySend(@PathVariable("boardId") Long boardId, @PathVariable("replyId") Long replyId,
+                                  @ModelAttribute("nestedReplyForm") CommunityReplyDto replyDto,
+                                  Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request) {
+
+        String text = request.getParameter("text");
+        replyService.replySaveV2(text, boardId, principalDetails.getBasicUser(), replyId);
+
+//        List<CommunityReplyDto> nestedReplyList = nestedReplyService.findNestedReplyByReplyId(replyId);
+//        model.addAttribute("nestedReply", nestedReplyList);
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
 }

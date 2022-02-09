@@ -45,7 +45,7 @@ public class LikesServiceImpl implements LikesService {
     @Override
     public Long cntLikes(Long sno) {
         StoreMember findStore = storeMemberRepository.findById(sno).orElseThrow();
-        return likesRepository.counting(findStore);
+        return likesRepository.counting(findStore.getId());
     }
 
     //회원의 가게별 라이크 카운팅

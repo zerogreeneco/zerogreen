@@ -93,7 +93,7 @@
             .modify-test {
                 border: 1px solid #898c91;
                 border-radius: 5px;
-                width: 670px;
+                width: 640px;
                 height: 25px;
                 font-size: 14px;
                 overflow: hidden;
@@ -127,6 +127,7 @@
             $(function () {
 
                 let boardId = $("#id").val();
+                let table = $("#review-table");
 
                 $("#like-btn").click(function () {
 
@@ -150,22 +151,26 @@
                 }); // like-btn end.
 
                 $("#review-send-btn").click(function () {
-
                     let text = $("#text").val();
+
                     $.ajax({
                         url: "/zerogreen/community/" + boardId + "/reply",
                         method: "post",
+                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                        dataType: "json",
                         data: {
                             boardId: boardId,
                             text: text
                         }
                     })
-                        .done(function (fragment) {
-                            $("#review-table").replaceWith(fragment);
+                        .done(function (data) {
+                            // $("#review-table").replaceWith();
+                            getReplyData(boardId, table);
                             alert("댓글이 등록되었습니다.");
                             $("#text").val("");
                             $("#text-count").text("0 / 100");
                         });
+
                 }); // review send end.
 
                 $("#text").on("keyup", function () {
@@ -180,12 +185,59 @@
 
             }); // onload end.
 
-
             let boardId = $("#id").val();
 
             function textareaResize(obj) {
                 obj.style.height = "1px";
                 obj.style.height = (12 + obj.scrollHeight) + "px";
+            }
+
+            function getReplyData(boardId, table) {
+
+                $.getJSON("/zerogreen/community/" + boardId + "/replyList", function (list) {
+
+                    let html= "";
+
+                    $.each(list, function (key, value) {
+                        console.log("key=" + key);
+                        console.log("value= " + value.text);
+
+                        html += "<div class='comment-wrapper'>";
+                        // html += "<input type='hidden' class='replyId' value=" + value.id + ">";
+                        html += "<div>" + value.replier + "</div>";
+                        html += "<p class='rp-text'>"+ value.text +"</p>"
+                        html += "<a type='button' class='modify-test-btn' style='display: none;' onclick='modifyReply(this)'>수정</a>";
+                        html += "<div>" + value.createdTime + "</div>";
+                        html += "<a class='nested-reply-btn' onClick='nestedReplyInput(this)'>답글</a>";
+                        html += "<a>삭제</a>";
+                        html += "<a class='rp-modify-btn' onclick='replaceTag(this)'>수정</a>";
+                        html += "<div></div>";
+                        html += "<div class='nested-reply-wrapper' style='display: none;'>";
+                        html += "<textarea class='nested-reply-input'></textarea>";
+                        html += "<span>0 / 100</span>";
+                        html += "<a onclick='nestedReplySend(this)'>답글 달기</a>";
+                        html += "<a>취소</a>";
+                        html += "</div>";
+                        html += "<hr/>";
+                        html += "</div>"
+                    })
+                    table.html(html);
+                });
+            } // getReplyData end
+
+            function getNestedReplyData(table, replyId) {
+                let html = "";
+
+                $.getJSON("/zerogreen/community/" + replyId + "/nestedReplyList", function (list) {
+                    $.each(list, function (key, value) {
+                        html += "<div id='nested-reply'>";
+                        html += "<div class='cm-replier'>" + value.replier + "</div>";
+                        html += "<p class='cm-reply-text'>" + value.text + "</p>";
+                        html += "<div>" + value.createdTime + "</div>";
+                        html += "</div>";
+                    })
+                table.append(html);
+                });
             }
 
             // 태그 변경
@@ -208,7 +260,7 @@
                 let modifyBtn = $(event);
                 let replyId = modifyBtn.parent().find(".replyId").val();
                 let text = modifyBtn.parent().find(".modify-test");
-                console.log(typeof boardId)
+                console.log(text.text());
 
                 $.ajax({
                     url: "/zerogreen/community/" + boardId + "/replyModify/" + replyId,
@@ -226,19 +278,22 @@
                             text.replaceWith("<p class='rp-text'>" + text.val() + "</p>")
                             $(".rp-text:eq(1)").remove();
                             $(".replyId").next(".modify-test").hide();
-                            location.reload()
+                            $(".replyId").next(".modify-test-btn").hide();
+                            // location.reload()
                         } else {
                             alert("실패");
                         }
                     })
             }
 
+            // 대댓글
             function nestedReplySend(event) {
                 let boardId = $("#id").val();
                 let replyBtn = $(event);
                 let replyId = replyBtn.parents(".comment-wrapper").find(".replyId").val();
                 let text = replyBtn.parent().children(".nested-reply-input").val();
-
+                let table = replyBtn.closest("#nested-reply");
+                console.log(replyBtn.parents(".comment-wrapper").find(".replyId"));
                 $.ajax({
                     url: "/zerogreen/community/" + boardId + "/" + replyId + "/nestedReply",
                     method: "post",
@@ -248,8 +303,9 @@
                         text: text
                     },
                 })
-                    .done(function (fragment) {
-                        $("#nested-reply").replaceWith(fragment);
+                    .done(function () {
+                        getNestedReplyData(table, replyId);
+                        // $("#nested-reply").replaceWith(fragment);
                         // replyBtn.parents(".nested-reply-wrapper").hide();
                     })
 
@@ -307,6 +363,7 @@
         <div id="cm-review-wrapper" class="cm-main-wrapper">
             <div class="review-send" sec:authorize="isAuthenticated()">
                 <form th:object="${reply}" method="post">
+                    <input type="hidden" th:field="*{replyId}">
                     <p id="cm-input-name">작성자<span id="text-count">0 / 100</span></p>
                     <textarea th:field="*{text}" class="review-text" placeholder="댓글을 남겨주세요."></textarea>
                     <a type="button" id="review-send-btn">리뷰 작성</a>
@@ -315,7 +372,7 @@
             <div id="review-table" class="cm-main-wrapper">
                 <div th:each="replyList : ${replyList}">
                     <div class="comment-wrapper">
-                        <input type="hidden" th:value="${replyList.id}" class="replyId">
+                        <input type="hidden" th:value="${replyList.replyId}" class="replyId">
                         <div th:text="${replyList.replier}"></div>
                         <p class="rp-text" th:text="${replyList.text}"></p>
                         <a type="button" class="modify-test-btn" style="display: none;"
@@ -326,12 +383,15 @@
                         <a>삭제</a>
                         <a class="rp-modify-btn" onclick="replaceTag(this)">수정</a>
                         <div></div>
-                        <!-- 대댓글 입력 -->
                         <div class="nested-reply-wrapper" style="display: none;">
                             <textarea class="nested-reply-input"></textarea>
                             <span>0 / 100</span>
                             <a onclick="nestedReplySend(this)">답글 달기</a>
                             <a>취소</a>
+                        </div>
+                        <div th:each="nestedList : ${replyList.nestedReplyList}">
+                            <p th:text="${nestedList.id}"></p>
+                            <p th:text="${nestedList.replyContent}"></p>
                         </div>
                         <hr/>
                     </div>

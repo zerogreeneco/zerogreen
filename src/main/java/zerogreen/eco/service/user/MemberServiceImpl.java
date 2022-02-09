@@ -85,7 +85,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void memberUpdate(Long id, MemberUpdateDto memberUpdateResponse) {
         Member updateMember = memberRepository.findById(id).orElseThrow();
-
+        // 더티 체킹
         updateMember.setNickname(memberUpdateResponse.getNickname());
         updateMember.setPhoneNumber(memberUpdateResponse.getPhoneNumber());
         updateMember.setVegetarianGrade(memberUpdateResponse.getVegetarianGrade());
