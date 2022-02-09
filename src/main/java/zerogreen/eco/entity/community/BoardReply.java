@@ -38,15 +38,12 @@ public class BoardReply extends BaseTimeEntity {
     @OneToMany(cascade = CascadeType.ALL)
     private List<BoardReply> nestedReplyList = new ArrayList<>();
 
-    private int groupOrder = 1;
     private int depth = 1;
 
     public BoardReply(String replyContent, BasicUser replier, CommunityBoard board) {
-
         this.replyContent = replyContent;
         this.replier = replier;
         this.board = board;
-        this.parentReply = parentReply;
     }
 
     @Builder(builderMethodName = "replyBuilder")
@@ -62,15 +59,9 @@ public class BoardReply extends BaseTimeEntity {
     }
 
     public void addNestedReply(BoardReply nestedReply) {
-
         nestedReply.parentReply = this;
         nestedReply.depth = this.depth + 1;
         this.nestedReplyList.add(nestedReply);
-
-    }
-
-    private boolean hasChildren() {
-        return getNestedReplyList().size() != 0;
     }
 
 }
