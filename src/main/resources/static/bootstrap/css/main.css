@@ -1946,11 +1946,6 @@ html {
         margin-top: 4em;
 	}
 
-		/* Basic */
-			body, input, select, textarea {
-				line-height: 2em;
-			}
-
 		/* Section/Article */
 
 			section, article {
