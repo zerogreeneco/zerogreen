@@ -28,9 +28,10 @@
                 <!--식당 리스트-->
                 <div style="position: relative;">
                     <span class="cate-title">내 주변 맛집</span>
-                    <span class="arrow arrow-left">&#139;</span>
+                    <span id="food-left" class="arrow-left">&#139;</span>
+                    <span id="food-right"  class="arrow-right">&#155;</span>
                     <div class="slider-container">
-                        <div class="slider">
+                        <div class="food-slider slider">
                             <div class="card" th:each="temp : ${approval}" th:unless="${temp.storeType.toString().equals('ECO_SHOP')}"
                                  th:onclick="|javascript: goStore('${temp.memberId}')|">
                                 <div class="card-header">
@@ -45,15 +46,14 @@
                             </div>
                         </div>
                     </div>
-                    <span class="arrow arrow-right">&#155;</span>
                 </div>
                 <!--제로웨이스트샵 리스트-->
                 <div class="margin-title" style="position: relative;">
                     <span class="cate-title">근처 제로웨이스트샵</span>
-                    <span class="arrow arrow-left">&#139;</span>
-                    <span class="arrow arrow-right">&#155;</span>
+                    <span id="shop-left" class="arrow arrow-left">&#139;</span>
+                    <span id="shop-right" class="arrow arrow-right">&#155;</span>
                     <div class="slider-container">
-                        <div class="slider">
+                        <div class="shop-slider slider">
                             <div class="card" th:each="temp : ${approval}" th:if="${temp.storeType.toString().equals('ECO_SHOP')}"
                                  th:onclick="|javascript: goStore('${temp.memberId}')|">
                                 <div class="card-header">
@@ -85,6 +85,23 @@
                 +]*/
                 location.href = url;
             }
+
+            $("#food-right").click(function() {
+                $(".food-slider").animate({
+                marginLeft: "-=180px"
+                }, function() {
+                    $(".food-slider div:first").appendTo(".food-slider");
+                    $(".food-slider").css({
+                    marginLeft: 0
+                    });
+                });
+            });
+
+            $("#food-left").click(function() {
+                $(".food-slider div:last").appendTo(".food-slider");
+                $(".food-slider").css({ "marginLeft", "-180px"});
+                $(".food-slider").animate({ marginLeft: 0 });
+            });
         </script>
 
         <!--지도 부분-->

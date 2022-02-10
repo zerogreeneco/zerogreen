@@ -21,7 +21,7 @@
     width: 2.8em;
     height: 2.8em;
     border-radius: 50px;
-    border: 1px solid #fff;
+    background: #fff;
 }
 
 #profile:hover {
