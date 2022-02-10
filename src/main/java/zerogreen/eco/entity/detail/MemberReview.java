@@ -44,7 +44,6 @@ public class MemberReview extends BaseTimeEntity {
     private List<ReviewImage> imageList = new ArrayList<>();
 
 
-
     //리뷰 수정하기
     public void editMemberReview(String reviewText){
         this.reviewText = reviewText;
@@ -57,7 +56,6 @@ public class MemberReview extends BaseTimeEntity {
         this.storeMember = storeMember;
     }
 
-
     //엔티티에서 db 가져 올 때
     public MemberReview(Long id, String reviewText, BasicUser basicUser, StoreMember storeMember) {
         this.id = id;
@@ -65,7 +63,5 @@ public class MemberReview extends BaseTimeEntity {
         this.basicUser = basicUser;
         this.storeMember = storeMember;
     }
-
-
 
 }

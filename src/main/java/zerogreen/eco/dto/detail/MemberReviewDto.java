@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.web.multipart.MultipartFile;
+import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.detail.MemberReview;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.detail.StoreReview;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.Member;
@@ -12,6 +14,7 @@ import zerogreen.eco.entity.userentity.StoreMember;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -38,7 +41,7 @@ public class MemberReviewDto {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
-    private List<MultipartFile> imageFiles;
+    private List<ReviewImage> imageList;
 
 
     //이하 생성자 정리예정
@@ -62,6 +65,7 @@ public class MemberReviewDto {
         this.createdDate = memberReview.getCreatedDate();
     }
 
+    //누구세요..
     public MemberReviewDto(Long rno,String reviewText, BasicUser basicUser, StoreMember storeMember,
                            LocalDateTime createdDate) {
         this.rno = rno;
@@ -83,8 +87,6 @@ public class MemberReviewDto {
         this.storeReview = storeReview;
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
-
     }
-
 
 }

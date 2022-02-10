@@ -6,14 +6,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import zerogreen.eco.dto.detail.MemberReviewDto;
+import zerogreen.eco.dto.detail.ReviewImageDto;
 import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.detail.QMemberReview;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.StoreMember;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
 import static zerogreen.eco.entity.detail.QMemberReview.memberReview;
+import static zerogreen.eco.entity.detail.QReviewImage.reviewImage;
 import static zerogreen.eco.entity.detail.QStoreReview.storeReview;
 import static zerogreen.eco.entity.userentity.QMember.member;
 

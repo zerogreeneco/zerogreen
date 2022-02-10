@@ -2,6 +2,7 @@ package zerogreen.eco.service.detail;
 
 import org.springframework.web.multipart.MultipartFile;
 import zerogreen.eco.dto.detail.MemberReviewDto;
+import zerogreen.eco.dto.detail.ReviewImageDto;
 import zerogreen.eco.entity.detail.ReviewImage;
 
 import java.io.IOException;
@@ -11,6 +12,9 @@ public interface ReviewImageService {
     String getFullPath(String filename);
     ReviewImage saveReviewImage(MultipartFile multipartFile) throws IOException;
     List<ReviewImage> reviewImageFiles(List<MultipartFile> multipartFiles) throws IOException;
+
+    List<ReviewImageDto> findByStore(Long sno);
+    List<ReviewImageDto> findByReview(Long rno);
 
 
     }
