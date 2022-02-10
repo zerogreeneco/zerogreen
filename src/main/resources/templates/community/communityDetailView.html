@@ -211,7 +211,7 @@
 
                         html += "<div class='comment-wrapper'>";
                         // html += "<input type='hidden' class='replyId' value=" + value.id + ">";
-                        html += "<div>" + value.replier + "</div>";
+                        html += "<div>" + value.nickname + "</div>";
                         html += "<p class='rp-text'>"+ value.text +"</p>"
                         html += "<a type='button' class='modify-test-btn' style='display: none;' onclick='modifyReply(this)'>수정</a>";
                         html += "<div>" + value.createdTime + "</div>";
@@ -238,7 +238,7 @@
                 $.getJSON("/zerogreen/community/" + replyId + "/nestedReplyList", function (list) {
                     $.each(list, function (key, value) {
                         html += "<div id='nested-reply'>";
-                        html += "<div class='cm-replier'>" + value.replier + "</div>";
+                        html += "<div class='cm-replier'>" + value.nickname + "</div>";
                         html += "<p class='cm-reply-text'>" + value.text + "</p>";
                         html += "<div>" + value.createdTime + "</div>";
                         html += "</div>";
@@ -373,7 +373,7 @@
             <div class="review-send" sec:authorize="isAuthenticated()">
                 <form th:object="${reply}" method="post">
                     <input type="hidden" th:field="*{replyId}">
-                    <p id="cm-input-name">작성자<span id="text-count">0 / 100</span></p>
+                    <p id="cm-input-name">[[${session.loginUserNickname}]]<span id="text-count">0 / 100</span></p>
                     <textarea th:field="*{text}" class="review-text" placeholder="댓글을 남겨주세요."></textarea>
                     <a type="button" id="review-send-btn">리뷰 작성</a>
                 </form>
@@ -382,15 +382,15 @@
                 <div th:each="replyList : ${replyList}">
                     <div class="comment-wrapper">
                         <input type="hidden" th:value="${replyList.replyId}" class="replyId">
-                        <div th:text="${replyList.replier}"></div>
+                        <div th:text="${replyList.nickname}"></div>
                         <p class="rp-text" th:text="${replyList.text}"></p>
                         <a type="button" class="modify-test-btn" style="display: none;"
                            onclick="modifyReply(this)">수정
                         </a>
                         <div th:text="${#temporals.format(replyList.createdTime, 'yyyy-MM-dd HH:mm')}"></div>
                         <a class="nested-reply-btn" onclick="nestedReplyInput(this)">답글</a>
-                        <a>삭제</a>
-                        <a class="rp-modify-btn" onclick="replaceTag(this)">수정</a>
+                        <a th:if="${replyList.username} == ${session.loginUser}">삭제</a>
+                        <a th:if="${replyList.username} == ${session.loginUser}" class="rp-modify-btn" onclick="replaceTag(this)">수정</a>
                         <div></div>
                         <div class="nested-reply-wrapper" style="display: none;">
                             <textarea class="nested-reply-input"></textarea>
@@ -400,9 +400,9 @@
                         </div>
                         <hr/>
                         <div class="nested-list" th:each="nestedList : ${replyList.nestedReplyList}">
-                            <p th:text="${nestedList.replier.username}"></p>
-                            <p th:text="${nestedList.replyContent}"></p>
-                            <p th:text="${#temporals.format(nestedList.createdDate, 'yyyy-MM-dd HH:mm')}"></p>
+                            <p th:text="${nestedList.nickname}"></p>
+                            <p th:text="${nestedList.text}"></p>
+                            <p th:text="${#temporals.format(nestedList.createdTime, 'yyyy-MM-dd HH:mm')}"></p>
                             <hr/>
                         </div>
                     </div>
