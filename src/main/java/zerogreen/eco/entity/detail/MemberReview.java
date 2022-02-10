@@ -50,13 +50,15 @@ public class MemberReview extends BaseTimeEntity {
         this.reviewText = reviewText;
     }
 
-    //add review. Entity db랑 연결할 때
+    //add review (기본 텍스트)
     public MemberReview(String reviewText, BasicUser basicUser, StoreMember storeMember) {
         this.reviewText = reviewText;
         this.basicUser = basicUser;
         this.storeMember = storeMember;
     }
 
+
+    //엔티티에서 db 가져 올 때
     public MemberReview(Long id, String reviewText, BasicUser basicUser, StoreMember storeMember) {
         this.id = id;
         this.reviewText = reviewText;

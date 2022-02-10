@@ -1,32 +1,34 @@
-            $(document).ready(function() {
-            <!--slick slider JS-->
-            $('.visual').slick({
-              slidesToShow: 5,
-              slidesToScroll: 5,
-              pauseOnHover : true,
-              prevArrow : "<button type='button' class='slick-prev'>Previous</button>",
-              nextArrow : "<button type='button' class='slick-next'>Next</button>",
-              draggable : true,
-              responsive: [
-                { breakpoint: 1400, settings: { slidesToShow: 4, slidesToScroll: 4 }},
-                { breakpoint: 1200, settings: { slidesToShow: 3, slidesToScroll: 3 }},
-                { breakpoint: 765, settings: { slidesToShow: 1, slidesToScroll: 1}}
-              ]
+$(document).ready(function() {
+    $("#food-right").click(function() {
+        $(".food-slider").animate({
+        marginLeft: "-180px"
+        }, function() {
+            $(".food-slider .card:first").appendTo(".food-slider");
+            $(".food-slider").css({
+            marginLeft: 0
             });
+        });
+    });
+    $("#food-left").click(function() {
+        $(".food-slider .card:last").prependTo(".food-slider");
+        $(".food-slider").css({ "marginLeft": "-180px"});
+        $(".food-slider").animate({ marginLeft: 0 });
+    });
 
-            var filtered = false;
-
-            $('.js-filter').on('click', function(){
-              if (filtered === false) {
-                $('.visual').slick('slickFilter',':even');
-                $(this).text('Unfilter Slides');
-                filtered = true;
-              } else {
-                $('.visual').slick('slickUnfilter');
-                $(this).text('Filter Slides');
-                filtered = false;
-              }
+    $("#shop-right").click(function() {
+        $(".shop-slider").animate({
+        marginLeft: "-180px"
+        }, function() {
+            $(".shop-slider .card:first").appendTo(".shop-slider");
+            $(".shop-slider").css({
+            marginLeft: 0
             });
+        });
+    });
+    $("#shop-left").click(function() {
+        $(".shop-slider .card:last").prependTo(".shop-slider");
+        $(".shop-slider").css({ "marginLeft": "-180px"});
+        $(".shop-slider").animate({ marginLeft: 0 });
+    });
 
-            <!--Lunch slot JS-->
-            });
+});

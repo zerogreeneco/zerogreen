@@ -16,12 +16,12 @@
 
 #profile {
     position: absolute;
-    top: 10%;
+    top: 7%;
     right: 0;
     width: 2.8em;
     height: 2.8em;
     border-radius: 50px;
-    background: gray;
+    background: #fff;
 }
 
 #profile:hover {

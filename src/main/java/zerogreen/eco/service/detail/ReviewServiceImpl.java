@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.detail.MemberReviewDto;
+import zerogreen.eco.dto.detail.ReviewDto;
 import zerogreen.eco.dto.detail.StoreReviewDto;
 import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.detail.MemberReview;
@@ -35,7 +36,27 @@ public class ReviewServiceImpl implements ReviewService{
     private final StoreReviewRepository storeReviewRepository;
     private final ReviewImageRepository reviewImageRepository;
 
-    //멤버리뷰 DB저장
+    //멤버리뷰 DB저장 (이미지 포함)
+    @Override
+    @Transactional
+    public Long saveReview(ReviewDto reviewDto, BasicUser basicUser, Long sno, List<ReviewImage> reviewImages) {
+        StoreMember findStore = storeMemberRepository.findById(sno).orElseThrow();
+        MemberReview saveReview = memberReviewRepository.save( new MemberReview(reviewDto.getReviewText(),
+                        basicUser, findStore));
+
+        if(reviewImages.size() != 0) {
+            for (ReviewImage image : reviewImages) {
+                log.info("aaaaaaaareviewImage " + image);
+
+                reviewImageRepository.save(new ReviewImage(
+                        image.getUploadFileName(), image.getReviewFileName(), image.getFilePath(), saveReview));
+            }
+        }
+        return saveReview.getId();
+    }
+
+    //기존 save db
+/*
     @Override
     @Transactional
     public Long saveReview(MemberReviewDto memberReviewDto, List<ReviewImage> reviewImages) {
@@ -49,15 +70,16 @@ public class ReviewServiceImpl implements ReviewService{
         log.info("aaaaaaaaSaveTextReview " + saveReview);
 
         if(reviewImages.size() != 0) {
-            for (ReviewImage reviewImage : reviewImages) {
-                log.info("aaaaaaaareviewImage " + reviewImage);
+            for (ReviewImage image : reviewImages) {
+                log.info("aaaaaaaareviewImage " + image);
 
                 reviewImageRepository.save(new ReviewImage(
-                        reviewImage.getUploadFileName(), reviewImage.getReviewFileName(), reviewImage.getFilePath(), saveReview));
+                        image.getUploadFileName(), image.getReviewFileName(), image.getFilePath(), saveReview));
             }
         }
         return saveReview.getId();
     }
+*/
 
     //멤버리뷰 테스트 데이터 저장
     @Override

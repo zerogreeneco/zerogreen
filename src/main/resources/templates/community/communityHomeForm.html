@@ -126,6 +126,7 @@
                 background: #f1c40f;
                 padding: 5px;
             }
+
             #top-btn {
                 position: fixed;
                 bottom: 5%;
@@ -177,14 +178,14 @@
                     <div>
                         <span class="main-list-views">
                             <img th:src="@{/bootstrap/images/list/visibility.png}"
-                                                           width="17px" height="17px">[[${community.count}]]
+                                 width="17px" height="17px">[[${community.count}]]
                         </span>
                         <!-- 회원 좋아요 -->
                         <span sec:authorize="isAuthenticated()" id="like-wrapper">
                 <span class="like-count">
                     <span class="main-like-btn">
                         <img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"
-                                             width="17px" height="17px"></span>
+                             width="17px" height="17px"></span>
                     <span class="test-count">[[${community.like}]]</span>
                 </span>
                             <!--/*                <span class="like-count" th:if="${likeCount} == 1">
@@ -195,8 +196,9 @@
             </span>
                         <!-- 비회원 좋아요 -->
                         <span sec:authorize="isAnonymous()">
-                <span><img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img" width="17px"
-                           height="17px"> [[${community.like}]]
+                <span>
+                    <img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img" width="17px"
+                         height="17px"> [[${community.like}]]
                 </span>
             </span>
                     </div>

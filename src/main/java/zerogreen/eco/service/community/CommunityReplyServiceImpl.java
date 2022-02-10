@@ -32,7 +32,7 @@ public class CommunityReplyServiceImpl implements CommunityReplyService{
 
     @Override
     @Transactional
-    public void replySaveV2(String text, Long boardId, BasicUser basicUser, Long replyId) {
+    public void nestedReplySave(String text, Long boardId, BasicUser basicUser, Long replyId) {
         CommunityBoard communityBoard = communityBoardRepository.findById(boardId).orElseThrow();
         BoardReply parentReply = boardReplyRepository.findById(replyId).orElseThrow();
 

@@ -3,18 +3,20 @@ package zerogreen.eco.service.detail;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import zerogreen.eco.dto.detail.MemberReviewDto;
+import zerogreen.eco.dto.detail.ReviewDto;
 import zerogreen.eco.dto.detail.StoreReviewDto;
 import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.detail.StoreReview;
+import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 
 import java.util.List;
 
 public interface ReviewService {
-    //멤버리뷰 DB저장
-    Long saveReview(MemberReviewDto memberReviewDto, List<ReviewImage> reviewImages);
-    //Long saveReview(MemberReviewDto memberReviewDto);
+    //멤버리뷰 DB저장 (이미지 포함)
+    Long saveReview(ReviewDto reviewDto, BasicUser basicUser, Long sno, List<ReviewImage> reviewImages);
+    //Long saveReview(MemberReviewDto memberReviewDto, List<ReviewImage> reviewImages);
     Long saveTest(MemberReview memberReview);
     //가게별 멤버 리뷰 카운팅
     Long cntMemberReview(Long sno);
