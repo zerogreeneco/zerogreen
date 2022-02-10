@@ -746,7 +746,6 @@ html {
 						}
 
 				.row.gtr-200 {
-					margin-top: 40px;
 					margin-left: -80px;
 				}
 
@@ -991,7 +990,7 @@ html {
 						}
 
 				.row.gtr-200 {
-					margin: 0 3.5em;
+					margin: 0 2em;
 				}
 
 					.row.gtr-200 > * {
@@ -1942,10 +1941,6 @@ html {
             top: 5% !important;
         }
 
-	#content {
-        margin-top: 4em;
-	}
-
 		/* Section/Article */
 
 			section, article {
@@ -2143,7 +2138,6 @@ html {
 				}
 
 		/* Content */
-
 			#content {
 				padding: 2em 0em;
 			}

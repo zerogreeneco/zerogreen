@@ -52,7 +52,7 @@
 
 /*지도*/
 #map-section {
-    width: 40%;
+    width: 39%;
     height: auto;
     padding: 105px 0 10px 10px;
 }
@@ -62,10 +62,16 @@
     height: 100%;
 }
 
-/*카드 슬라이더*/
+/*샵 리스트*/
 #shop-section {
-    width: 60%;
+    width: 57%;
+    margin-right: 30px;
     overflow: hidden;
+}
+
+/*카드 슬라이더*/
+.slider {
+    display: inline-flex;
 }
 
 .cate-title {
@@ -76,7 +82,6 @@
 .margin-title {
     margin-top: 50px;
 }
-
 .shopList-box {
     display: flex;
     list-style: none;
@@ -112,33 +117,11 @@
     font-family: 'Noto Sans KR', sans-serif;
 }
 
-.controller{
-    position:absolute;
-    color: black;
-    text-align: center;
-    border-radius: 50%;
-    padding: 10px 20px;
-    top: 50%;
-    font-size: 1.3em;
-    font-family: 'CookieRunOTF-Bold';
-    cursor: pointer;
-}
-.prev{ left: 10px; }
-.prev:hover{ transform: translateX(-5px); }
-.next{ right: 43%;}
-.next:hover{ transform: translateX(5px); }
-
-
-
-@media screen and (max-width: 980x) {
-    #map-section {
-        width:510px !important;
-    }
-}
-
 @media screen and (max-width: 736px) {
     #shop-section {
         width: 100% !important;
+        margin: 0px !important;
+        padding: 25px !important;
     }
 
     #shopList-card {
@@ -148,7 +131,6 @@
     .shopList-box {
         position: relative;
         width: 100%;
-        height: 350px;
         margin: 0 auto;
     }
 
@@ -168,10 +150,6 @@
 
     .cate-title {
         margin-top: 50px !important;
+        margin-left: -20px !important;
     }
 }
-
-@media screen and (max-width: 710px) {
-    #map {
-        width: 100% !important;
-    }
