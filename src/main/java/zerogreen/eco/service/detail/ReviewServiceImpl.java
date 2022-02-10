@@ -36,14 +36,23 @@ public class ReviewServiceImpl implements ReviewService{
     private final StoreReviewRepository storeReviewRepository;
     private final ReviewImageRepository reviewImageRepository;
 
-    //멤버리뷰 DB저장
+    //멤버리뷰 DB저장 (이미지 포함)
     @Override
     @Transactional
-    public Long saveReview(ReviewDto reviewDto, BasicUser basicUser, Long sno) {
+    public Long saveReview(ReviewDto reviewDto, BasicUser basicUser, Long sno, List<ReviewImage> reviewImages) {
         StoreMember findStore = storeMemberRepository.findById(sno).orElseThrow();
-        return memberReviewRepository.save( new MemberReview(reviewDto.getReviewText(),
-                        basicUser, findStore))
-                .getId();
+        MemberReview saveReview = memberReviewRepository.save( new MemberReview(reviewDto.getReviewText(),
+                        basicUser, findStore));
+
+        if(reviewImages.size() != 0) {
+            for (ReviewImage image : reviewImages) {
+                log.info("aaaaaaaareviewImage " + image);
+
+                reviewImageRepository.save(new ReviewImage(
+                        image.getUploadFileName(), image.getReviewFileName(), image.getFilePath(), saveReview));
+            }
+        }
+        return saveReview.getId();
     }
 
     //기존 save db
