@@ -89,7 +89,7 @@
 
         <div>
             <label for="nickname">nickname</label>
-            <input type="text" th:field="*{nickname}" class="form-control">
+            <input type="text" th:field="*{nickname}" class="form-control" sec:authorize-expr="">
             <div th:errors="*{nickname}">
                 닉네임 오류
             </div>

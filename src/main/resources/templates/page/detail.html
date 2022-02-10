@@ -122,9 +122,9 @@
 
                 <div class="inline rv-btn">
                     <label class="img-input rvrv-btn inline" for="img-input">사진선택</label><br>
-                    <input class="img-input" id="img-input" name="reviewImages" type="file" multiple="multiple"/>
-                    <button type="submit">리뷰등록</button>
-<!--                    <span class="rvrv-btn inline" id="rv-btn">리뷰등록</span>-->
+                    <input class="img-input" id="img-input" th:field="*{imageFiles}" name="reviewImages" type="file" multiple="multiple"/>
+                    <label class="rvrv-btn inline" for="rv-btn">리뷰등록</label>
+                    <button type="submit" id="rv-btn">리뷰등록</button>
                 </div>
 
             </form>
