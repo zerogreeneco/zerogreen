@@ -49,7 +49,7 @@ public class ReviewServiceImpl implements ReviewService{
                 log.info("aaaaaaaareviewImage " + image);
 
                 reviewImageRepository.save(new ReviewImage(
-                        image.getUploadFileName(), image.getReviewFileName(), image.getFilePath(), saveReview));
+                        image.getUploadFileName(), image.getReviewFileName(), image.getFilePath(), saveReview,findStore));
             }
         }
         return saveReview.getId();
@@ -185,7 +185,5 @@ public class ReviewServiceImpl implements ReviewService{
         List<MemberReview> result = memberReviewRepository.getReviewByUser(findUser);
         return result.stream().map(MemberReviewDto::new).collect(Collectors.toList());
     }
-
-
 
 }

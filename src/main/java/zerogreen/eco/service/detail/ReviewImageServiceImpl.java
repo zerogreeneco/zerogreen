@@ -5,19 +5,30 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import zerogreen.eco.dto.community.ImageFileDto;
+import zerogreen.eco.dto.detail.MemberReviewDto;
+import zerogreen.eco.dto.detail.ReviewImageDto;
 import zerogreen.eco.entity.community.BoardImage;
+import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.detail.ReviewImage;
+import zerogreen.eco.repository.detail.MemberReviewRepository;
+import zerogreen.eco.repository.detail.ReviewImageRepository;
+import zerogreen.eco.repository.detail.ReviewRepository;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class ReviewImageServiceImpl implements ReviewImageService {
+
+    private final ReviewImageRepository reviewImageRepository;
+    private final MemberReviewRepository memberReviewRepository;
 
     //완성 후 중복코드 삭제예정
 
@@ -78,6 +89,18 @@ public class ReviewImageServiceImpl implements ReviewImageService {
             }
         }
         return reviewImages;
+    }
+
+    //List of Images only..
+    @Override
+    public List<ReviewImageDto> findByStore(Long sno) {
+        return reviewImageRepository.findByStore(sno).stream().map(ReviewImageDto::new).collect(Collectors.toList());
+    }
+
+    //List of Images on the review
+    @Override
+    public List<ReviewImageDto> findByReview(Long rno) {
+        return reviewImageRepository.findByReview(rno).stream().map(ReviewImageDto::new).collect(Collectors.toList());
     }
 
 

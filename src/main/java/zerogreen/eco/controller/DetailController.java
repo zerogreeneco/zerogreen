@@ -2,6 +2,8 @@ package zerogreen.eco.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,6 +22,7 @@ import zerogreen.eco.dto.detail.StoreReviewDto;
 import zerogreen.eco.dto.paging.PagingDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.dto.store.StoreDto;
+import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.security.auth.PrincipalDetails;
@@ -31,6 +34,7 @@ import zerogreen.eco.service.user.MemberService;
 import zerogreen.eco.service.user.StoreMemberService;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,10 +51,17 @@ public class DetailController {
     private final MemberService memberService;
     private final ReviewImageService reviewImageService;
 
+    @ModelAttribute("memberReview")
+    public MemberReviewDto mReview() {
+        MemberReviewDto mReview = new MemberReviewDto();
+        return mReview;
+    }
+
+
     //상세페이지
     @GetMapping("/page/detail/{sno}")
     public String detail(Long id,@PathVariable("sno") Long sno, Model model, RequestPageSortDto requestPageSortDto,
-                         @ModelAttribute("review") ReviewDto reviewDto,
+                         @ModelAttribute("review") ReviewDto reviewDto, @ModelAttribute("rvReview") MemberReviewDto memberReviewDto,
                        @PrincipalUser BasicUser basicUser, @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException{
 
         //스토어 데이터 + 회원/비회원
@@ -68,6 +79,7 @@ public class DetailController {
             model.addAttribute("rvMember", principalDetails.getId());
             //가게별 개별 라이크
             model.addAttribute("cntLike", likesService.cntMemberLike(sno, principalDetails.getId()));
+
         }
 
         //가게별 멤버리뷰 카운팅
@@ -82,8 +94,26 @@ public class DetailController {
         PagingDto memberReview = new PagingDto(reviewList);
         model.addAttribute("memberReview",memberReview);
 
+        if (reviewImageService.findByStore(sno).size() > 0) {
+            model.addAttribute("reviewImageList", reviewImageService.findByStore(sno));
+        }
+
+        //여기 rno 구해야함
+        if (reviewImageService.findByReview(memberReviewDto.getRno()).size() > 0) {
+            model.addAttribute("image", reviewImageService.findByReview(memberReviewDto.getRno()));
+        }
+        log.info("vvvvvvvrno " + memberReviewDto.getRno());
+
+
         return "page/detail";
     }
+
+    @ResponseBody
+    @GetMapping("/page/detail/images/{filename}")
+    private Resource getReviewImages(@PathVariable("filename") String filename) throws MalformedURLException {
+        return new UrlResource("file:" + reviewImageService.getFullPath(filename));
+    }
+
 
 /*
     //리뷰쓰기..
@@ -123,7 +153,6 @@ public class DetailController {
         return rno;
     }
 */
-
 
     //멤버리뷰 삭제
     @ResponseBody

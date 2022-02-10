@@ -1,6 +1,7 @@
 package zerogreen.eco.entity.userentity;
 
 import lombok.*;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 
@@ -8,7 +9,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.*;
 
 @Entity
 @DiscriminatorValue("STORE")
@@ -39,6 +40,9 @@ public class StoreMember extends BasicUser{
 
     @OneToMany(mappedBy = "storeMember", cascade = ALL)
     private List<StoreImageFile> imageFiles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "memberReview", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
+    private List<ReviewImage> imageList = new ArrayList<>();
 
 
     // 회원 가입 (saveV2까지)
