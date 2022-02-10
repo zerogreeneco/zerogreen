@@ -1038,7 +1038,7 @@ html {
 	form input[type="password"],
 	form select,
 	form textarea {
-		border-radius: 8px;
+		//border-radius: 8px;
 		border: solid 1px #eee;
 	}
 

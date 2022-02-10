@@ -68,8 +68,8 @@
                 <div sec:authorize="isAuthenticated()">
                     <div class="js-username" th:text="${member}"></div>
                 </div>
-                <span class="js-storeId">[[${getStore.sno}]]</span>
             </div>
+
         </div>
 
         <!-- 3열 -->
@@ -115,16 +115,20 @@
 
 
             <!-- 리뷰작성 textarea -->
-            <div class="inline rv-ta">
-                <textarea name="reviewText" id="reviewText"></textarea>
-            </div>
+            <form method="post" th:object="${review}" enctype="multipart/form-data">
+                <div class="inline rv-ta" >
+                    <textarea th:field="*{reviewText}" name="reviewText" id="reviewText" class="reviewText"></textarea>
+                </div>
 
-            <div class="inline rv-btn">
-                <label class="img-input rvrv-btn inline" for="img-input">사진선택</label><br>
-                <input class="img-input" id="img-input" type="file" multiple/>
-                <span class="rvrv-btn inline" id="rv-btn">리뷰등록</span>
+                <div class="inline rv-btn">
+                    <label class="img-input rvrv-btn inline" for="img-input">사진선택</label><br>
+                    <input class="img-input" id="img-input" name="reviewImages" type="file" multiple="multiple"/>
+                    <button type="submit">리뷰등록</button>
+<!--                    <span class="rvrv-btn inline" id="rv-btn">리뷰등록</span>-->
+                </div>
 
-            </div>
+            </form>
+
         </div>
 
         <!-- 리뷰 이미지+텍스트 리스트 -->

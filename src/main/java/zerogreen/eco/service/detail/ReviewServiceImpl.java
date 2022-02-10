@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.detail.MemberReviewDto;
+import zerogreen.eco.dto.detail.ReviewDto;
 import zerogreen.eco.dto.detail.StoreReviewDto;
 import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.detail.MemberReview;
@@ -38,6 +39,17 @@ public class ReviewServiceImpl implements ReviewService{
     //멤버리뷰 DB저장
     @Override
     @Transactional
+    public Long saveReview(ReviewDto reviewDto, BasicUser basicUser, Long sno) {
+        StoreMember findStore = storeMemberRepository.findById(sno).orElseThrow();
+        return memberReviewRepository.save( new MemberReview(reviewDto.getReviewText(),
+                        basicUser, findStore))
+                .getId();
+    }
+
+    //기존 save db
+/*
+    @Override
+    @Transactional
     public Long saveReview(MemberReviewDto memberReviewDto, List<ReviewImage> reviewImages) {
         BasicUser findUser = basicUserRepository.findByUsername(memberReviewDto.getUsername()).orElseThrow();
         StoreMember findStore = storeMemberRepository.findById(memberReviewDto.getId()).orElseThrow();
@@ -49,15 +61,16 @@ public class ReviewServiceImpl implements ReviewService{
         log.info("aaaaaaaaSaveTextReview " + saveReview);
 
         if(reviewImages.size() != 0) {
-            for (ReviewImage reviewImage : reviewImages) {
-                log.info("aaaaaaaareviewImage " + reviewImage);
+            for (ReviewImage image : reviewImages) {
+                log.info("aaaaaaaareviewImage " + image);
 
                 reviewImageRepository.save(new ReviewImage(
-                        reviewImage.getUploadFileName(), reviewImage.getReviewFileName(), reviewImage.getFilePath(), saveReview));
+                        image.getUploadFileName(), image.getReviewFileName(), image.getFilePath(), saveReview));
             }
         }
         return saveReview.getId();
     }
+*/
 
     //멤버리뷰 테스트 데이터 저장
     @Override

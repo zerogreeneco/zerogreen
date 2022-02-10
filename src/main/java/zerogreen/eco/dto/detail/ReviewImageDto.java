@@ -19,7 +19,7 @@ public class ReviewImageDto {
     private String uploadFileName;
     private MemberReview memberReview;
     //얘는 어디에 있어야 하는걸까..
-    private List<MultipartFile> imageFiles;
+    private List<MultipartFile> reviewImages;
 
     public ReviewImageDto(ReviewImage reviewImage) {
         this.id = reviewImage.getId();

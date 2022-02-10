@@ -16,6 +16,7 @@ $(document).ready(function(e){
 
 
     //Add reviews. 현재 텍스트만 가능
+/*
     $("#rv-btn").on("click", function(){
        console.log("reviewreview");
 //       console.log(sno);
@@ -23,7 +24,7 @@ $(document).ready(function(e){
 //       console.log(storeName);
 
        $.ajax({
-           url: contextPath+'/addReview/'+sno,
+           url: contextPath+'/page/detail/addReview/'+sno,
            type: "POST",
            contentType:"application/json; charset=utf-8",
            dataType: "json",
@@ -42,38 +43,6 @@ $(document).ready(function(e){
             //self.location.reload();
         });
     }); // end of function addReview
-
-/*
-    //Add reviews. 현재 텍스트만 가능
-    $("#rv-btn").on("click", function(){
-       console.log("reviewreview");
-//       console.log(sno);
-//       console.log(username);
-//       console.log(storeName);
-
-       $.ajax({
-           url: contextPath+'/addReview/'+sno,
-           type: "POST",
-           contentType:"application/json; charset=utf-8",
-           dataType: "json",
-           data: JSON.stringify({
-                reviewText: review.val(),
-                username: username,
-                id: sno
-           }),
-            success: function(data){
-                //console.log("result1: "+data);
-                let rno = parseInt(data);
-                //console.log("result2: " +rno);
-                $(".review-cnt").html(Number(cnt.text())+1);
-
-                //self.location.reload();
-            },
-            error: function(data){
-                alert("errorrrrrrrrrrrrrrrr");
-            }
-        }); // end of ajax
-    }); // end of function addReview
 */
 
 
@@ -84,7 +53,7 @@ $(document).ready(function(e){
        console.log(rno);
 
        $.ajax({
-            url: contextPath + "/deleteReview/"+sno+"/"+rno ,
+            url: contextPath + "/deleteReview/"+rno ,
             type:"DELETE",
             contentType:"application/json; charset=utf-8",
             dataType:"json",
