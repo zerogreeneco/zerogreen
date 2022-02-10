@@ -86,24 +86,26 @@
     display: inline-flex;
 }
 
-.arrow {
+.arrow-left {
+    left: 0;
+    top: 35%;
+    font-size: 4em;
+    position: absolute;
+    z-index: 999;
+}
+.arrow-right {
+    right: 0;
     top: 35%;
     font-size: 4em;
     position: absolute;
     z-index: 999;
 }
 
-.arrow-left {
-    left: 0;
-}
-.arrow-right {
-    right: 0;
-}
-
 .cate-title {
     font-size: 1.2em;
     font-weight: 600;
     font-family: 'Noto Sans KR', sans-serif;
+    padding-left: 35px;
 }
 .margin-title {
     margin-top: 50px;
@@ -147,7 +149,10 @@
     #shop-section {
         width: 100% !important;
         margin: 0px !important;
-        padding: 25px !important;
+    }
+
+    .slider-container {
+        padding-left: 1.6em !important;
     }
 
     #shopList-card {
