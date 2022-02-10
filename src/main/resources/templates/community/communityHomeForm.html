@@ -32,6 +32,17 @@
                     $('html, body').animate({scrollTop: 0}, '400');
                 });
 
+                $("#search-btn").click(function () {
+
+                    let type = $().val();
+                    let content = $().val();
+
+                    $.ajax({
+                        url: ""
+                    });
+
+                });
+
             });
         </script>
         <style>
@@ -158,6 +169,16 @@
                         <img th:src="@{/bootstrap/images/edit.png}" style="width: 35px;"/>
                     </button>
                 </div>
+            </div>
+            <div>
+                <form th:method="get" th:action>
+                    <select name="searchType">
+                        <option th:each="searchType : ${T(zerogreen.eco.dto.search.SearchType).values()}"
+                                th:value="${searchType}" th:text="${searchType.searchName}"></option>
+                    </select>
+                    <input name="keyword" th:value="${keyword}">
+                    <button type="submit">검색</button>
+                </form>
             </div>
             <!-- 리스트 -->
             <div id="list-wrapper" th:each="community : ${communityList}">

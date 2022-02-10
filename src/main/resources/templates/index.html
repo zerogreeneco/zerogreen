@@ -88,7 +88,7 @@
 
             $("#food-right").click(function() {
                 $(".food-slider").animate({
-                marginLeft: "-=180px"
+                marginLeft: "-180px"
                 }, function() {
                     $(".food-slider div:first").appendTo(".food-slider");
                     $(".food-slider").css({
@@ -98,8 +98,8 @@
             });
 
             $("#food-left").click(function() {
-                $(".food-slider div:last").appendTo(".food-slider");
-                $(".food-slider").css({ "marginLeft", "-180px"});
+                $(".food-slider div:last").prependTo(".food-slider");
+                $(".food-slider").css({ "marginLeft": "-180px"});
                 $(".food-slider").animate({ marginLeft: 0 });
             });
         </script>

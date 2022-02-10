@@ -1,0 +1,134 @@
+/* 공통 설정 */
+.cm-main-wrapper {
+    width: 700px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+
+.image-wrapper {
+    width: 700px;
+    margin: 0 auto;
+    margin-bottom: 15px;
+}
+
+hr {
+    width: 700px;
+}
+
+/* 제목 */
+.cm-main-wrapper #category {
+    border: 1px solid #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    background-color: #16a085;
+    padding: 3px;
+    color: #fff;
+}
+
+#category {
+    margin-bottom: 20px;
+}
+
+#nickname {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* 리뷰 작성란 */
+.review-send {
+    border: 1px solid #898c91;
+    border-radius: 5px;
+    height: 165px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.review-send #cm-input-name {
+    margin-bottom: 15px;
+}
+
+.review-send #review-send-btn {
+    float: right;
+    text-decoration: navajowhite;
+    cursor: pointer;
+}
+
+#cm-review-wrapper .review-text {
+    resize: none;
+    min-height: 5rem;
+    width: 650px;
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+    padding: 10px;
+    overflow: hidden;
+    outline-color: #fff;
+    margin-bottom: 20px;
+}
+
+#text-count {
+    float: right;
+    font-size: 0.8em;
+}
+
+.cm-text-count {
+    float: right;
+    font-size: 0.8em;
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+
+
+/* 리뷰 출력란 */
+#review-table a {
+    float: right;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 8px;
+    margin-bottom: 7px;
+}
+
+.comment-wrapper {
+    padding: 20px;
+}
+
+.rp-text {
+    word-wrap: break-word;
+}
+
+.modify-test {
+    border: 1px solid #898c91;
+    border-radius: 5px;
+    width: 600px;
+    height: 32px;
+    font-size: 14px;
+    overflow: hidden;
+    resize: none;
+    margin-bottom: 10px;
+}
+
+/* 대댓글 */
+.nested-reply-input {
+    border: 1px solid #898c91;
+    border-radius: 5px;
+    width: 660px;
+    height: 45px;
+    resize: none;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.nested-list {
+    padding-left: 50px;
+}
+
+/* 좋아요*/
+like-btn {
+    cursor: pointer;
+}
+
+.like-img {
+    width: 17px;
+    height: 17px;
+    margin-right: 5px;
+}

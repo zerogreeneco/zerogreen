@@ -49,6 +49,7 @@ public class CommunityReplyDto {
         this.username = boardReply.getReplier().getUsername();
         this.createdTime = boardReply.getModifiedDate();
         this.nestedReplyList =
-                boardReply.getNestedReplyList().stream().map(CommunityReplyDto::new).collect(Collectors.toList());
+                boardReply.getNestedReplyList().stream()
+                        .map(CommunityReplyDto::new).collect(Collectors.toList());
     }
 }
