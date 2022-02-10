@@ -30,6 +30,7 @@ public class ReviewImage extends BaseTimeEntity {
     private MemberReview memberReview;
 
 
+
     // 파일 폴더 저장
     public ReviewImage(String uploadFileName, String reviewFileName, String filePath) {
         this.uploadFileName = uploadFileName;

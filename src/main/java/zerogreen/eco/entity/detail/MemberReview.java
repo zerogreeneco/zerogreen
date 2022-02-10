@@ -40,7 +40,7 @@ public class MemberReview extends BaseTimeEntity {
     @JoinColumn(name = "member")
     private BasicUser basicUser;
 
-    @OneToMany(mappedBy = "memberReview", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "memberReview", cascade = {PERSIST, REMOVE}, targetEntity = ReviewImage.class, orphanRemoval = true)
     private List<ReviewImage> imageList = new ArrayList<>();
 
 
@@ -50,13 +50,14 @@ public class MemberReview extends BaseTimeEntity {
         this.reviewText = reviewText;
     }
 
-    //add review. Entity db랑 연결할 때
+    //add review
     public MemberReview(String reviewText, BasicUser basicUser, StoreMember storeMember) {
         this.reviewText = reviewText;
         this.basicUser = basicUser;
         this.storeMember = storeMember;
     }
 
+    //엔티티에서 db 가져 올 때
     public MemberReview(Long id, String reviewText, BasicUser basicUser, StoreMember storeMember) {
         this.id = id;
         this.reviewText = reviewText;
