@@ -3,13 +3,10 @@
           xmlns:sec="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
         <link rel="stylesheet" th:href="@{/bootstrap/css/index/index.css}" />
-        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
                 integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
                 crossorigin="anonymous"></script>
-        <script type="text/javascript"
-                src="@{http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js}"></script>
         <script type="text/javascript" th:src="@{/bootstrap/js/index/loginmodal.js}"></script>
 
         <!--login pop-up-->
@@ -29,36 +26,44 @@
             <!--Shop List-->
             <div id="shop-section">
                 <!--식당 리스트-->
-                <div>
+                <div style="position: relative;">
                     <span class="cate-title">내 주변 맛집</span>
-                    <div style="display: inline-flex;">
-                        <div class="card" th:each="temp : ${approval}" th:unless="${temp.storeType.toString().equals('ECO_SHOP')}"
-                             th:onclick="|javascript: goStore('${temp.memberId}')|">
-                            <div class="card-header">
-                                <img src="http://placehold.it/300x300"/>
-                            </div>
-                            <div class="shopList-box">
-                                <div class="card-body">
-                                    <span class="shop-name">[[${temp.memberId}]]</span>
-                                    <span class="shop-name">[[${temp.storeType}]]</span>
+                    <span class="arrow arrow-left">&#139;</span>
+                    <div class="slider-container">
+                        <div class="slider">
+                            <div class="card" th:each="temp : ${approval}" th:unless="${temp.storeType.toString().equals('ECO_SHOP')}"
+                                 th:onclick="|javascript: goStore('${temp.memberId}')|">
+                                <div class="card-header">
+                                    <img src="http://placehold.it/300x300"/>
+                                </div>
+                                <div class="shopList-box">
+                                    <div class="card-body">
+                                        <span class="shop-name">[[${temp.memberId}]]</span>
+                                        <span class="shop-name">[[${temp.storeType}]]</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <span class="arrow arrow-right">&#155;</span>
                 </div>
                 <!--제로웨이스트샵 리스트-->
-                <div class="margin-title">
+                <div class="margin-title" style="position: relative;">
                     <span class="cate-title">근처 제로웨이스트샵</span>
-                    <div style="display: inline-flex;">
-                        <div class="card" th:each="temp : ${approval}" th:if="${temp.storeType.toString().equals('ECO_SHOP')}"
-                             th:onclick="|javascript: goStore('${temp.memberId}')|">
-                            <div class="card-header">
-                                <img src="http://placehold.it/300x300"/>
-                            </div>
-                            <div class="shopList-box">
-                                <div class="card-body">
-                                    <span class="shop-name">[[${temp.memberId}]]</span>
-                                    <span class="shop-name">[[${temp.storeType}]]</span>
+                    <span class="arrow arrow-left">&#139;</span>
+                    <span class="arrow arrow-right">&#155;</span>
+                    <div class="slider-container">
+                        <div class="slider">
+                            <div class="card" th:each="temp : ${approval}" th:if="${temp.storeType.toString().equals('ECO_SHOP')}"
+                                 th:onclick="|javascript: goStore('${temp.memberId}')|">
+                                <div class="card-header">
+                                    <img src="http://placehold.it/300x300"/>
+                                </div>
+                                <div class="shopList-box">
+                                    <div class="card-body">
+                                        <span class="shop-name">[[${temp.memberId}]]</span>
+                                        <span class="shop-name">[[${temp.storeType}]]</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
