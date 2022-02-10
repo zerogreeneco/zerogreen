@@ -14,9 +14,9 @@
                         <option>가게 이름</option>
                         <option>상품</option>
                     </select>
-                    <div id="search-bar">
-                        <input class="search-input" name="keyword">
-                        <img class="btn_truncate" th:src="@{/bootstrap/images/list/close.png}"/>
+                    <div class="search-bar">
+                        <input id="search-input" name="keyword">
+                        <img class="truncate_icon" th:src="@{/bootstrap/images/list/close.png}"/>
                     </div>
                     <button class="btn_search">
                        <img class="search_icon" th:src="@{/bootstrap/images/list/search.png}">
@@ -36,7 +36,8 @@
                                 <span class="like"><img class="icon" th:src="@{/bootstrap/images/list/heart.png}"> 1230</span>
                                 <span class="shop-name">[[${list.storeName}]]</span>
                                 <span><img class="icon" th:src="@{/bootstrap/images/list/call.png}"> [[${list.storePhoneNumber}]]</span>
-                                <span><img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> [[${list.openTime}]] ~ [[${list.closeTime}]]</span>
+                                <span th:if="${list.openTime}==null"><img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> 매장 확인 필요</span>
+                                <span th:if="${list.openTime}!=null"><img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> [[${list.openTime}]] ~ [[${list.closeTime}]]</span>
                                 <span><img class="icon" th:src="@{/bootstrap/images/list/box.png}"> 대나무 헬리콥터</span>
                             </div>
                         </div>
@@ -47,20 +48,19 @@
 
         <script th:inline="javascript">
             //검색
-            var searchForm = $("#searchForm");
-            $('.searchButton').click(function (e) {
-                searchForm.submit();
+            $('.search_icon').click(function (e) {
+                $('#shopSearchForm').submit();
             });
 
             //검색어 비우기
-            $('.btn_truncate').click(function () {
-                $('#search-bar').val('');
+            $('.truncate_icon').click(function () {
+                $('#search-input').val('');
             });
 
             //상세 페이지 이동
             function goStore(sno) {
                 /*[+
-                var url = [[@{/page/detail}]] + "/" +sno ;
+                const url = [[@{/page/detail}]] + "/" +sno ;
                 +]*/
                 location.href = url;
             }
