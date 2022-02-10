@@ -70,8 +70,34 @@
 }
 
 /*카드 슬라이더*/
+.slider-container {
+    margin: 0 25px;
+    padding-left: 0.8em;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 1280px) {
+    .slider-container {
+        padding-left: 0.3em !important;
+    }
+}
+
 .slider {
     display: inline-flex;
+}
+
+.arrow {
+    top: 35%;
+    font-size: 4em;
+    position: absolute;
+    z-index: 999;
+}
+
+.arrow-left {
+    left: 0;
+}
+.arrow-right {
+    right: 0;
 }
 
 .cate-title {

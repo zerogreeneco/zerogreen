@@ -20,6 +20,16 @@ span, p, label {
     margin-bottom: 1em;
 }
 
+#content {
+    margin: 2em 0 4em 0;
+}
+
+@media screen and (max-width: 710px) {
+   #content {
+        margin: 1em 0em 5em 0 !important;
+   }
+}
+
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
 pre, a, abbr, acronym, address, big, cite,
@@ -1938,7 +1948,7 @@ html {
         #profile {
             width : 2.5em !important;
             height: 2.5em !important;
-            top: 5% !important;
+            top: 0% !important;
         }
 
 		/* Section/Article */

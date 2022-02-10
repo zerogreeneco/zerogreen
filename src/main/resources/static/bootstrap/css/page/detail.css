@@ -180,7 +180,7 @@ textarea:focus {
 
 /* mixed css */
 .inline {
-    display: inline-flex;
+    display: inline-block;
     line-height: 22px;
 }
 

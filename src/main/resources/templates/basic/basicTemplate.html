@@ -44,7 +44,9 @@
                 <!--After Login-->
                 <div sec:authorize="isAuthenticated()">
                     <button id="btn-logout" class="btn-login" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
-                    <img id="profile" th:href="@{/bootstrap/images/profile/lacto.png}" th:onclick="|location.href='@{/member/memberMyInfo}'|" sec:authorize="isAuthenticated()" />
+                    <div id="profile" th:onclick="|location.href='@{/member/memberMyInfo}'|" sec:authorize="isAuthenticated()">
+                        <img th:href="@{/bootstrap/images/profile/lacto.png}" />
+                    </div>
                 </div>
 
             </header>
