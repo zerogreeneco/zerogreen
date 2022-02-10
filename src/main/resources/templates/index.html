@@ -7,6 +7,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
                 integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
                 crossorigin="anonymous"></script>
+        <script type="text/javascript" th:src="@{/bootstrap/js/index/slider.js}"></script>
         <script type="text/javascript" th:src="@{/bootstrap/js/index/loginmodal.js}"></script>
 
         <!--login pop-up-->
@@ -85,23 +86,6 @@
                 +]*/
                 location.href = url;
             }
-
-            $("#food-right").click(function() {
-                $(".food-slider").animate({
-                marginLeft: "-180px"
-                }, function() {
-                    $(".food-slider div:first").appendTo(".food-slider");
-                    $(".food-slider").css({
-                    marginLeft: 0
-                    });
-                });
-            });
-
-            $("#food-left").click(function() {
-                $(".food-slider div:last").prependTo(".food-slider");
-                $(".food-slider").css({ "marginLeft": "-180px"});
-                $(".food-slider").animate({ marginLeft: 0 });
-            });
         </script>
 
         <!--지도 부분-->
