@@ -13,85 +13,92 @@
                     <option>식당 이름</option>
                     <option>메뉴</option>
                 </select>
-                <div id="search-bar">
-                    <input class="search-input" name="keyword">
-                    <img class="btn_truncate" th:src="@{/bootstrap/images/list/close.png}"/>
+                <div class="search-bar">
+                    <input id="search-input" name="keyword">
+                    <img class="truncate_icon" th:src="@{/bootstrap/images/list/close.png}"/>
                 </div>
                 <button class="btn_search">
                     <img class="search_icon" th:src="@{/bootstrap/images/list/search.png}">
                 </button>
             </form>
-          
-        <!-- 사업장 종류 -->
-        <div class="listNav">
-            <input type="radio" class="form-check-input storeType" id="radio1" name="storeType" checked>
-                <label class="form-check-label" for="radio1">
-                    <a th:href="@{/food/list}">전체</a></label>
-            <input type="radio" class="form-check-input storeType" id="radio2" name="storeType"
-                   th:value="${T(zerogreen.eco.entity.userentity.StoreType).VEGAN_FOOD}" th:href="@{/food/list(type=VEGAN_FOOD)}">
-<!--                   th:onclick="|javascript:getTypeList(${T(zerogreen.eco.entity.userentity.StoreType).VEGAN_FOOD},'1')|">-->
-<!--            <label class="form-check-label" for="radio2">비건 음식점</label>-->
-            <label class="form-check-label" for="radio2">비건 음식점</label>
 
+            <!-- 사업장 종류 -->
+            <div class="listNav">
+                <input type="radio" class="form-check-input storeType" id="radio1" name="storeType">
+                <label class="form-check-label" for="radio1"
+                       th:onclick="|javascript:getFoodList('1')|">전체</label>
 
-            <input type="radio" class="form-check-input storeType" id="radio3" name="storeType"
-                   th:value="${T(zerogreen.eco.entity.userentity.StoreType).GENERAL_FOOD}" th:href="@{/food/list(type=GENERAL_FOOD)}">
-<!--                   th:onclick="|javascript:getTypeList(${T(zerogreen.eco.entity.userentity.StoreType).GNENRAL_FOOD},'1')|">-->
-<!--            <label class="form-check-label" for="radio3">친환경 포장</label>-->
-            <label class="form-check-label" for="radio3">친환경 포장</label>
-<!--                <a class="storeType" th:href="@{/food/list(type=GENERAL_FOOD)}">친환경 포장</a></label>-->
-        </div>
+                <input type="radio" class="form-check-input storeType" id="radio2" name="storeType">
+                <label class="form-check-label" for="radio2" value="VEGAN_FOOD"
+                       th:onclick="|javascript:getTypeList('VEGAN_FOOD','1')|">비건 음식점</label>
 
-        <!-- 가게 리스트 -->
-        <div class="card" th:each="list : ${list}"
-             th:onclick="|javascript: goStore('${list.id}')|">
-            <div class="card-header">
-                <img src="http://placehold.it/300x300"/>
+                <input type="radio" class="form-check-input storeType" id="radio3" name="storeType">
+                <label class="form-check-label" for="radio3" value="GENERAL_FOOD"
+                       th:onclick="|javascript:getTypeList('GENERAL_FOOD','1')|">친환경 포장</label>
+
             </div>
-            <div class="shopList-box">
-                <div class="card-body">
-                    <span class="like"><img class="icon" th:src="@{/bootstrap/images/list/heart.png}"> 1230</span>
-                    <span class="shop-name">[[${list.storeName}]]</span>
-                    <span><img class="icon"
-                               th:src="@{/bootstrap/images/list/call.png}"> [[${list.storePhoneNumber}]]</span>
-                    <span th:if="${list.openTime}==null"><img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> 매장 확인 필요</span>
-                    <span th:if="${list.openTime}!=null"><img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> [[${list.openTime}]] ~ [[${list.closeTime}]]</span>
-                    <span><img class="icon" th:src="@{/bootstrap/images/list/dish.png}"> 감자뇨끼</span>
+
+            <!-- 가게 리스트 -->
+            <div class="card" th:each="list : ${list}"
+                 th:onclick="|javascript: goStore('${list.id}')|">
+                <div class="card-header">
+                    <img src="http://placehold.it/300x300"/>
+                </div>
+                <div class="shopList-box">
+                    <div class="card-body">
+                        <span class="like"><img class="icon" th:src="@{/bootstrap/images/list/heart.png}"> 1230</span>
+                        <span class="shop-name">[[${list.storeName}]]</span>
+                        <span><img class="icon"
+                                   th:src="@{/bootstrap/images/list/call.png}"> [[${list.storePhoneNumber}]]</span>
+                        <span th:if="${list.openTime}==null"><img class="icon"
+                                                                  th:src="@{/bootstrap/images/list/clock.png}"> 매장 확인 필요</span>
+                        <span th:if="${list.openTime}!=null"><img class="icon"
+                                                                  th:src="@{/bootstrap/images/list/clock.png}"> [[${list.openTime}]] ~ [[${list.closeTime}]]</span>
+                        <span><img class="icon" th:src="@{/bootstrap/images/list/dish.png}"> 감자뇨끼</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <script th:inline="javascript">
-            //검색
-            var searchForm = $("#searchForm");
-            $('.searchButton').click(function (e) {
-                searchForm.submit();
-            });
+            <script th:inline="javascript">
+                //검색
+                $('.search_icon').click(function (e) {
+                    $('#shopSearchForm').submit();
+                });
 
-            //검색어 비우기
-            $('.btn_truncate').click(function () {
-                $('#search-bar').val('');
-            });
+                //검색어 비우기
+                $('.truncate_icon').click(function () {
+                    $('#search-input').val('');
+                });
 
-            //카테고리 페이지 이동
-            function getTypeList(name, page) {
-                /*[+
-                var url = [[@{/food/list}]] +
-                    "?type=" +name + "&page=" + page;
-                +]*/
+                //전체 리스트 이동
+                function getFoodList(page) {
+                    /*[+
+                    const url = [[@{/food/list}]] +
+                        "?page=" + page;
+                    +]*/
 
-                location.href = url;
-            }
+                    location.href = url;
+                }
 
-            //상세 페이지 이동
-            function goStore(sno) {
-                /*[+
-                var url = [[@{/page/detail}]] + "/" +sno ;
-                +]*/
-                location.href = url;
-            }
+                //카테고리 리스트 이동
+                function getTypeList(name, page) {
+                    /*[+
+                    const url = [[@{/food/list}]] +
+                        "?type=" +name + "&page=" + page;
+                    +]*/
 
-        </script>
+                    location.href = url;
+                }
+
+                //상세 페이지 이동
+                function goStore(sno) {
+                    /*[+
+                    var url = [[@{/page/detail}]] + "/" +sno ;
+                    +]*/
+                    location.href = url;
+                }
+
+            </script>
     </th:block>
 </th:block>
 
