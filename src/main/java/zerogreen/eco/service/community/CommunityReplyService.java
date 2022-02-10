@@ -8,7 +8,7 @@ import java.util.List;
 public interface CommunityReplyService {
 
     void replySave(String text, Long boardId, BasicUser basicUser);
-    void replySaveV2(String text, Long boardId, BasicUser basicUser, Long replyId);
+    void nestedReplySave(String text, Long boardId, BasicUser basicUser, Long replyId);
 
     void modifyReply(Long replyId, String text);
 

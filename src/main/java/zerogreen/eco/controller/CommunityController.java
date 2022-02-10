@@ -21,6 +21,7 @@ import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.userentity.Member;
+import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.community.BoardImageService;
 import zerogreen.eco.service.community.CommunityBoardService;
@@ -29,6 +30,7 @@ import zerogreen.eco.service.file.FileService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
@@ -93,13 +95,20 @@ public class CommunityController {
     public String detailView(@PathVariable("boardId") Long boardId, Model model,
                              @ModelAttribute("reply") CommunityReplyDto replyDto,
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
-                             HttpServletRequest request, HttpServletResponse response) {
-
+                             HttpServletRequest request, HttpServletResponse response,
+                             HttpSession session) {
 
         List<CommunityReplyDto> replyList = replyService.findReplyByBoardId(boardId);
 
         if (principalDetails != null) {
             model.addAttribute("likeCount", boardService.countLike(boardId, principalDetails.getBasicUser().getId()));
+            session.setAttribute("loginUser", principalDetails.getBasicUser().getUsername());
+            if (principalDetails.getBasicUser() instanceof Member) {
+                session.setAttribute("loginUserNickname", ((Member) principalDetails.getBasicUser()).getNickname());
+            } else if (principalDetails.getBasicUser() instanceof StoreMember) {
+                session.setAttribute("loginUserNickname", ((StoreMember) principalDetails.getBasicUser()).getStoreName());
+            }
+
         }
 
         CommunityResponseDto detailView = boardService.findDetailView(boardId, request, response);
@@ -197,7 +206,7 @@ public class CommunityController {
                                   Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request) {
 
         String text = request.getParameter("text");
-        replyService.replySaveV2(text, boardId, principalDetails.getBasicUser(), replyId);
+        replyService.nestedReplySave(text, boardId, principalDetails.getBasicUser(), replyId);
 
         model.addAttribute("replyList", replyService.findReplyByBoardId(boardId));
 

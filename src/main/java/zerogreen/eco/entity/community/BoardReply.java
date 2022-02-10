@@ -36,6 +36,7 @@ public class BoardReply extends BaseTimeEntity {
     private BoardReply parentReply;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "parentReply")
     private List<BoardReply> nestedReplyList = new ArrayList<>();
 
     private int depth = 1;
