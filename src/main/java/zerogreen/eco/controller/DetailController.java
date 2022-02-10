@@ -20,6 +20,7 @@ import zerogreen.eco.dto.detail.StoreReviewDto;
 import zerogreen.eco.dto.paging.PagingDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.dto.store.StoreDto;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.security.auth.PrincipalUser;
@@ -31,6 +32,7 @@ import zerogreen.eco.service.user.StoreMemberService;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -98,8 +100,11 @@ public class DetailController {
                             @Validated @ModelAttribute("review") ReviewDto reviewDto, BindingResult bindingResult,
                           @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
 
-        Long rno = reviewService.saveReview(reviewDto, principalDetails.getBasicUser(),sno);
+        List<ReviewImage> reviewImages = reviewImageService.reviewImageFiles(reviewDto.getImageFiles());
 
+        Long rno = reviewService.saveReview(reviewDto, principalDetails.getBasicUser(),sno, reviewImages);
+
+        //return rno;
         return "redirect:/page/detail/"+sno;
     }
 

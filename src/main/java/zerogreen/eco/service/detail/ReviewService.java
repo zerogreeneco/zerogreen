@@ -14,8 +14,8 @@ import zerogreen.eco.entity.userentity.StoreMember;
 import java.util.List;
 
 public interface ReviewService {
-    //멤버리뷰 DB저장
-    Long saveReview(ReviewDto reviewDto, BasicUser basicUser, Long sno);
+    //멤버리뷰 DB저장 (이미지 포함)
+    Long saveReview(ReviewDto reviewDto, BasicUser basicUser, Long sno, List<ReviewImage> reviewImages);
     //Long saveReview(MemberReviewDto memberReviewDto, List<ReviewImage> reviewImages);
     Long saveTest(MemberReview memberReview);
     //가게별 멤버 리뷰 카운팅

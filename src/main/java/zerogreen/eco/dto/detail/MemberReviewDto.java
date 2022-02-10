@@ -45,7 +45,7 @@ public class MemberReviewDto {
     public MemberReviewDto() {
     }
 
-    //리뷰 add 작업
+    //리뷰 add 작업 (text only, images to the other)
     public MemberReviewDto(String reviewText, BasicUser basicUser, StoreMember storeMember) {
         this.reviewText = reviewText;
         this.basicUser = basicUser;

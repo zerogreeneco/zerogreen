@@ -2,9 +2,12 @@ package zerogreen.eco.dto.detail;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.StoreMember;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,7 +22,9 @@ public class ReviewDto {
     private StoreMember storeMember;
     private BasicUser basicUser;
 
-    public ReviewDto(String reviewText, StoreMember storeMember) {
+    private List<MultipartFile> imageFiles;
+
+    public ReviewDto(String reviewText) {
         this.reviewText = reviewText;
     }
 
