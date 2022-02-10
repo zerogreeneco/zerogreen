@@ -18,6 +18,8 @@ import zerogreen.eco.dto.community.CommunityReplyDto;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
+import zerogreen.eco.dto.search.SearchCondition;
+import zerogreen.eco.dto.search.SearchType;
 import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.userentity.Member;
@@ -58,14 +60,21 @@ public class CommunityController {
     @GetMapping("")
     public String communityHomeForm(@RequestParam(value = "category", required = false) Category category,
                                     RequestPageSortDto requestPageDto, Model model,
+                                    SearchType searchType,String keyword,
                                     @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
+        model.addAttribute("searchType", searchType);
+        model.addAttribute("keyword", keyword);
 
         log.info("CATEGORY={}", category);
 
         if (category == null) {
-            model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable));
+            if (searchType == null) {
+                model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable));
+            } else {
+                model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable, new SearchCondition(keyword,searchType)));
+            }
         } else {
             model.addAttribute("communityList", boardService.findByCategory(pageable, category));
         }
@@ -108,7 +117,6 @@ public class CommunityController {
             } else if (principalDetails.getBasicUser() instanceof StoreMember) {
                 session.setAttribute("loginUserNickname", ((StoreMember) principalDetails.getBasicUser()).getStoreName());
             }
-
         }
 
         CommunityResponseDto detailView = boardService.findDetailView(boardId, request, response);
@@ -121,6 +129,9 @@ public class CommunityController {
         return "community/communityDetailView";
     }
 
+    /*
+    * 이미지 출력
+    * */
     @ResponseBody
     @GetMapping("/images/{filename}")
     private Resource getImages(@PathVariable("filename") String filename) throws MalformedURLException {

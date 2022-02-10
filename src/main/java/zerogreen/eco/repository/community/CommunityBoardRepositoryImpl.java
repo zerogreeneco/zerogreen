@@ -2,12 +2,16 @@ package zerogreen.eco.repository.community;
 
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.util.StringUtils;
 import zerogreen.eco.dto.community.CommunityResponseDto;
+import zerogreen.eco.dto.search.SearchCondition;
+import zerogreen.eco.dto.search.SearchType;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.community.CommunityBoard;
 import zerogreen.eco.entity.community.QBoardImage;
@@ -39,7 +43,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     * 커뮤니티 게시판 전체 리스트
     * */
     @Override
-    public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable) {
+    public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable, SearchCondition condition) {
         QCommunityLike subLike = new QCommunityLike("subLike");
 
         List<CommunityResponseDto> content = queryFactory
@@ -58,6 +62,9 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
+                .where(
+                    isSearch(condition.getSearchType(), condition.getContent())
+                )
                 .orderBy(communityBoard.createdDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -69,6 +76,38 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
 
         return new PageImpl<>(content, pageable, countQuery.size());
     };
+
+    @Override
+    public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable) {
+        QCommunityLike subLike = new QCommunityLike("subLike");
+
+        List<CommunityResponseDto> content = queryFactory
+                .select(Projections.constructor(CommunityResponseDto.class,
+                        communityBoard.id,
+                        communityBoard.text,
+                        member.nickname,
+                        communityBoard.category,
+                        communityBoard.modifiedDate,
+                        communityBoard.count,
+                        ExpressionUtils.as(
+                                JPAExpressions
+                                        .select(count(subLike.id))
+                                        .from(subLike, subLike)
+                                        .where(subLike.board.id.eq(communityBoard.id)),"likeCount")
+                ))
+                .from(communityBoard, communityBoard)
+                .join(communityBoard.member, member)
+                .orderBy(communityBoard.createdDate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        List<CommunityBoard> countQuery = queryFactory
+                .selectFrom(communityBoard)
+                .fetch();
+
+        return new PageImpl<>(content, pageable, countQuery.size());
+    }
 
     /*
     * 카테고리별 리스트 출력
@@ -134,6 +173,9 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                 .fetchFirst();
     }
 
+    /*
+    * 게시판 조회수
+    * */
     @Override
     public void addViewCount(Long boardId) {
         queryFactory
@@ -142,4 +184,26 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                 .where(communityBoard.id.eq(boardId))
                 .execute();
     }
+
+    /*
+     * 검색 조건
+     * */
+    private BooleanExpression eqNickname(String nickname) {
+        return StringUtils.hasText(nickname) ? member.nickname.like(nickname) : null;
+    }
+
+    private BooleanExpression eqContent(String content) {
+        return StringUtils.hasText(content) ? communityBoard.text.contains(content) : null;
+    }
+
+    private BooleanExpression isSearch(SearchType searchType, String searchText) {
+        if (searchType.equals(SearchType.CONTENT)) {
+            return eqContent(searchText);
+        } else if (searchType.equals(SearchType.WRITER)) {
+            return eqNickname(searchText);
+        } else {
+            return eqContent(searchText).or(eqNickname(searchText));
+        }
+    }
+
 }

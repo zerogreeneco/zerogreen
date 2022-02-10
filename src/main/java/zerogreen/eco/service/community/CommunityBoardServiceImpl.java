@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
+import zerogreen.eco.dto.search.SearchCondition;
+import zerogreen.eco.dto.search.SearchType;
 import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.community.CommunityBoard;
@@ -125,7 +127,11 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     }
 
     @Override
-    @Transactional
+    public Slice<CommunityResponseDto> findAllCommunityBoard(Pageable pageable, SearchCondition condition) {
+        return boardRepository.findAllCommunityList(pageable, condition);
+    }
+
+    @Override
     public Slice<CommunityResponseDto> findAllCommunityBoard(Pageable pageable) {
         return boardRepository.findAllCommunityList(pageable);
     }
