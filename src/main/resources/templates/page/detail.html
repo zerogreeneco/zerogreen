@@ -115,7 +115,7 @@
 
             <!-- 리뷰작성 textarea -->
             <form method="POST" th:object="${review}" enctype="multipart/form-data">
-                <span class="js-storeId">[[${getStore.sno}]]</span>
+                <span class="js-storeId" style="display:none;">[[${getStore.sno}]]</span>
 
                 <div class="inline rv-ta" >
                     <textarea th:field="*{reviewText}" name="reviewText" id="reviewText" class="reviewText"></textarea>
@@ -141,8 +141,9 @@
                         <img class="inline" th:src="@{/page/detail/images/{imageList}(imageList=*{imageList.reviewFileName})}"
                              th:value="${imageList.uploadFileName}"
                              width="120px" height="120px">
+                    </div>
                 </div>
-            </div>
+
                 <div th:each="mReview : ${memberReview}">
                     <!-- 멤버리뷰 리스트 -->
                     <div class="reviewBox">
@@ -160,35 +161,34 @@
                                  width="120px" height="120px">
                         </div>
 
-                        <textarea class="mrv-textarea" name="reviewText" readonly>[[${mReview.reviewText}]]</textarea><br>
+                        <textarea class="rv-textarea" name="reviewText" readonly>[[${mReview.reviewText}]]</textarea><br>
+                        <span>[[${#temporals.format(mReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
 
                         <div class="btn-Box">
                             <span class="srv-toAdd inline mrv-btn"
-                                  th:if="${rvMember == mReview.id && rvMember == mReview.sno}">답글</span>
-                            <span class="mrv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.id}">수정</span>
+                                  th:if="${rvMember == mReview.sno}">답글</span>
+                            <span class="rv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.id}">수정</span>
                             <span class="mrv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.id}">삭제</span>
                         </div>
 
                         <!-- 스토어 리뷰 입력창 -->
                         <div class="srv-input" style="display:none;">
-                            <textarea class="srv-input-textarea" name="storeReviewText" ></textarea>
+                            <textarea class="srv-input-textarea" name="storeReviewText" id="storeReviewText" ></textarea>
                             <div class="btn-Box">
-                                <span class="srv-adding inline mrv-btn" id="srv-adding">등록</span>
+                                <span class="srv-adding inline mrv-btn" id="srv-adding" onclick="nestedReviewSave(this)">등록</span>
                             </div>
                         </div>
 
                        <!-- 스토어 리뷰 리스트 -->
-                        <div class="sReview-Box">
-                            <span class="srv-storeName"></span>
-                            <span class="srno"></span>
-                            <span class="rno"></span>
-                            <span></span>
-                            <span></span><br>
-                            <textarea class="srv-textarea" name="storeReviewText" readonly></textarea><br>
-                            <span class="rv-date inline"></span><br>
+                        <div class="sReview-Box" th:each="sReview: ${mReview.nestedReviewList}">
+                            <span class="srno rno" th:text="${sReview.rno}" style="display:none;"></span>
+                            <span class="srv-storeName">[[${sReview.storeName}]]</span>
+                            <br>
+                            <textarea class="rv-textarea" name="storeReviewText" readonly>[[${sReview.reviewText}]]</textarea><br>
+                            <span class="rv-date inline">[[${#temporals.format(sReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span><br>
                             <div class="btn-Box">
-                                <span class="srv-modify inline mrv-btn">수정</span>
-                                <span class="srv-delete inline mrv-btn">삭제</span>
+                                <span class="rv-modify inline mrv-btn" th:if="${rvMember} == ${sReview.id}">수정</span>
+                                <span class="srv-delete inline mrv-btn" th:if="${rvMember} == ${sReview.id}">삭제</span>
                             </div>
                         </div>
 

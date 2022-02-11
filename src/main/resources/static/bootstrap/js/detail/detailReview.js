@@ -29,36 +29,11 @@ $(document).ready(function(e){
     }); // end save reviews
 
 
-    // 대댓글
-/*
-    function nestedReplySend(event) {
-        let boardId = $("#id").val();
-        let replyBtn = $(event);
-        let replyId = replyBtn.parents(".comment-wrapper").find(".replyId").val();
-        let text = replyBtn.parent().children(".nested-reply-input").val();
-        let table = replyBtn.closest("#nested-reply");
-        console.log(replyBtn.parents(".comment-wrapper").find(".replyId"));
-        $.ajax({
-            url: "/zerogreen/community/" + boardId + "/" + replyId + "/nestedReply",
-            method: "post",
-            data: {
-                boardId: boardId,
-                replyId: replyId,
-                text: text
-            },
-        })
-            .done(function (fragment) {
-                $("#review-table").replaceWith(fragment);
-            })
-
-    }
-*/
-
     //show comment input box
     $(".srv-toAdd").on("click", function(){
         console.log("SRVSRV");
 
-        let inputBox = $(".srv-input");
+        let inputBox = $(this).parent().parent().children(".srv-input");
         let toAdd = $(this).parent().children(".srv-toAdd");
 
         inputBox.show();
@@ -66,12 +41,62 @@ $(document).ready(function(e){
     });
 
 
-    //edit Reviews
-    $(".mrv-modify").on("click", function(){
+    // 대댓글
+
+   $("#srv-adding").click(function () {
+        console.log("cemmmmmet");
+
+        let reviewText = $(this).parent().parent().children("#storeReviewText");
+        let rno = $(this).parent().parent().parent().children(".rno").text();
+        console.log("reviewText " + reviewText);
+        console.log("rno " + rno);
+
+
+        $.ajax({
+            url: contextPath+"/page/detail/addReview/"+sno+"/"+rno,
+            method: "post",
+            data: {
+                sno: sno,
+                rno: rno,
+                reviewText: reviewText.val()
+            },
+        })
+            .done(function (fragment) {
+                    console.log("plsssssss");
+
+                $("#reviewList").replaceWith(fragment);
+            })
+    }); //end save comment
+
+/*
+    function nestedReviewSave(event) {
+       let saveBtn = $(event);
+       let reviewText = saveBtn.parent().parent().children("#storeReviewText").val();
+       let rno = saveBtn.parent().parent().parent().children(".rno").text();
+
+        $.ajax({
+            url: contextPath+"/page/detail/addReview/"+sno+"/"+rno,
+            method: "post",
+            data: {
+                sno: sno,
+                rno: rno,
+                reviewText: reviewText
+            },
+        })
+            .done(function (fragment) {
+                $("#reviewList").replaceWith(fragment);
+            })
+    } //end save comment
+*/
+
+
+
+    //edit member + store Reviews
+    $(".rv-modify").on("click", function(){
         console.log("editedit");
 
         let rno = $(this).parent().parent().children(".rno").text();
-        let editText = $(this).parent().parent().children(".mrv-textarea");
+        let editText = $(this).parent().parent().children(".rv-textarea");
 
         count++;
 
@@ -97,15 +122,15 @@ $(document).ready(function(e){
             })
 
             .done(function (fragment) {
-                $(".mrv-textarea").replaceWith(editText.val());
-                //$(".mrv-textarea").replaceWith(fragment);
+                editText.replaceWith(editText.val());
+                //$(".rv-textarea").replaceWith(fragment);
             });
             count = 0;
         } //end else if
-    });// end edit Reviews
+    });// end edit member + store Reviews
 
 
-    //delete review
+    //delete member review
     $(".mrv-delete").on("click", function(){
        console.log("deletedelete");
        let rno = $(this).parent().parent().children(".rno").text();
@@ -123,7 +148,27 @@ $(document).ready(function(e){
                 $("#reviewList").replaceWith(fragment);
                 $(".review-cnt").html(Number(cnt.text())-1);
             });
-    }); //delete end
+    }); //delete member Review end
+
+
+    //delete store review
+    $(".srv-delete").on("click", function(){
+       console.log("deletedelete");
+       let srno = $(this).parent().parent().children(".srno").text();
+       console.log(srno);
+
+       $.ajax({
+            url: contextPath + "/deleteReview/"+srno ,
+            type:"DELETE",
+            contentType:"application/x-www-form-urlencoded; charset=utf-8",
+            data: {
+                rno: srno
+            }
+            })
+            .done(function (fragment) {
+                $("#reviewList").replaceWith(fragment);
+            });
+    }); //delete store Review end
 
 
     //textarea 자동 늘이기

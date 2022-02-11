@@ -85,21 +85,6 @@ public class ReviewServiceImpl implements ReviewService{
 
         return result.stream().map(MemberReviewDto::new).collect(Collectors.toList());
     }
-*//*
-
-
-    //스토어멤버 리뷰 DB저장
-    @Override
-    @Transactional
-    public Long saveStoreReview(StoreReviewDto storeReviewDto) {
-        StoreMember findStore = storeMemberRepository.findById(storeReviewDto.getSno()).orElseThrow();
-        MemberReview findReview = memberReviewRepository.findById(storeReviewDto.getRno()).orElseThrow();
-        return storeReviewRepository.save( new StoreReview(storeReviewDto.getStoreReviewText(),
-                        findStore, findReview))
-                .getId();
-    }
-
-
 */
 
 }

@@ -25,6 +25,7 @@ import zerogreen.eco.service.detail.ReviewService;
 import zerogreen.eco.service.user.MemberService;
 import zerogreen.eco.service.user.StoreMemberService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
@@ -89,7 +90,6 @@ public class DetailController {
         return "page/detail";
     }
 
-
         //상세페이지 멤버리뷰 리스트
 /*
         Pageable pageable = requestPageSortDto.getPageableSort(Sort.by("id").descending());
@@ -112,6 +112,22 @@ public class DetailController {
         }
         log.info("vvvvvvvrno " + memberReviewDto.getRno());
 */
+
+    //대댓글
+    @PostMapping("/page/detail/addReview/{sno}/{rno}")
+    public String saveNestedReview(@PathVariable("sno") Long sno,
+                                   @PathVariable("rno") Long rno,
+                                   @ModelAttribute("nestedReviewForm") DetailReviewDto reviewDto, Model model,
+                                   @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request) {
+
+        //이건 뭐하는거지
+        String reviewText = request.getParameter("reviewText");
+        detailReviewService.saveNestedReview(reviewText, sno, principalDetails.getBasicUser(), rno);
+
+        model.addAttribute("memberReview", detailReviewService.findByStore(sno));
+
+        return "page/detail :: #reviewList";
+    }
 
 
     //save reviews
@@ -145,7 +161,6 @@ public class DetailController {
         return "redirect:/page/detail/"+sno;
     }
 */
-
 
 
 
