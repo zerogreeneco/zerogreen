@@ -8,13 +8,10 @@ import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.community.CommunityBoard;
 import zerogreen.eco.entity.detail.DetailReview;
-import zerogreen.eco.entity.detail.MemberReview;
-import zerogreen.eco.entity.detail.StoreReview;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.userentity.*;
 import zerogreen.eco.repository.community.CommunityBoardRepository;
 import zerogreen.eco.repository.detail.MemberReviewRepository;
-import zerogreen.eco.repository.detail.StoreReviewRepository;
 import zerogreen.eco.repository.user.MemberRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 import zerogreen.eco.service.detail.DetailReviewService;
@@ -56,7 +53,6 @@ public class TestDataInit {
         private final StoreMemberRepository storeMemberRepository;
         private final CommunityBoardRepository communityBoardRepository;
         private final MemberReviewRepository memberReviewRepository;
-        private final StoreReviewRepository storeReviewRepository;
 
         public void init() {
 
@@ -215,17 +211,6 @@ public class TestDataInit {
 
             em.flush();
             em.clear();
-
-//            //스토어 리뷰 추가
-//            MemberReview review1 = memberReviewRepository.findById(1L).get();
-//            MemberReview review2 = memberReviewRepository.findById(2L).get();
-//            MemberReview review3 = memberReviewRepository.findById(3L).get();
-//            MemberReview review4 = memberReviewRepository.findById(4L).get();
-//
-//
-//            em.flush();
-//            em.clear();
-
 
 
 

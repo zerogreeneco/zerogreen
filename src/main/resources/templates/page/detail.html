@@ -146,10 +146,11 @@
                 <div th:each="mReview : ${memberReview}">
                     <!-- 멤버리뷰 리스트 -->
                     <div class="reviewBox">
-                        <span class="rno" style="display:none;" th:value="${mReview.rno}"></span>
+                        <span class="rno" style="display:none;" th:text="${mReview.rno}"></span>
                         <span class="rv-nickname">[[${mReview.nickname}]]</span>
                         <span>[[${mReview.rno}]]</span>
                         <span>[[${mReview.sno}]]</span>
+                        <span>[[${mReview.id}]]</span>
                         <span>[[${mReview.storeName}]]</span>
                         <br>
 

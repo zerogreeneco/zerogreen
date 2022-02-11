@@ -9,11 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.dto.store.StoreDto;
-import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.security.auth.PrincipalUser;
@@ -129,7 +130,6 @@ public class DetailController {
         return "page/detail :: #reviewList";
     }
 
-
 /*
     //멤버 리뷰 db
     @PostMapping("/page/detail/{sno}")
@@ -147,30 +147,28 @@ public class DetailController {
 */
 
 
-/*
-    //멤버리뷰 삭제
-    @ResponseBody
-    @DeleteMapping("/deleteReview/{id}")
-    public ResponseEntity<Long> remove(@PathVariable("id") Long id) {
-        reviewService.remove(id);
-        return new ResponseEntity<>(id, HttpStatus.OK);
-    }
-
-    //멤버리뷰 수정 ** JSON 형식으로 다시 수정 예정**
-    @ResponseBody
-    @PutMapping("/editReview/{rno}")
-    public ResponseEntity<Long> modifyReview(@Validated @RequestBody MemberReviewDto memberReviewDto, BindingResult bindingResult,
-                                             @PathVariable Long rno){
-        reviewService.modifyReview(memberReviewDto);
-        return new ResponseEntity<>(rno, HttpStatus.OK);
-    }
-*/
 
 
     @ResponseBody
     @GetMapping("/page/detail/images/{filename}")
     private Resource getReviewImages(@PathVariable("filename") String filename) throws MalformedURLException {
         return new UrlResource("file:" + reviewImageService.getFullPath(filename));
+    }
+
+    //멤버리뷰 수정
+    @ResponseBody
+    @PutMapping("/editReview/{rno}")
+    public ResponseEntity<Long> modifyReview(@PathVariable("rno") Long rno,
+                                             @Validated @RequestBody DetailReviewDto detailReviewDto, BindingResult bindingResult) {
+        detailReviewService.modifyReview(detailReviewDto);
+        return new ResponseEntity<>(rno, HttpStatus.OK);
+    }
+
+    //리뷰 삭제
+    @DeleteMapping("/deleteReview/{rno}")
+    public String remove(@PathVariable("rno") Long rno) {
+        detailReviewService.remove(rno);
+        return "page/detail :: #reviewList";
     }
 
     //좋아요
