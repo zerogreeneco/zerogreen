@@ -34,8 +34,8 @@ public class CommunityApiController {
             Slice<CommunityResponseDto> allCommunityBoard = boardService.findAllCommunityBoard(pageable);
             return new ApiReturnDto<>(allCommunityBoard);
         } else {
-            Slice<CommunityResponseDto> byCategory = boardService.findByCategory(pageable, category);
-            return new ApiReturnDto<>(byCategory);
+            Slice<CommunityResponseDto> sorByCategory = boardService.findByCategory(pageable, category);
+            return new ApiReturnDto<>(sorByCategory);
         }
     }
 }
