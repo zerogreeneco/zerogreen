@@ -5,15 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import zerogreen.eco.dto.community.ImageFileDto;
-import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.dto.detail.ReviewImageDto;
-import zerogreen.eco.entity.community.BoardImage;
-import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.detail.ReviewImage;
-import zerogreen.eco.repository.detail.MemberReviewRepository;
 import zerogreen.eco.repository.detail.ReviewImageRepository;
-import zerogreen.eco.repository.detail.ReviewRepository;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +22,6 @@ import java.util.stream.Collectors;
 public class ReviewImageServiceImpl implements ReviewImageService {
 
     private final ReviewImageRepository reviewImageRepository;
-    private final MemberReviewRepository memberReviewRepository;
 
     //완성 후 중복코드 삭제예정
 

@@ -21,8 +21,6 @@ import zerogreen.eco.security.auth.PrincipalUser;
 import zerogreen.eco.service.detail.DetailReviewService;
 import zerogreen.eco.service.detail.LikesService;
 import zerogreen.eco.service.detail.ReviewImageService;
-import zerogreen.eco.service.detail.ReviewService;
-import zerogreen.eco.service.user.MemberService;
 import zerogreen.eco.service.user.StoreMemberService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,8 +38,6 @@ public class DetailController {
 
     private final StoreMemberService storeMemberService;
     private final LikesService likesService;
-    private final ReviewService reviewService;
-    private final MemberService memberService;
     private final ReviewImageService reviewImageService;
     private final DetailReviewService detailReviewService;
 
@@ -66,7 +62,6 @@ public class DetailController {
         log.info("?????Controller " + sno);
         log.info("<<<<< " + storeDto.getCount());
 
-        List<DetailReviewDto> result = detailReviewService.findByStore(sno);
 
         if (principalDetails == null) {
             model.addAttribute("getStore",storeDto);
@@ -79,6 +74,23 @@ public class DetailController {
             model.addAttribute("cntLike", likesService.cntMemberLike(sno, principalDetails.getId()));
         }
 
+
+        /*
+        //이미지
+        if (reviewImageService.findByStore(sno).size() > 0) {
+            model.addAttribute("reviewImageList", reviewImageService.findByStore(sno));
+        }
+*/
+/*
+        //여기 rno 구해야함
+        if (reviewImageService.findByReview(memberReviewDto.getRno()).size() > 0) {
+            model.addAttribute("image", reviewImageService.findByReview(memberReviewDto.getRno()));
+        }
+        log.info("vvvvvvvrno " + memberReviewDto.getRno());
+*/
+
+        //리뷰 리스트
+        List<DetailReviewDto> result = detailReviewService.findByStore(sno);
         model.addAttribute("memberReview", result);
 
         //가게별 멤버리뷰 카운팅
@@ -90,47 +102,7 @@ public class DetailController {
         return "page/detail";
     }
 
-        //상세페이지 멤버리뷰 리스트
-/*
-        Pageable pageable = requestPageSortDto.getPageableSort(Sort.by("id").descending());
-        Page<DetailReviewDto> reviewList = detailReviewService.getReviewList(pageable, sno);
-        PagingDto memberReview = new PagingDto(reviewList);
-        model.addAttribute("memberReview",memberReview);
-*/
-
-/*
-        //이미지
-        if (reviewImageService.findByStore(sno).size() > 0) {
-            model.addAttribute("reviewImageList", reviewImageService.findByStore(sno));
-        }
-*/
-
-/*
-        //여기 rno 구해야함
-        if (reviewImageService.findByReview(memberReviewDto.getRno()).size() > 0) {
-            model.addAttribute("image", reviewImageService.findByReview(memberReviewDto.getRno()));
-        }
-        log.info("vvvvvvvrno " + memberReviewDto.getRno());
-*/
-
-    //대댓글
-    @PostMapping("/page/detail/addReview/{sno}/{rno}")
-    public String saveNestedReview(@PathVariable("sno") Long sno,
-                                   @PathVariable("rno") Long rno,
-                                   @ModelAttribute("nestedReviewForm") DetailReviewDto reviewDto, Model model,
-                                   @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request) {
-
-        //이건 뭐하는거지
-        String reviewText = request.getParameter("reviewText");
-        detailReviewService.saveNestedReview(reviewText, sno, principalDetails.getBasicUser(), rno);
-
-        model.addAttribute("memberReview", detailReviewService.findByStore(sno));
-
-        return "page/detail :: #reviewList";
-    }
-
-
-    //save reviews
+    //save reviews ** on working **
     @PostMapping("/page/detail/addReview/{sno}")
     public String saveReview(@PathVariable("sno") Long sno, Model model, RequestPageSortDto requestPageSortDto,
                             @ModelAttribute("review") DetailReviewDto reviewDto,
@@ -162,13 +134,29 @@ public class DetailController {
     }
 */
 
-
-
     @ResponseBody
     @GetMapping("/page/detail/images/{filename}")
     private Resource getReviewImages(@PathVariable("filename") String filename) throws MalformedURLException {
         return new UrlResource("file:" + reviewImageService.getFullPath(filename));
     }
+
+
+    //대댓글
+    @PostMapping("/page/detail/addReview/{sno}/{rno}")
+    public String saveNestedReview(@PathVariable("sno") Long sno,
+                                   @PathVariable("rno") Long rno,
+                                   @ModelAttribute("nestedReviewForm") DetailReviewDto reviewDto, Model model,
+                                   @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request) {
+
+        //이건 뭐하는거지
+        String reviewText = request.getParameter("reviewText");
+        detailReviewService.saveNestedReview(reviewText, sno, principalDetails.getBasicUser(), rno);
+
+        model.addAttribute("memberReview", detailReviewService.findByStore(sno));
+
+        return "page/detail :: #reviewList";
+    }
+
 
     //멤버리뷰 수정
     @ResponseBody

@@ -12,11 +12,9 @@ import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.userentity.*;
 import zerogreen.eco.repository.community.CommunityBoardRepository;
 import zerogreen.eco.repository.detail.DetailReviewRepository;
-import zerogreen.eco.repository.detail.MemberReviewRepository;
 import zerogreen.eco.repository.user.MemberRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 import zerogreen.eco.service.detail.DetailReviewService;
-import zerogreen.eco.service.detail.ReviewService;
 import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.MemberService;
 import zerogreen.eco.service.user.StoreMemberService;
@@ -47,7 +45,6 @@ public class TestDataInit {
         private final MemberService memberService;
         private final StoreMemberService storeMemberService;
         private final BasicUserService basicUserService;
-        private final ReviewService reviewService;
         private final DetailReviewService detailReviewService;
 
         private final MemberRepository memberRepository;

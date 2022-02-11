@@ -4,6 +4,7 @@ $(document).ready(function(e){
     let sno = $(".js-storeId").text();
     let count = 0;
 
+
     // save Reviews
     $("#rv-btn").click(function () {
         let reviewText = $("#reviewText");
@@ -29,28 +30,26 @@ $(document).ready(function(e){
     }); // end save reviews
 
 
+
+//이하 완성
+
+
     //show comment input box
     $(".srv-toAdd").on("click", function(){
-        console.log("SRVSRV");
-
         let inputBox = $(this).parent().parent().children(".srv-input");
         let toAdd = $(this).parent().children(".srv-toAdd");
 
         inputBox.show();
-        toAdd.attr('style',"display:none;")
+        toAdd.attr('style',"display:none;");
     });
 
 
-    // 대댓글
-
-   $("#srv-adding").click(function () {
-        console.log("cemmmmmet");
-
-        let reviewText = $(this).parent().parent().children("#storeReviewText");
-        let rno = $(this).parent().parent().parent().children(".rno").text();
-        console.log("reviewText " + reviewText);
-        console.log("rno " + rno);
-
+    // 대댓글 추가
+   $(".srv-adding").click(function () {
+        let parent = $(this).parent().parent()
+        let reviewText = parent.children("#storeReviewText");
+        let rno = parent.parent().children(".rno").text();
+        let btn = parent.parent().children().children(".srv-toAdd");
 
         $.ajax({
             url: contextPath+"/page/detail/addReview/"+sno+"/"+rno,
@@ -62,39 +61,14 @@ $(document).ready(function(e){
             },
         })
             .done(function (fragment) {
-                    console.log("plsssssss");
-
                 $("#reviewList").replaceWith(fragment);
             })
+            //btn.attr('style',"display:none;");
     }); //end save comment
-
-/*
-    function nestedReviewSave(event) {
-       let saveBtn = $(event);
-       let reviewText = saveBtn.parent().parent().children("#storeReviewText").val();
-       let rno = saveBtn.parent().parent().parent().children(".rno").text();
-
-        $.ajax({
-            url: contextPath+"/page/detail/addReview/"+sno+"/"+rno,
-            method: "post",
-            data: {
-                sno: sno,
-                rno: rno,
-                reviewText: reviewText
-            },
-        })
-            .done(function (fragment) {
-                $("#reviewList").replaceWith(fragment);
-            })
-    } //end save comment
-*/
-
 
 
     //edit member + store Reviews
     $(".rv-modify").on("click", function(){
-        console.log("editedit");
-
         let rno = $(this).parent().parent().children(".rno").text();
         let editText = $(this).parent().parent().children(".rv-textarea");
 
@@ -123,7 +97,6 @@ $(document).ready(function(e){
 
             .done(function (fragment) {
                 editText.replaceWith(editText.val());
-                //$(".rv-textarea").replaceWith(fragment);
             });
             count = 0;
         } //end else if
@@ -132,9 +105,7 @@ $(document).ready(function(e){
 
     //delete member review
     $(".mrv-delete").on("click", function(){
-       console.log("deletedelete");
        let rno = $(this).parent().parent().children(".rno").text();
-       console.log(rno);
 
        $.ajax({
             url: contextPath + "/deleteReview/"+rno ,
@@ -153,9 +124,7 @@ $(document).ready(function(e){
 
     //delete store review
     $(".srv-delete").on("click", function(){
-       console.log("deletedelete");
        let srno = $(this).parent().parent().children(".srno").text();
-       console.log(srno);
 
        $.ajax({
             url: contextPath + "/deleteReview/"+srno ,

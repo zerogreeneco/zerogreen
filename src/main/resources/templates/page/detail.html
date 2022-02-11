@@ -162,7 +162,7 @@
                         </div>
 
                         <textarea class="rv-textarea" name="reviewText" readonly>[[${mReview.reviewText}]]</textarea><br>
-                        <span>[[${#temporals.format(mReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
+                        <span class="rv-date inline">[[${#temporals.format(mReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
 
                         <div class="btn-Box">
                             <span class="srv-toAdd inline mrv-btn"
@@ -175,20 +175,22 @@
                         <div class="srv-input" style="display:none;">
                             <textarea class="srv-input-textarea" name="storeReviewText" id="storeReviewText" ></textarea>
                             <div class="btn-Box">
-                                <span class="srv-adding inline mrv-btn" id="srv-adding" onclick="nestedReviewSave(this)">등록</span>
+                                <span class="srv-adding inline mrv-btn" id="srv-adding">등록</span>
                             </div>
                         </div>
 
                        <!-- 스토어 리뷰 리스트 -->
                         <div class="sReview-Box" th:each="sReview: ${mReview.nestedReviewList}">
-                            <span class="srno rno" th:text="${sReview.rno}" style="display:none;"></span>
-                            <span class="srv-storeName">[[${sReview.storeName}]]</span>
-                            <br>
-                            <textarea class="rv-textarea" name="storeReviewText" readonly>[[${sReview.reviewText}]]</textarea><br>
-                            <span class="rv-date inline">[[${#temporals.format(sReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span><br>
-                            <div class="btn-Box">
-                                <span class="rv-modify inline mrv-btn" th:if="${rvMember} == ${sReview.id}">수정</span>
-                                <span class="srv-delete inline mrv-btn" th:if="${rvMember} == ${sReview.id}">삭제</span>
+                            <div class="sReview-smallBox">
+                                <span class="srno rno" th:text="${sReview.rno}" style="display:none;"></span>
+                                <span class="srv-storeName">[[${sReview.storeName}]]</span>
+                                <br>
+                                <textarea class="rv-textarea storeReviewText" name="storeReviewText" readonly>[[${sReview.reviewText}]]</textarea><br>
+                                <span class="rv-date inline">[[${#temporals.format(sReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span><br>
+                                <div class="btn-Box">
+                                    <span class="rv-modify inline mrv-btn" th:if="${rvMember} == ${sReview.id}">수정</span>
+                                    <span class="srv-delete inline mrv-btn" th:if="${rvMember} == ${sReview.id}">삭제</span>
+                                </div>
                             </div>
                         </div>
 
@@ -203,7 +205,6 @@
 
     </div>
     <!-- end of page-->
-
 
 
     </th:block>
