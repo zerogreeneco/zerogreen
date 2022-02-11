@@ -99,6 +99,19 @@ public class CommunityController {
         return "redirect:/community/read/" + boardId;
     }
 
+    /* 게시글 수정 */
+    @GetMapping("/{boardId}/modify")
+    public String modifyForm(@PathVariable("boardId")Long boardId) {
+        return "community/communityModifyForm";
+    }
+
+    @PostMapping("/{boardId}/modify")
+    public String modifyBoard(@PathVariable("boardId")Long boardId) {
+
+
+        return "redirect:/community/read/" + boardId;
+    }
+
     /* 게시글 상세보기 */
     @GetMapping("/read/{boardId}")
     public String detailView(@PathVariable("boardId") Long boardId, Model model,
@@ -107,11 +120,10 @@ public class CommunityController {
                              HttpServletRequest request, HttpServletResponse response,
                              HttpSession session) {
 
-        List<CommunityReplyDto> replyList = replyService.findReplyByBoardId(boardId);
-
         if (principalDetails != null) {
             model.addAttribute("likeCount", boardService.countLike(boardId, principalDetails.getBasicUser().getId()));
             session.setAttribute("loginUser", principalDetails.getBasicUser().getUsername());
+
             if (principalDetails.getBasicUser() instanceof Member) {
                 session.setAttribute("loginUserNickname", ((Member) principalDetails.getBasicUser()).getNickname());
             } else if (principalDetails.getBasicUser() instanceof StoreMember) {
@@ -119,9 +131,8 @@ public class CommunityController {
             }
         }
 
-        CommunityResponseDto detailView = boardService.findDetailView(boardId, request, response);
-        model.addAttribute("detailView", detailView);
-        model.addAttribute("replyList", replyList);
+        model.addAttribute("detailView", boardService.findDetailView(boardId, request, response));
+        model.addAttribute("replyList", replyService.findReplyByBoardId(boardId));
         if (boardImageService.findByBoardId(boardId).size() > 0) {
             model.addAttribute("images", boardImageService.findByBoardId(boardId));
         }

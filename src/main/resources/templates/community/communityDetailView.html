@@ -38,6 +38,10 @@
                     <img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"> [[*{like}]]
                 </span>
             </span>
+        <div>
+            <a th:href="@{'/community/' + ${detailView.id} + '/modify'}">수정</a>
+            <a>삭제</a>
+        </div>
         </div>
         <!-- 상세보기 내용 -->
         <hr/>
