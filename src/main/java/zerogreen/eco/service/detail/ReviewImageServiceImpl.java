@@ -97,7 +97,7 @@ public class ReviewImageServiceImpl implements ReviewImageService {
         return reviewImageRepository.findByStore(sno).stream().map(ReviewImageDto::new).collect(Collectors.toList());
     }
 
-    //List of Images on the review
+    //List of Images on the review **이거안됨**
     @Override
     public List<ReviewImageDto> findByReview(Long rno) {
         return reviewImageRepository.findByReview(rno).stream().map(ReviewImageDto::new).collect(Collectors.toList());

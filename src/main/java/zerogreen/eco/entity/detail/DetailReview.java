@@ -12,6 +12,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REMOVE;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -39,21 +42,24 @@ public class DetailReview extends BaseTimeEntity {
     private DetailReview parentReview;
 
     // 양방향 매핑으로 부모 댓글의 자식 댓글 리스트
+    // 조인컬럼을 없애면 테이블이 생겨서 일단 냅둠
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "parentReview")
     private List<DetailReview> nestedReviewList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "detailReview", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
+    private List<ReviewImage> imageList = new ArrayList<>();
+
     //계층구분
     private int depth = 1;
 
-
-    //이하 생성자
 
     //리뷰 수정
     public void editReview(String reviewText) {
         this.reviewText = reviewText;
     }
 
+    //기본 리뷰 추가
     public DetailReview(String reviewText, BasicUser reviewer, StoreMember storeMember) {
         this.reviewText = reviewText;
         this.reviewer = reviewer;

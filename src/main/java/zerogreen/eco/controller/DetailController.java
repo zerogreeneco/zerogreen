@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
@@ -116,8 +118,10 @@ public class DetailController {
     @PostMapping("/page/detail/addReview/{sno}")
     public String saveReview(@PathVariable("sno") Long sno, Model model, RequestPageSortDto requestPageSortDto,
                             @ModelAttribute("review") DetailReviewDto reviewDto,
-                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
 
+//        List<ReviewImage> reviewImages = reviewImageService.reviewImageFiles(reviewDto.getImageFiles());
+//        detailReviewService.saveReview(reviewDto.getReviewText(), sno, principalDetails.getBasicUser(), reviewImages);
         detailReviewService.saveReview(reviewDto.getReviewText(), sno, principalDetails.getBasicUser());
 
         List<DetailReviewDto> saveResult = detailReviewService.findByStore(sno);
@@ -125,7 +129,6 @@ public class DetailController {
 
         return "page/detail :: #reviewList";
     }
-
 
 /*
     //멤버 리뷰 db
@@ -144,30 +147,28 @@ public class DetailController {
 */
 
 
-/*
-    //멤버리뷰 삭제
-    @ResponseBody
-    @DeleteMapping("/deleteReview/{id}")
-    public ResponseEntity<Long> remove(@PathVariable("id") Long id) {
-        reviewService.remove(id);
-        return new ResponseEntity<>(id, HttpStatus.OK);
-    }
-
-    //멤버리뷰 수정 ** JSON 형식으로 다시 수정 예정**
-    @ResponseBody
-    @PutMapping("/editReview/{rno}")
-    public ResponseEntity<Long> modifyReview(@Validated @RequestBody MemberReviewDto memberReviewDto, BindingResult bindingResult,
-                                             @PathVariable Long rno){
-        reviewService.modifyReview(memberReviewDto);
-        return new ResponseEntity<>(rno, HttpStatus.OK);
-    }
-*/
 
 
     @ResponseBody
     @GetMapping("/page/detail/images/{filename}")
     private Resource getReviewImages(@PathVariable("filename") String filename) throws MalformedURLException {
         return new UrlResource("file:" + reviewImageService.getFullPath(filename));
+    }
+
+    //멤버리뷰 수정
+    @ResponseBody
+    @PutMapping("/editReview/{rno}")
+    public ResponseEntity<Long> modifyReview(@PathVariable("rno") Long rno,
+                                             @Validated @RequestBody DetailReviewDto detailReviewDto, BindingResult bindingResult) {
+        detailReviewService.modifyReview(detailReviewDto);
+        return new ResponseEntity<>(rno, HttpStatus.OK);
+    }
+
+    //리뷰 삭제
+    @DeleteMapping("/deleteReview/{rno}")
+    public String remove(@PathVariable("rno") Long rno) {
+        detailReviewService.remove(rno);
+        return "page/detail :: #reviewList";
     }
 
     //좋아요
@@ -185,7 +186,6 @@ public class DetailController {
         if (cntMemberLike <= 0) {
             likesService.addLikes(sno, principalDetails.getBasicUser());
             resultMap.put("totalCount", likesService.cntLikes(sno));
-
         } else {
             likesService.removeLike(sno, principalDetails.getId());
             resultMap.put("totalCount", likesService.cntLikes(sno));
