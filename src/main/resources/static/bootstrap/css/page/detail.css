@@ -125,7 +125,7 @@ textarea:focus {
     text-align: right;
 }
 
-.mrv-textarea, .srv-textarea {
+.rv-textarea {
     background: none;
     //border: 1px solid black;
     border: none;

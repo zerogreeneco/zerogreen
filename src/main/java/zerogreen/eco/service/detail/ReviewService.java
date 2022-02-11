@@ -21,11 +21,6 @@ public interface ReviewService {
     //멤버리뷰 리스팅
     //List<MemberReviewDto> getMemberReviewList(Long sno);
     //Page<MemberReviewDto> getMemberReviewList(Pageable pageable, Long sno);
-
-    //스토어멤버 리뷰 DB
-    Long saveStoreReview(StoreReviewDto storeReviewDto);
 */
-
-
 
     }
