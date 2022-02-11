@@ -1,3 +1,4 @@
+/*
 package zerogreen.eco.repository.detail;
 
 import com.querydsl.core.types.Projections;
@@ -61,3 +62,4 @@ public class ReviewRepositoryImpl implements ReviewRepository{
     }
 
 }
+*/

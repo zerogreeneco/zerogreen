@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ReviewDto {
+public class ReviewRequestDto {
     private String reviewText;
 
     private Long id;
@@ -24,7 +24,7 @@ public class ReviewDto {
 
     private List<MultipartFile> imageFiles;
 
-    public ReviewDto(String reviewText) {
+    public ReviewRequestDto(String reviewText) {
         this.reviewText = reviewText;
     }
 
