@@ -2,8 +2,13 @@ package zerogreen.eco.service.detail;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import zerogreen.eco.dto.community.CommunityReplyDto;
+import zerogreen.eco.dto.detail.DetailReviewDto;
+import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.entity.community.BoardReply;
 import zerogreen.eco.entity.community.CommunityBoard;
 import zerogreen.eco.entity.detail.DetailReview;
@@ -15,6 +20,9 @@ import zerogreen.eco.repository.detail.ReviewImageRepository;
 import zerogreen.eco.repository.detail.StoreReviewRepository;
 import zerogreen.eco.repository.user.BasicUserRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -35,7 +43,25 @@ public class DetailReviewServiceImpl implements DetailReviewService {
         detailReviewRepository.save(new DetailReview(reviewText, basicUser, storeMember)); // 생성자 없음 왜요,,?
     }
 
+    //Test
+    @Override
+    @Transactional
+    public Long saveReviewTest(DetailReview detailReview) {
+        StoreMember storeMember = storeMemberRepository.findById(detailReview.getStoreMember().getId()).orElseThrow();
+        return detailReviewRepository.save(new DetailReview(detailReview.getReviewText(), detailReview.getReviewer(), storeMember))
+                .getId(); // 생성자 없음 왜요,,?
+    }
+
+    //리스팅 작업중
+    @Override
+    public List<DetailReviewDto> findByStore(Long sno) {
+        List<DetailReview> reviewList = detailReviewRepository.findByStore(sno);
+        return reviewList.stream().map(DetailReviewDto::new).collect(Collectors.toList());
+    }
+
+
     //save comments
+/*
     @Override
     @Transactional
     public void saveNestedReview(String reviewText, Long sno, BasicUser basicUser, Long rno) {
@@ -48,5 +74,35 @@ public class DetailReviewServiceImpl implements DetailReviewService {
         // 부모 댓글에 자식 댓글을 리스트로 저장 (양방향 매핑)
         parentReview.addNestedReview(childReview);
     }
+*/
+
+    //list of reviews
+/*
+    @Override
+    public Page<DetailReviewDto> getReviewList(Pageable pageable, Long sno) {
+        return detailReviewRepository.findByStore(pageable, sno);
+    }
+*/
+
+    //회원별 전체 리뷰 수 카운팅 (memberMyInfo)
+    @Override
+    public Long countReviewByUser(Long id) {
+        return detailReviewRepository.countReviewByUser(id);
+    }
+
+    //회원별 리뷰남긴 가게 리스트 (memberMyInfo)
+    @Override
+    public List<DetailReviewDto> getReviewByUser(Long id) {
+        List<DetailReview> result = detailReviewRepository.getReviewByUser(id);
+        return result.stream().map(DetailReviewDto::new).collect(Collectors.toList());
+    }
+
+    //가게별 멤버 리뷰 수 카운팅 (deatil)
+    @Override
+    public Long cntMemberReview(Long sno) {
+        return detailReviewRepository.counting(sno);
+    }
+
+
 
 }

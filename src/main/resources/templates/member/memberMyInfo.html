@@ -59,8 +59,8 @@
                 <!-- 임시리스트 -->
                 <div th:each="review: ${listOfReview}">
                     <span>[[${review.rno}]]</span>
-                    <span>[[${review.storeMember.storeName}]]</span>
-                    <span>[[${#temporals.format(review.createdDate, 'yyyy-MM-dd HH:mm')}]]</span>
+                    <span>[[${review.storeName}]]</span>
+                    <span>[[${#temporals.format(review.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
                 </div>
 
             </div>

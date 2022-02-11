@@ -1,32 +1,32 @@
 $(document).ready(function(e){
     let contextPath = $('#contextPathHolder').attr('data-contextPath') ? $('#contextPathHolder').attr('data-contextPath') : '';
+    let sno = $(".js-storeId").text();
 
-//이하 아직 수정 안함, 뷰에 연결도 안했음------------------------------------
-
-    // 댓글
-    $("#review-send-btn").click(function () {
-        let text = $("#text").val();
+    // save Reviews
+    $("#rv-btn").click(function () {
+        let reviewText = $("#reviewText");
 
         $.ajax({
-            url: "/zerogreen/community/" + boardId + "/reply",
-            method: "post",
+            url: contextPath+'/page/detail/addReview/' + sno,
+            method: "POST",
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            // dataType: "json",
             data: {
-                boardId: boardId,
-                text: text
+                sno: sno,
+                reviewText: reviewText.val();
             }
         })
             .done(function (fragment) {
-                $("#review-table").replaceWith(fragment);
-                alert("댓글이 등록되었습니다.");
-                $("#text").val("");
-                $("#text-count").text("0 / 100");
+                $("#reviewList").replaceWith(fragment);
+                //alert("댓글이 등록되었습니다.");
+                $("#reviewText").val("");
+                //$("#text-count").text("0 / 100");
             });
 
-    }); // review send end.
+    }); // end save reviews
+
 
     // 대댓글
+/*
     function nestedReplySend(event) {
         let boardId = $("#id").val();
         let replyBtn = $(event);
@@ -48,6 +48,7 @@ $(document).ready(function(e){
             })
 
     }
+*/
 
 
 }); //end script

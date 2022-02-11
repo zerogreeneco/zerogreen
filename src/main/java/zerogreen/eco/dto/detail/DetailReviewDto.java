@@ -26,6 +26,7 @@ public class DetailReviewDto {
     private String nickname;
 
     private Long sno;
+    private String storeName;
 
     private Long parentReview;
 
@@ -59,6 +60,7 @@ public class DetailReviewDto {
         this.username = detailReview.getReviewer().getUsername();
         this.createdTime = detailReview.getModifiedDate();
         this.nestedReviewList = collect;
+        this.storeName = detailReview.getStoreMember().getStoreName();
     }
 
 

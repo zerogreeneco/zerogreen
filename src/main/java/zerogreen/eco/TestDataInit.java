@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.community.CommunityBoard;
+import zerogreen.eco.entity.detail.DetailReview;
 import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.detail.StoreReview;
 import zerogreen.eco.entity.file.RegisterFile;
@@ -16,6 +17,7 @@ import zerogreen.eco.repository.detail.MemberReviewRepository;
 import zerogreen.eco.repository.detail.StoreReviewRepository;
 import zerogreen.eco.repository.user.MemberRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
+import zerogreen.eco.service.detail.DetailReviewService;
 import zerogreen.eco.service.detail.ReviewService;
 import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.MemberService;
@@ -48,6 +50,7 @@ public class TestDataInit {
         private final StoreMemberService storeMemberService;
         private final BasicUserService basicUserService;
         private final ReviewService reviewService;
+        private final DetailReviewService detailReviewService;
 
         private final MemberRepository memberRepository;
         private final StoreMemberRepository storeMemberRepository;
@@ -140,24 +143,24 @@ public class TestDataInit {
                     "부산 연제구 연제로 2", "연산동","0517776666", "88888");
 
             StoreMember ecoTest2 = new StoreMember("ecoTest2", "01012345678", "1",
-                    UserRole.STORE, "ECO_SHOP2", "0511234567",StoreType.ECO_SHOP,
+                    UserRole.STORE, "동영동영의 ECO_SHOP2", "0511234567",StoreType.ECO_SHOP,
                     "부산 사하구 낙동대로398번길 12", "하단동","0511234567",  "22222");
 
             StoreMember foodTest2 = new StoreMember("foodTest2", "01098765432", "1",
-                    UserRole.STORE, "VEGAN_FOOD2", "0519876543", StoreType.VEGAN_FOOD,
+                    UserRole.STORE, "Ran ran VEGAN_FOOD2", "0519876543", StoreType.VEGAN_FOOD,
                     "부산시 동래구 명장로 22번길 29", "덕천동","0519876541", "33333");
 
             StoreMember noVegan2 = new StoreMember("noVeganlTest2", "01799997777", "1",
-                    UserRole.STORE, "NO_VEGAN_FOOD2", "0517894561", StoreType.GENERAL_FOOD,
+                    UserRole.STORE, "Ben NO_VEGAN_FOOD2", "0517894561", StoreType.GENERAL_FOOD,
                     "부산 금정구 중앙대로 1777", "장전동","0517894561", "44444");
 
             // 일반 회원
-            Member member = new Member("test", "tester", "01022223333", "1",
+            Member member = new Member("test", "김그네", "01022223333", "1",
                     UserRole.USER, VegetarianGrade.LACTO);
             CommunityRequestDto dto = new CommunityRequestDto("TEST TEXT", Category.PLOGGING);
             memberService.save(member);
 
-            Member member2 = new Member("test2", "tester2", "01022224444", "1",
+            Member member2 = new Member("test2", "오융", "01022224444", "1",
                     UserRole.USER, VegetarianGrade.LACTO);
             CommunityRequestDto dto2 = new CommunityRequestDto("TEST TEXT2", Category.PLOGGING);
             memberService.save(member2);
@@ -183,23 +186,23 @@ public class TestDataInit {
             StoreMember findEcoStore1 = storeMemberRepository.findByUsername("ecoTest5").get();
             StoreMember findEcoStore2 = storeMemberRepository.findByUsername("ecoTest6").get();
 
-            MemberReview memberReview1 = new MemberReview("mReview1 by test",findMember1,findEcoStore1);
-            reviewService.saveTest(memberReview1);
-            MemberReview memberReview2 = new MemberReview("mReview2 by test",findMember1,findEcoStore1);
-            reviewService.saveTest(memberReview2);
-            MemberReview memberReview3 = new MemberReview("mReview3 by test2",findMember2,findEcoStore1);
-            reviewService.saveTest(memberReview3);
-            MemberReview memberReview4 = new MemberReview("mReview4 by test2",findMember2,findEcoStore1);
-            reviewService.saveTest(memberReview4);
+            DetailReview detailReview1 = new DetailReview("mReview1 by test",findMember1,findEcoStore1);
+            detailReviewService.saveReviewTest(detailReview1);
+            DetailReview detailReview2 = new DetailReview("mReview2 by test",findMember1,findEcoStore1);
+            detailReviewService.saveReviewTest(detailReview2);
+            DetailReview detailReview3 = new DetailReview("mReview3 by test2",findMember2,findEcoStore1);
+            detailReviewService.saveReviewTest(detailReview3);
+            DetailReview detailReview4 = new DetailReview("mReview4 by test2",findMember2,findEcoStore1);
+            detailReviewService.saveReviewTest(detailReview4);
 
-            MemberReview memberReview5 = new MemberReview("mReview1 by test",findMember1,findEcoStore2);
-            reviewService.saveTest(memberReview5);
-            MemberReview memberReview6 = new MemberReview("mReview2 by test",findMember1,findEcoStore2);
-            reviewService.saveTest(memberReview6);
-            MemberReview memberReview7 = new MemberReview("mReview3 by test2",findMember2,findEcoStore2);
-            reviewService.saveTest(memberReview7);
-            MemberReview memberReview8 = new MemberReview("mReview4 by test2",findMember2,findEcoStore2);
-            reviewService.saveTest(memberReview8);
+            DetailReview detailReview5 = new DetailReview("mReview1 by test",findMember1,findEcoStore2);
+            detailReviewService.saveReviewTest(detailReview5);
+            DetailReview detailReview6 = new DetailReview("mReview2 by test",findMember1,findEcoStore2);
+            detailReviewService.saveReviewTest(detailReview6);
+            DetailReview detailReview7 = new DetailReview("mReview3 by test2",findMember2,findEcoStore2);
+            detailReviewService.saveReviewTest(detailReview7);
+            DetailReview detailReview8 = new DetailReview("mReview4 by test2",findMember2,findEcoStore2);
+            detailReviewService.saveReviewTest(detailReview8);
 
             // 커뮤니티 리스트 추가
             communityBoardRepository.save(new CommunityBoard("TEST TEXT", findMember1, Category.PLOGGING));
@@ -213,24 +216,17 @@ public class TestDataInit {
             em.flush();
             em.clear();
 
-            //스토어 리뷰 추가
-            MemberReview review1 = memberReviewRepository.findById(1L).get();
-            MemberReview review2 = memberReviewRepository.findById(2L).get();
-            MemberReview review3 = memberReviewRepository.findById(3L).get();
-            MemberReview review4 = memberReviewRepository.findById(4L).get();
-
-            StoreReview storeReview1 = new StoreReview("sReview1 by eco5 to 37", findEcoStore1,review1);
-            reviewService.ssrT(storeReview1);
-            StoreReview storeReview2 = new StoreReview("sReview1 by eco5 to 37", findEcoStore1,review2);
-            reviewService.ssrT(storeReview2);
-            StoreReview storeReview3 = new StoreReview("sReview1 by eco5 to 38", findEcoStore1,review3);
-            reviewService.ssrT(storeReview3);
-            StoreReview storeReview4 = new StoreReview("sReview1 by eco5 to 38", findEcoStore1,review4);
-            reviewService.ssrT(storeReview4);
+//            //스토어 리뷰 추가
+//            MemberReview review1 = memberReviewRepository.findById(1L).get();
+//            MemberReview review2 = memberReviewRepository.findById(2L).get();
+//            MemberReview review3 = memberReviewRepository.findById(3L).get();
+//            MemberReview review4 = memberReviewRepository.findById(4L).get();
+//
+//
+//            em.flush();
+//            em.clear();
 
 
-            em.flush();
-            em.clear();
 
 
         }

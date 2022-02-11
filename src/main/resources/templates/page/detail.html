@@ -11,8 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-    <script th:src="@{/bootstrap/js/detail/memberReview.js}"></script>
-    <script th:src="@{/bootstrap/js/detail/storeReview.js}"></script>
+    <script th:src="@{/bootstrap/js/detail/detailReview.js}"></script>
     <script th:src="@{/bootstrap/js/detail/likes.js}"></script>
 
         <!-- 본문 시작 -->
@@ -115,14 +114,16 @@
 
 
             <!-- 리뷰작성 textarea -->
-            <form method="post" th:object="${review}" enctype="multipart/form-data">
+            <form method="POST" th:object="${review}" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{sno}">
+
                 <div class="inline rv-ta" >
                     <textarea th:field="*{reviewText}" name="reviewText" id="reviewText" class="reviewText"></textarea>
                 </div>
 
                 <div class="inline rv-btn">
-                    <label class="img-input rvrv-btn inline" for="img-input">사진선택</label><br>
-                    <input class="img-input" id="img-input" th:field="*{imageFiles}" name="reviewImages" type="file" multiple="multiple"/>
+<!--                    <label class="img-input rvrv-btn inline" for="img-input">사진선택</label><br>-->
+<!--                    <input class="img-input" id="img-input" th:field="*{imageFiles}" name="reviewImages" type="file" multiple="multiple"/>-->
                     <label class="rvrv-btn inline" for="rv-btn">리뷰등록</label>
                     <button type="submit" id="rv-btn">리뷰등록</button>
                 </div>
@@ -142,29 +143,31 @@
                 </div>
             </div>
             <!-- 리뷰리스트 -->
-            <div id="rv-list">
-                <div th:each="mReview : ${memberReview.dtoList}">
+            <div id="reviewList">
+                <div th:each="mReview : ${memberReview}">
                     <!-- 멤버리뷰 리스트 -->
                     <div class="reviewBox">
-                        <span class="rno" style="display:none;">[[${mReview.rno}]]</span>
+                        <span class="rno" style="display:none;" th:value="${mReview.rno}"></span>
                         <span class="rv-nickname">[[${mReview.nickname}]]</span>
                         <span>[[${mReview.rno}]]</span>
-                        <span>[[${mReview.basicUser.id}]]</span><br>
+                        <span class="js-storeId">[[${mReview.sno}]]</span>
+                        <span>[[${mReview.storeName}]]</span>
+                        <br>
 
+<!--
                         <div class="rv-img inline" th:each="image: ${image}">
                             <img class="inline" th:src="@{/page/detail/images/{image}(image=*{image.reviewFileName})}"
                                  th:value="${image.uploadFileName}"
                                  width="120px" height="120px">
                         </div>
+-->
 
                         <textarea class="mrv-textarea" name="reviewText" readonly>[[${mReview.reviewText}]]</textarea><br>
-                        <span class="rv-date inline">[[${#temporals.format(mReview.createdDate, 'yyyy-MM-dd HH:mm')}]]</span><br>
 
                         <div class="btn-Box">
-                            <span class="srv-toAdd inline mrv-btn"
-                                  th:if="${rvMember == mReview.storeMember.id and mReview.storeReview == null}">답글</span>
-                            <span class="mrv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.basicUser.id}">수정</span>
-                            <span class="mrv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.basicUser.id}">삭제</span>
+                            <span class="srv-toAdd inline mrv-btn">답글</span>
+                            <span class="mrv-modify inline mrv-btn" >수정</span>
+                            <span class="mrv-delete inline mrv-btn">삭제</span>
                         </div>
 
                         <!-- 스토어 리뷰 입력창 -->
@@ -176,17 +179,17 @@
                         </div>
 
                        <!-- 스토어 리뷰 리스트 -->
-                        <div class="sReview-Box" th:if="${mReview.storeReview != null}">
-                            <span class="srv-storeName">[[${mReview.storeReview.storeMember.storeName}]]</span>
-                            <span class="srno">[[${mReview.storeReview.id}]]</span>
-                            <span class="rno">[[${mReview.storeReview.memberReview.id}]]</span>
+                        <div class="sReview-Box">
+                            <span class="srv-storeName"></span>
+                            <span class="srno"></span>
+                            <span class="rno"></span>
                             <span></span>
                             <span></span><br>
-                            <textarea class="srv-textarea" name="storeReviewText" readonly>[[${mReview.storeReview.storeReviewText}]]</textarea><br>
-                            <span class="rv-date inline">[[${#temporals.format(mReview.storeReview.createdDate, 'yyyy-MM-dd HH:mm')}]]</span><br>
+                            <textarea class="srv-textarea" name="storeReviewText" readonly></textarea><br>
+                            <span class="rv-date inline"></span><br>
                             <div class="btn-Box">
-                                <span class="srv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.storeMember.id}">수정하기</span>
-                                <span class="srv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.storeMember.id}">삭제하기</span>
+                                <span class="srv-modify inline mrv-btn">수정하기</span>
+                                <span class="srv-delete inline mrv-btn">삭제하기</span>
                             </div>
                         </div>
 

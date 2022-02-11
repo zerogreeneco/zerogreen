@@ -10,12 +10,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.detail.LikesDto;
 import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.dto.member.FindMemberDto;
 import zerogreen.eco.dto.member.MemberUpdateDto;
 import zerogreen.eco.dto.member.PasswordUpdateDto;
 import zerogreen.eco.security.auth.PrincipalDetails;
+import zerogreen.eco.service.detail.DetailReviewService;
 import zerogreen.eco.service.detail.LikesService;
 import zerogreen.eco.service.detail.ReviewService;
 import zerogreen.eco.service.mail.MailService;
@@ -37,6 +39,7 @@ public class MemberController {
     private final PasswordEncoder passwordEncoder;
     private final ReviewService reviewService;
     private final LikesService likesService;
+    private final DetailReviewService detailReviewService;
 
     @ModelAttribute("member")
     public MemberUpdateDto memberUpdateDto() {
@@ -116,24 +119,23 @@ public class MemberController {
             return "redirect:/";
     }
 
-    @GetMapping("/member/memberMyInfo")
+    @GetMapping("/memberMyInfo")
     public String myInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
                          Model model) {
 
         //회원별 남긴 리뷰 수
-        model.addAttribute("reviewCount", reviewService.countReviewByUser(principalDetails.getId()));
+        model.addAttribute("reviewCount", detailReviewService.countReviewByUser(principalDetails.getId()));
         //회원별 좋아요 수
         model.addAttribute("likesCount", likesService.countLikesByUser(principalDetails.getId()));
         //회원 닉네임
         model.addAttribute("profile", memberService.findById(principalDetails.getId()).get());
         //회원별 리뷰 남긴 가게 리스트
-        List<MemberReviewDto> review =  reviewService.getReviewByUser(principalDetails.getId());
+        List<DetailReviewDto> userReview =  detailReviewService.getReviewByUser(principalDetails.getId());
         //review.sort(Collections.reverseOrder());
-        model.addAttribute("listOfReview",review);
+        model.addAttribute("listOfReview",userReview);
         //회원별 찜한 가게 리스트 (memberMyInfo)
         List<LikesDto> likes =  likesService.getLikesByUser(principalDetails.getId());
         model.addAttribute("listOfLikes",likes);
-
 
         return "member/memberMyInfo";
     }
