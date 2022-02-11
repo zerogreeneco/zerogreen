@@ -11,20 +11,12 @@ import java.util.List;
 
 public interface DetailReviewRepository extends JpaRepository<DetailReview, Long> {
 
+    //Detail 리스팅
     @Query("select dr from DetailReview dr " +
             "join fetch dr.storeMember s " +
             "join fetch dr.reviewer r " +
             "where dr.depth = 1 and dr.storeMember.id =:sno")
     List<DetailReview> findByStore(@Param("sno") Long sno);
-
-
-/*
-    @Query("select dr from DetailReview dr " +
-            "join fetch dr.storeMember s " +
-            "join fetch dr.reviewer r " +
-            "where dr.depth = 1 and dr.storeMember.id =:sno")
-    Page<DetailReviewDto> findByStore(Pageable pageable, @Param("sno") Long sno);
-*/
 
     //memberMyInfo에 나타나는 회원별 리뷰 수
     @Query("select count(dr.id) from DetailReview dr " +

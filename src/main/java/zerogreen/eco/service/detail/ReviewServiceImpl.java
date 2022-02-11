@@ -3,7 +3,6 @@ package zerogreen.eco.service.detail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import zerogreen.eco.repository.detail.MemberReviewRepository;
 import zerogreen.eco.repository.detail.ReviewImageRepository;
 import zerogreen.eco.repository.user.BasicUserRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
@@ -13,7 +12,6 @@ import zerogreen.eco.repository.user.StoreMemberRepository;
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService{
 
-    private final MemberReviewRepository memberReviewRepository;
     private final StoreMemberRepository storeMemberRepository;
     private final BasicUserRepository basicUserRepository;
     private final ReviewImageRepository reviewImageRepository;
@@ -62,28 +60,6 @@ public class ReviewServiceImpl implements ReviewService{
             }
         }
         return saveReview.getId();
-    }
-*//*
-
-
-    //멤버 리뷰 리스트
-*/
-/*
-    @Override
-    public Page<MemberReviewDto> getMemberReviewList(Pageable pageable, Long sno) {
-        StoreMember findStore = storeMemberRepository.findById(sno).orElseThrow();
-        return memberReviewRepository.findByStore(pageable, findStore);
-    }
-*//*
-
-*/
-/*
-    public List<MemberReviewDto> getMemberReviewList(Long sno) {
-        log.info("~~~~~~66 " + sno);
-        List<MemberReview> result = memberReviewRepository.findByStore(sno);
-        log.info("~~~~~77 " + result);
-
-        return result.stream().map(MemberReviewDto::new).collect(Collectors.toList());
     }
 */
 

@@ -13,19 +13,14 @@ public interface DetailReviewService {
     //Long saveReview(String reviewText, Long sno, BasicUser basicUser, List<ReviewImage> reviewImages);
     Long saveReview(String reviewText, Long sno, BasicUser basicUser);
 
-    //temp list
+
+    //listing
     List<DetailReviewDto> findByStore(Long sno);
-    //review list
-    //Page<DetailReviewDto> getReviewList(Pageable pageable, Long sno);
-
-
     //save comments
     void saveNestedReview(String reviewText, Long sno, BasicUser basicUser, Long rno);
-
-
-    //edit review
+    //edit reviews
     void modifyReview(DetailReviewDto detailReviewDto);
-    //delete review
+    //delete reviews
     void remove(Long id);
     //회원별 전체 리뷰 수 카운팅 (memberMyInfo)
     Long countReviewByUser(Long id);

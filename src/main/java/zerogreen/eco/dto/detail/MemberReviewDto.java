@@ -2,19 +2,14 @@ package zerogreen.eco.dto.detail;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.web.multipart.MultipartFile;
-import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.detail.ReviewImage;
-import zerogreen.eco.entity.detail.StoreReview;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.StoreMember;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -36,7 +31,6 @@ public class MemberReviewDto {
     private Long srno;
     @NotBlank
     private String storeReviewText;
-    private StoreReview storeReview;
 
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
@@ -77,14 +71,13 @@ public class MemberReviewDto {
 
     //멤버리뷰 리스팅+스토어 리뷰 (페이징작업중)
     public MemberReviewDto(Long rno, String reviewText, BasicUser basicUser,
-                           StoreMember storeMember, String nickname, StoreReview storeReview,
+                           StoreMember storeMember, String nickname,
                            LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.rno = rno;
         this.reviewText = reviewText;
         this.basicUser = basicUser;
         this.storeMember = storeMember;
         this.nickname = nickname;
-        this.storeReview = storeReview;
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
     }

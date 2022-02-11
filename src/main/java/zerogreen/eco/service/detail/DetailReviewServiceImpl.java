@@ -9,7 +9,6 @@ import zerogreen.eco.entity.detail.DetailReview;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.repository.detail.DetailReviewRepository;
-import zerogreen.eco.repository.detail.MemberReviewRepository;
 import zerogreen.eco.repository.detail.ReviewImageRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 
@@ -21,7 +20,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class DetailReviewServiceImpl implements DetailReviewService {
-    private final MemberReviewRepository memberReviewRepository;
     private final StoreMemberRepository storeMemberRepository;
     private final ReviewImageRepository reviewImageRepository;
     private final DetailReviewRepository detailReviewRepository;
@@ -48,21 +46,14 @@ public class DetailReviewServiceImpl implements DetailReviewService {
 
 
 
-    //리스팅 작업중 **아래 주석 포함 **
+    //리스팅
     @Override
     public List<DetailReviewDto> findByStore(Long sno) {
         List<DetailReview> reviewList = detailReviewRepository.findByStore(sno);
         return reviewList.stream().map(DetailReviewDto::new).collect(Collectors.toList());
     }
-/*
-    @Override
-    public Page<DetailReviewDto> getReviewList(Pageable pageable, Long sno) {
-        return detailReviewRepository.findByStore(pageable, sno);
-    }
-*/
 
-
-    //save comments
+    //대댓글
     @Override
     @Transactional
     public void saveNestedReview(String reviewText, Long sno, BasicUser basicUser, Long rno) {
@@ -76,8 +67,7 @@ public class DetailReviewServiceImpl implements DetailReviewService {
         parentReview.addNestedReview(childReview);
     }
 
-
-    //멤버리뷰 수정
+    //리뷰 수정
     @Override
     public void modifyReview(DetailReviewDto detailReviewDto) {
         Optional<DetailReview> result = detailReviewRepository.findById(detailReviewDto.getRno());
