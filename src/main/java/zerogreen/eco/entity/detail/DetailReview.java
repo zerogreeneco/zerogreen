@@ -42,6 +42,7 @@ public class DetailReview extends BaseTimeEntity {
     private DetailReview parentReview;
 
     // 양방향 매핑으로 부모 댓글의 자식 댓글 리스트
+    // 조인컬럼을 없애면 테이블이 생겨서 일단 냅둠
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "parentReview")
     private List<DetailReview> nestedReviewList = new ArrayList<>();
@@ -58,6 +59,7 @@ public class DetailReview extends BaseTimeEntity {
         this.reviewText = reviewText;
     }
 
+    //기본 리뷰 추가
     public DetailReview(String reviewText, BasicUser reviewer, StoreMember storeMember) {
         this.reviewText = reviewText;
         this.reviewer = reviewer;

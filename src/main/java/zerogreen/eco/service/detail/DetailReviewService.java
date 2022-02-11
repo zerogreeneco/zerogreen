@@ -20,7 +20,7 @@ public interface DetailReviewService {
 
 
     //save comments
-    //void saveNestedReview(String reviewText, Long sno, BasicUser basicUser, Long rno);
+    void saveNestedReview(String reviewText, Long sno, BasicUser basicUser, Long rno);
 
 
     //edit review
@@ -35,5 +35,6 @@ public interface DetailReviewService {
     Long cntMemberReview(Long sno);
     //테스트 데이터
     Long saveReviewTest(DetailReview detailReview);
+    Long saveNestedReviewTest(DetailReview detailReview, Long rno);
 
 }

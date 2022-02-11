@@ -54,6 +54,17 @@ $(document).ready(function(e){
     }
 */
 
+    //show comment input box
+    $(".srv-toAdd").on("click", function(){
+        console.log("SRVSRV");
+
+        let inputBox = $(".srv-input");
+        let toAdd = $(this).parent().children(".srv-toAdd");
+
+        inputBox.show();
+        toAdd.attr('style',"display:none;")
+    });
+
 
     //edit Reviews
     $(".mrv-modify").on("click", function(){

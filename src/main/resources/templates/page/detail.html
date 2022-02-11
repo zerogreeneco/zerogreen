@@ -163,7 +163,8 @@
                         <textarea class="mrv-textarea" name="reviewText" readonly>[[${mReview.reviewText}]]</textarea><br>
 
                         <div class="btn-Box">
-                            <span class="srv-toAdd inline mrv-btn">답글</span>
+                            <span class="srv-toAdd inline mrv-btn"
+                                  th:if="${rvMember == mReview.id && rvMember == mReview.sno}">답글</span>
                             <span class="mrv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.id}">수정</span>
                             <span class="mrv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.id}">삭제</span>
                         </div>

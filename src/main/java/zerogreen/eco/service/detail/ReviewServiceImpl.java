@@ -16,7 +16,6 @@ public class ReviewServiceImpl implements ReviewService{
     private final MemberReviewRepository memberReviewRepository;
     private final StoreMemberRepository storeMemberRepository;
     private final BasicUserRepository basicUserRepository;
-    private final StoreReviewRepository storeReviewRepository;
     private final ReviewImageRepository reviewImageRepository;
 
     //멤버리뷰 DB저장 (이미지 포함)

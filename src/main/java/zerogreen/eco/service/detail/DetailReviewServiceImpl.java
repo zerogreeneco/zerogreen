@@ -63,7 +63,6 @@ public class DetailReviewServiceImpl implements DetailReviewService {
 
 
     //save comments
-/*
     @Override
     @Transactional
     public void saveNestedReview(String reviewText, Long sno, BasicUser basicUser, Long rno) {
@@ -76,7 +75,6 @@ public class DetailReviewServiceImpl implements DetailReviewService {
         // 부모 댓글에 자식 댓글을 리스트로 저장 (양방향 매핑)
         parentReview.addNestedReview(childReview);
     }
-*/
 
 
     //멤버리뷰 수정
@@ -123,5 +121,18 @@ public class DetailReviewServiceImpl implements DetailReviewService {
         return detailReviewRepository.save(new DetailReview(detailReview.getReviewText(), detailReview.getReviewer(), storeMember))
                 .getId(); // 생성자 없음 왜요,,?
     }
+
+    //save comments Test
+    @Override
+    @Transactional
+    public Long saveNestedReviewTest(DetailReview detailReview, Long rno) {
+        StoreMember storeMember = storeMemberRepository.findById(detailReview.getStoreMember().getId()).orElseThrow();
+        DetailReview parentReview = detailReviewRepository.findById(rno).orElseThrow();
+        DetailReview childReview = new DetailReview(detailReview.getReviewText(), detailReview.getReviewer(), storeMember);
+        detailReviewRepository.save(childReview);
+        parentReview.addNestedReview(childReview);
+        return childReview.getId();
+    }
+
 
 }

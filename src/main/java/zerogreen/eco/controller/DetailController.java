@@ -186,7 +186,6 @@ public class DetailController {
         if (cntMemberLike <= 0) {
             likesService.addLikes(sno, principalDetails.getBasicUser());
             resultMap.put("totalCount", likesService.cntLikes(sno));
-
         } else {
             likesService.removeLike(sno, principalDetails.getId());
             resultMap.put("totalCount", likesService.cntLikes(sno));
