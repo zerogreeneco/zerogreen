@@ -28,7 +28,7 @@ public class ReviewImage extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "review_id")
-    private MemberReview memberReview;
+    private DetailReview detailReview;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "store_id")
@@ -45,11 +45,11 @@ public class ReviewImage extends BaseTimeEntity {
 
     // 파일 DB 저장
     public ReviewImage(String uploadFileName, String reviewFileName, String filePath,
-                       MemberReview memberReview, StoreMember storeMember) {
+                       DetailReview detailReview, StoreMember storeMember) {
         this.uploadFileName = uploadFileName;
         this.reviewFileName = reviewFileName;
         this.filePath = filePath;
-        this.memberReview = memberReview;
+        this.detailReview = detailReview;
         this.storeMember = storeMember;
     }
 

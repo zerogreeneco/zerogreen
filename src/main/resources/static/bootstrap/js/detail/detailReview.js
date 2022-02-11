@@ -5,6 +5,7 @@ $(document).ready(function(e){
     // save Reviews
     $("#rv-btn").click(function () {
         let reviewText = $("#reviewText");
+        let imageList = $("#img-input");
 
         $.ajax({
             url: contextPath+'/page/detail/addReview/' + sno,
@@ -12,7 +13,7 @@ $(document).ready(function(e){
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             data: {
                 sno: sno,
-                reviewText: reviewText.val();
+                reviewText: reviewText.val(),
             }
         })
             .done(function (fragment) {
@@ -50,5 +51,10 @@ $(document).ready(function(e){
     }
 */
 
+    //textarea 자동 늘이기
+    $('textarea').keyup(function(e){
+        $(this).css('height', 'auto');
+        $(this).height(this.scrollHeight);
+    });
 
 }); //end script

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.dto.store.StoreDto;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.security.auth.PrincipalUser;
@@ -116,8 +117,10 @@ public class DetailController {
     @PostMapping("/page/detail/addReview/{sno}")
     public String saveReview(@PathVariable("sno") Long sno, Model model, RequestPageSortDto requestPageSortDto,
                             @ModelAttribute("review") DetailReviewDto reviewDto,
-                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
 
+//        List<ReviewImage> reviewImages = reviewImageService.reviewImageFiles(reviewDto.getImageFiles());
+//        detailReviewService.saveReview(reviewDto.getReviewText(), sno, principalDetails.getBasicUser(), reviewImages);
         detailReviewService.saveReview(reviewDto.getReviewText(), sno, principalDetails.getBasicUser());
 
         List<DetailReviewDto> saveResult = detailReviewService.findByStore(sno);

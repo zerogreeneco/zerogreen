@@ -40,8 +40,6 @@ public class MemberReview extends BaseTimeEntity {
     @JoinColumn(name = "member")
     private BasicUser basicUser;
 
-    @OneToMany(mappedBy = "memberReview", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
-    private List<ReviewImage> imageList = new ArrayList<>();
 
 
     //리뷰 수정하기

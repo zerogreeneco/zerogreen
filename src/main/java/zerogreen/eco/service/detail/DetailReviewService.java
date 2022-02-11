@@ -2,13 +2,17 @@ package zerogreen.eco.service.detail;
 
 import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.entity.detail.DetailReview;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 
 import java.util.List;
 
 public interface DetailReviewService {
     //save reviews
-    void saveReview(String reviewText, Long sno, BasicUser basicUser);
+    //void saveReview(String reviewText, Long sno, BasicUser basicUser);
+    //Long saveReview(String reviewText, Long sno, BasicUser basicUser, List<ReviewImage> reviewImages);
+    Long saveReview(String reviewText, Long sno, BasicUser basicUser);
+
     Long saveReviewTest(DetailReview detailReview);
 
     //temp list

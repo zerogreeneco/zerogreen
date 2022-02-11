@@ -2,16 +2,11 @@ package zerogreen.eco.service.detail;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import zerogreen.eco.dto.community.CommunityReplyDto;
 import zerogreen.eco.dto.detail.DetailReviewDto;
-import zerogreen.eco.dto.detail.MemberReviewDto;
-import zerogreen.eco.entity.community.BoardReply;
-import zerogreen.eco.entity.community.CommunityBoard;
 import zerogreen.eco.entity.detail.DetailReview;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.repository.detail.DetailReviewRepository;
@@ -38,9 +33,23 @@ public class DetailReviewServiceImpl implements DetailReviewService {
     //save reviews
     @Override
     @Transactional
-    public void saveReview(String reviewText, Long sno, BasicUser basicUser) {
+    public Long saveReview(String reviewText, Long sno, BasicUser basicUser) {
         StoreMember storeMember = storeMemberRepository.findById(sno).orElseThrow();
-        detailReviewRepository.save(new DetailReview(reviewText, basicUser, storeMember)); // 생성자 없음 왜요,,?
+        DetailReview saveReview = detailReviewRepository.save(new DetailReview(reviewText, basicUser, storeMember));// 생성자 없음 왜요,,?
+
+/*
+        if(reviewImages.size() != 0) {
+            for (ReviewImage image : reviewImages) {
+                log.info("aaaaaaaareviewImage " + image);
+
+                reviewImageRepository.save(new ReviewImage(
+                        image.getUploadFileName(), image.getReviewFileName(), image.getFilePath(), saveReview, storeMember));
+            }
+        }
+*/
+
+        return saveReview.getId();
+
     }
 
     //Test
