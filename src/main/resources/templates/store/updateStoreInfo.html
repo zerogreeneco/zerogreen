@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
+    <th:block th:fragment="content">
+
+        <!-- 페이지 css/ js 추가 -->
+        <script th:inline="javascript" th:src="@{/bootstrap/js/storeInfo.js}"></script>
+
+        <!-- 본문 시작 -->
+
+        <div>
+            <h1>내 가게 정보</h1>
+            <h1>가게 이름</h1>
+            <span>가게 타입 (selected disabled)</span>
+            <div>가게 연락처</div>
+            <input>
+            <div>영업시간</div>
+            <input type="time" class="time startTime" name="startTime"/> ~
+            <input type="time" class="time closeTime" name="closeTime"/>
+
+            <div>가게소개</div>
+            <input>
+            <div>소셜 주소</div>
+            <input>
+            <div>메뉴</div>
+            <input placeholder="메뉴이름">
+            <input placeholder="가격">
+            <select>
+                <option>비건</option>
+                <option>락토</option>
+                <option>오보</option>
+                <option>락토오보</option>
+                <option>페스코</option>
+                <option>폴로</option>
+                <option>플렉시테리언</option>
+            </select>
+        </div>
+    </th:block>
+</th:block>
