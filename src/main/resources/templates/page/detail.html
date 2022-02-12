@@ -124,7 +124,9 @@
                 <div class="inline rv-btn">
                     <label class="img-input rvrv-btn inline" for="img-input">사진선택</label><br>
                     <input class="img-input" id="img-input" th:field="*{imageFiles}" name="reviewImages" type="file" multiple="multiple"/>
-                    <span type="button" class="rvrv-btn inline" id="rv-btn">리뷰등록</span>
+                    <label class="rvrv-btn inline" for="rv-btn">리뷰등록</label>
+                    <button type="submit" id="rv-btn">리뷰등록</button>
+<!--                    <span typeof="button" class="rvrv-btn inline" id="rv-btn">리뷰등록</span>-->
                 </div>
 
             </form>
@@ -153,16 +155,16 @@
                         <span>[[${mReview.sno}]]</span>
                         <span>[[${mReview.id}]]</span>
                         <span>[[${mReview.storeName}]]</span>
+                        <span class="rv-date inline">[[${#temporals.format(mReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
                         <br>
 
-                        <div class="rv-img inline" th:each="image: ${image}">
-                            <img class="inline" th:src="@{/page/detail/images/{image}(image=*{image.reviewFileName})}"
-                                 th:value="${image.uploadFileName}"
+                        <div class="rv-img inline" th:each="mImage: ${mReview.imageList}">
+                            <img class="inline" th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
+                                 th:value="${mImage.uploadFileName}"
                                  width="120px" height="120px">
                         </div>
 
                         <textarea class="rv-textarea" name="reviewText" readonly>[[${mReview.reviewText}]]</textarea><br>
-                        <span class="rv-date inline">[[${#temporals.format(mReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
 
                         <div class="btn-Box">
                             <span class="srv-toAdd inline mrv-btn"
@@ -184,9 +186,9 @@
                             <div class="sReview-smallBox">
                                 <span class="srno rno" th:text="${sReview.rno}" style="display:none;"></span>
                                 <span class="srv-storeName">[[${sReview.storeName}]]</span>
+                                <span class="rv-date inline">[[${#temporals.format(sReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
                                 <br>
                                 <textarea class="rv-textarea storeReviewText" name="storeReviewText" readonly>[[${sReview.reviewText}]]</textarea><br>
-                                <span class="rv-date inline">[[${#temporals.format(sReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span><br>
                                 <div class="btn-Box">
                                     <span class="rv-modify inline mrv-btn" th:if="${rvMember} == ${sReview.id}">수정</span>
                                     <span class="srv-delete inline mrv-btn" th:if="${rvMember} == ${sReview.id}">삭제</span>

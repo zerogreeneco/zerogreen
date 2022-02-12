@@ -66,6 +66,17 @@ public class DetailReview extends BaseTimeEntity {
         this.storeMember = storeMember;
     }
 
+    //이미지 리뷰 추가 ** 작업중 **
+/*
+    public DetailReview(String reviewText, BasicUser reviewer, StoreMember storeMember, List<ReviewImage> imageList) {
+        this.reviewText = reviewText;
+        this.reviewer = reviewer;
+        this.storeMember = storeMember;
+        this.imageList = imageList;
+    }
+*/
+
+    //어디에 쓰는것인고..
     @Builder(builderMethodName = "reviewBuilder")
     public DetailReview(String reviewText, BasicUser reviewer, StoreMember storeMember, List<DetailReview> nestedReviewList) {
         this.reviewText = reviewText;

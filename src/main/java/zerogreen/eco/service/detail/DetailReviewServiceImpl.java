@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.detail.DetailReviewDto;
+import zerogreen.eco.dto.detail.ReviewImageDto;
 import zerogreen.eco.entity.detail.DetailReview;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.repository.detail.DetailReviewRepository;
@@ -25,12 +27,13 @@ public class DetailReviewServiceImpl implements DetailReviewService {
     private final DetailReviewRepository detailReviewRepository;
 
     //save reviews
+/*
     @Override
     @Transactional
     public Long saveReview(String reviewText, Long sno, BasicUser basicUser) {
         StoreMember storeMember = storeMemberRepository.findById(sno).orElseThrow();
         DetailReview saveReview = detailReviewRepository.save(new DetailReview(reviewText, basicUser, storeMember));// 생성자 없음 왜요,,?
-
+*/
 /*
         if(reviewImages.size() != 0) {
             for (ReviewImage image : reviewImages) {
@@ -40,7 +43,27 @@ public class DetailReviewServiceImpl implements DetailReviewService {
                         image.getUploadFileName(), image.getReviewFileName(), image.getFilePath(), saveReview, storeMember));
             }
         }
+*//*
+
+        return saveReview.getId();
+    }
 */
+
+//멤버리뷰 DB저장 (이미지 포함)
+    @Override
+    @Transactional
+    public Long saveImageReview(String reviewText, Long sno, BasicUser basicUser, List<ReviewImage> reviewImages) {
+        StoreMember storeMember = storeMemberRepository.findById(sno).orElseThrow();
+        DetailReview saveReview = detailReviewRepository.save(new DetailReview(reviewText, basicUser, storeMember));
+
+        if(reviewImages.size() != 0) {
+            for (ReviewImage image : reviewImages) {
+                log.info("aaaaaaaareviewImage " + image);
+
+                reviewImageRepository.save(new ReviewImage(
+                        image.getUploadFileName(), image.getReviewFileName(), image.getFilePath(), saveReview, storeMember));
+            }
+        }
         return saveReview.getId();
     }
 

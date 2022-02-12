@@ -6,6 +6,7 @@ $(document).ready(function(e){
 
 
     // save Reviews
+/*
     $("#rv-btn").click(function () {
         let reviewText = $("#reviewText");
         let imageList = $("#img-input");
@@ -28,6 +29,7 @@ $(document).ready(function(e){
             });
 
     }); // end save reviews
+*/
 
 
 

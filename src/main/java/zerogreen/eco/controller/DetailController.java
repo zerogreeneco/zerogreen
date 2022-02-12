@@ -12,9 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.dto.store.StoreDto;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.security.auth.PrincipalUser;
@@ -26,6 +28,7 @@ import zerogreen.eco.service.user.StoreMemberService;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,13 +77,12 @@ public class DetailController {
             model.addAttribute("cntLike", likesService.cntMemberLike(sno, principalDetails.getId()));
         }
 
-
-        /*
-        //이미지
+        //리뷰 리스트 상단의 이미지 리스트 ** reverse is not working yet **
         if (reviewImageService.findByStore(sno).size() > 0) {
             model.addAttribute("reviewImageList", reviewImageService.findByStore(sno));
         }
-*/
+            //Collections.reverse(reviewImageService.findByStore(sno));
+
 /*
         //여기 rno 구해야함
         if (reviewImageService.findByReview(memberReviewDto.getRno()).size() > 0) {
@@ -92,6 +94,7 @@ public class DetailController {
         //리뷰 리스트
         List<DetailReviewDto> result = detailReviewService.findByStore(sno);
         model.addAttribute("memberReview", result);
+        Collections.reverse(result);
 
         //가게별 멤버리뷰 카운팅
         Long cnt2 = detailReviewService.cntMemberReview(sno);
@@ -102,7 +105,10 @@ public class DetailController {
         return "page/detail";
     }
 
-    //save reviews ** on working **
+
+
+    //save reviews text only ** on working **
+/*
     @PostMapping("/page/detail/addReview/{sno}")
     public String saveReview(@PathVariable("sno") Long sno, Model model, RequestPageSortDto requestPageSortDto,
                             @ModelAttribute("review") DetailReviewDto reviewDto,
@@ -117,22 +123,23 @@ public class DetailController {
 
         return "page/detail :: #reviewList";
     }
+*/
 
-/*
-    //멤버 리뷰 db
+    // 이미지 포함 리뷰 db
     @PostMapping("/page/detail/{sno}")
-    public String addReview(@PathVariable("sno") Long sno,
-                            @Validated @ModelAttribute("review") ReviewRequestDto reviewRequestDto, BindingResult bindingResult,
+    public String addReview(@PathVariable("sno") Long sno, Model model,
+                            @Validated @ModelAttribute("review") DetailReviewDto reviewDto, BindingResult bindingResult,
                             @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
 
-        List<ReviewImage> reviewImages = reviewImageService.reviewImageFiles(reviewRequestDto.getImageFiles());
+        List<ReviewImage> reviewImages = reviewImageService.reviewImageFiles(reviewDto.getImageFiles());
+        detailReviewService.saveImageReview(reviewDto.getReviewText(), sno, principalDetails.getBasicUser(), reviewImages);
 
-        Long rno = reviewService.saveReview(reviewRequestDto, principalDetails.getBasicUser(),sno, reviewImages);
+        List<DetailReviewDto> saveImageResult = detailReviewService.findByStore(sno);
+        Collections.reverse(saveImageResult);
+        model.addAttribute("memberReview", saveImageResult);
 
-        //return rno;
         return "redirect:/page/detail/"+sno;
     }
-*/
 
     @ResponseBody
     @GetMapping("/page/detail/images/{filename}")

@@ -71,6 +71,19 @@ public class DetailReviewDto {
         this.storeName = detailReview.getStoreMember().getStoreName();
         this.imageList = detailReview.getImageList();
     }
+/*
+        List<DetailReviewDto> collect =
+                detailReview.getNestedReviewList().stream().map(DetailReviewDto::new).collect(Collectors.toList());
+        this.rno = detailReview.getId();
+        this.sno = detailReview.getStoreMember().getId();
+        this.reviewText = detailReview.getReviewText();
+        this.id = detailReview.getReviewer().getId();
+        this.username = detailReview.getReviewer().getUsername();
+        this.createdTime = detailReview.getModifiedDate();
+        this.nestedReviewList = collect;
+        this.storeName = detailReview.getStoreMember().getStoreName();
+        this.imageList = detailReview.getImageList();
+*/
 
 
 }
