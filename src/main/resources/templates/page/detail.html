@@ -5,113 +5,106 @@
         <!--페이지 수정 부분 시작-->
 
         <!-- 페이지 css/ js 추가 -->
-    <link th:href="@{/bootstrap/css/page/detail.css}" rel="stylesheet"/>
-    <link id="contextPathHolder" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
+        <link th:href="@{/bootstrap/css/page/detail.css}" rel="stylesheet"/>
+        <link id="contextPathHolder" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-    <script th:src="@{/bootstrap/js/detail/detailReview.js}"></script>
-    <script th:src="@{/bootstrap/js/detail/likes.js}"></script>
+        <script th:src="@{/bootstrap/js/detail/detailReview.js}"></script>
+        <script th:src="@{/bootstrap/js/detail/likes.js}"></script>
 
         <!-- 본문 시작 -->
-    <div class="detail-content">
+        <div class="detail-content">
 
-        <!-- 1열 -->
-        <div class="detail-top temp1">
-            <div class="top">가게 상세 이미지 들어갈 곳</div>
-        </div>
-
-        <!-- 2열 -->
-        <div class="detail-sec temp2">
-            <div class="store-name">
-                <span class="js-storeName">[[${getStore.storeName}]]</span>
+            <!-- 1열 -->
+            <div class="detail-top temp1">
+                <div class="top">가게 상세 이미지 들어갈 곳</div>
             </div>
-            <div class="sec-flex">
-                <!-- 좋아요 정보 -->
-                <div class="inline sec sec-left">
-                    <div class="inline">
-                        <!-- 회원 좋아요 -->
-                        <div sec:authorize="isAuthenticated()" id="like-wrapper">
 
-                            <div th:if="${cntLike} == 0">
-                                <img class="liking" th:attr="src = @{/bootstrap/images/like/disLike.png}">
-<!--                                <span class="countLikes">[[${cntLike}]]</span>-->
+            <!-- 2열 -->
+            <div class="detail-sec temp2">
+                <div class="store-name">
+                    <span class="js-storeName">[[${getStore.storeName}]]</span>
+                </div>
+                <div class="sec-flex">
+                    <!-- 좋아요 정보 -->
+                    <div class="inline sec sec-left">
+                        <div class="inline">
+                            <!-- 회원 좋아요 -->
+                            <div sec:authorize="isAuthenticated()" id="like-wrapper">
+
+                                <div th:if="${cntLike} == 0">
+                                    <img class="liking" th:attr="src = @{/bootstrap/images/like/disLike.png}">
+                                    <!--                                <span class="countLikes">[[${cntLike}]]</span>-->
+                                </div>
+
+                                <div th:if="${cntLike} == 1">
+                                    <img class="liking" th:attr="src = @{/bootstrap/images/like/like.png}">
+                                    <!--                                <span class="countLikes">[[${cntLike}]]</span>-->
+                                </div>
                             </div>
-
-                            <div  th:if="${cntLike} == 1">
-                                <img class="liking" th:attr="src = @{/bootstrap/images/like/like.png}">
-<!--                                <span class="countLikes">[[${cntLike}]]</span>-->
+                            <!-- 비회원 좋아요 -->
+                            <div sec:authorize="isAnonymous()">
+                                <img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"/>
                             </div>
                         </div>
-                        <!-- 비회원 좋아요 -->
-                        <div sec:authorize="isAnonymous()">
-                            <img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"/>
+                        <!--좋아요 수-->
+                        <div class="inline">
+                            <span class="like-cnt">[[${getStore.count}]]</span>
                         </div>
                     </div>
-                    <!--좋아요 수-->
-                    <div class="inline">
-                        <span class="like-cnt">[[${getStore.count}]]</span>
+
+                    <!-- 리뷰정보 -->
+                    <div class="inline sec sec-right">
+                        <span>리뷰 </span>
+                        <span class="review-cnt">[[${cnt2}]]</span>
                     </div>
                 </div>
 
-                <!-- 리뷰정보 -->
-                <div class="inline sec sec-right">
-                    <span>리뷰 </span>
-                    <span class="review-cnt">[[${cnt2}]]</span>
+                <!-- 히든할것 -->
+                <div style="display:none;">
+                    <div sec:authorize="isAuthenticated()">
+                        <div class="js-username" th:text="${member}"></div>
+                    </div>
                 </div>
+
             </div>
 
-            <!-- 히든할것 -->
-            <div style="display:none;">
-                <div sec:authorize="isAuthenticated()">
-                    <div class="js-username" th:text="${member}"></div>
+            <!-- 3열 -->
+            <div class="detail-thr temp1">
+                <!-- 3열 좌측 -->
+                <div class="thr-thr inline">
+                    <div class="thr thr-left">
+                        <div th:object="${getStore}">
+                            <span th:text="*{menuName}"></span><span th:text="*{menuPrice}"></span>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <!-- 3열 우측 -->
+                <div class="thr-thr inline">
 
-        </div>
-
-        <!-- 3열 -->
-        <div class="detail-thr temp1">
-            <!-- 3열 좌측 -->
-            <div class="thr-thr inline">
-                <div class="thr thr-left">
-                    <div th:object="${getStore}">
-                        <span th:text="*{menuName}"></span><span th:text="*{menuPrice}"></span>
+                    <div class="thr thr-right" th:object="${getStore}">
+                        <input type="hidden" th:field="*{sno}">
+                        <span>가게 소개 : </span><span th:text="*{storeInfo.storeDescription}"></span><br>
+                        <span>전화 번호 : </span><span th:text="*{storeInfo.storePhoneNumber}"></span><br>
+                        <span>영업 시간 : </span><span>[[*{storeInfo.openTime}]] - [[*{storeInfo.closeTime}]]</span><br>
+                        <span>소셜 : </span><span>[[${getStore.storeInfo.socialAddress1}]]</span><br>
+                        <span>소셜 : </span><span>[[${getStore.storeInfo.socialAddress2}]]</span><br>
                     </div>
                 </div>
             </div>
-            <!-- 3열 우측 -->
-            <div class="thr-thr inline">
 
-                <div class="thr thr-right" th:object="${getStore}">
-                    <span>가게 소개 : </span><span th:text="*{storeInfo.storeDescription}"></span><br>
-                    <span>전화 번호 : </span><span th:text="*{storeInfo.storePhoneNumber}"></span><br>
-                    <span>영업 시간 : </span><span>[[*{storeInfo.openTime}]] - [[*{storeInfo.closeTime}]]</span><br>
-                    <span>소셜 : </span><span>[[${getStore.storeInfo.socialAddress1}]]</span><br>
-                    <span>소셜 : </span><span>[[${getStore.storeInfo.socialAddress2}]]</span><br>
-                </div>
-            </div>
-        </div>
-
-        <!-- 4열 -->
-        <div class="temp2 detail-map">
-            <div id="map" style="width:900px;height:350px;"></div>
-            <script type="text/javascript" th:src="@{/bootstrap/js/detail/detailMap.js}"></script>
-            <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac&libraries=services"></script>
-            <input hidden id="mapAddress" type="text" th:value="${getStore.storeAddress}">
-        </div>
-
-        <!-- 리뷰작성칸 -->
-        <div class="rv temp1">
-
-            <!-- 썸네일 -->
-            <div class="box1"></div>
-            <div class="uploadResult">
-                <ul class="ul1">
-                </ul>
+            <!-- 4열 -->
+            <div class="temp2 detail-map">
+                <div id="map" style="width:900px;height:350px;"></div>
+                <script type="text/javascript" th:src="@{/bootstrap/js/detail/detailMap.js}"></script>
+                <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac&libraries=services"></script>
+                <input hidden id="mapAddress" type="text" th:value="${getStore.storeAddress}">
             </div>
 
+            <!-- 리뷰작성칸 -->
+            <div class="rv temp1">
 
             <!-- 리뷰작성 textarea -->
             <form method="POST" th:object="${review}" enctype="multipart/form-data">
@@ -127,9 +120,14 @@
                     <span type="button" class="rvrv-btn inline" id="rv-btn">리뷰등록</span>
                 </div>
 
-            </form>
+                <!-- 리뷰작성 textarea -->
+                <form method="POST" th:object="${review}" enctype="multipart/form-data">
+                    <input type="hidden" th:field="*{sno}">
 
-        </div>
+                    <div class="inline rv-ta">
+                        <textarea th:field="*{reviewText}" name="reviewText" id="reviewText"
+                                  class="reviewText"></textarea>
+                    </div>
 
         <!-- 리뷰 이미지+텍스트 리스트 -->
         <div class="temp2">
@@ -175,9 +173,11 @@
                         <div class="srv-input" style="display:none;">
                             <textarea class="srv-input-textarea" name="storeReviewText" id="storeReviewText" ></textarea>
                             <div class="btn-Box">
-                                <span class="srv-adding inline mrv-btn" id="srv-adding">등록</span>
+                                <span class="srv-toAdd inline mrv-btn">답글</span>
+                                <span class="mrv-modify inline mrv-btn">수정</span>
+                                <span class="mrv-delete inline mrv-btn">삭제</span>
                             </div>
-                        </div>
+
 
                        <!-- 스토어 리뷰 리스트 -->
                         <div class="sReview-Box" th:each="sReview: ${mReview.nestedReviewList}">
@@ -192,20 +192,18 @@
                                     <span class="srv-delete inline mrv-btn" th:if="${rvMember} == ${sReview.id}">삭제</span>
                                 </div>
                             </div>
+
                         </div>
-
-                   </div>
-                   <!-- end reviewBox -->
+                        <!-- end reviewBox -->
+                    </div>
+                    <!-- end div - Each -->
                 </div>
-                <!-- end div - Each -->
+                <!-- end rv-list -->
             </div>
-            <!-- end rv-list -->
+            <!-- end review images and review list -->
+
         </div>
-        <!-- end review images and review list -->
-
-    </div>
-    <!-- end of page-->
-
+        <!-- end of page-->
 
     </th:block>
 </th:block>

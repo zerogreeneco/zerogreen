@@ -60,7 +60,7 @@ public class CommunityController {
     @GetMapping("")
     public String communityHomeForm(@RequestParam(value = "category", required = false) Category category,
                                     RequestPageSortDto requestPageDto, Model model,
-                                    SearchType searchType,String keyword,
+                                    SearchType searchType, String keyword,
                                     @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
@@ -73,7 +73,7 @@ public class CommunityController {
             if (searchType == null) {
                 model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable));
             } else {
-                model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable, new SearchCondition(keyword,searchType)));
+                model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable, new SearchCondition(keyword, searchType)));
             }
         } else {
             model.addAttribute("communityList", boardService.findByCategory(pageable, category));
@@ -101,14 +101,18 @@ public class CommunityController {
 
     /* 게시글 수정 */
     @GetMapping("/{boardId}/modify")
-    public String modifyForm(@PathVariable("boardId")Long boardId) {
+    public String modifyForm(@PathVariable("boardId") Long boardId, Model model) {
+
+        model.addAttribute("writeForm", boardService.findDetailView(boardId));
+
         return "community/communityModifyForm";
     }
 
     @PostMapping("/{boardId}/modify")
-    public String modifyBoard(@PathVariable("boardId")Long boardId) {
-
-
+    public String modifyBoard(@PathVariable("boardId") Long boardId,
+                              @ModelAttribute("writeForm") CommunityRequestDto requestDto) {
+        log.info("MODI TEST={}", requestDto.getText()+ "  / " + requestDto.getCategory());
+        boardService.boardModify(boardId, requestDto.getCategory(), requestDto.getText());
         return "redirect:/community/read/" + boardId;
     }
 
@@ -141,12 +145,22 @@ public class CommunityController {
     }
 
     /*
-    * 이미지 출력
-    * */
+     * 이미지 출력
+     * */
     @ResponseBody
     @GetMapping("/images/{filename}")
-    private Resource getImages(@PathVariable("filename") String filename) throws MalformedURLException {
+    public Resource getImages(@PathVariable("filename") String filename) throws MalformedURLException {
         return new UrlResource("file:" + fileService.getFullPath(filename));
+    }
+
+    /*
+     * 게시글 삭제
+     * */
+    @PostMapping("/{boardId}/delete")
+    public String boardDelete(@PathVariable("boardId") Long boardId) {
+        log.info("DELETE BOARDID={}", boardId);
+        boardService.boardDelete(boardId);
+        return "redirect:/community";
     }
 
     /* 좋아요 */
@@ -199,8 +213,8 @@ public class CommunityController {
     }
 
     /*
-    * 댓글 수정
-    * */
+     * 댓글 수정
+     * */
     @PostMapping("/{boardId}/replyModify/{replyId}")
     @ResponseBody
     public ResponseEntity<Map<String, String>> modifyReply(@PathVariable("boardId") Long boardId, @PathVariable("replyId") Long replyId,
@@ -220,9 +234,25 @@ public class CommunityController {
     }
 
     /*
+    * 댓글 삭제
+    * */
+    @DeleteMapping("/{replyId}/delete")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> deleteReply(@PathVariable("replyId") Long replyId) {
+        Map<String, String> resultMap = new HashMap<>();
+
+        replyService.deleteReply(replyId);
+
+        resultMap.put("key", "success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
+    /*
      * 대댓글
      * */
     @PostMapping("/{boardId}/{replyId}/nestedReply")
+
     public String nestedReplySend(@PathVariable("boardId") Long boardId, @PathVariable("replyId") Long replyId,
                                   @ModelAttribute("nestedReplyForm") CommunityReplyDto replyDto,
                                   Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request) {

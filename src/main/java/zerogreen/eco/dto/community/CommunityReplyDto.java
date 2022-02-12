@@ -47,6 +47,7 @@ public class CommunityReplyDto {
         this.boardId = boardReply.getBoard().getId();
         this.text = boardReply.getReplyContent();
         this.username = boardReply.getReplier().getUsername();
+
         this.createdTime = boardReply.getModifiedDate();
         this.nestedReplyList =
                 boardReply.getNestedReplyList().stream()

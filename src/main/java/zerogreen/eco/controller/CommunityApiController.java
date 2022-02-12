@@ -10,17 +10,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import zerogreen.eco.dto.ApiReturnDto;
+import zerogreen.eco.dto.api.ApiReturnDto;
+import zerogreen.eco.dto.community.CommunityReplyDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.service.community.CommunityBoardService;
+import zerogreen.eco.service.community.CommunityReplyService;
+
+import java.util.List;
 
 @RestController
 @Slf4j
 @RequiredArgsConstructor
 public class CommunityApiController {
     private final CommunityBoardService boardService;
+    private final CommunityReplyService replyService;
 
     @RequestMapping(value = "/api/communityList", produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiReturnDto communityHomeFormV2(@RequestParam(value = "category", required = false) Category category,
@@ -32,10 +37,19 @@ public class CommunityApiController {
 
         if (category == null) {
             Slice<CommunityResponseDto> allCommunityBoard = boardService.findAllCommunityBoard(pageable);
-            return new ApiReturnDto<>(allCommunityBoard);
+            int size = allCommunityBoard.getSize();
+            return new ApiReturnDto<>(size, allCommunityBoard);
         } else {
             Slice<CommunityResponseDto> sorByCategory = boardService.findByCategory(pageable, category);
-            return new ApiReturnDto<>(sorByCategory);
+            int size = sorByCategory.getSize();
+            return new ApiReturnDto<>(size, sorByCategory);
         }
+    }
+
+    @RequestMapping("/api/communityReplyList")
+    private ApiReturnDto communityReplyList(@RequestParam(value = "boardId") Long boardId, Model model) {
+        List<CommunityReplyDto> replyList = replyService.findReplyByBoardId(boardId);
+        int size = replyList.size();
+        return new ApiReturnDto<>(size, replyList);
     }
 }

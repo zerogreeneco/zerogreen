@@ -51,4 +51,9 @@ public class CommunityBoard extends BaseTimeEntity {
         this.member = member;
         this.category = category;
     }
+
+    public void changeBoard(Category category, String text) {
+        this.category = category;
+        this.text = text;
+    }
 }

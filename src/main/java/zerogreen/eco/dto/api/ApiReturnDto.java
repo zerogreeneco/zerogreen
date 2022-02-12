@@ -1,4 +1,4 @@
-package zerogreen.eco.dto;
+package zerogreen.eco.dto.api;
 
 import lombok.Getter;
 import lombok.Setter;
