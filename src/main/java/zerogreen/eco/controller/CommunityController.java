@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import zerogreen.eco.dto.community.CommunityReplyDto;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
@@ -103,16 +104,23 @@ public class CommunityController {
     @GetMapping("/{boardId}/modify")
     public String modifyForm(@PathVariable("boardId") Long boardId, Model model) {
 
-        model.addAttribute("writeForm", boardService.findDetailView(boardId));
+        model.addAttribute("writeForm", boardService.boardModifyRequest(boardId));
+        if (boardImageService.findByBoardId(boardId).size() > 0) {
+            model.addAttribute("images", boardImageService.findByBoardId(boardId));
+        }
 
         return "community/communityModifyForm";
     }
 
     @PostMapping("/{boardId}/modify")
     public String modifyBoard(@PathVariable("boardId") Long boardId,
-                              @ModelAttribute("writeForm") CommunityRequestDto requestDto) {
-        log.info("MODI TEST={}", requestDto.getText()+ "  / " + requestDto.getCategory());
+                              @ModelAttribute("writeForm") CommunityRequestDto requestDto) throws IOException {
         boardService.boardModify(boardId, requestDto.getCategory(), requestDto.getText());
+        List<BoardImage> storeImages = fileService.boardImageFiles(requestDto.getImageFiles());
+        for (BoardImage storeImage : storeImages) {
+            boardImageService.modifyImage(boardId, storeImage.getStoreFileName(),
+                    storeImage.getUploadFileName(), storeImage.getFilePath());
+        }
         return "redirect:/community/read/" + boardId;
     }
 

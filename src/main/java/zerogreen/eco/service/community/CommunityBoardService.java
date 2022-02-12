@@ -27,7 +27,7 @@ public interface CommunityBoardService {
     Slice<CommunityResponseDto> findByCategory(Pageable pageable, Category category);
 
     CommunityResponseDto findDetailView(Long boardId, HttpServletRequest request, HttpServletResponse response);
-    CommunityResponseDto findDetailView(Long boardId);
+    CommunityRequestDto boardModifyRequest(Long boardId);
 
     void boardModify(Long boardId, Category category, String text);
     void boardDelete(Long boardId);

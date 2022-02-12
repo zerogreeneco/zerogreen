@@ -8,8 +8,15 @@
                             th:text="${categories.categoryName}"></option>
                 </select>
                 <textarea th:field="*{text}"></textarea>
-<!--/*                <input type="file" multiple="multiple" th:field="*{imageFiles}">*/-->
+                <input type="file" multiple="multiple" th:field="*{imageFiles}">
                 <div class="select-img"><img src="" /></div>
+            </div>
+            <div th:each="imageFile : ${images}" class="image-wrapper">
+                <input type="hidden" th:value="${imageFile.id}">
+                <img th:src="@{/community/images/{imageFile}(imageFile=${imageFile.storeFileName})}"
+                     th:value="${imageFile.uploadFileName}"
+                     width="700px" height="auto">
+                <input type="button" value="삭제">
             </div>
             <button type="submit">수정</button>
             <button type="button">취소</button>

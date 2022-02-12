@@ -110,8 +110,8 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     }
 
     @Override
-    public CommunityResponseDto findDetailView(Long boardId) {
-        return boardRepository.findDetailView(boardId);
+    public CommunityRequestDto boardModifyRequest(Long boardId) {
+        return boardRepository.boardModify(boardId);
     }
 
     /* 조회수 */
