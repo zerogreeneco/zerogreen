@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.util.StringUtils;
+import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.dto.search.SearchCondition;
 import zerogreen.eco.dto.search.SearchType;
@@ -170,6 +171,18 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
                 .where(communityBoard.id.eq(id))
+                .fetchFirst();
+    }
+
+    @Override
+    public CommunityRequestDto boardModify(Long boardId) {
+        return queryFactory
+                .select(Projections.constructor(CommunityRequestDto.class,
+                        communityBoard.text,
+                        communityBoard.category
+                ))
+                .from(communityBoard, communityBoard)
+                .where(communityBoard.id.eq(boardId))
                 .fetchFirst();
     }
 

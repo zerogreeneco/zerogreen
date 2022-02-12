@@ -2,6 +2,7 @@ package zerogreen.eco.dto.community;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.userentity.Member;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@ToString
 public class CommunityRequestDto {
 
     @NotBlank
@@ -25,4 +27,5 @@ public class CommunityRequestDto {
         this.text = text;
         this.category = category;
     }
+
 }
