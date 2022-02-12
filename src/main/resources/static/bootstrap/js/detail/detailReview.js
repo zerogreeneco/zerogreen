@@ -12,7 +12,7 @@ $(document).ready(function(e){
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             data: {
                 sno: sno,
-                reviewText: reviewText.val();
+                reviewText: reviewText.val()
             }
         })
             .done(function (fragment) {

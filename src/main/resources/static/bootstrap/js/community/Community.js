@@ -1,6 +1,7 @@
 $(function () {
 
     let boardId = $("#id").val();
+    let actionForm = $("form");
 
     /* 좋아요 버튼 */
     $("#like-btn").click(function () {
@@ -47,16 +48,13 @@ $(function () {
 
     }); // review send end.
 
-    /* 댓글 수 100자 제한 */
-    // $("#text").on("keyup", function () {
-    //     $("#text-count").html($(this).val().length + " / 100");
-    //
-    //     if ($(this).val().length > 100) {
-    //         $(this).val($(this).val().substring(0, 100));
-    //         alert("100자까지 입력이 가능합니다.");
-    //         $("#text-count").html("100 / 100");
-    //     }
-    // });
+    $("#delete-board").click(function () {
+        actionForm
+            .attr("action", "/zerogreen/community/" + boardId + "/delete")
+            .attr("method", "post");
+
+        actionForm.submit();
+    });
 
     $("#text").on("keyup", function () {
         let text = $(this);
@@ -66,6 +64,7 @@ $(function () {
 
 }); // onload end.
 
+    /* 댓글 글자 수 제한 */
     function limitTextInput(event) {
         console.log(event);
         let countText = $(event).prev().children(".cm-text-count");
@@ -134,10 +133,10 @@ function getNestedReplyData(table, replyId) {
 /* 댓글 수정용 태그 변경 */
 function replaceTag(event) {
     let thisBtn = $(event);
-    let rpText = thisBtn.parent().find(".rp-text");
+    let rpText = thisBtn.parent().find(".rp-text:first");
     let text = rpText.text();
     rpText.replaceWith("<textarea class='modify-test' name='text' onkeyup='limitTextInput(this)'>" + text + "</textarea>");
-    thisBtn.parent().find(".modify-test-btn").show();
+    thisBtn.parent().find(".modify-test-btn:first").show();
     thisBtn.parent().find(".cm-text-count").show();
 }
 
@@ -199,4 +198,20 @@ function nestedReplySend(event) {
             $("#review-table").replaceWith(fragment);
         })
 
+}
+
+function deleteReply(replyId) {
+    alert("동작");
+    $.ajax({
+        url: "/zerogreen/community/" + replyId + "/delete",
+        method: "delete",
+        dataType: "json",
+        data: {replyId: replyId},
+    })
+        .done(function (data) {
+            if (data.key === "success") {
+                alert("댓글이 삭제되었습니다.");
+            }
+        });
+    console.log("ajax???");
 }
