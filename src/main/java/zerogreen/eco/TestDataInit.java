@@ -8,17 +8,13 @@ import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.community.CommunityBoard;
 import zerogreen.eco.entity.detail.DetailReview;
-import zerogreen.eco.entity.detail.MemberReview;
-import zerogreen.eco.entity.detail.StoreReview;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.userentity.*;
 import zerogreen.eco.repository.community.CommunityBoardRepository;
-import zerogreen.eco.repository.detail.MemberReviewRepository;
-import zerogreen.eco.repository.detail.StoreReviewRepository;
+import zerogreen.eco.repository.detail.DetailReviewRepository;
 import zerogreen.eco.repository.user.MemberRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 import zerogreen.eco.service.detail.DetailReviewService;
-import zerogreen.eco.service.detail.ReviewService;
 import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.MemberService;
 import zerogreen.eco.service.user.StoreMemberService;
@@ -49,14 +45,12 @@ public class TestDataInit {
         private final MemberService memberService;
         private final StoreMemberService storeMemberService;
         private final BasicUserService basicUserService;
-        private final ReviewService reviewService;
         private final DetailReviewService detailReviewService;
 
         private final MemberRepository memberRepository;
         private final StoreMemberRepository storeMemberRepository;
         private final CommunityBoardRepository communityBoardRepository;
-        private final MemberReviewRepository memberReviewRepository;
-        private final StoreReviewRepository storeReviewRepository;
+        private final DetailReviewRepository detailReviewRepository;
 
         public void init() {
 
@@ -180,7 +174,7 @@ public class TestDataInit {
             em.flush();
             em.clear();
 
-            //멤버리뷰 추가
+            //Detail 부모리뷰 추가
             Member findMember1 = memberRepository.findByUsername("test").get();
             Member findMember2 = memberRepository.findByUsername("test2").get();
             StoreMember findEcoStore1 = storeMemberRepository.findByUsername("ecoTest5").get();
@@ -216,18 +210,25 @@ public class TestDataInit {
             em.flush();
             em.clear();
 
-//            //스토어 리뷰 추가
-//            MemberReview review1 = memberReviewRepository.findById(1L).get();
-//            MemberReview review2 = memberReviewRepository.findById(2L).get();
-//            MemberReview review3 = memberReviewRepository.findById(3L).get();
-//            MemberReview review4 = memberReviewRepository.findById(4L).get();
-//
-//
-//            em.flush();
-//            em.clear();
+
+            //Detail 자식리뷰 추가
+            Long parentsReview1 = detailReviewRepository.findById(1L).get().getId();
+            Long parentsReview2 = detailReviewRepository.findById(2L).get().getId();
+            Long parentsReview3 = detailReviewRepository.findById(3L).get().getId();
+            Long parentsReview4 = detailReviewRepository.findById(4L).get().getId();
+
+            DetailReview detailReview11 = new DetailReview("parentsReview1 by Store",findEcoStore1,findEcoStore1);
+            detailReviewService.saveNestedReviewTest(detailReview11, parentsReview1);
+            DetailReview detailReview22 = new DetailReview("parentsReview2 by Store",findEcoStore1,findEcoStore1);
+            detailReviewService.saveNestedReviewTest(detailReview22, parentsReview2);
+            DetailReview detailReview33 = new DetailReview("parentsReview3 by Store",findEcoStore1,findEcoStore1);
+            detailReviewService.saveNestedReviewTest(detailReview33, parentsReview3);
+            DetailReview detailReview44 = new DetailReview("parentsReview4 by Store",findEcoStore1,findEcoStore1);
+            detailReviewService.saveNestedReviewTest(detailReview44, parentsReview4);
 
 
-
+            em.flush();
+            em.clear();
 
         }
 
