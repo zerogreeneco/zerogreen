@@ -76,12 +76,17 @@ public class MemberController {
     @PostMapping("/account")
     @ResponseBody
     public String memberInfoUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                    @Validated @ModelAttribute("member") MemberUpdateDto memberUpdateResponse, BindingResult bindingResult) {
+                                    @Validated @ModelAttribute("member") MemberUpdateDto memberUpdateResponse, BindingResult bindingResult,
+                                   HttpSession session) {
 
         if (bindingResult.hasErrors()) {
             return "member/updateMember";
         }
+        log.info("SESSION BEFORE={}", session.getAttribute("veganGrade"));
         memberService.memberUpdate(principalDetails.getId(), memberUpdateResponse);
+        session.removeAttribute("veganGrade");
+        session.setAttribute("veganGrade", memberUpdateResponse.getVegetarianGrade());
+        log.info("SESSION AFTER={}", session.getAttribute("veganGrade"));
         log.info("회원 정보 수정 성공!!!!!");
 
         return "member/updateMember";

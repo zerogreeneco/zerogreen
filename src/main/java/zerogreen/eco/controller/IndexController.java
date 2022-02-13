@@ -28,14 +28,7 @@ public class IndexController {
 
     private final StoreMemberService storeMemberService;
 
-    @ModelAttribute("vegan")
-    private VegetarianGrade[] vegetarianGrades() {
-        VegetarianGrade[] vegans = VegetarianGrade.values();
-        return vegans;
-    }
-
     @GetMapping("")
-
     public String approvedStore(Model model, UserRole userRole, HttpSession session,
                                 @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
