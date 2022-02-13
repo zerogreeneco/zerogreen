@@ -44,14 +44,13 @@
                 <!--After Login-->
                 <div sec:authorize="isAuthenticated()">
                     <button id="btn-logout" class="btn-login" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
-                    <th:block th:each="vegans : ${vegan}">
+                    <th:block th:each="vegans : ${allPartVegan}">
                     <th:block th:switch="${vegans.name()}">
                         <img th:case="${#strings.toString(session.veganGrade)}" id="profile" th:src="@{'/bootstrap/images/profile/' +${session.veganGrade}+'.png'}"
                              th:onclick="|location.href='@{/members/memberMyInfo}'|"
                              sec:authorize="hasRole('ROLE_USER')"/>
                     </th:block>
                     </th:block>
-                    <p>[[${session.veganGrade}]]</p>
                 </div>
             </header>
         </div>

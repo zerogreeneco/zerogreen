@@ -20,11 +20,6 @@ public class EcoApplication {
 		SpringApplication.run(EcoApplication.class, args);
 	}
 
-	@Bean
-	@ModelAttribute("vegan")
-	public VegetarianGrade[] vegetarianGrades() {
-		VegetarianGrade[] vegans = VegetarianGrade.values();
-		return vegans;
-	}
+
 
 }
