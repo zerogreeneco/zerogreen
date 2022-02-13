@@ -1,6 +1,8 @@
 package zerogreen.eco.entity.userentity;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
@@ -16,6 +18,7 @@ import static javax.persistence.CascadeType.*;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class StoreMember extends BasicUser{
 
     private String storeName;

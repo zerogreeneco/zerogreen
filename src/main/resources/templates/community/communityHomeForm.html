@@ -191,11 +191,11 @@
                                th:text="${community.category.categoryName}" class="cm-category">카테고리</a>
                         </span>
                     </div>
+                    <div class="main-list-nickname" th:text="${community.nickname}">닉네임</div>
                     <div class="main-list-text">
                         <p><a th:href="@{/community/read/{boardId}(boardId = ${community.id})}"
                               th:text="${community.text}">글 내용</a></p>
                     </div>
-                    <div class="main-list-nickname" th:text="${community.nickname}">닉네임</div>
                     <div>
                         <span class="main-list-views">
                             <img th:src="@{/bootstrap/images/list/visibility.png}"
@@ -222,6 +222,7 @@
                          height="17px"> [[${community.like}]]
                 </span>
             </span>
+                        <span>리뷰수 : [[${community.replyCount}]]</span>
                     </div>
                 </div>
             </div>

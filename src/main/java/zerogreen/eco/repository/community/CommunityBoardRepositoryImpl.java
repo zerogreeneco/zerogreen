@@ -13,10 +13,7 @@ import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.dto.search.SearchCondition;
 import zerogreen.eco.dto.search.SearchType;
-import zerogreen.eco.entity.community.Category;
-import zerogreen.eco.entity.community.CommunityBoard;
-import zerogreen.eco.entity.community.QBoardImage;
-import zerogreen.eco.entity.community.QCommunityLike;
+import zerogreen.eco.entity.community.*;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -25,15 +22,18 @@ import static com.querydsl.core.types.ExpressionUtils.count;
 import static zerogreen.eco.entity.community.QCommunityBoard.communityBoard;
 import static zerogreen.eco.entity.userentity.QMember.member;
 
-public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCustom{
+public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCustom {
 
     /*
-    * 필수 -> queryFactory를 사용하기 위해서!!!!!!!!!!!!!!!!!
-    * */
+     * 필수 -> queryFactory를 사용하기 위해서!!!!!!!!!!!!!!!!!
+     * */
     private final JPAQueryFactory queryFactory;
+
     public CommunityBoardRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
+
+    QBoardReply subReply = new QBoardReply("subReply");
 
     @Override
     public CommunityResponseDto findDetailBoard(Long boardId) {
@@ -41,8 +41,8 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     }
 
     /*
-    * 커뮤니티 게시판 전체 리스트
-    * */
+     * 커뮤니티 게시판 전체 리스트
+     * */
     @Override
     public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable, SearchCondition condition) {
         QCommunityLike subLike = new QCommunityLike("subLike");
@@ -56,15 +56,20 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                         communityBoard.modifiedDate,
                         communityBoard.count,
                         ExpressionUtils.as(
-                        JPAExpressions
-                                .select(count(subLike.id))
-                                .from(subLike, subLike)
-                                .where(subLike.board.id.eq(communityBoard.id)),"likeCount")
+                                JPAExpressions
+                                        .select(count(subLike.id))
+                                        .from(subLike, subLike)
+                                        .where(subLike.board.id.eq(communityBoard.id)), "likeCount"),
+                        ExpressionUtils.as(
+                                JPAExpressions
+                                        .select(count(subReply.id))
+                                        .from(subReply, subReply)
+                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount")
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
                 .where(
-                    isSearch(condition.getSearchType(), condition.getContent())
+                        isSearch(condition.getSearchType(), condition.getContent())
                 )
                 .orderBy(communityBoard.createdDate.desc())
                 .offset(pageable.getOffset())
@@ -76,7 +81,9 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                 .fetch();
 
         return new PageImpl<>(content, pageable, countQuery.size());
-    };
+    }
+
+    ;
 
     @Override
     public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable) {
@@ -94,7 +101,12 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                                 JPAExpressions
                                         .select(count(subLike.id))
                                         .from(subLike, subLike)
-                                        .where(subLike.board.id.eq(communityBoard.id)),"likeCount")
+                                        .where(subLike.board.id.eq(communityBoard.id)), "likeCount"),
+                        ExpressionUtils.as(
+                                JPAExpressions
+                                        .select(count(subReply.id))
+                                        .from(subReply, subReply)
+                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount")
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
@@ -111,8 +123,8 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     }
 
     /*
-    * 카테고리별 리스트 출력
-    * */
+     * 카테고리별 리스트 출력
+     * */
     @Override
     public Slice<CommunityResponseDto> findByCategory(Pageable pageable, Category category) {
         QCommunityLike subLike = new QCommunityLike("subLike");
@@ -126,10 +138,15 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                         communityBoard.modifiedDate,
                         communityBoard.count,
                         ExpressionUtils.as(
-                        JPAExpressions
-                                .select(count(subLike.id))
-                                .from(subLike, subLike)
-                                .where(subLike.board.id.eq(communityBoard.id)),"likeCount")
+                                JPAExpressions
+                                        .select(count(subLike.id))
+                                        .from(subLike, subLike)
+                                        .where(subLike.board.id.eq(communityBoard.id)), "likeCount"),
+                        ExpressionUtils.as(
+                                JPAExpressions
+                                        .select(count(subReply.id))
+                                        .from(subReply, subReply)
+                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount")
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
@@ -148,11 +165,12 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     }
 
     /*
-    * 상세 보기
-    * */
+     * 상세 보기
+     * */
     @Override
     public CommunityResponseDto findDetailView(Long id) {
         QCommunityLike subLike = new QCommunityLike("subLike");
+        QBoardReply subReply = new QBoardReply("subReply");
 
         return queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
@@ -166,8 +184,13 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                                 JPAExpressions
                                         .select(count(subLike.id))
                                         .from(subLike, subLike)
-                                        .where(subLike.board.id.eq(id)), "likeCount")
-                        ))
+                                        .where(subLike.board.id.eq(id)), "likeCount"),
+                        ExpressionUtils.as(
+                                JPAExpressions
+                                        .select(count(subReply.id))
+                                        .from(subReply, subReply)
+                                        .where(subReply.board.id.eq(id)), "replyCount")
+                ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
                 .where(communityBoard.id.eq(id))
@@ -187,8 +210,8 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     }
 
     /*
-    * 게시판 조회수
-    * */
+     * 게시판 조회수
+     * */
     @Override
     public void addViewCount(Long boardId) {
         queryFactory
@@ -206,7 +229,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     }
 
     private BooleanExpression eqContent(String content) {
-        return StringUtils.hasText(content) ? communityBoard.text.contains(content) : null;
+        return StringUtils.hasText(content) ? communityBoard.text.containsIgnoreCase(content) : null;
     }
 
     private BooleanExpression isSearch(SearchType searchType, String searchText) {

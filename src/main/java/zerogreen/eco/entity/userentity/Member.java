@@ -1,6 +1,8 @@
 package zerogreen.eco.entity.userentity;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import javax.persistence.Enumerated;
 @Setter
 @DiscriminatorValue("MEMBER")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class Member extends BasicUser {
 
     @Enumerated(EnumType.STRING)
