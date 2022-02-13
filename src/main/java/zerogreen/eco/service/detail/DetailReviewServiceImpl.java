@@ -5,13 +5,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.detail.DetailReviewDto;
+import zerogreen.eco.dto.detail.ReviewImageDto;
 import zerogreen.eco.entity.detail.DetailReview;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.repository.detail.DetailReviewRepository;
 import zerogreen.eco.repository.detail.ReviewImageRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,12 +28,13 @@ public class DetailReviewServiceImpl implements DetailReviewService {
     private final DetailReviewRepository detailReviewRepository;
 
     //save reviews
+/*
     @Override
     @Transactional
     public Long saveReview(String reviewText, Long sno, BasicUser basicUser) {
         StoreMember storeMember = storeMemberRepository.findById(sno).orElseThrow();
         DetailReview saveReview = detailReviewRepository.save(new DetailReview(reviewText, basicUser, storeMember));// 생성자 없음 왜요,,?
-
+*/
 /*
         if(reviewImages.size() != 0) {
             for (ReviewImage image : reviewImages) {
@@ -40,7 +44,27 @@ public class DetailReviewServiceImpl implements DetailReviewService {
                         image.getUploadFileName(), image.getReviewFileName(), image.getFilePath(), saveReview, storeMember));
             }
         }
+*//*
+
+        return saveReview.getId();
+    }
 */
+
+//멤버리뷰 DB저장 (이미지 포함)
+    @Override
+    @Transactional
+    public Long saveImageReview(String reviewText, Long sno, BasicUser basicUser, List<ReviewImage> reviewImages) {
+        StoreMember storeMember = storeMemberRepository.findById(sno).orElseThrow();
+        DetailReview saveReview = detailReviewRepository.save(new DetailReview(reviewText, basicUser, storeMember));
+
+        if(reviewImages.size() != 0) {
+            for (ReviewImage image : reviewImages) {
+                log.info("aaaaaaaareviewImage " + image);
+
+                reviewImageRepository.save(new ReviewImage(
+                        image.getUploadFileName(), image.getReviewFileName(), image.getFilePath(), saveReview, storeMember));
+            }
+        }
         return saveReview.getId();
     }
 
@@ -52,6 +76,19 @@ public class DetailReviewServiceImpl implements DetailReviewService {
         List<DetailReview> reviewList = detailReviewRepository.findByStore(sno);
         return reviewList.stream().map(DetailReviewDto::new).collect(Collectors.toList());
     }
+/*
+    @Override
+    public List<DetailReviewDto> findByStore(Long sno, Long rno) {
+        List<DetailReview> reviewList = detailReviewRepository.findByStore(sno);
+
+        List<ReviewImageDto> reviewImage = reviewImageRepository.findByReview(rno).stream().map(ReviewImageDto::new).collect(Collectors.toList());
+        int listSize = reviewImage.size();
+        String arr[] = reviewImage.toArray(new String[listSize]);
+
+        return reviewList.stream().map(DetailReviewDto::new).collect(Collectors.toList());
+    }
+*/
+
 
     //대댓글
     @Override

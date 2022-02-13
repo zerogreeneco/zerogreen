@@ -11,11 +11,15 @@ public interface DetailReviewService {
     //save reviews
     //void saveReview(String reviewText, Long sno, BasicUser basicUser);
     //Long saveReview(String reviewText, Long sno, BasicUser basicUser, List<ReviewImage> reviewImages);
-    Long saveReview(String reviewText, Long sno, BasicUser basicUser);
+    //Long saveReview(String reviewText, Long sno, BasicUser basicUser);
+    Long saveImageReview(String reviewText, Long sno, BasicUser basicUser, List<ReviewImage> reviewImages);
 
 
     //listing
     List<DetailReviewDto> findByStore(Long sno);
+//    List<DetailReviewDto> findByStore(Long sno, Long rno);
+
+
     //save comments
     void saveNestedReview(String reviewText, Long sno, BasicUser basicUser, Long rno);
     //edit reviews

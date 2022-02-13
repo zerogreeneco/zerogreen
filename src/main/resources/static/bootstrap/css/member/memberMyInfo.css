@@ -23,6 +23,12 @@
 
 .profile-btn {
     margin: 15px;
+    background: #3498db;
+    color: #ffffff;
+    border-radius: 5px;
+    font-size: 1em;
+    padding: 8px;
+    width: 65px;
 }
 
 /* right side */
