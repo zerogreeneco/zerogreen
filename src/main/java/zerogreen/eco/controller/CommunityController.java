@@ -34,6 +34,7 @@ import zerogreen.eco.service.file.FileService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
@@ -121,7 +122,22 @@ public class CommunityController {
             boardImageService.modifyImage(boardId, storeImage.getStoreFileName(),
                     storeImage.getUploadFileName(), storeImage.getFilePath());
         }
+
         return "redirect:/community/read/" + boardId;
+    }
+
+    @PostMapping("/{imageId}/imageDelete")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> imageDelete(@PathVariable("imageId")Long imageId,
+                                                           HttpServletRequest request) {
+        HashMap<String, String> resultMap = new HashMap<>();
+        String filePath = request.getParameter("filePath");
+        log.info("<<<<<<<<<<<<<<<<FILEPATH={}", filePath);
+
+        boardImageService.deleteImage(imageId, filePath);
+        resultMap.put("key", "success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     /* 게시글 상세보기 */

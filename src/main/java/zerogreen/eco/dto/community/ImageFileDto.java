@@ -15,10 +15,12 @@ public class ImageFileDto {
     private Long id;
     private String storeFileName;
     private String uploadFileName;
+    private String filePath;
 
     public ImageFileDto(BoardImage image) {
         this.id = image.getId();
         this.storeFileName = image.getStoreFileName();
         this.uploadFileName = image.getUploadFileName();
+        this.filePath = image.getFilePath();
     }
 }
