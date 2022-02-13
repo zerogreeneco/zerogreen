@@ -96,6 +96,21 @@ public class ReviewImageServiceImpl implements ReviewImageService {
         return reviewImageRepository.findByReview(rno).stream().map(ReviewImageDto::new).collect(Collectors.toList());
     }
 
+    // delete images
+    @Override
+    public void deleteReviewImage(Long id, String filePath) {
+        File file = new File(filePath);
+
+        try {
+            if (file.exists()) {
+                file.delete();
+                reviewImageRepository.deleteById(id);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new IllegalStateException("파일 삭제에 실패했습니다.");
+        }
+    }
 
 
 

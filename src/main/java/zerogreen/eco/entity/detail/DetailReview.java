@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
@@ -54,18 +56,6 @@ public class DetailReview extends BaseTimeEntity {
     private int depth = 1;
 
 
-    //리뷰 수정
-    public void editReview(String reviewText) {
-        this.reviewText = reviewText;
-    }
-
-    //기본 리뷰 추가
-    public DetailReview(String reviewText, BasicUser reviewer, StoreMember storeMember) {
-        this.reviewText = reviewText;
-        this.reviewer = reviewer;
-        this.storeMember = storeMember;
-    }
-
     //이미지 리뷰 추가 ** 작업중 **
 /*
     public DetailReview(String reviewText, BasicUser reviewer, StoreMember storeMember, List<ReviewImage> imageList) {
@@ -76,13 +66,16 @@ public class DetailReview extends BaseTimeEntity {
     }
 */
 
-    //어디에 쓰는것인고..
-    @Builder(builderMethodName = "reviewBuilder")
-    public DetailReview(String reviewText, BasicUser reviewer, StoreMember storeMember, List<DetailReview> nestedReviewList) {
+    //리뷰 수정
+    public void editReview(String reviewText) {
+        this.reviewText = reviewText;
+    }
+
+    //기본 리뷰 추가
+    public DetailReview(String reviewText, BasicUser reviewer, StoreMember storeMember) {
         this.reviewText = reviewText;
         this.reviewer = reviewer;
         this.storeMember = storeMember;
-        this.nestedReviewList = nestedReviewList;
     }
 
     // 자식 댓글일 경우 부모 댓글에 리스트 형태로 추가하는 메서드

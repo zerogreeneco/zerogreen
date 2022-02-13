@@ -3,8 +3,6 @@ package zerogreen.eco.repository.detail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import zerogreen.eco.dto.detail.ReviewImageDto;
-import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.detail.ReviewImage;
 
 import java.util.List;

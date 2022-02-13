@@ -12,16 +12,20 @@
         <!--    왼쪽 프로필-->
         <div class="temp1 profile">
             <div class="profile-div inline">
-                <div>프로필사진 위치</div>
+                <div>{프로필사진 위치}</div>
                 <span class="profile-name">[[${profile.nickname}]]</span>
-                <span class="profile-name">님</span>
             </div>
             <div class="profile-div">
                 <!-- 내정보 버튼 둘 중에 하나 쓸거임 -->
-                <span th:onclick="|javascript:goAccount('${profile.id}')|" >내정보</span>
-                <button type="button" class="editMyInfo profile-btn">내정보</button>
+                <span class="editMyInfo profile-btn inline"
+                      th:onclick="|javascript:goAccount('${profile.id}')|" >내정보</span>
+<!--                <button type="button" class="editMyInfo profile-btn">내정보</button>-->
             </div>
-            <div class="profile-div"><button type="button" class="message profile-btn">쪽지함</button></div>
+
+            <div class="profile-div">
+                <span class="chatting profile-btn inline">내채팅</span>
+<!--                <button type="button" class="chatting profile-btn">내채팅</button>-->
+            </div>
         </div>
 
         <!--    우측 메뉴들-->

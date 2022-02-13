@@ -23,7 +23,7 @@
             </div>
 
             <!-- 2열 -->
-            <div class="detail-sec temp2">
+            <div class="detail-sec">
                 <div class="store-name">
                     <span class="js-storeName">[[${getStore.storeName}]]</span>
                 </div>
@@ -39,7 +39,7 @@
                                     <!--                                <span class="countLikes">[[${cntLike}]]</span>-->
                                 </div>
 
-                                <div th:if="${cntLike} == 1">
+                                <div  th:if="${cntLike} == 1">
                                     <img class="liking" th:attr="src = @{/bootstrap/images/like/like.png}">
                                     <!--                                <span class="countLikes">[[${cntLike}]]</span>-->
                                 </div>
@@ -50,14 +50,14 @@
                             </div>
                         </div>
                         <!--좋아요 수-->
-                        <div class="inline">
                             <span class="like-cnt">[[${getStore.count}]]</span>
-                        </div>
                     </div>
 
                     <!-- 리뷰정보 -->
                     <div class="inline sec sec-right">
-                        <span>리뷰 </span>
+                        <div class="inline">
+                            <img class="speechBalloon" th:attr="src = @{/bootstrap/images/etc/bubble.png}">
+                        </div>
                         <span class="review-cnt">[[${cnt2}]]</span>
                     </div>
                 </div>
@@ -85,7 +85,6 @@
                 <div class="thr-thr inline">
 
                     <div class="thr thr-right" th:object="${getStore}">
-                        <input type="hidden" th:field="*{sno}">
                         <span>가게 소개 : </span><span th:text="*{storeInfo.storeDescription}"></span><br>
                         <span>전화 번호 : </span><span th:text="*{storeInfo.storePhoneNumber}"></span><br>
                         <span>영업 시간 : </span><span>[[*{storeInfo.openTime}]] - [[*{storeInfo.closeTime}]]</span><br>
@@ -96,7 +95,7 @@
             </div>
 
             <!-- 4열 -->
-            <div class="temp2 detail-map">
+            <div class="detail-map">
                 <div id="map" style="width:900px;height:350px;"></div>
                 <script type="text/javascript" th:src="@{/bootstrap/js/detail/detailMap.js}"></script>
                 <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac&libraries=services"></script>
@@ -106,92 +105,98 @@
             <!-- 리뷰작성칸 -->
             <div class="rv temp1">
 
-            <!-- 리뷰작성 textarea -->
-            <form method="POST" th:object="${review}" enctype="multipart/form-data">
-                <span class="js-storeId" style="display:none;">[[${getStore.sno}]]</span>
-
-                <div class="inline rv-ta" >
-                    <textarea th:field="*{reviewText}" name="reviewText" id="reviewText" class="reviewText"></textarea>
+                <!-- 썸네일 -->
+                <div class="box1"></div>
+                <div class="uploadResult">
+                    <ul class="ul1">
+                    </ul>
                 </div>
 
-                <div class="inline rv-btn">
-                    <label class="img-input rvrv-btn inline" for="img-input">사진선택</label><br>
-                    <input class="img-input" id="img-input" th:field="*{imageFiles}" name="reviewImages" type="file" multiple="multiple"/>
-                    <label class="rvrv-btn inline" for="rv-btn">리뷰등록</label>
-                    <button type="submit" id="rv-btn">리뷰등록</button>
-<!--                    <span typeof="button" class="rvrv-btn inline" id="rv-btn">리뷰등록</span>-->
-                </div>
 
                 <!-- 리뷰작성 textarea -->
                 <form method="POST" th:object="${review}" enctype="multipart/form-data">
-                    <input type="hidden" th:field="*{sno}">
+                    <span class="js-storeId" style="display:none;">[[${getStore.sno}]]</span>
 
-                    <div class="inline rv-ta">
-                        <textarea th:field="*{reviewText}" name="reviewText" id="reviewText"
-                                  class="reviewText"></textarea>
+                    <div class="inline rv-ta" >
+                        <textarea th:field="*{reviewText}" name="reviewText" id="reviewText" class="reviewText"></textarea>
                     </div>
 
-        <!-- 리뷰 이미지+텍스트 리스트 -->
-        <div class="temp2">
-            <!-- 리뷰리스트 -->
-            <div id="reviewList">
-                <!-- 리뷰 이미지 리스트 -->
-                <div class="rv-images">
-                    <div class="rv-img-list inline" th:each="imageList: ${reviewImageList}">
-                        <img class="inline" th:src="@{/page/detail/images/{imageList}(imageList=*{imageList.reviewFileName})}"
-                             th:value="${imageList.uploadFileName}"
-                             width="120px" height="120px">
+                    <div class="inline rv-btn">
+                        <label class="img-input rvrv-btn inline" for="img-input">사진선택</label><br>
+                        <input class="img-input" id="img-input" th:field="*{imageFiles}" name="reviewImages" type="file" multiple="multiple"/>
+                        <label class="rvrv-btn inline" for="rv-btn">리뷰등록</label>
+                        <button type="submit" id="rv-btn" style="display:none;">리뷰등록</button>
+                        <!--                    <span typeof="button" class="rvrv-btn inline" id="rv-btn">리뷰등록</span>-->
                     </div>
-                </div>
 
-                <div th:each="mReview : ${memberReview}">
-                    <!-- 멤버리뷰 리스트 -->
-                    <div class="reviewBox">
-                        <span class="rno" style="display:none;" th:text="${mReview.rno}"></span>
-                        <span class="rv-nickname">[[${mReview.nickname}]]</span>
-                        <span>[[${mReview.rno}]]</span>
-                        <span>[[${mReview.sno}]]</span>
-                        <span>[[${mReview.id}]]</span>
-                        <span>[[${mReview.storeName}]]</span>
-                        <span class="rv-date inline">[[${#temporals.format(mReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
-                        <br>
+                </form>
 
-                        <div class="rv-img inline" th:each="mImage: ${mReview.imageList}">
-                            <img class="inline" th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
-                                 th:value="${mImage.uploadFileName}"
+            </div>
+
+            <!-- 리뷰 이미지+텍스트 리스트 -->
+            <div>
+                <!-- 리뷰리스트 -->
+                <div id="reviewList" class="reviewList">
+                    <!-- 리뷰 이미지 리스트 -->
+                    <div class="rv-images">
+                        <div class="rv-img-list inline" th:each="imageList: ${reviewImageList}">
+                            <img class="inline" th:src="@{/page/detail/images/{imageList}(imageList=*{imageList.reviewFileName})}"
+                                 th:value="${imageList.uploadFileName}"
                                  width="120px" height="120px">
                         </div>
+                    </div>
 
-                        <textarea class="rv-textarea" name="reviewText" readonly>[[${mReview.reviewText}]]</textarea><br>
+                    <div th:each="mReview : ${memberReview}">
+                        <!-- 멤버리뷰 리스트 -->
+                        <div class="reviewBox">
+                            <span class="rno" style="display:none;" th:text="${mReview.rno}"></span>
+                            <span class="rv-nickname">[[${mReview.nickname}]]</span>
+                            <span>[[${mReview.rno}]]</span>
+                            <span>[[${mReview.sno}]]</span>
+                            <span>[[${mReview.id}]]</span>
+                            <span>[[${mReview.storeName}]]</span>
+                            <span class="rv-date inline">[[${#temporals.format(mReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
+                            <br>
 
-                        <div class="btn-Box">
-                            <span class="srv-toAdd inline mrv-btn"
-                                  th:if="${rvMember == mReview.sno}">답글</span>
-                            <span class="rv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.id}">수정</span>
-                            <span class="mrv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.id}">삭제</span>
-                        </div>
-
-                        <!-- 스토어 리뷰 입력창 -->
-                        <div class="srv-input" style="display:none;">
-                            <textarea class="srv-input-textarea" name="storeReviewText" id="storeReviewText" ></textarea>
-                            <div class="btn-Box">
-                                <span class="srv-toAdd inline mrv-btn">답글</span>
-                                <span class="mrv-modify inline mrv-btn">수정</span>
-                                <span class="mrv-delete inline mrv-btn">삭제</span>
+                            <div class="rv-img inline" th:each="mImage: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
+                                <img class="inline mImage" th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
+                                     th:value="${mImage.uploadFileName}"
+                                     width="120px" height="120px"
+                                    id="mImage" >
+                                <span>[[${mImage.detailReview.id}]]</span>
                             </div>
 
+                            <textarea class="rv-textarea" name="reviewText" readonly>[[${mReview.reviewText}]]</textarea><br>
 
-                       <!-- 스토어 리뷰 리스트 -->
-                        <div class="sReview-Box" th:each="sReview: ${mReview.nestedReviewList}">
-                            <div class="sReview-smallBox">
-                                <span class="srno rno" th:text="${sReview.rno}" style="display:none;"></span>
-                                <span class="srv-storeName">[[${sReview.storeName}]]</span>
-                                <span class="rv-date inline">[[${#temporals.format(sReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
-                                <br>
-                                <textarea class="rv-textarea storeReviewText" name="storeReviewText" readonly>[[${sReview.reviewText}]]</textarea><br>
+                            <div class="btn-Box">
+                            <span class="srv-toAdd inline mrv-btn"
+                                  th:if="${rvMember == mReview.sno}">답글</span>
+                                <span class="rv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.id}">수정</span>
+                                <span class="mrv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.id}">삭제</span>
+                            </div>
+
+                            <!-- 스토어 리뷰 입력창 -->
+                            <div class="srv-input" style="display:none;">
+                                <textarea class="srv-input-textarea" name="storeReviewText" id="storeReviewText" ></textarea>
                                 <div class="btn-Box">
-                                    <span class="rv-modify inline mrv-btn" th:if="${rvMember} == ${sReview.id}">수정</span>
-                                    <span class="srv-delete inline mrv-btn" th:if="${rvMember} == ${sReview.id}">삭제</span>
+                                    <span class="srv-adding inline mrv-btn" id="srv-adding">등록</span>
+                                </div>
+                            </div>
+
+                            <!-- 스토어 리뷰 리스트 -->
+                            <div class="sReview-Box" th:each="sReview: ${mReview.nestedReviewList}">
+
+                                <div class="sReview-smallBox inline">
+                                    <img class="arrow" th:attr="src = @{/bootstrap/images/etc/arrow.png}">
+                                    <span class="srno rno" th:text="${sReview.rno}" style="display:none;"></span>
+                                    <span class="srv-storeName">[[${sReview.storeName}]]</span>
+                                    <span class="rv-date inline">[[${#temporals.format(sReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
+                                    <br>
+                                    <textarea class="storeReviewText" name="storeReviewText" readonly>[[${sReview.reviewText}]]</textarea><br>
+                                    <div class="btn-Box">
+                                        <span class="rv-modify inline mrv-btn" th:if="${rvMember} == ${sReview.id}">수정</span>
+                                        <span class="srv-delete inline mrv-btn" th:if="${rvMember} == ${sReview.id}">삭제</span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -206,6 +211,7 @@
 
         </div>
         <!-- end of page-->
+
 
     </th:block>
 </th:block>

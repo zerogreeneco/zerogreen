@@ -17,6 +17,9 @@ public interface DetailReviewService {
 
     //listing
     List<DetailReviewDto> findByStore(Long sno);
+//    List<DetailReviewDto> findByStore(Long sno, Long rno);
+
+
     //save comments
     void saveNestedReview(String reviewText, Long sno, BasicUser basicUser, Long rno);
     //edit reviews

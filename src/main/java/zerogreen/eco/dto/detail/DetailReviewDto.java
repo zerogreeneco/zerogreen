@@ -42,8 +42,6 @@ public class DetailReviewDto {
     private List<DetailReviewDto> nestedReviewList = new ArrayList<>();
 
 
-    //이하 생성자
-
     public DetailReviewDto() {}
 
     // 댓글
@@ -69,7 +67,7 @@ public class DetailReviewDto {
         this.createdTime = detailReview.getModifiedDate();
         this.nestedReviewList = collect;
         this.storeName = detailReview.getStoreMember().getStoreName();
-        this.imageList = detailReview.getImageList();
+
     }
 /*
         List<DetailReviewDto> collect =

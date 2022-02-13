@@ -14,6 +14,7 @@ import zerogreen.eco.repository.detail.DetailReviewRepository;
 import zerogreen.eco.repository.detail.ReviewImageRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -75,6 +76,19 @@ public class DetailReviewServiceImpl implements DetailReviewService {
         List<DetailReview> reviewList = detailReviewRepository.findByStore(sno);
         return reviewList.stream().map(DetailReviewDto::new).collect(Collectors.toList());
     }
+/*
+    @Override
+    public List<DetailReviewDto> findByStore(Long sno, Long rno) {
+        List<DetailReview> reviewList = detailReviewRepository.findByStore(sno);
+
+        List<ReviewImageDto> reviewImage = reviewImageRepository.findByReview(rno).stream().map(ReviewImageDto::new).collect(Collectors.toList());
+        int listSize = reviewImage.size();
+        String arr[] = reviewImage.toArray(new String[listSize]);
+
+        return reviewList.stream().map(DetailReviewDto::new).collect(Collectors.toList());
+    }
+*/
+
 
     //대댓글
     @Override
