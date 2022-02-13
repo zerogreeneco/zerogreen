@@ -21,6 +21,7 @@ public class BoardImageServiceImpl implements BoardImageService {
     private final BoardImageRepository boardImageRepository;
     private final CommunityBoardRepository boardRepository;
 
+    /* 이미지 Entity List -> Dto List */
     @Override
     public List<ImageFileDto> findByBoardId(Long boardId) {
         return boardImageRepository.findByBoard(boardId).stream().map(ImageFileDto::new).collect(Collectors.toList());
@@ -30,7 +31,6 @@ public class BoardImageServiceImpl implements BoardImageService {
     @Override
     public void modifyImage(Long boardId, String storeName, String originalName, String path) {
         CommunityBoard communityBoard = boardRepository.findById(boardId).orElseThrow();
-
         boardImageRepository.save(new BoardImage(originalName, storeName, path, communityBoard));
     }
 
@@ -41,8 +41,10 @@ public class BoardImageServiceImpl implements BoardImageService {
 
         try {
             if (file.exists()) {
-                file.delete();
-                boardImageRepository.deleteById(imageId);
+                boolean delete = file.delete();
+                if (delete) {
+                    boardImageRepository.deleteById(imageId);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

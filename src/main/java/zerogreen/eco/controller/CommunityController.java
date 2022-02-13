@@ -134,6 +134,7 @@ public class CommunityController {
         String filePath = request.getParameter("filePath");
         log.info("<<<<<<<<<<<<<<<<FILEPATH={}", filePath);
 
+        // 이미지 PK와 경로를 클라이언트에서 넘겨받아서 DB와 로컬 저장소 모두 삭제
         boardImageService.deleteImage(imageId, filePath);
         resultMap.put("key", "success");
 

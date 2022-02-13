@@ -2,8 +2,14 @@ package zerogreen.eco.entity.userentity;
 
 import lombok.*;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
+import zerogreen.eco.entity.community.CommunityBoard;
+import zerogreen.eco.entity.detail.DetailReview;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.*;
 
 @Entity
 @Getter
@@ -27,6 +33,12 @@ public class BasicUser extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
     private boolean AuthState; // 이메일 인증 여부
+
+    @OneToMany(mappedBy = "reviewer", cascade = REMOVE)
+    List<DetailReview> detailReviewList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = REMOVE)
+    List<CommunityBoard> boardList = new ArrayList<>();
 
     // 회원가입
     public BasicUser(String username, String phoneNumber,

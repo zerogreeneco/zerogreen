@@ -16,6 +16,7 @@ import zerogreen.eco.dto.detail.MemberReviewDto;
 import zerogreen.eco.dto.member.FindMemberDto;
 import zerogreen.eco.dto.member.MemberUpdateDto;
 import zerogreen.eco.dto.member.PasswordUpdateDto;
+import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.detail.DetailReviewService;
 import zerogreen.eco.service.detail.LikesService;
@@ -51,6 +52,12 @@ public class MemberController {
         return new PasswordUpdateDto();
     }
 
+    @ModelAttribute("vegan")
+    private VegetarianGrade[] vegetarianGrades() {
+        VegetarianGrade[] vegans = VegetarianGrade.values();
+        return vegans;
+    }
+
 
     @GetMapping("/account")
     public String memberInfoForm(@AuthenticationPrincipal PrincipalDetails principalDetails,
@@ -77,7 +84,6 @@ public class MemberController {
         if (bindingResult.hasErrors()) {
             return "member/updateMember";
         }
-
         memberService.memberUpdate(principalDetails.getId(), memberUpdateResponse);
         log.info("회원 정보 수정 성공!!!!!");
 
@@ -112,7 +118,16 @@ public class MemberController {
     public String deleteMember(@Validated @ModelAttribute("password") PasswordUpdateDto passwordUpdateDto,
                                BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session) {
 
-        if (passwordEncoder.matches(passwordUpdateDto.getPassword(), principalDetails.getPassword())) {
+        boolean matches = passwordEncoder.matches(passwordUpdateDto.getPassword(), principalDetails.getPassword());
+
+        if (bindingResult.hasErrors()) {
+            if (!matches) {
+                bindingResult.reject("discordPassword", null);
+            }
+        }
+
+        // dto로 넘어 온 데이터와 로그인 회원의 인코딩된 비밀번호 일치여부 확인
+        if (matches) {
             basicUserService.memberDelete(principalDetails.getId());
             session.invalidate();
         }

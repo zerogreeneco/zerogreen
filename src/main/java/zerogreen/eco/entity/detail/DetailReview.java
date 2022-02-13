@@ -12,8 +12,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.CascadeType.REMOVE;
+import static javax.persistence.CascadeType.*;
 
 @Entity
 @Getter
@@ -43,7 +42,7 @@ public class DetailReview extends BaseTimeEntity {
 
     // 양방향 매핑으로 부모 댓글의 자식 댓글 리스트
     // 조인컬럼을 없애면 테이블이 생겨서 일단 냅둠
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = ALL)
     @JoinColumn(name = "parentReview")
     private List<DetailReview> nestedReviewList = new ArrayList<>();
 
