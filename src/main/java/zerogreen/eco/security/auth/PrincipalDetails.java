@@ -10,7 +10,10 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Component;
 import zerogreen.eco.entity.userentity.BasicUser;
+import zerogreen.eco.entity.userentity.Member;
+import zerogreen.eco.entity.userentity.VegetarianGrade;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,6 +54,10 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     @Override
     public String getUsername() {
         return basicUser.getUsername();
+    }
+
+    public VegetarianGrade getVegetarianGrade() {
+        return ((Member) basicUser).getVegetarianGrade();
     }
 
     @Override

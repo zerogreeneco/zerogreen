@@ -95,7 +95,7 @@
         <div th:each="app,i : ${approval}" id="ddiv">
             <input id="mapSize" th:value="${i.size}" hidden>
 
-            <input id="mapAddress" th:value="${app.storeAddress}" hidden>
+<!--            <input class="mapAddress" th:value="${app.storeAddress}" hidden>-->
             <input id="mapEco" th:if="${app.storeType.toString().equals('ECO_SHOP')}" th:value="${app.storeAddress}"
                    th:text="${app.storeAddress} + ' ' + ${app.storeType}" hidden>
             <input id="mapVFood" th:if="${app.storeType.toString().equals('VEGAN_FOOD')}" th:value="${app.storeAddress}"
