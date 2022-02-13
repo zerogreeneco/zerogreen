@@ -4,35 +4,97 @@
 
         <!-- 페이지 css/ js 추가 -->
         <script th:inline="javascript" th:src="@{/bootstrap/js/storeInfo.js}"></script>
+        <link rel="stylesheet" th:href="@{/bootstrap/css/register.css}">
 
         <!-- 본문 시작 -->
 
-        <div>
-            <h1>내 가게 정보</h1>
-            <h1>가게 이름</h1>
-            <span>가게 타입 (selected disabled)</span>
-            <div>가게 연락처</div>
-            <input>
-            <div>영업시간</div>
-            <input type="time" class="time startTime" name="startTime"/> ~
-            <input type="time" class="time closeTime" name="closeTime"/>
+        <div style="margin: 2em 0 !important;">
+            <div class="center-box">
+                <div class="py-5 text-center">
+                    <h2 class="title"><span>내 가게 정보 수정</span></h2>
+                </div>
 
-            <div>가게소개</div>
-            <input>
-            <div>소셜 주소</div>
-            <input>
-            <div>메뉴</div>
-            <input placeholder="메뉴이름">
-            <input placeholder="가격">
-            <select>
-                <option>비건</option>
-                <option>락토</option>
-                <option>오보</option>
-                <option>락토오보</option>
-                <option>페스코</option>
-                <option>폴로</option>
-                <option>플렉시테리언</option>
-            </select>
+                <div class="store-info">
+                    <!-- 매장 이름 -->
+                    <h3 class="title"><span>🌿어쩌고 저쩌고 가게</span></h3>
+
+                    <!-- 사업장 종류 -->
+                    <div class="storeType">
+                        <label class="join-label">사업장 종류</label>
+                        <!--                            <div th:each="stores : ${storeTypes}">-->
+                        <!--                                <input type="radio" style="margin-left: 10px;" th:field="*{storeType}" th:value="${stores.name()}">-->
+                        <!--                                <label th:for="${#ids.prev('storeType')}" th:text="${stores.storeType}"></label>-->
+                    </div>
+                </div>
+
+
+                <div class="update-info">
+                    <!-- 가게 연락처 -->
+                    <div>
+                        <label for="storePhoneNumber" class="join-label">가게 전화번호</label>
+                        <input type="text" class="form-control input-box" id="storePhoneNumber">
+                        <!--                        <div th:errors="*{phoneNumber}" class="field-error">-->
+                        <!--                            전화 오류-->
+                        <!--                        </div>-->
+                    </div>
+
+                    <!-- 영업시간 -->
+                    <div>
+                        <label class="join-label">영업시간</label>
+                        <input type="time" class="time startTime" id="startTime"/> ~ <input type="time" class="time closeTime" id="closeTime"/>
+                    </div>
+
+                    <!-- 가게 소개 -->
+                    <div>
+                        <label for="storeDescription" class="join-label">가게 소개</label>
+                        <input type="text" class="form-control input-box description" id="storeDescription">
+                    </div>
+
+                    <!-- 소셜 주소 -->
+                    <div>
+                        <label for="socialAddress1" class="join-label">소셜 주소</label>
+                        <input type="text" class="form-control input-box" id="socialAddress1">
+                        <img class="add" th:src="@{/bootstrap/images/add.png}">
+                        <input type="text" class="form-control input-box" id="socialAddress2" hidden>
+                    </div>
+
+                    <!-- 메뉴 -->
+                    <div>
+                        <label for="socialAddress1" class="join-label">메뉴</label>
+                        <input type="text" class="form-control input-box" id="menuName" placeholder="메뉴이름">
+                        <input type="number" step="10" class="form-control half" id="menuPrice" placeholder="가격">
+                        <select class="half" style="height: 46px;">
+                            <option>비건</option>
+                            <option>락토</option>
+                            <option>오보</option>
+                            <option>락토오보</option>
+                            <option>페스코</option>
+                            <option>폴로</option>
+                            <option>플렉시테리언</option>
+                        </select>
+                        <img class="add" th:src="@{/bootstrap/images/add.png}">
+
+                        <hr>
+                    </div>
+
+                    <!-- 첨부 파일 -->
+                    <div>
+                        <label class="join-label">첨부파일</label>
+<!--                        <input type="file" class="input-box" th:field="*{attachFile}">-->
+                    </div>
+<!--                    <div th:if="${#fields.hasGlobalErrors()}">-->
+<!--                        <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>-->
+<!--                    </div>-->
+                </div>
+            </div>
         </div>
+        <script th:inline="javascript">
+            $(document).ready(function() {
+                $(".add").click(function (){
+                    alert("클릭");
+
+                });
+            });
+        </script>
     </th:block>
 </th:block>
