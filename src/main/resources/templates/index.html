@@ -91,11 +91,19 @@
         <!--지도 부분-->
         <script type="text/javascript" th:src="@{/bootstrap/js/map.js}"></script>
         <script type="text/javascript"
-                src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac"></script>
-<!--        <div th:each="app : ${approval}">-->
-<!--            <span th:text="${app.storeAddress}"></span><br>-->
-<!--            <span th:text="${app.storeType}"></span><hr>-->
-<!--        </div>-->
+                src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac&libraries=services"></script>
+        <div th:each="app : ${approval}" id="ddiv">
+            <input id="mapSize" th:value="${app.size}" hidden>
+            <input id="mapAddress" th:value="${app.storeAddress}" hidden>
+            <input id="mapEco" th:if="${app.storeType.toString().equals('ECO_SHOP')}" th:value="${app.storeAddress}"
+                   th:text="${app.storeAddress} + ' ' + ${app.storeType}" hidden>
+            <input id="mapVFood" th:if="${app.storeType.toString().equals('VEGAN_FOOD')}" th:value="${app.storeAddress}"
+                   th:text="${app.storeAddress} + ' ' + ${app.storeType}" hidden>
+            <input id="mapGFood" th:if="${app.storeType.toString().equals('GENERAL_FOOD')}"
+                   th:value="${app.storeAddress}" th:text="${app.storeAddress} + ' ' + ${app.storeType}" hidden>
+            <hr>
+        </div>
+
         <!--그네꺼~!~!~!-->
         <a th:href="@{/store/update}">그네 작업중@@@</a>
     </th:block>
