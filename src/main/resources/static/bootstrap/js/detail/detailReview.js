@@ -154,4 +154,22 @@ $(document).ready(function(e){
         $(this).height(this.scrollHeight);
     });
 
+    //리뷰이미지 슬라이드
+    $("#image-right").click(function() {
+        $(".image-slider").animate({
+        marginLeft: "-130px"
+        }, function() {
+            $(".image-slider .card:first").appendTo(".image-slider");
+            $(".image-slider").css({
+            marginLeft: 0
+            });
+        });
+    });
+    $("#image-left").click(function() {
+        $(".image-slider .card:last").prependTo(".image-slider");
+        $(".image-slider").css({ "marginLeft": "-130px"});
+        $(".image-slider").animate({ marginLeft: 0 });
+    });
+
+
 }); //end script

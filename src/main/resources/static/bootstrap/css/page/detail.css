@@ -41,14 +41,19 @@
     margin-left: 20px;
 }
 
-.liking, .like-img {
-    width: 35px;
-    height: 35px;
+.dislike, .like-img {
+    width: 30px;
+    height: 30px;
+}
+
+.like {
+    width: 38px;
+    height: 38px;
 }
 
 .speechBalloon {
-    width: 27px;
-    height: 27px;
+    width: 30px;
+    height: 30px;
 }
 
 .like-cnt, .review-cnt {
@@ -83,8 +88,10 @@
     display: inline-block;
 }
 
+
 /* 리뷰 */
 
+/*리뷰 공통*/
 textarea {
     resize: none;
     overflow: hidden;
@@ -96,86 +103,8 @@ textarea:focus {
     outline: none;
 }
 
-.rv {
-    height: auto;
-    text-align: center;
-}
-
-.rv-images {
-    background: #5187e0;
-    //height: 100px;
-}
-
-.rv-img {
-    margin: 3px;
-}
-
-.reviewList {
-    //background: #e8ebed;
-}
-
-#reviewText {
-    width: 900px;
-    min-height: 80px;
-    border: none;
-    padding: 10px;
-    font-size: 0.9em;
-}
-
-.rv-ta {
-    margin: 15px 8px 0 0;
-}
-
-#rv-btn {
-    margin: 10px 0 15px;
-}
-
-.reviewBox {
-    min-height: 90px;
-    border-top: 1px solid #3498db;
-}
-
-.sReview-Box {
-    border-top: 1px solid #16a085;
-}
-
-.sReview-smallBox {
-    //margin-left: 100px;
-}
-
-.storeReviewText {
-    background: none;
-    border: none;
-    min-width: 700px;
-    max-width: 700px;
-    margin: 8px 8px 3px 50px;
-    //border: 1px solid black;
-    //height: auto;
-}
-
 .btn-Box {
     text-align: right;
-}
-
-.rv-textarea {
-    background: none;
-    //border: 1px solid black;
-    border: none;
-    max-width: 800px;
-    margin: 8px 8px 3px 8px;
-    //height: auto;
-}
-
-.srv-input-textarea {
-    border: 1px solid #16a085;
-}
-
-.rvrv-btn {
-    background: #3498db;
-    color: #ffffff;
-    border-radius: 5px;
-    font-size: 1em;
-    padding: 8px;
 }
 
 .mrv-btn {
@@ -191,6 +120,69 @@ textarea:focus {
     margin: 0 5px 10px 5px;
 }
 
+.rvrv-btn {
+    background: #3498db;
+    color: #ffffff;
+    border-radius: 5px;
+    font-size: 1em;
+    padding: 8px;
+}
+
+
+/*리뷰 작성*/
+.rv-ta {
+    margin: 15px 8px 0 0;
+}
+
+#rv-btn {
+    margin: 10px 0 15px;
+}
+
+#reviewText {
+    width: 900px;
+    min-height: 80px;
+    border: none;
+    padding: 10px;
+    font-size: 0.9em;
+}
+
+
+/* 리뷰이미지리스트(슬라이더) */
+.rv-images {
+    //background: #5187e0;
+    //height: 100px;
+}
+
+.rv-img-list {
+    margin: 5px 0 3px 5px;
+}
+
+.slider-container {
+    overflow: hidden;
+}
+
+.image-slider {
+    display: inline-flex;
+}
+
+.arrow-left {
+    left: 0;
+    top: 17%;
+    font-size: 4em;
+    position: absolute;
+    z-index: 999;
+}
+
+.arrow-right {
+    right: 0;
+    top: 17%;
+    font-size: 4em;
+    position: absolute;
+    z-index: 999;
+}
+
+
+/*멤버 리뷰*/
 .rv-nickname {
     font-size: 1.05em;
     display: inline-block;
@@ -198,8 +190,51 @@ textarea:focus {
     margin-left: 8px;
 }
 
+.rv-img {
+    margin: 3px;
+}
+
+.reviewBox {
+    min-height: 90px;
+    border-top: 1px solid #3498db;
+}
+
+.rv-textarea {
+    background: none;
+    //border: 1px solid black;
+    border: none;
+    min-width: 700px;
+    max-width: 700px;
+    margin: 8px 8px 3px 8px;
+    //height: auto;
+}
+
+
+/*스토어 리뷰*/
+.sReview-Box {
+    border-top: 1px solid #dedede;
+}
+
+.sReview-smallBox {
+    //margin-left: 100px;
+}
+
+.storeReviewText {
+    background: none;
+    border: none;
+    min-width: 600px;
+    max-width: 600px;
+    margin: 8px 8px 3px 50px;
+    //border: 1px solid black;
+    //height: auto;
+}
+
+.srv-input-textarea {
+    border: 1px solid #16a085;
+}
+
 .srv-storeName {
-    font-size: 1.1em;
+    font-size: 1.05em;
     display: inline-block;
     margin-top: 8px;
     margin-left: 8px;
@@ -215,6 +250,13 @@ textarea:focus {
     width: 20px;
     height: 20px;
     margin-left: 20px;
+}
+
+
+/*어디 소속인지 아직 정리못함*/
+.rv {
+    height: auto;
+    text-align: center;
 }
 
 

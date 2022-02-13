@@ -8,7 +8,10 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <div class="row gtr-200">
+
+    <script th:src="@{/bootstrap/js/member/memberMyInfo.js}"></script>
+
+        <div class="row gtr-200">
         <!--    왼쪽 프로필-->
         <div class="temp1 profile">
             <div class="profile-div inline">
@@ -57,7 +60,39 @@
 
             <!--     내 리뷰-->
             <div class="listing">
-                <span class="textList">내 리뷰</span>
+                <div style="position: relative;">
+                    <span class="textList">내 리뷰</span>
+                    <span id="review-left" class="arrow-left">&#139;</span>
+                    <span id="review-right"  class="arrow-right">&#155;</span>
+
+                    <div class="slider-container">
+                        <div class="review-slider slider">
+                            <div class="card" th:each="review: ${listOfReview}"
+                                 th:onclick="|javascript: goStore('${review.sno}')|">
+
+                                <div class="card-header">
+                                    <img src="http://placehold.it/300x300"/>
+                                </div>
+
+                                <div class="shopList-box">
+                                    <div class="card-body">
+                                        <span class="shop-name">[[${review.rno}]]</span>
+                                        <span class="shop-name">[[${review.storeName}]]</span>
+                                        <span class="shop-name">[[${#temporals.format(review.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- end th:each-->
+                        </div>
+                    </div>
+                    <!--end slider-container -->
+                </div>
+
+            </div>
+            <!-- end myReviews -->
+
+            <div>
                 <div>리뷰넘버, 가게명, 등록시간</div>
 
                 <!-- 임시리스트 -->
@@ -66,7 +101,6 @@
                     <span>[[${review.storeName}]]</span>
                     <span>[[${#temporals.format(review.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
                 </div>
-
             </div>
             <!-- end myReviews -->
         </div>
@@ -81,6 +115,13 @@
             var url = [[@{/members/account}]];
             location.href = url;
         }
+
+        function goStore(sno) {
+            //alert('goStore');
+            var url = [[@{/page/detail}]] + "/" +sno ;
+            location.href = url;
+        }
+
     </script>
 
     </th:block>
