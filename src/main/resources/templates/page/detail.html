@@ -99,7 +99,7 @@
                 <div id="map" style="width:900px;height:350px;"></div>
                 <script type="text/javascript" th:src="@{/bootstrap/js/detail/detailMap.js}"></script>
                 <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac&libraries=services"></script>
-                <input hidden id="mapAddress" type="text" th:value="${getStore.storeAddress}">
+                <input hidden id="mapAddress" type="text" th:value="${getStore.storeInfo.storeAddress}">
             </div>
 
             <!-- 리뷰작성칸 -->
