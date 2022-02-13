@@ -13,8 +13,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.detail.DetailReviewDto;
+import zerogreen.eco.dto.detail.ReviewImageDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.dto.store.StoreDto;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.security.auth.PrincipalUser;
@@ -26,6 +28,7 @@ import zerogreen.eco.service.user.StoreMemberService;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +65,6 @@ public class DetailController {
         log.info("?????Controller " + sno);
         log.info("<<<<< " + storeDto.getCount());
 
-
         if (principalDetails == null) {
             model.addAttribute("getStore",storeDto);
         } else {
@@ -74,24 +76,27 @@ public class DetailController {
             model.addAttribute("cntLike", likesService.cntMemberLike(sno, principalDetails.getId()));
         }
 
+        //리뷰 이미지 리스트
+        List<ReviewImageDto> reviewImages = reviewImageService.findByStore(sno);
+        if (reviewImages.size() > 0) {
+            model.addAttribute("reviewImageList", reviewImages);
+            Collections.reverse(reviewImages);
+        }
 
-        /*
-        //이미지
-        if (reviewImageService.findByStore(sno).size() > 0) {
-            model.addAttribute("reviewImageList", reviewImageService.findByStore(sno));
+        //이친구는 보류중
+        if (reviewImageService.findByReview(reviewDto.getRno()).size() > 0) {
+            model.addAttribute("listOfImage", reviewImageService.findByReview(reviewDto.getRno()));
         }
-*/
-/*
-        //여기 rno 구해야함
-        if (reviewImageService.findByReview(memberReviewDto.getRno()).size() > 0) {
-            model.addAttribute("image", reviewImageService.findByReview(memberReviewDto.getRno()));
-        }
-        log.info("vvvvvvvrno " + memberReviewDto.getRno());
-*/
 
         //리뷰 리스트
         List<DetailReviewDto> result = detailReviewService.findByStore(sno);
         model.addAttribute("memberReview", result);
+        Collections.reverse(result);
+/*
+        List<DetailReviewDto> result = detailReviewService.findByStore(sno, reviewDto.getRno());
+        model.addAttribute("memberReview", result);
+        Collections.reverse(result);
+*/
 
         //가게별 멤버리뷰 카운팅
         Long cnt2 = detailReviewService.cntMemberReview(sno);
@@ -102,7 +107,10 @@ public class DetailController {
         return "page/detail";
     }
 
-    //save reviews ** on working **
+
+
+    //save reviews with ajax. text only  ** on working **
+/*
     @PostMapping("/page/detail/addReview/{sno}")
     public String saveReview(@PathVariable("sno") Long sno, Model model, RequestPageSortDto requestPageSortDto,
                             @ModelAttribute("review") DetailReviewDto reviewDto,
@@ -117,23 +125,44 @@ public class DetailController {
 
         return "page/detail :: #reviewList";
     }
-
-/*
-    //멤버 리뷰 db
-    @PostMapping("/page/detail/{sno}")
-    public String addReview(@PathVariable("sno") Long sno,
-                            @Validated @ModelAttribute("review") ReviewRequestDto reviewRequestDto, BindingResult bindingResult,
-                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
-
-        List<ReviewImage> reviewImages = reviewImageService.reviewImageFiles(reviewRequestDto.getImageFiles());
-
-        Long rno = reviewService.saveReview(reviewRequestDto, principalDetails.getBasicUser(),sno, reviewImages);
-
-        //return rno;
-        return "redirect:/page/detail/"+sno;
-    }
 */
 
+
+    // 이미지 포함 리뷰 db
+    @PostMapping("/page/detail/{sno}")
+    public String addReview(@PathVariable("sno") Long sno, Model model,
+                            @Validated @ModelAttribute("review") DetailReviewDto reviewDto, BindingResult bindingResult,
+                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+
+        List<ReviewImage> reviewImages = reviewImageService.reviewImageFiles(reviewDto.getImageFiles());
+        detailReviewService.saveImageReview(reviewDto.getReviewText(), sno, principalDetails.getBasicUser(), reviewImages);
+
+//        List<DetailReviewDto> saveImageResult = detailReviewService.findByStore(sno, reviewDto.getRno());
+        List<DetailReviewDto> saveImageResult = detailReviewService.findByStore(sno);
+        Collections.reverse(saveImageResult);
+        model.addAttribute("memberReview", saveImageResult);
+
+        return "redirect:/page/detail/"+sno;
+    }
+
+
+    //이미지 삭제
+    @ResponseBody
+    @DeleteMapping("/{id}/imageDelete")
+    public ResponseEntity<Map<String, String>> imageDelete(@PathVariable("id")Long id,
+                                                           HttpServletRequest request) {
+        HashMap<String, String> resultMap = new HashMap<>();
+        String filePath = request.getParameter("filePath");
+        log.info("<<<<<<<<<<<<<<<<FILEPATH={}", filePath);
+
+        reviewImageService.deleteReviewImage(id, filePath);
+        resultMap.put("key", "success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
+
+    //이미지 불러오기
     @ResponseBody
     @GetMapping("/page/detail/images/{filename}")
     private Resource getReviewImages(@PathVariable("filename") String filename) throws MalformedURLException {
@@ -153,6 +182,7 @@ public class DetailController {
         detailReviewService.saveNestedReview(reviewText, sno, principalDetails.getBasicUser(), rno);
 
         model.addAttribute("memberReview", detailReviewService.findByStore(sno));
+//        model.addAttribute("memberReview", detailReviewService.findByStore(sno,rno));
 
         return "page/detail :: #reviewList";
     }
@@ -168,11 +198,13 @@ public class DetailController {
     }
 
     //리뷰 삭제
+    @ResponseBody
     @DeleteMapping("/deleteReview/{rno}")
-    public String remove(@PathVariable("rno") Long rno) {
+    public ResponseEntity<Long> remove(@PathVariable("rno") Long rno) {
         detailReviewService.remove(rno);
-        return "page/detail :: #reviewList";
+        return new ResponseEntity<>(rno, HttpStatus.OK);
     }
+
 
     //좋아요
     @ResponseBody

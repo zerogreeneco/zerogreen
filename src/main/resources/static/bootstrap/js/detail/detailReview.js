@@ -5,7 +5,9 @@ $(document).ready(function(e){
     let count = 0;
 
 
+
     // save Reviews
+/*
     $("#rv-btn").click(function () {
         let reviewText = $("#reviewText");
         let imageList = $("#img-input");
@@ -28,6 +30,7 @@ $(document).ready(function(e){
             });
 
     }); // end save reviews
+*/
 
 
 
@@ -110,14 +113,16 @@ $(document).ready(function(e){
        $.ajax({
             url: contextPath + "/deleteReview/"+rno ,
             type:"DELETE",
-            contentType:"application/x-www-form-urlencoded; charset=utf-8",
-            data: {
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            data: JSON.stringify({
                 rno: rno
-            }
+            })
             })
             .done(function (fragment) {
-                $("#reviewList").replaceWith(fragment);
+                //$("#reviewList").replaceWith(fragment);
                 $(".review-cnt").html(Number(cnt.text())-1);
+                self.location.reload();
             });
     }); //delete member Review end
 
@@ -130,12 +135,15 @@ $(document).ready(function(e){
             url: contextPath + "/deleteReview/"+srno ,
             type:"DELETE",
             contentType:"application/x-www-form-urlencoded; charset=utf-8",
-            data: {
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            data: JSON.stringify({
                 rno: srno
-            }
+            })
             })
             .done(function (fragment) {
-                $("#reviewList").replaceWith(fragment);
+                self.location.reload();
+                //$("#reviewList").replaceWith(fragment);
             });
     }); //delete store Review end
 

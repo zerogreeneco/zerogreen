@@ -42,8 +42,6 @@ public class DetailReviewDto {
     private List<DetailReviewDto> nestedReviewList = new ArrayList<>();
 
 
-    //이하 생성자
-
     public DetailReviewDto() {}
 
     // 댓글
@@ -69,8 +67,21 @@ public class DetailReviewDto {
         this.createdTime = detailReview.getModifiedDate();
         this.nestedReviewList = collect;
         this.storeName = detailReview.getStoreMember().getStoreName();
-        this.imageList = detailReview.getImageList();
+
     }
+/*
+        List<DetailReviewDto> collect =
+                detailReview.getNestedReviewList().stream().map(DetailReviewDto::new).collect(Collectors.toList());
+        this.rno = detailReview.getId();
+        this.sno = detailReview.getStoreMember().getId();
+        this.reviewText = detailReview.getReviewText();
+        this.id = detailReview.getReviewer().getId();
+        this.username = detailReview.getReviewer().getUsername();
+        this.createdTime = detailReview.getModifiedDate();
+        this.nestedReviewList = collect;
+        this.storeName = detailReview.getStoreMember().getStoreName();
+        this.imageList = detailReview.getImageList();
+*/
 
 
 }

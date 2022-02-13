@@ -34,11 +34,25 @@
 
 .sec-left {
     text-align: right;
+    margin-right: 20px;
 }
 
-.liking {
-    width: 30px;
-    height: 30px;
+.sec-right {
+    margin-left: 20px;
+}
+
+.liking, .like-img {
+    width: 35px;
+    height: 35px;
+}
+
+.speechBalloon {
+    width: 27px;
+    height: 27px;
+}
+
+.like-cnt, .review-cnt {
+    font-size: 1.2em;
 }
 
 /* 3열 */
@@ -92,8 +106,12 @@ textarea:focus {
     //height: 100px;
 }
 
+.rv-img {
+    margin: 3px;
+}
+
 .reviewList {
-    background: #e8ebed;
+    //background: #e8ebed;
 }
 
 #reviewText {
@@ -122,11 +140,17 @@ textarea:focus {
 }
 
 .sReview-smallBox {
-    margin-left: 100px;
+    //margin-left: 100px;
 }
 
 .storeReviewText {
-    width: 700px;
+    background: none;
+    border: none;
+    min-width: 700px;
+    max-width: 700px;
+    margin: 8px 8px 3px 50px;
+    //border: 1px solid black;
+    //height: auto;
 }
 
 .btn-Box {
@@ -137,7 +161,7 @@ textarea:focus {
     background: none;
     //border: 1px solid black;
     border: none;
-    width: 800px;
+    max-width: 800px;
     margin: 8px 8px 3px 8px;
     //height: auto;
 }
@@ -182,9 +206,17 @@ textarea:focus {
 }
 
 .rv-date {
-    font-size: 0.9em;
+    font-size: 0.83em;
     margin-bottom:5px;
+    color: #949494;
 }
+
+.arrow {
+    width: 20px;
+    height: 20px;
+    margin-left: 20px;
+}
+
 
 /* mixed css */
 .inline {
