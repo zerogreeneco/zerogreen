@@ -21,14 +21,13 @@
                     <img class="search_icon" th:src="@{/bootstrap/images/list/search.png}">
                 </button>
             </form>
-        </div>
 
             <!-- 사업장 종류 -->
             <div class="listNav">
                 <input type="radio" class="form-check-input storeType" id="radio1" name="storeType">
                 <label class="form-check-label" for="radio1"
                        th:onclick="|javascript:getFoodList('1')|">전체</label>
-              
+
                 <input type="radio" class="form-check-input storeType" id="radio2" name="storeType">
                 <label class="form-check-label" for="radio2" value="VEGAN_FOOD"
                        th:onclick="|javascript:getTypeList('VEGAN_FOOD','1')|">비건 음식점</label>
@@ -38,6 +37,7 @@
                        th:onclick="|javascript:getTypeList('GENERAL_FOOD','1')|">친환경 포장</label>
 
             </div>
+        </div>
 
         <div id="card-align">
             <div class="card" th:each="list : ${list}"
