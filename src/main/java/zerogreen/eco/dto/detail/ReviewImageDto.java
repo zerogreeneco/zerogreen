@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 import zerogreen.eco.entity.detail.DetailReview;
-import zerogreen.eco.entity.detail.MemberReview;
 import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.StoreMember;
 
@@ -25,8 +24,6 @@ public class ReviewImageDto {
     private List<MultipartFile> reviewImages;
 
 
-    //이하 생성자
-
     //스토어 전체 리뷰 이미지 리스트 뿌리기
     public ReviewImageDto(ReviewImage reviewImage) {
         this.id = reviewImage.getId();
@@ -36,14 +33,5 @@ public class ReviewImageDto {
         this.storeMember = reviewImage.getStoreMember();
     }
 
-    //누구세요?
-/*
-    public ReviewImageDto(Long id, String uploadFileName, String reviewFileName, MemberReview memberReview) {
-        this.id = id;
-        this.reviewFileName = reviewFileName;
-        this.uploadFileName = uploadFileName;
-        this.memberReview = memberReview;
-    }
-*/
 
 }
