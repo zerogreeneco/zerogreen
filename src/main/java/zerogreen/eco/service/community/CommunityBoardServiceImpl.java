@@ -62,7 +62,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     }
 
     /*
-    * 상세 보기
+    * 상세 보기 (조회수 중복 방지)
     * */
     @Override
     public CommunityResponseDto findDetailView(Long boardId, HttpServletRequest request, HttpServletResponse response) {
@@ -89,8 +89,29 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
             log.info("COOKIE IS EXIST");
             log.info("EXIST COOKIE={}", viewCookie.getValue());
         }
-
         return boardRepository.findDetailView(boardId);
+    }
+
+    @Override
+    @Transactional
+    public void boardModify(Long boardId, Category category, String text) {
+        CommunityBoard communityBoard = boardRepository.findById(boardId).orElseThrow();
+        log.info("SERVICE MODIFY BOARD={}", communityBoard.getCategory() + " / " + communityBoard.getText());
+        communityBoard.changeBoard(category, text);
+    }
+
+    /* 게시글 삭제 */
+    @Override
+    @Transactional
+    public void boardDelete(Long boardId) {
+        log.info("SERVICE DELETE={}", boardId);
+
+        boardRepository.deleteById(boardId);
+    }
+
+    @Override
+    public CommunityRequestDto boardModifyRequest(Long boardId) {
+        return boardRepository.boardModify(boardId);
     }
 
     /* 조회수 */

@@ -2,9 +2,9 @@ package zerogreen.eco.dto.community;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 import zerogreen.eco.entity.community.Category;
-import zerogreen.eco.entity.community.CommunityBoard;
 import zerogreen.eco.entity.userentity.Member;
 
 import javax.validation.constraints.NotBlank;
@@ -13,6 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@ToString
 public class CommunityRequestDto {
 
     @NotBlank
@@ -23,8 +24,8 @@ public class CommunityRequestDto {
     private List<MultipartFile> imageFiles;
 
     public CommunityRequestDto(String text, Category category) {
-
         this.text = text;
         this.category = category;
     }
+
 }

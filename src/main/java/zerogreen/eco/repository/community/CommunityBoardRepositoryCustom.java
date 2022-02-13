@@ -2,6 +2,7 @@ package zerogreen.eco.repository.community;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.dto.search.SearchCondition;
 import zerogreen.eco.dto.search.SearchType;
@@ -17,4 +18,6 @@ public interface CommunityBoardRepositoryCustom {
 
     void addViewCount(Long boardId);
     CommunityResponseDto findDetailView(Long id);
+
+    CommunityRequestDto boardModify(Long boardId);
 }

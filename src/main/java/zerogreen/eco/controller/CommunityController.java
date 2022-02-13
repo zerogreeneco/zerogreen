@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import zerogreen.eco.dto.community.CommunityReplyDto;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
@@ -33,6 +34,7 @@ import zerogreen.eco.service.file.FileService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
@@ -60,7 +62,7 @@ public class CommunityController {
     @GetMapping("")
     public String communityHomeForm(@RequestParam(value = "category", required = false) Category category,
                                     RequestPageSortDto requestPageDto, Model model,
-                                    SearchType searchType,String keyword,
+                                    SearchType searchType, String keyword,
                                     @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
@@ -73,7 +75,7 @@ public class CommunityController {
             if (searchType == null) {
                 model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable));
             } else {
-                model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable, new SearchCondition(keyword,searchType)));
+                model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable, new SearchCondition(keyword, searchType)));
             }
         } else {
             model.addAttribute("communityList", boardService.findByCategory(pageable, category));
@@ -101,15 +103,41 @@ public class CommunityController {
 
     /* 게시글 수정 */
     @GetMapping("/{boardId}/modify")
-    public String modifyForm(@PathVariable("boardId")Long boardId) {
+    public String modifyForm(@PathVariable("boardId") Long boardId, Model model) {
+
+        model.addAttribute("writeForm", boardService.boardModifyRequest(boardId));
+        if (boardImageService.findByBoardId(boardId).size() > 0) {
+            model.addAttribute("images", boardImageService.findByBoardId(boardId));
+        }
+
         return "community/communityModifyForm";
     }
 
     @PostMapping("/{boardId}/modify")
-    public String modifyBoard(@PathVariable("boardId")Long boardId) {
-
+    public String modifyBoard(@PathVariable("boardId") Long boardId,
+                              @ModelAttribute("writeForm") CommunityRequestDto requestDto) throws IOException {
+        boardService.boardModify(boardId, requestDto.getCategory(), requestDto.getText());
+        List<BoardImage> storeImages = fileService.boardImageFiles(requestDto.getImageFiles());
+        for (BoardImage storeImage : storeImages) {
+            boardImageService.modifyImage(boardId, storeImage.getStoreFileName(),
+                    storeImage.getUploadFileName(), storeImage.getFilePath());
+        }
 
         return "redirect:/community/read/" + boardId;
+    }
+
+    @PostMapping("/{imageId}/imageDelete")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> imageDelete(@PathVariable("imageId")Long imageId,
+                                                           HttpServletRequest request) {
+        HashMap<String, String> resultMap = new HashMap<>();
+        String filePath = request.getParameter("filePath");
+        log.info("<<<<<<<<<<<<<<<<FILEPATH={}", filePath);
+
+        boardImageService.deleteImage(imageId, filePath);
+        resultMap.put("key", "success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     /* 게시글 상세보기 */
@@ -141,12 +169,22 @@ public class CommunityController {
     }
 
     /*
-    * 이미지 출력
-    * */
+     * 이미지 출력
+     * */
     @ResponseBody
     @GetMapping("/images/{filename}")
-    private Resource getImages(@PathVariable("filename") String filename) throws MalformedURLException {
+    public Resource getImages(@PathVariable("filename") String filename) throws MalformedURLException {
         return new UrlResource("file:" + fileService.getFullPath(filename));
+    }
+
+    /*
+     * 게시글 삭제
+     * */
+    @PostMapping("/{boardId}/delete")
+    public String boardDelete(@PathVariable("boardId") Long boardId) {
+        log.info("DELETE BOARDID={}", boardId);
+        boardService.boardDelete(boardId);
+        return "redirect:/community";
     }
 
     /* 좋아요 */
@@ -199,8 +237,8 @@ public class CommunityController {
     }
 
     /*
-    * 댓글 수정
-    * */
+     * 댓글 수정
+     * */
     @PostMapping("/{boardId}/replyModify/{replyId}")
     @ResponseBody
     public ResponseEntity<Map<String, String>> modifyReply(@PathVariable("boardId") Long boardId, @PathVariable("replyId") Long replyId,
@@ -220,9 +258,25 @@ public class CommunityController {
     }
 
     /*
+    * 댓글 삭제
+    * */
+    @DeleteMapping("/{replyId}/delete")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> deleteReply(@PathVariable("replyId") Long replyId) {
+        Map<String, String> resultMap = new HashMap<>();
+
+        replyService.deleteReply(replyId);
+
+        resultMap.put("key", "success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
+    /*
      * 대댓글
      * */
     @PostMapping("/{boardId}/{replyId}/nestedReply")
+
     public String nestedReplySend(@PathVariable("boardId") Long boardId, @PathVariable("replyId") Long replyId,
                                   @ModelAttribute("nestedReplyForm") CommunityReplyDto replyDto,
                                   Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request) {
