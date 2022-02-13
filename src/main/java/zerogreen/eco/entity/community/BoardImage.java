@@ -21,7 +21,7 @@ public class BoardImage extends BaseTimeEntity {
     private String storeFileName;
     private String filePath;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private CommunityBoard board;
 

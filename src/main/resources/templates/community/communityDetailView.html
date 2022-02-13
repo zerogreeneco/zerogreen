@@ -54,7 +54,6 @@
             <img th:src="@{/community/images/{imageFile}(imageFile=*{imageFile.storeFileName})}"
                  th:value="${imageFile.uploadFileName}"
                  width="700px" height="auto">
-            <p>[[${imageFile}]]</p>
         </div>
         <hr/>
         <!-- 상세보기 리뷰 작성 -->
@@ -80,7 +79,7 @@
                         </div>
                         <p class="rp-text" th:text="${replyList.text}"></p>
                         <a type="button" class="modify-test-btn" style="display: none;"
-                           onclick="modifyReply(this)">수정
+                           onclick="modifyReply(this)">수정!
                         </a>
 
                         <a class="nested-reply-btn" onclick="nestedReplyInput(this)">답글</a>
@@ -101,7 +100,7 @@
                                   th:text="${#temporals.format(nestedList.createdTime, 'yyyy-MM-dd HH:mm')}"></span>
                             <p class="rp-text" th:text="${nestedList.text}"></p>
                             <a type="button" class="modify-test-btn" style="display: none;"
-                               onclick="modifyReply(this)">수정
+                               onclick="modifyReply(this)">수정!
                             </a>
                             <a th:if="${nestedList.username} == ${session.loginUser}" th:onclick="'javascript:deleteReply(' + ${nestedList.replyId} + ');'">삭제</a>
                             <a th:if="${nestedList.username} == ${session.loginUser}" class="rp-modify-btn" onclick="replaceTag(this)">수정</a>

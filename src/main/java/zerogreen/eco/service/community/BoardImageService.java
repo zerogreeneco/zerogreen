@@ -10,5 +10,5 @@ public interface BoardImageService {
 
     void modifyImage(Long boardId, String storeName, String originalName, String path);
 
-    void deleteImage(Long imageId);
+    void deleteImage(Long imageId, String filePath);
 }
