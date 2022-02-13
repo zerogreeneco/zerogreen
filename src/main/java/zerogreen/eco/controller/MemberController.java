@@ -13,6 +13,7 @@ import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.detail.LikesDto;
 import zerogreen.eco.dto.member.MemberUpdateDto;
 import zerogreen.eco.dto.member.PasswordUpdateDto;
+import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.detail.DetailReviewService;
@@ -49,7 +50,7 @@ public class MemberController {
     }
 
     @ModelAttribute("vegan")
-    private VegetarianGrade[] vegetarianGrades() {
+    private VegetarianGrade[] vegetarianGrades(@AuthenticationPrincipal PrincipalDetails principalDetails) {
         VegetarianGrade[] vegans = VegetarianGrade.values();
         return vegans;
     }
@@ -109,7 +110,7 @@ public class MemberController {
         return "member/updateMember";
     }
 
-    @PostMapping("/acccount/deleteMember")
+    @PostMapping("/account/deleteMember")
     @ResponseBody
     public String deleteMember(@Validated @ModelAttribute("password") PasswordUpdateDto passwordUpdateDto,
                                BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session) {
