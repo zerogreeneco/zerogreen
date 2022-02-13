@@ -23,15 +23,17 @@
 
                 const nickname = $("#nickname").val();
                 const phoneNum = $("#phoneNumber").val();
+                const vegetarianGrade = $("#vegetarianGrade").val();
 
                 $.ajax({
                     url: "/zerogreen/members/account",
                     type: 'post',
+                    dataType: 'json',
                     data: {
                         nickname: nickname,
-                        phoneNumber: phoneNum
-                    },
-                    dataType: 'json'
+                        phoneNumber: phoneNum,
+                        vegetarianGrade: vegetarianGrade
+                    }
                 });
             }); // 회원 정보 변경
 
@@ -79,6 +81,7 @@
 
     <h4 class="mb-3">회원 정보 입력</h4>
 
+    <div sec:authorize="hasRole('ROLE_USER')">
     <form id="memberUpdate" action="" th:action="@{/members/account}" method="post" th:object="${member}">
         <input type="hidden">
         <div>
@@ -89,7 +92,7 @@
 
         <div>
             <label for="nickname">nickname</label>
-            <input type="text" th:field="*{nickname}" class="form-control" sec:authorize-expr="">
+            <input type="text" th:field="*{nickname}" class="form-control" >
             <div th:errors="*{nickname}">
                 닉네임 오류
             </div>
@@ -102,22 +105,23 @@
             </div>
         </div>
 
-        <!--/*        <div>
-                    <select th:field="*{vegetarianGrade}">
-                        <option value="">==베지테리언 등급==</option>
-                        <option th:each="vegan : ${vegan}" th:value="${vegan.name()}" th:text="${vegan.vegetarian}"></option>
-                    </select>
-                </div>*/-->
+        <div>
+            <select th:field="*{vegetarianGrade}">
+                <option th:each="vegan : ${vegan}" th:value="${vegan.name()}" th:text="${vegan.vegetarian}"></option>
+            </select>
+        </div>
 
-        <hr class="my-4">
 
 
         <div class="row">
         </div>
     </form>
+    </div>
+
     <div class="col">
         <button id="info-submit" class="w-100 btn btn-primary btn-lg" type="submit">정보 수정</button>
     </div>
+        <hr class="my-4">
 
     <form id="passwordChange" method="post" th:action="@{/members/account/pwdChange}" th:object="${password}">
         <div>

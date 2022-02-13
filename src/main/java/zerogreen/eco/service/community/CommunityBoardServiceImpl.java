@@ -92,11 +92,11 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
         return boardRepository.findDetailView(boardId);
     }
 
+    /* 게시글 수정 */
     @Override
     @Transactional
     public void boardModify(Long boardId, Category category, String text) {
         CommunityBoard communityBoard = boardRepository.findById(boardId).orElseThrow();
-        log.info("SERVICE MODIFY BOARD={}", communityBoard.getCategory() + " / " + communityBoard.getText());
         communityBoard.changeBoard(category, text);
     }
 
@@ -104,11 +104,10 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     @Override
     @Transactional
     public void boardDelete(Long boardId) {
-        log.info("SERVICE DELETE={}", boardId);
-
         boardRepository.deleteById(boardId);
     }
 
+    /* 수정용 데이터 불러오기 */
     @Override
     public CommunityRequestDto boardModifyRequest(Long boardId) {
         return boardRepository.boardModify(boardId);
