@@ -13,12 +13,9 @@ import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.detail.LikesDto;
 import zerogreen.eco.dto.member.MemberUpdateDto;
 import zerogreen.eco.dto.member.PasswordUpdateDto;
-import zerogreen.eco.entity.userentity.Member;
-import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.detail.DetailReviewService;
 import zerogreen.eco.service.detail.LikesService;
-import zerogreen.eco.service.mail.MailService;
 import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.MemberService;
 
@@ -34,7 +31,6 @@ public class MemberController {
 
     private final BasicUserService basicUserService;
     private final MemberService memberService;
-    private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
     private final LikesService likesService;
     private final DetailReviewService detailReviewService;
@@ -49,11 +45,11 @@ public class MemberController {
         return new PasswordUpdateDto();
     }
 
-    @ModelAttribute("vegan")
-    private VegetarianGrade[] vegetarianGrades(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        VegetarianGrade[] vegans = VegetarianGrade.values();
-        return vegans;
-    }
+//    @ModelAttribute("vegan")
+//    private VegetarianGrade[] vegetarianGrades(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+//        VegetarianGrade[] vegans = VegetarianGrade.values();
+//        return vegans;
+//    }
 
 
     @GetMapping("/account")
@@ -82,11 +78,10 @@ public class MemberController {
         if (bindingResult.hasErrors()) {
             return "member/updateMember";
         }
-        log.info("SESSION BEFORE={}", session.getAttribute("veganGrade"));
-        memberService.memberUpdate(principalDetails.getId(), memberUpdateResponse);
         session.removeAttribute("veganGrade");
+        memberService.memberUpdate(principalDetails.getId(), memberUpdateResponse);
         session.setAttribute("veganGrade", memberUpdateResponse.getVegetarianGrade());
-        log.info("SESSION AFTER={}", session.getAttribute("veganGrade"));
+
         log.info("회원 정보 수정 성공!!!!!");
 
         return "member/updateMember";
@@ -115,11 +110,12 @@ public class MemberController {
         return "member/updateMember";
     }
 
-    @PostMapping("/account/deleteMember")
+    @DeleteMapping("/account/deleteMember")
     @ResponseBody
     public String deleteMember(@Validated @ModelAttribute("password") PasswordUpdateDto passwordUpdateDto,
                                BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session) {
 
+        // dto로 넘어 온 데이터와 로그인 회원의 인코딩된 비밀번호 일치여부 확인
         boolean matches = passwordEncoder.matches(passwordUpdateDto.getPassword(), principalDetails.getPassword());
 
         if (bindingResult.hasErrors()) {
@@ -128,7 +124,6 @@ public class MemberController {
             }
         }
 
-        // dto로 넘어 온 데이터와 로그인 회원의 인코딩된 비밀번호 일치여부 확인
         if (matches) {
             basicUserService.memberDelete(principalDetails.getId());
             session.invalidate();

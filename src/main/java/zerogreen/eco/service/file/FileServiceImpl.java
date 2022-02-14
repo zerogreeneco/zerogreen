@@ -29,8 +29,6 @@ public class FileServiceImpl implements FileService{
     @Value("C:/imageUpload/")
     private String imageFileDir;
 
-    private final String[] EXTENSION = {"image/gif", "image/jpeg", "image/png", "image/bmp", "application/pdf"};
-
     @Override
     public String getFullPath(String filename) {
         return fileDir + filename;
@@ -88,7 +86,8 @@ public class FileServiceImpl implements FileService{
         // 사용자가 저장한 파일 이름
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFilename = createStoreFilename(originalFilename);
-        multipartFile.transferTo(new File(getFullPathImage(storeFilename, storeName)));
+        File saveFile = new File(getFullPathImage(storeFilename, storeName));
+        multipartFile.transferTo(saveFile);
 
         return new StoreImageFile(originalFilename, storeFilename, getFullPathImage(storeFilename, storeName));
     }
@@ -123,7 +122,22 @@ public class FileServiceImpl implements FileService{
         // 사용자가 저장한 파일 이름
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFilename = createStoreFilename(originalFilename);
-        multipartFile.transferTo(new File(getFullPath(storeFilename)));
+        File saveFile = new File(getFullPath(storeFilename));
+        multipartFile.transferTo(saveFile);
+
+        File thumbnailFile = new File(getFullPath("thumb_" + storeFilename));
+
+        BufferedImage readImage = ImageIO.read(saveFile);
+
+        double ratio = 3.0;
+        int width = (int) (readImage.getWidth() / ratio);
+        int height = (int) (readImage.getHeight() / ratio);
+
+        BufferedImage thumbImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+        Graphics2D graphics = thumbImage.createGraphics();
+
+        graphics.drawImage(readImage, 0, 0, width, height, null);
+        ImageIO.write(thumbImage, "png", thumbnailFile);
 
         return new BoardImage(originalFilename, storeFilename, getFullPath(storeFilename));
     }

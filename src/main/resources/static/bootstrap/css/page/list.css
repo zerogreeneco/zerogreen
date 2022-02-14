@@ -31,7 +31,7 @@ input:focus {
 
 @media screen and (max-width: 710px) {
     .form-area{
-        margin-top: -50px;
+        margin: 15px 0 30px 0;
         transform: translate(-5%, 0);
     }
 
@@ -98,7 +98,7 @@ input:focus {
 
 /* StroeType */
 .listNav{
-    transform: translate(3%, 0);
+    transform: translate(2.5%, 0);
     margin-top: 12px;
 }
 
@@ -117,10 +117,6 @@ label{
     padding: 5px 15px;
     cursor: pointer;
     text-align: center;
-}
-input[type="radio"]:checked + label{
-    background-color: #16a085;
-    color: #ffffff;
 }
 
 /* Card */

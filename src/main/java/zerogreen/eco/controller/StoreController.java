@@ -30,4 +30,11 @@ public class StoreController {
 //        model.addAttribute("store", update);
         return "store/updateStoreInfo";
     }
+
+    @GetMapping("/storeMyInfo")
+    public String storeMyInfo(){
+
+        return "store/storeMyInfo";
+    }
+
 }

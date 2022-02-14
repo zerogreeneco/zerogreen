@@ -81,6 +81,7 @@ public class DetailController {
         if (reviewImages.size() > 0) {
             model.addAttribute("reviewImageList", reviewImages);
             Collections.reverse(reviewImages);
+            log.info("plsssssssss" + reviewImages);
         }
 
         //이친구는 보류중
