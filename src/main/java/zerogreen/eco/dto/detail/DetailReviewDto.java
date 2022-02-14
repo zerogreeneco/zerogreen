@@ -9,6 +9,7 @@ import zerogreen.eco.entity.detail.DetailReview;
 import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.StoreMember;
+import zerogreen.eco.entity.userentity.VegetarianGrade;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -28,6 +29,7 @@ public class DetailReviewDto {
     private Long id;
     private String username;
     private String nickname;
+    private VegetarianGrade vegetarianGrade;
 
     private Long sno;
     private String storeName;
@@ -51,6 +53,8 @@ public class DetailReviewDto {
         if (detailReview.getReviewer() instanceof Member) {
             Member member = (Member)detailReview.getReviewer();
             this.nickname = member.getNickname();
+            this.vegetarianGrade = ((Member) detailReview.getReviewer()).getVegetarianGrade();
+
         } else if (detailReview.getReviewer() instanceof StoreMember) {
             StoreMember storeMember = (StoreMember) detailReview.getReviewer();
             this.nickname = storeMember.getStoreName();
@@ -67,7 +71,6 @@ public class DetailReviewDto {
         this.createdTime = detailReview.getModifiedDate();
         this.nestedReviewList = collect;
         this.storeName = detailReview.getStoreMember().getStoreName();
-
     }
 /*
         List<DetailReviewDto> collect =
