@@ -17,12 +17,6 @@
         <!-- 본문 시작 -->
         <div class="detail-content">
 
-            <div style="display:none;">
-                <button id="top-btn">
-                    <img th:src="@{/bootstrap/images/arrowup.png}" style="width: 35px;"/>
-                </button>
-            </div>
-
             <!-- 1열 -->
             <div class="detail-top temp1">
                 <div class="top">가게 상세 이미지 들어갈 곳</div>
@@ -80,7 +74,7 @@
             <!-- 3열 -->
             <div class="detail-thr temp1">
                 <!-- 3열 좌측 -->
-                <div class="thr-thr inline">
+                <div class="thr-thr inline temp2">
                     <div class="thr thr-left">
                         <div th:object="${getStore}">
                             <span th:text="*{menuName}"></span><span th:text="*{menuPrice}"></span>
@@ -88,16 +82,18 @@
                     </div>
                 </div>
                 <!-- 3열 우측 -->
-                <div class="thr-thr inline">
-
+                <div class="thr-thr inline temp2">
                     <div class="thr thr-right" th:object="${getStore}">
-                        <span>가게 소개 : </span><span th:text="*{storeInfo.storeDescription}"></span><br>
                         <span>전화 번호 : </span><span th:text="*{storeInfo.storePhoneNumber}"></span><br>
                         <span>영업 시간 : </span><span>[[*{storeInfo.openTime}]] - [[*{storeInfo.closeTime}]]</span><br>
                         <span>소셜 : </span><span>[[${getStore.storeInfo.socialAddress1}]]</span><br>
                         <span>소셜 : </span><span>[[${getStore.storeInfo.socialAddress2}]]</span><br>
                     </div>
                 </div>
+            </div>
+            <!-- 3.5열  -->
+            <div class="thr-bottom temp1">
+                <span>가게 소개 : </span><span>[[${getStore.storeInfo.storeDescription}]]</span>
             </div>
 
             <!-- 4열 -->
@@ -142,13 +138,13 @@
                 <!-- 리뷰리스트 -->
                 <div id="reviewList" class="reviewList">
                     <!-- 리뷰 이미지 리스트 -->
-                    <div class="rv-images temp2" style="position: relative;">
+                    <div class="rv-images" style="position: relative;" th:if="${reviewImageList != null}">
                         <span id="image-left" class="arrow-left">&#139;</span>
                         <span id="image-right"  class="arrow-right">&#155;</span>
                         <div class="slider-container">
                             <div class="image-slider slider">
                                 <div class="card rv-img-list" th:each="imageList: ${reviewImageList}">
-                                    <img class="inline" th:src="@{/page/detail/images/{imageList}(imageList=*{imageList.reviewFileName})}"
+                                    <img class="inline rv-imageOnly" th:src="@{/page/detail/images/{imageList}(imageList=*{imageList.reviewFileName})}"
                                          th:value="${imageList.uploadFileName}"
                                          width="120px" height="120px">
                                 </div>
@@ -171,7 +167,7 @@
                             <br>
 
                             <div class="rv-img inline" th:each="mImage: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
-                                <img class="inline mImage" th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
+                                <img class="inline mImage mImage-fr" th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
                                      th:value="${mImage.uploadFileName}"
                                      width="120px" height="120px">
                                 <span>[[${mImage.detailReview.id}]]</span>
@@ -221,6 +217,29 @@
                 <!-- end rv-list -->
             </div>
             <!-- end review images and review list -->
+
+            <!-- To the top -->
+            <div>
+                <button id="top-btn">
+                    <img th:src="@{/bootstrap/images/arrowup.png}" style="width: 35px;"/>
+                </button>
+            </div>
+
+            <!-- image modal -->
+            <div class="modal image-model" style="display:none;">
+                <span class="close">&times;</span>
+                <span id="modal-left" class="arrow-left">&#139;</span>
+                <span id="modal-right"  class="arrow-right">&#155;</span>
+                <div class="slider-container">
+                    <div class="modal-slider slider">
+                        <div class="card modalEach">
+                            <img class="modal_content" id="img01">
+                        </div>
+                    </div>
+                </div>
+                <!-- end slider-container -->
+            </div>
+            <!-- end modal -->
 
         </div>
         <!-- end of page-->

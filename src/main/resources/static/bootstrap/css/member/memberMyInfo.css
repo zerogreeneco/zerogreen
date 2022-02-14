@@ -39,7 +39,7 @@
 .div-cnt {
     width: 400px;
     height: 80px;
-    font-size: 1.2em;
+    font-size: 1.1em;
     text-align: center;
     background: #dfebe3;
     line-height: 150%
@@ -55,6 +55,10 @@
 
 .textList {
     font-size: 1.2em;
+}
+
+.listing {
+    margin-bottom: 15px;
 }
 
 /* 리뷰 리스트 */

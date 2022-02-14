@@ -45,23 +45,65 @@
                 </div>
             </div>
 
-            <!--     찜한가게-->
-            <div class="listing">
-                <span class="textList">찜한가게</span>
-                <div>라이크넘버, 가게명</div>
-                <!-- 임시리스트 -->
-                <div th:each="likes: ${listOfLikes}">
-                    <span>[[${likes.lno}]]</span>
-                    <span>[[${likes.storeMember.storeName}]]</span>
-                </div>
 
+            <!-- 찜한가게-->
+            <div>
+                <span class="textList">찜한가게</span><br>
+                <span th:if="${#lists.size(listOfLikes) <= 0}">가게를 찜해보시지</span>
+                <br>
+                <span th:if="${#lists.size(listOfLikes) >= 1}">가게를 찜했다</span>
+            </div>
+            <div class="listing">
+                <div style="position: relative;" th:if="${#lists.size(listOfLikes) >= 1}">
+                    <span id="like-left" class="arrow-left">&#139;</span>
+                    <span id="like-right"  class="arrow-right">&#155;</span>
+
+                    <div class="slider-container">
+                        <div class="like-slider slider">
+                            <div class="card" th:each="liking: ${listOfLikes}"
+                                 th:onclick="|javascript: goStore('${liking.storeMember.id}')|">
+
+                                <div class="card-header">
+                                    <img src="http://placehold.it/300x300"/>
+                                </div>
+
+                                <div class="shopList-box">
+                                    <div class="card-body">
+                                        <span class="shop-name">[[${liking.lno}]]</span>
+                                        <span class="shop-name">[[${liking.storeMember.storeName}]]</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- end th:each-->
+                        </div>
+                    </div>
+                    <!--end slider-container -->
+                </div>
             </div>
             <!-- end liked stores -->
 
+            <div>
+                <div>라이크넘버, 가게명</div>
+                <!-- 임시리스트 -->
+                <div th:each="liking: ${listOfLikes}" >
+                    <span>[[${liking.lno}]]</span>
+                    <span>[[${liking.storeMember.storeName}]]</span>
+                </div>
+
+            </div>
+
             <!--     내 리뷰-->
-            <div class="listing">
-                <div style="position: relative;">
-                    <span class="textList">내 리뷰</span>
+            <div>
+                <span class="textList">내 리뷰</span>
+                <span th:if="${#lists.size(listOfReview) <= 0}">가게에 리뷰를 남겨보시지</span>
+                <br>
+                <span th:if="${#lists.size(listOfReview) >= 1}">리뷰를 남겼다</span>
+
+            </div>
+
+            <div class="listing" >
+                <div style="position: relative;" th:if="${#lists.size(listOfReview) >= 1}">
                     <span id="review-left" class="arrow-left">&#139;</span>
                     <span id="review-right"  class="arrow-right">&#155;</span>
 

@@ -15,7 +15,7 @@
 }
 
 .store-name {
-    font-size: 2em;
+    font-size: 1.8em;
     text-align: center;
     margin: 15px 0 15px 0;
 }
@@ -95,7 +95,7 @@
 textarea {
     resize: none;
     overflow: hidden;
-    font-size: 1.1em;
+    font-size: 1em;
     padding: 5px 5px 5px 8px;
 }
 
@@ -109,6 +109,7 @@ textarea:focus {
 
 .mrv-btn {
     font-size: 0.9em;
+    font-weight: 300;
     padding: 5px;
 }
 
@@ -272,3 +273,60 @@ textarea:focus {
     width: 100%;
 }
 
+/* 탑 버튼 */
+#top-btn {
+    position: fixed;
+    bottom: 5%;
+    right: 4%;
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+    background: #f1c40f;
+    padding: 5px;
+    z-index: 999;
+}
+
+/* 모달 */
+.modal {
+    position: fixed;
+    z-index: 1; /* 모달창을 제일 앞에 두기 */
+    padding-top: 100px;
+    left: 25%;
+    top: 5%;
+    width: 700px; height: 500px;
+    overflow: auto; /* 스크롤 허용 auto */
+    cursor: pointer; /* 마우스 손가락모양 */
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+.modal_content {
+    margin: auto;
+    display: block;
+    width: auto%;
+    height: 450px;
+    max-width: 1000px;
+    border-radius: 10px;
+    animation-name: zoom;
+    animation-duration: 0.8s;
+}
+/* 모달창 애니메이션 추가 */
+/*@keyframes zoom {
+    from {transform: scale(0)}
+    to {transform: scale(1)}
+}*/
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover, .close:focus{
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}

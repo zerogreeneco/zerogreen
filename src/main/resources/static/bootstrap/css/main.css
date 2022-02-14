@@ -178,6 +178,11 @@ html {
 		box-sizing: border-box;
 	}
 
+    textarea {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 100;
+    }
+
 	input, select {
 		font-family: 'Open Sans', sans-serif;
 		font-size: 11pt;
