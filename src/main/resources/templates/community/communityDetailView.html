@@ -39,10 +39,10 @@
                     <img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"> [[*{like}]]
                 </span>
             </span>
-        <div style="float: right">
-            <a th:href="@{'/community/' + ${detailView.id} + '/modify'}">수정</a>
-            <a id="delete-board">삭제</a>
-        </div>
+            <div style="float: right">
+                <a th:href="@{'/community/' + ${detailView.id} + '/modify'}">수정</a>
+                <a id="delete-board">삭제</a>
+            </div>
         </div>
         <!-- 상세보기 내용 -->
         <hr/>
@@ -61,16 +61,21 @@
             <div class="review-send" sec:authorize="isAuthenticated()">
                 <form th:object="${reply}" method="post">
                     <input type="hidden" th:field="*{replyId}">
-                    <p id="cm-input-name">[[${session.loginUserNickname}]]<span id="text-count" class="cm-text-count">0 / 100</span></p>
+                    <p id="cm-input-name">[[${session.loginUserNickname}]]<span id="text-count" class="cm-text-count">0 / 100</span>
+                    </p>
                     <textarea th:field="*{text}" class="review-text" placeholder="댓글을 남겨주세요."></textarea>
                     <a type="button" id="review-send-btn">리뷰 작성</a>
                 </form>
             </div>
-            <!-- 리뷰 출력-->
+            <!-- 댓글 리스트 -->
             <div id="review-table" class="cm-main-wrapper">
                 <div th:each="replyList : ${replyList}">
                     <div class="comment-wrapper">
                         <input type="hidden" th:value="${replyList.replyId}" class="replyId">
+                        <span>
+                            <img th:src="@{'/bootstrap/images/profile/' +${replyList.vegetarianGrade}+'.png'}"
+                                 th:onclick="|location.href='@{/members/memberMyInfo}'|" width="15px" height="15px">
+                        </span>
                         <span th:text="${replyList.nickname}"></span>
                         <span style="font-size: 0.8em; padding-left: 10px;"
                               th:text="${#temporals.format(replyList.createdTime, 'yyyy-MM-dd HH:mm')}"></span>
@@ -83,8 +88,10 @@
                         </a>
 
                         <a class="nested-reply-btn" onclick="nestedReplyInput(this)">답글</a>
-                        <a th:if="${replyList.username} == ${session.loginUser}" th:onclick="'javascript:deleteReply(' + ${replyList.replyId} + ');'">삭제</a>
-                        <a th:if="${replyList.username} == ${session.loginUser}" class="rp-modify-btn" onclick="replaceTag(this)">수정</a>
+                        <a th:if="${replyList.username} == ${session.loginUser}"
+                           th:onclick="'javascript:deleteReply(' + ${replyList.replyId} + ');'">삭제</a>
+                        <a th:if="${replyList.username} == ${session.loginUser}" class="rp-modify-btn"
+                           onclick="replaceTag(this)">수정</a>
                         <div></div>
                         <div class="nested-reply-wrapper" style="display: none;">
                             <div><span class="cm-text-count">0 / 100</span></div>
@@ -93,8 +100,13 @@
                             <a>취소</a>
                         </div>
                         <hr/>
+                        <!-- 대댓글 리스트 -->
                         <div class="nested-list" th:each="nestedList : ${replyList.nestedReplyList}">
                             <input type="hidden" th:value="${nestedList.replyId}" class="replyId">
+                            <span>
+                            <img th:src="@{'/bootstrap/images/profile/' +${nestedList.vegetarianGrade}+'.png'}"
+                                 th:onclick="|location.href='@{/members/memberMyInfo}'|" width="15px" height="15px">
+                            </span>
                             <span th:text="${nestedList.nickname}"></span>
                             <span style="font-size: 0.8em; padding-left: 10px;"
                                   th:text="${#temporals.format(nestedList.createdTime, 'yyyy-MM-dd HH:mm')}"></span>
@@ -102,8 +114,10 @@
                             <a type="button" class="modify-test-btn" style="display: none;"
                                onclick="modifyReply(this)">수정!
                             </a>
-                            <a th:if="${nestedList.username} == ${session.loginUser}" th:onclick="'javascript:deleteReply(' + ${nestedList.replyId} + ');'">삭제</a>
-                            <a th:if="${nestedList.username} == ${session.loginUser}" class="rp-modify-btn" onclick="replaceTag(this)">수정</a>
+                            <a th:if="${nestedList.username} == ${session.loginUser}"
+                               th:onclick="'javascript:deleteReply(' + ${nestedList.replyId} + ');'">삭제</a>
+                            <a th:if="${nestedList.username} == ${session.loginUser}" class="rp-modify-btn"
+                               onclick="replaceTag(this)">수정</a>
                             <hr/>
                         </div>
                     </div>
