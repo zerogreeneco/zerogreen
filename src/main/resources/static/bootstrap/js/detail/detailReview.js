@@ -154,21 +154,71 @@ $(document).ready(function(e){
         $(this).height(this.scrollHeight);
     });
 
+
     //리뷰이미지 슬라이드
     $("#image-right").click(function() {
-        $(".image-slider").animate({
-        marginLeft: "-130px"
-        }, function() {
+        $(".image-slider").animate({marginLeft: "-130px"},
+        function() {
             $(".image-slider .card:first").appendTo(".image-slider");
-            $(".image-slider").css({
-            marginLeft: 0
-            });
+            $(".image-slider").css({marginLeft: 0 });
         });
     });
     $("#image-left").click(function() {
         $(".image-slider .card:last").prependTo(".image-slider");
         $(".image-slider").css({ "marginLeft": "-130px"});
         $(".image-slider").animate({ marginLeft: 0 });
+    });
+
+
+    //탑 버튼
+    $("#top-btn").click(function () {
+        $('html, body').animate({scrollTop: 0}, '400');
+    });
+
+
+    //이미지 모달
+    let modal = $(".modal");
+    let close = $(".close");
+    let modalImage = $(".modal_content");
+    let imageList = $(".rv-imageOnly");
+    let mImage = $(".mImage-fr");
+
+    //이미지(list) 모달 띄우기 ** on working **
+    $(".rv-img-list").click(function () {
+        let imgSrc = $(this).children().attr("src");
+        let imgEach = $(this).attr("each");
+
+        $(".modal").show();
+        $(".modalEach").attr("each", imgEach);
+        $(".modal_content").attr("src", imgSrc);
+    });
+
+    //이미지(withReview) 모달 띄우기
+    $(".mImage-fr").click(function () {
+        let imgSrc2 = $(this).attr("src");
+
+        $(".modal").show();
+        $(".modal_content").attr("src", imgSrc2);
+    });
+
+    //이미지 모달 닫기
+    $(".close").click(function () {
+        console.log("closeeeeee");
+        $(".modal").hide();
+    });
+
+    //모달이미지 슬라이드
+    $("#modal-right").click(function() {
+        $(".modal-slider").animate({marginLeft: "-700px"},
+        function() {
+            $(".modal-slider .card:first").appendTo(".modal-slider");
+            $(".modal-slider").css({marginLeft: 0 });
+        });
+    });
+    $("#modal-left").click(function() {
+        $(".modal-slider .card:last").prependTo(".modal-slider");
+        $(".modal-slider").css({ "marginLeft": "-700px"});
+        $(".modal-slider").animate({ marginLeft: 0 });
     });
 
 

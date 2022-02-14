@@ -1,0 +1,53 @@
+.temp1 {
+    background: #d9d9d9;
+}
+
+.temp2 {
+    background: #e3d8e2;
+}
+
+.leftSide {
+    width: 30%;
+}
+
+.rightSide {
+    width: 70%;
+}
+
+.inline {
+    display: inline-block;
+}
+
+/* left side */
+.profile {
+    text-align: center;
+}
+
+.profile-btn {
+    margin: 15px;
+    background: #3498db;
+    color: #ffffff;
+    border-radius: 5px;
+    font-size: 1em;
+    padding: 8px;
+    width: 65px;
+}
+
+.profile-btn:hover {
+    cursor: pointer;
+}
+
+
+/* right side */
+.div-cnt {
+    width: 400px;
+    height: 80px;
+    font-size: 1.1em;
+    text-align: center;
+    background: #dfebe3;
+    line-height: 150%
+}
+
+.counting {
+    text-align: center;
+}

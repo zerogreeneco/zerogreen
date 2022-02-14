@@ -23,4 +23,11 @@ public class StoreController {
 
         return "store/updateStoreInfo";
     }
+
+    @GetMapping("/storeMyInfo")
+    public String storeMyInfo(){
+
+        return "store/storeMyInfo";
+    }
+
 }
