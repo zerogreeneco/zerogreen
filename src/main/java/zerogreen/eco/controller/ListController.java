@@ -28,12 +28,6 @@ public class ListController {
     private final FileService fileService;
     private final StoreMemberService storeMemberService;
 
-    @ModelAttribute("storeTypes")
-    private StoreType[] storeTypes() {
-        StoreType[] storeTypes = StoreType.values();
-        return storeTypes;
-    }
-
     @GetMapping("/shop/list")
     public String shopList(Model model, RequestPageSortDto requestPageDto) {
 
