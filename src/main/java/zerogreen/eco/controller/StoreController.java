@@ -2,15 +2,13 @@ package zerogreen.eco.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import zerogreen.eco.dto.member.MemberUpdateDto;
-import zerogreen.eco.security.auth.PrincipalDetails;
-import zerogreen.eco.service.user.MemberService;
+import zerogreen.eco.entity.userentity.StoreType;
+import zerogreen.eco.entity.userentity.VegetarianGrade;
+import zerogreen.eco.service.user.StoreMemberService;
 
 @Controller
 @Slf4j
@@ -18,9 +16,18 @@ import zerogreen.eco.service.user.MemberService;
 @RequiredArgsConstructor
 public class StoreController {
 
+    private final StoreMemberService storeMemberService;
+
+    @ModelAttribute("vegan")
+    private VegetarianGrade[] vegetarianGrades() {
+        VegetarianGrade[] vegetarianGrades = VegetarianGrade.values();
+        return vegetarianGrades;
+    }
+
     @GetMapping("/update")
     public String updateStoreInfo(){
-
+//        StoreDto update = storeMemberService.updateStore(principalDetails.getUsername(), storeDto);
+//        model.addAttribute("store", update);
         return "store/updateStoreInfo";
     }
 }

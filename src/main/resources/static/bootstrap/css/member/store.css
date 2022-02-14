@@ -1,0 +1,55 @@
+/*
+Store Update
+*/
+
+/*영업시간*/
+.time {
+    width: 140px;
+    height: 40px;
+    margin-bottom: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+/*가게소개*/
+.description{
+    height: 150px;
+}
+.cm-text-count{
+    float: right;
+}
+/*메뉴*/
+.menu{
+    width: 195px;
+    height: 40px;
+    margin-bottom: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+.price{
+    width: 95px;
+    height: 40px;
+    margin-bottom: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+/*메뉴 비건 등급*/
+input[type="radio"] {
+    display: none;
+}
+input[type="radio"]:checked ~img{
+    border: 3px solid #16a085;
+}
+.profile{
+    width: 2.8em;
+    height: 2.8em;
+    border-radius: 50px;
+    background: #fff;
+    cursor: pointer;
+}
+/*버튼*/
+.add{
+    height: 25px;
+    cursor: pointer;
+}
+.miniModify, .miniSave{
+    float: right;
+    cursor: pointer;
+}

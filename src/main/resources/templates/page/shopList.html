@@ -27,7 +27,8 @@
             <div style="position: relative;">
                 <div id="card-align">
                     <!-- 가게 리스트 -->
-                    <div class="card" th:each="list : ${list}">
+                    <div class="card" th:each="list : ${list}"
+                         th:onclick="|javascript: goStore('${list.id}')|">
                         <div class="card-header">
                             <img src="http://placehold.it/300x300"/>
                         </div>
