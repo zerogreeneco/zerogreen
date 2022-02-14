@@ -13,9 +13,13 @@
 
         <div class="row gtr-200">
         <!--    왼쪽 프로필-->
-        <div class="temp1 profile">
+        <div class="temp1 profile leftSide">
             <div class="profile-div inline">
-                <div>{프로필사진 위치}</div>
+                <div class="profile-image">
+                    <img th:src="@{'/bootstrap/images/profile/' +${profile.vegetarianGrade}+'.png'}"
+                         width="70px" height="70px">
+                </div>
+
                 <span class="profile-name">[[${profile.nickname}]]</span>
             </div>
             <div class="profile-div">
@@ -32,7 +36,7 @@
         </div>
 
         <!--    우측 메뉴들-->
-        <div class="temp2">
+        <div class="temp2 rightSide">
             <!--     우측 상단 찜한가게+내 리뷰-->
             <div class="counting">
                 <div class="div-cnt inline">
@@ -47,8 +51,8 @@
 
 
             <!-- 찜한가게-->
-            <div>
-                <span class="textList">찜한가게</span><br>
+            <div class="textList">
+                <span >찜한가게</span><br>
                 <span th:if="${#lists.size(listOfLikes) <= 0}">가게를 찜해보시지</span>
                 <br>
                 <span th:if="${#lists.size(listOfLikes) >= 1}">가게를 찜했다</span>
@@ -83,19 +87,10 @@
             </div>
             <!-- end liked stores -->
 
-            <div>
-                <div>라이크넘버, 가게명</div>
-                <!-- 임시리스트 -->
-                <div th:each="liking: ${listOfLikes}" >
-                    <span>[[${liking.lno}]]</span>
-                    <span>[[${liking.storeMember.storeName}]]</span>
-                </div>
-
-            </div>
 
             <!--     내 리뷰-->
-            <div>
-                <span class="textList">내 리뷰</span>
+            <div class="textList">
+                <span>내 리뷰</span>
                 <span th:if="${#lists.size(listOfReview) <= 0}">가게에 리뷰를 남겨보시지</span>
                 <br>
                 <span th:if="${#lists.size(listOfReview) >= 1}">리뷰를 남겼다</span>
@@ -134,17 +129,6 @@
             </div>
             <!-- end myReviews -->
 
-            <div>
-                <div>리뷰넘버, 가게명, 등록시간</div>
-
-                <!-- 임시리스트 -->
-                <div th:each="review: ${listOfReview}">
-                    <span>[[${review.rno}]]</span>
-                    <span>[[${review.storeName}]]</span>
-                    <span>[[${#temporals.format(review.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
-                </div>
-            </div>
-            <!-- end myReviews -->
         </div>
         <!-- end of right section -->
     </div>

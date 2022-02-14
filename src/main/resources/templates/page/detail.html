@@ -72,7 +72,7 @@
             </div>
 
             <!-- 3열 -->
-            <div class="detail-thr temp1">
+            <div class="detail-thr">
                 <!-- 3열 좌측 -->
                 <div class="thr-thr inline temp2">
                     <div class="thr thr-left">
@@ -105,7 +105,7 @@
             </div>
 
             <!-- 리뷰작성칸 -->
-            <div class="rv temp1">
+            <div class="rv temp1" sec:authorize="isAuthenticated()">
 
                 <!-- 썸네일 -->
                 <div class="box1"></div>
@@ -157,12 +157,17 @@
                     <div th:each="mReview : ${memberReview}">
                         <!-- 멤버리뷰 리스트 -->
                         <div class="reviewBox">
+                            <span class="reviewProfile">
+                                <img th:src="@{'/bootstrap/images/profile/' +${mReview.vegetarianGrade}+'.png'}"
+                                     th:onclick="|location.href='@{/members/memberMyInfo}'|" width="15px" height="15px">
+                            </span>
                             <span class="rno" style="display:none;" th:text="${mReview.rno}"></span>
                             <span class="rv-nickname">[[${mReview.nickname}]]</span>
+<!--
                             <span>[[${mReview.rno}]]</span>
-                            <span>[[${mReview.sno}]]</span>
                             <span>[[${mReview.id}]]</span>
                             <span>[[${mReview.storeName}]]</span>
+-->
                             <span class="rv-date inline">[[${#temporals.format(mReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
                             <br>
 

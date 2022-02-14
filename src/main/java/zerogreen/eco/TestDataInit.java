@@ -150,7 +150,7 @@ public class TestDataInit {
 
             // 일반 회원
             Member member = new Member("test", "김그네", "01022223333", "1",
-                    UserRole.USER, VegetarianGrade.LACTO);
+                    UserRole.USER, VegetarianGrade.VEGAN);
             CommunityRequestDto dto = new CommunityRequestDto("TEST TEXT", Category.PLOGGING);
             memberService.save(member);
 
@@ -217,13 +217,13 @@ public class TestDataInit {
             Long parentsReview3 = detailReviewRepository.findById(3L).get().getId();
             Long parentsReview4 = detailReviewRepository.findById(4L).get().getId();
 
-            DetailReview detailReview11 = new DetailReview("parentsReview1 by Store",findEcoStore1,findEcoStore1);
+            DetailReview detailReview11 = new DetailReview("childReview1 by Store",findEcoStore1,findEcoStore1);
             detailReviewService.saveNestedReviewTest(detailReview11, parentsReview1);
-            DetailReview detailReview22 = new DetailReview("parentsReview2 by Store",findEcoStore1,findEcoStore1);
+            DetailReview detailReview22 = new DetailReview("childReview2 by Store",findEcoStore1,findEcoStore1);
             detailReviewService.saveNestedReviewTest(detailReview22, parentsReview2);
-            DetailReview detailReview33 = new DetailReview("parentsReview3 by Store",findEcoStore1,findEcoStore1);
+            DetailReview detailReview33 = new DetailReview("childReview3 by Store",findEcoStore1,findEcoStore1);
             detailReviewService.saveNestedReviewTest(detailReview33, parentsReview3);
-            DetailReview detailReview44 = new DetailReview("parentsReview4 by Store",findEcoStore1,findEcoStore1);
+            DetailReview detailReview44 = new DetailReview("childReview4 by Store",findEcoStore1,findEcoStore1);
             detailReviewService.saveNestedReviewTest(detailReview44, parentsReview4);
 
 
