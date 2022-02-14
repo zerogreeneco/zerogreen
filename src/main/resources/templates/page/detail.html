@@ -17,6 +17,12 @@
         <!-- 본문 시작 -->
         <div class="detail-content">
 
+            <div style="display:none;">
+                <button id="top-btn">
+                    <img th:src="@{/bootstrap/images/arrowup.png}" style="width: 35px;"/>
+                </button>
+            </div>
+
             <!-- 1열 -->
             <div class="detail-top temp1">
                 <div class="top">가게 상세 이미지 들어갈 곳</div>
@@ -35,12 +41,12 @@
                             <div sec:authorize="isAuthenticated()" id="like-wrapper">
 
                                 <div th:if="${cntLike} == 0">
-                                    <img class="liking" th:attr="src = @{/bootstrap/images/like/disLike.png}">
+                                    <img class="liking dislike" th:attr="src = @{/bootstrap/images/like/disLike.png}">
                                     <!--                                <span class="countLikes">[[${cntLike}]]</span>-->
                                 </div>
 
                                 <div  th:if="${cntLike} == 1">
-                                    <img class="liking" th:attr="src = @{/bootstrap/images/like/like.png}">
+                                    <img class="liking like" th:attr="src = @{/bootstrap/images/like/like.png}">
                                     <!--                                <span class="countLikes">[[${cntLike}]]</span>-->
                                 </div>
                             </div>
@@ -112,7 +118,6 @@
                     </ul>
                 </div>
 
-
                 <!-- 리뷰작성 textarea -->
                 <form method="POST" th:object="${review}" enctype="multipart/form-data">
                     <span class="js-storeId" style="display:none;">[[${getStore.sno}]]</span>
@@ -128,7 +133,6 @@
                         <button type="submit" id="rv-btn" style="display:none;">리뷰등록</button>
                         <!--                    <span typeof="button" class="rvrv-btn inline" id="rv-btn">리뷰등록</span>-->
                     </div>
-
                 </form>
 
             </div>
@@ -138,13 +142,21 @@
                 <!-- 리뷰리스트 -->
                 <div id="reviewList" class="reviewList">
                     <!-- 리뷰 이미지 리스트 -->
-                    <div class="rv-images">
-                        <div class="rv-img-list inline" th:each="imageList: ${reviewImageList}">
-                            <img class="inline" th:src="@{/page/detail/images/{imageList}(imageList=*{imageList.reviewFileName})}"
-                                 th:value="${imageList.uploadFileName}"
-                                 width="120px" height="120px">
+                    <div class="rv-images temp2" style="position: relative;">
+                        <span id="image-left" class="arrow-left">&#139;</span>
+                        <span id="image-right"  class="arrow-right">&#155;</span>
+                        <div class="slider-container">
+                            <div class="image-slider slider">
+                                <div class="card rv-img-list" th:each="imageList: ${reviewImageList}">
+                                    <img class="inline" th:src="@{/page/detail/images/{imageList}(imageList=*{imageList.reviewFileName})}"
+                                         th:value="${imageList.uploadFileName}"
+                                         width="120px" height="120px">
+                                </div>
+                            </div>
                         </div>
+                        <!-- end slider-container -->
                     </div>
+                    <!-- end review image list -->
 
                     <div th:each="mReview : ${memberReview}">
                         <!-- 멤버리뷰 리스트 -->
@@ -161,16 +173,14 @@
                             <div class="rv-img inline" th:each="mImage: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
                                 <img class="inline mImage" th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
                                      th:value="${mImage.uploadFileName}"
-                                     width="120px" height="120px"
-                                    id="mImage" >
+                                     width="120px" height="120px">
                                 <span>[[${mImage.detailReview.id}]]</span>
                             </div>
 
                             <textarea class="rv-textarea" name="reviewText" readonly>[[${mReview.reviewText}]]</textarea><br>
 
                             <div class="btn-Box">
-                            <span class="srv-toAdd inline mrv-btn"
-                                  th:if="${rvMember == mReview.sno}">답글</span>
+                                <span class="srv-toAdd inline mrv-btn" th:if="${rvMember == mReview.sno}">답글</span>
                                 <span class="rv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.id}">수정</span>
                                 <span class="mrv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.id}">삭제</span>
                             </div>
@@ -186,8 +196,10 @@
                             <!-- 스토어 리뷰 리스트 -->
                             <div class="sReview-Box" th:each="sReview: ${mReview.nestedReviewList}">
 
-                                <div class="sReview-smallBox inline">
-                                    <img class="arrow" th:attr="src = @{/bootstrap/images/etc/arrow.png}">
+                                <div class="sReview-smallBox">
+                                    <div class="inline">
+                                        <img class="arrow" th:attr="src = @{/bootstrap/images/etc/arrow.png}">
+                                    </div>
                                     <span class="srno rno" th:text="${sReview.rno}" style="display:none;"></span>
                                     <span class="srv-storeName">[[${sReview.storeName}]]</span>
                                     <span class="rv-date inline">[[${#temporals.format(sReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
@@ -199,6 +211,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- end storeReviews list -->
 
                         </div>
                         <!-- end reviewBox -->

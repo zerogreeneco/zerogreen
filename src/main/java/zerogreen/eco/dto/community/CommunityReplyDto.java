@@ -9,6 +9,7 @@ import zerogreen.eco.entity.community.BoardReply;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
+import zerogreen.eco.entity.userentity.VegetarianGrade;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class CommunityReplyDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdTime;
     private List<CommunityReplyDto> nestedReplyList = new ArrayList<>();
+    private VegetarianGrade vegetarianGrade;
 
     public CommunityReplyDto() {}
     // 댓글
@@ -37,6 +39,7 @@ public class CommunityReplyDto {
         // 멤버 타입에 따라서 nickname 분기
         if (boardReply.getReplier() instanceof Member) {
             this.nickname = ((Member)boardReply.getReplier()).getNickname();
+            this.vegetarianGrade = ((Member) boardReply.getReplier()).getVegetarianGrade();
         } else if (boardReply.getReplier() instanceof StoreMember) {
             this.nickname = ((StoreMember) boardReply.getReplier()).getStoreName();
         } else if (boardReply.getReplier().getUserRole().equals(UserRole.ADMIN)) {
@@ -47,10 +50,10 @@ public class CommunityReplyDto {
         this.boardId = boardReply.getBoard().getId();
         this.text = boardReply.getReplyContent();
         this.username = boardReply.getReplier().getUsername();
-
         this.createdTime = boardReply.getModifiedDate();
         this.nestedReplyList =
                 boardReply.getNestedReplyList().stream()
                         .map(CommunityReplyDto::new).collect(Collectors.toList());
+
     }
 }

@@ -7,7 +7,7 @@
     <head>
         <meta charset="UTF-8">
         <title>제로그린</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
                 integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <link rel="stylesheet" th:href="@{/bootstrap/css/main.css}"/>
@@ -21,7 +21,7 @@
     </head>
 
     <body>
-      <div id="page-wrapper">
+    <div id="page-wrapper">
         <!-- Header -->
         <div id="header-wrapper">
             <header id="header" class="container">
@@ -35,6 +35,7 @@
                         <li><a th:href="@{/shop/list}">제로웨이스트샵</a></li>
                         <li><a th:href="@{/food/list}">비건맛집</a></li>
                         <li><a th:href="@{/community}">커뮤니티</a></li>
+                        <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/approvalStore}">가게회원 관리</a></li>
                     </ul>
                 </nav>
                 <!--Before Login-->
@@ -44,8 +45,9 @@
                 <!--After Login-->
                 <div sec:authorize="isAuthenticated()">
                     <button id="btn-logout" class="btn-login" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
-                    <img id="profile" th:src="@{/bootstrap/images/profile/lacto.png}"
-                         th:onclick="|location.href='@{/members/memberMyInfo}'|" sec:authorize="isAuthenticated()" />
+                        <img id="profile" th:src="@{'/bootstrap/images/profile/' +${session.veganGrade}+'.png'}"
+                             th:onclick="|location.href='@{/members/memberMyInfo}'|"
+                             sec:authorize="hasRole('ROLE_USER')"/>
                 </div>
             </header>
         </div>
@@ -65,16 +67,16 @@
                 <p>Copyright © zerogreen. All rights reserved.</p>
             </footer>
         </div>
-      </div>
+    </div>
 
-        <!-- Scripts -->
-        <script th:src="@{/bootstrap/js/jquery.min.js}"></script>
-        <script th:src="@{/bootstrap/js/jquery.dropotron.min.js}"></script>
-        <script th:src="@{/bootstrap/js/browser.min.js}"></script>
-        <script th:src="@{/bootstrap/js/breakpoints.min.js}"></script>
-        <script th:src="@{/bootstrap/js/util.js}"></script>
-        <script th:src="@{/bootstrap/js/main.js}"></script>
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <!-- Scripts -->
+    <script th:src="@{/bootstrap/js/jquery.min.js}"></script>
+    <script th:src="@{/bootstrap/js/jquery.dropotron.min.js}"></script>
+    <script th:src="@{/bootstrap/js/browser.min.js}"></script>
+    <script th:src="@{/bootstrap/js/breakpoints.min.js}"></script>
+    <script th:src="@{/bootstrap/js/util.js}"></script>
+    <script th:src="@{/bootstrap/js/main.js}"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     </body>
 </th:block>
 </html>

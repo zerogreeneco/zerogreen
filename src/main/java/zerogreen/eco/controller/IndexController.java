@@ -3,17 +3,17 @@ package zerogreen.eco.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
-import zerogreen.eco.dto.store.StoreDto;
-import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
+import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.user.StoreMemberService;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -23,12 +23,15 @@ public class IndexController {
 
     private final StoreMemberService storeMemberService;
 
-
     @GetMapping("")
+    public String approvedStore(Model model, UserRole userRole, HttpSession session,
+                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-    public String  approvedStore(Model model, UserRole userRole) {
+        if (principalDetails != null && principalDetails.getBasicUser().getUserRole().equals(UserRole.USER)) {
+            session.setAttribute("veganGrade", principalDetails.getVegetarianGrade());
+        }
         List<NonApprovalStoreDto> result = storeMemberService.findByApprovalStore(userRole);
-        log.info("yjyjyjyjyjyjyj>>>>>>>>>>"+result);
+        log.info("yjyjyjyjyjyjyj>>>>>>>>>>" + result);
         model.addAttribute("approval", result);
         return "index";
     }
