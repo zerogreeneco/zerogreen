@@ -1065,7 +1065,7 @@ html {
 	form input[type="email"],
 	form input[type="password"] {
 		line-height: 3em;
-		padding: 0 1em;
+		padding: 0 20px;
 	}
 
 	form select {
@@ -1161,7 +1161,6 @@ html {
 		-webkit-appearance: none;
 		position: relative;
 		display: inline-block;
-		background: #0090c5;
 		color: #fff;
 		text-decoration: none;
 		border-radius: 6px;

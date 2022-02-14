@@ -118,10 +118,6 @@ label{
     cursor: pointer;
     text-align: center;
 }
-input[type="radio"]:checked + label{
-    background-color: #16a085;
-    color: #ffffff;
-}
 
 /* Card */
 #card-align {
