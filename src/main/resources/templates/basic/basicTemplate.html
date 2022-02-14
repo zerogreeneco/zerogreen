@@ -35,6 +35,7 @@
                         <li><a th:href="@{/shop/list}">제로웨이스트샵</a></li>
                         <li><a th:href="@{/food/list}">비건맛집</a></li>
                         <li><a th:href="@{/community}">커뮤니티</a></li>
+                        <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/approvalStore}">가게회원 관리</a></li>
                     </ul>
                 </nav>
                 <!--Before Login-->
@@ -44,13 +45,9 @@
                 <!--After Login-->
                 <div sec:authorize="isAuthenticated()">
                     <button id="btn-logout" class="btn-login" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
-                    <th:block th:each="vegans : ${allPartVegan}">
-                    <th:block th:switch="${vegans.name()}">
-                        <img th:case="${#strings.toString(session.veganGrade)}" id="profile" th:src="@{'/bootstrap/images/profile/' +${session.veganGrade}+'.png'}"
+                        <img id="profile" th:src="@{'/bootstrap/images/profile/' +${session.veganGrade}+'.png'}"
                              th:onclick="|location.href='@{/members/memberMyInfo}'|"
                              sec:authorize="hasRole('ROLE_USER')"/>
-                    </th:block>
-                    </th:block>
                 </div>
             </header>
         </div>

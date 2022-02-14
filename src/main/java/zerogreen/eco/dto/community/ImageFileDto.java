@@ -19,7 +19,7 @@ public class ImageFileDto {
 
     public ImageFileDto(BoardImage image) {
         this.id = image.getId();
-        this.storeFileName = image.getStoreFileName();
+        this.storeFileName = "thumb_" + image.getStoreFileName();
         this.uploadFileName = image.getUploadFileName();
         this.filePath = image.getFilePath();
     }

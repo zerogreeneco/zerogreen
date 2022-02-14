@@ -61,11 +61,11 @@
 
                 $.ajax({
                    url: "/zerogreen/members/account/deleteMember",
-                   type: "post",
+                   type: "delete",
+                   dataType: "json",
                    data: {
                        password: password
-                   },
-                   dataType: "json"
+                   }
                 });
                 location.replace("/zerogreen");
             }); // 회원 탈퇴
@@ -107,7 +107,7 @@
 
         <div>
             <select th:field="*{vegetarianGrade}">
-                <option th:each="vegan : ${vegan}" th:value="${vegan.name()}" th:text="${vegan.vegetarian}"></option>
+                <option th:each="vegan : ${allPartVegan}" th:value="${vegan.name()}" th:text="${vegan.vegetarian}"></option>
             </select>
         </div>
 
@@ -152,11 +152,11 @@
     </div>
 </div> <!-- /container -->
 <div id="deleteModal" class="modal" >
-    <form th:object="${password}" method="post" th:action="@{/members/acccount/deleteMember}">
+    <div th:object="${password}">
         <h4>회원 탈퇴</h4>
         <input type="password" id="delete_id" th:field="*{password}">
         <button type="submit" id="delete_id_btn">탈퇴</button>
-    </form>
+    </div>
 </div>
 </body>
 </html>
