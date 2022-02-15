@@ -18,7 +18,7 @@
         <div class="detail-content">
 
             <!-- 1열 -->
-            <div class="detail-top temp1">
+            <div class="detail-top temp2">
                 <div class="top">가게 상세 이미지 들어갈 곳</div>
             </div>
 
@@ -74,16 +74,16 @@
             <!-- 3열 -->
             <div class="detail-thr">
                 <!-- 3열 좌측 -->
-                <div class="thr-thr inline temp2">
-                    <div class="thr thr-left">
+                <div class="thr-thr inline">
+                    <div class="thr thr-left temp2">
                         <div th:object="${getStore}">
                             <span th:text="*{menuName}"></span><span th:text="*{menuPrice}"></span>
                         </div>
                     </div>
                 </div>
                 <!-- 3열 우측 -->
-                <div class="thr-thr inline temp2">
-                    <div class="thr thr-right" th:object="${getStore}">
+                <div class="thr-thr inline">
+                    <div class="thr thr-right temp2" th:object="${getStore}">
                         <span>전화 번호 : </span><span th:text="*{storeInfo.storePhoneNumber}"></span><br>
                         <span>영업 시간 : </span><span>[[*{storeInfo.openTime}]] - [[*{storeInfo.closeTime}]]</span><br>
                         <span>소셜 : </span><span>[[${getStore.storeInfo.socialAddress1}]]</span><br>
@@ -92,7 +92,7 @@
                 </div>
             </div>
             <!-- 3.5열  -->
-            <div class="thr-bottom temp1">
+            <div class="thr-bottom temp2">
                 <span>가게 소개 : </span><span>[[${getStore.storeInfo.storeDescription}]]</span>
             </div>
 
@@ -105,7 +105,7 @@
             </div>
 
             <!-- 리뷰작성칸 -->
-            <div class="rv temp1" sec:authorize="isAuthenticated()">
+            <div class="rv" sec:authorize="isAuthenticated()">
 
                 <!-- 썸네일 -->
                 <div class="box1"></div>
@@ -119,12 +119,13 @@
                     <span class="js-storeId" style="display:none;">[[${getStore.sno}]]</span>
 
                     <div class="inline rv-ta" >
-                        <textarea th:field="*{reviewText}" name="reviewText" id="reviewText" class="reviewText"></textarea>
+                        <textarea th:field="*{reviewText}" name="reviewText" id="reviewText" class="reviewText"
+                        placeholder="리뷰를 남겨보세요!"></textarea>
                     </div>
 
                     <div class="inline rv-btn">
                         <label class="img-input rvrv-btn inline" for="img-input">사진선택</label><br>
-                        <input class="img-input" id="img-input" th:field="*{imageFiles}" name="reviewImages" type="file" multiple="multiple"/>
+                        <input class="img-input" id="img-input" th:field="*{imageFiles}" name="reviewImages" type="file" multiple="multiple" style="display:none;"/>
                         <label class="rvrv-btn inline" for="rv-btn">리뷰등록</label>
                         <button type="submit" id="rv-btn" style="display:none;">리뷰등록</button>
                         <!--                    <span typeof="button" class="rvrv-btn inline" id="rv-btn">리뷰등록</span>-->
@@ -134,7 +135,7 @@
             </div>
 
             <!-- 리뷰 이미지+텍스트 리스트 -->
-            <div>
+            <div class="wrapper-review-list">
                 <!-- 리뷰리스트 -->
                 <div id="reviewList" class="reviewList">
                     <!-- 리뷰 이미지 리스트 -->
@@ -163,32 +164,29 @@
                             </span>
                             <span class="rno" style="display:none;" th:text="${mReview.rno}"></span>
                             <span class="rv-nickname">[[${mReview.nickname}]]</span>
-<!--
-                            <span>[[${mReview.rno}]]</span>
-                            <span>[[${mReview.id}]]</span>
-                            <span>[[${mReview.storeName}]]</span>
--->
                             <span class="rv-date inline">[[${#temporals.format(mReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
                             <br>
-
-                            <div class="rv-img inline" th:each="mImage: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
-                                <img class="inline mImage mImage-fr" th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
-                                     th:value="${mImage.uploadFileName}"
-                                     width="120px" height="120px">
-                                <span>[[${mImage.detailReview.id}]]</span>
+                            <div th:if="${reviewImageList != null}" class="inline">
+                                <div class="rv-img inline" th:each="mImage: ${reviewImageList[0]}" th:if="${mImage.detailReview.id == mReview.rno}">
+                                    <img class="inline mImage mImage-fr"
+                                         th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
+                                         th:value="${mImage.uploadFileName}"
+                                         width="120px" height="120px" >
+                                </div>
                             </div>
 
-                            <textarea class="rv-textarea" name="reviewText" readonly>[[${mReview.reviewText}]]</textarea><br>
+                            <textarea class="mrv-textarea" name="reviewText" readonly>[[${mReview.reviewText}]]</textarea><br>
 
                             <div class="btn-Box">
                                 <span class="srv-toAdd inline mrv-btn" th:if="${rvMember == mReview.sno}">답글</span>
-                                <span class="rv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.id}">수정</span>
-                                <span class="mrv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.id}">삭제</span>
+                                <span class="mrv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.id}">수정</span>
+                                <span class="rv-delete mrv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.id}">삭제</span>
                             </div>
 
                             <!-- 스토어 리뷰 입력창 -->
                             <div class="srv-input" style="display:none;">
-                                <textarea class="srv-input-textarea" name="storeReviewText" id="storeReviewText" ></textarea>
+                                <textarea class="srv-input-textarea" name="storeReviewText" id="storeReviewText"
+                                placeholder="답글을 입력해주세요"></textarea>
                                 <div class="btn-Box">
                                     <span class="srv-adding inline mrv-btn" id="srv-adding">등록</span>
                                 </div>
@@ -207,8 +205,8 @@
                                     <br>
                                     <textarea class="storeReviewText" name="storeReviewText" readonly>[[${sReview.reviewText}]]</textarea><br>
                                     <div class="btn-Box">
-                                        <span class="rv-modify inline mrv-btn" th:if="${rvMember} == ${sReview.id}">수정</span>
-                                        <span class="srv-delete inline mrv-btn" th:if="${rvMember} == ${sReview.id}">삭제</span>
+                                        <span class="srv-modify inline mrv-btn" th:if="${rvMember} == ${sReview.id}">수정</span>
+                                        <span class="rv-delete srv-delete inline mrv-btn" th:if="${rvMember} == ${sReview.id}">삭제</span>
                                     </div>
                                 </div>
                             </div>
@@ -233,8 +231,8 @@
             <!-- image modal -->
             <div class="modal image-model" style="display:none;">
                 <span class="close">&times;</span>
-                <span id="modal-left" class="arrow-left">&#139;</span>
-                <span id="modal-right"  class="arrow-right">&#155;</span>
+                <span id="modal-left" class="modal-arrow-left">&#139;</span>
+                <span id="modal-right"  class="modal-arrow-right">&#155;</span>
                 <div class="slider-container">
                     <div class="modal-slider slider">
                         <div class="card modalEach">

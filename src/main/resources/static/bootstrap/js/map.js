@@ -1,15 +1,11 @@
 window.onload = function(){
-    var mapAddress = document.getElementById('mapAddress').value;
-        console.log(mapAddress);
+    var mapAddress = document.getElementsByClassName('mapAddress');
+    var mapType = document.getElementsByClassName('mapType');
+    var mapEco = document.getElementsByClassName('mapEco');
+    var mapVFood = document.getElementsByClassName('mapVFood');
+    var mapGFood = document.getElementsByClassName('mapGFood');
     var mapSize = document.getElementById('mapSize').value;
         console.log(mapSize);
-    var mapEco = document.getElementById('mapEco').value;
-        console.log(mapEco);
-    var mapVFood = document.getElementById('mapVFood').value;
-        console.log(mapVFood);
-    var mapGFood = document.getElementById('mapGFood').value;
-        console.log(mapGFood);
-
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
     mapOption = {
         center: new window.kakao.maps.LatLng(37.5662, 126.97865), // 지도의 중심좌표
@@ -81,20 +77,23 @@ window.onload = function(){
         // 지도 중심좌표를 접속위치로 변경합니다
         map.setCenter(locPosition);
         }
-    for (i = 0; i <= mapSize; i++){
+
+
+        for(var j=0;j<=mapSize;j++){
+
         var geocoder = new kakao.maps.services.Geocoder();
         var imageSrc = "/zerogreen/bootstrap/images/map/11.png", // 마커이미지의 주소입니다
             imageSize = new kakao.maps.Size(40, 40), // 마커이미지의 크기입니다
             imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-            if (mapAddress == mapEco){
-                imageSrc = "/zerogreen/bootstrap/images/map/shop.png";
-            }else if (mapAddress == mapVFood || mapAddress == mapGFood){
-                imageSrc = "/zerogreen/bootstrap/images/map/food.png";
-            }
+//            if (mapAddress[j].value == mapEco[j].value){
+//                imageSrc = "/zerogreen/bootstrap/images/map/shop.png";
+//            }else if (mapAddress[j].value == mapVFood[j].value || mapAddress[j].value == mapGFood[j].value){
+//                imageSrc = "/zerogreen/bootstrap/images/map/food.png";
+//            }
         // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
         var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption); // 마커가 표시될 위치입니다
         // 주소로 좌표를 검색합니다
-        geocoder.addressSearch(mapAddress, function(result, status) {
+        geocoder.addressSearch(mapAddress[j].value, function(result, status) {
         // 정상적으로 검색이 완료됐으면
              if (status === kakao.maps.services.Status.OK) {
                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -107,7 +106,10 @@ window.onload = function(){
             marker.setMap(map);
             }
         });
-            console.log(i+'zzz');
-            console.log(i+mapAddress);
+            console.log(j+'zzz');
+            console.log(mapAddress[j].value);
+//            console.log("mapGFood"+mapGFood[j].value);
+//            console.log("mapVFood"+mapVFood[j].value);
+//            console.log("mapEco"+mapEco[j].value);
     }
 }
