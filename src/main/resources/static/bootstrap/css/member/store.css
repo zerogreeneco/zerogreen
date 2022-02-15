@@ -37,15 +37,12 @@ Store Update
 }
 
 /*메뉴 비건 등급*/
-input[type="radio"] {
-    display: none;
-}
 input[type="radio"]:checked ~img{
     border: 3px solid #16a085;
 }
 .profile{
-    width: 2.8em;
-    height: 2.8em;
+    width: 2.6em;
+    height: 2.6em;
     border-radius: 50px;
     background: #fff;
     cursor: pointer;

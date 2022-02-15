@@ -17,19 +17,29 @@
 
                 <div class="store-info">
                     <!-- 매장 이름 -->
-                    <h3 class="title"><span>🌿어쩌고 저쩌고 가게</span></h3>
+                    <h3 class="title">
+                        <img class="profile" th:src="@{/bootstrap/images/profile/shop.png}">
+                        <span>[[${store.storeName}]]</span>
+                    </h3>
 
                     <!-- 사업장 종류 -->
                     <label class="join-label">사업장 종류</label>
+                    <div class="storeType">
+                        <div th:each="stores : ${storeTypes}">
+                            <input type="radio" style="margin-left: 10px;" th:value="${stores.name()}"
+                                   th:checked="${stores.name() == store.storeType.name()}" disabled>
+                            <label th:text="${stores.storeType}"/>
+                        </div>
+                    </div>
 
                     <div class="update-info">
                         <!-- 가게 연락처 -->
                         <div>
                             <label for="storePhoneNumber" class="join-label">가게 전화번호</label>
-                            <input type="text" class="form-control update-box" id="storePhoneNumber">
-                            <!--                        <div th:errors="*{phoneNumber}" class="field-error">-->
-                            <!--                            전화 오류-->
-                            <!--                        </div>-->
+                            <input type="text" class="form-control update-box" id="storePhoneNumber" th:value="${store.storePhoneNumber}">
+                            <!--                                <div th:errors="*{storePhoneNumber}" class="field-error">-->
+                            <!--                                    전화 오류-->
+                            <!--                                </div>-->
                         </div>
 
                         <!-- 영업시간 -->
@@ -51,7 +61,7 @@
 
                         <!-- 소셜 주소 -->
                         <div>
-                            <label for="socialAddress1" class="join-label">소셜 주소</label>
+                            <label class="join-label">소셜 주소</label>
                             <input type="text" class="form-control update-box" id="socialAddress1">
                             <img class="add" id="socialAdd" th:src="@{/bootstrap/images/add.png}">
                             <input type="text" class="form-control update-box" id="socialAddress2" hidden>
@@ -66,10 +76,11 @@
                             <input type="number" step="10" class="form-control price" id="menuPrice" placeholder="가격">
 
                             <!-- 비건 등급 -->
-                                <label th:each="vegan : ${vegan}">
-                                    <input type="radio" id="${vegan.name()}" name="vegetarianGrade">
-                                    <img class="profile" th:src="@{'/bootstrap/images/profile/'+${vegan.name()}+'.png'}">
-                                </label>
+                            <label th:each="vegan : ${vegan}">
+                                <input type="radio" style="display: none" class="radio-off" id="${vegan.name()}"
+                                       name="vegetarianGrade">
+                                <img class="profile" th:src="@{'/bootstrap/images/profile/'+${vegan.name()}+'.png'}">
+                            </label>
                             <br><img class="add" id="menuAdd" th:src="@{/bootstrap/images/add.png}">
 
                         </div>
@@ -78,43 +89,43 @@
                             <label for="socialAddress1" class="join-label">가게 메뉴 목록</label>
 
                         </div>
-                            <!-- 첨부 파일 -->
-                            <div>
-                                <label class="join-label">첨부파일</label>
-                                <!--                        <input type="file" class="update-box" th:field="*{attachFile}">-->
-                            </div>
-                            <!--                    <div th:if="${#fields.hasGlobalErrors()}">-->
-                            <!--                        <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>-->
-                            <!--                    </div>-->
-                            <div>
-                                <button id="modifyBtn" class="regi-btn" type="submit" disabled="true">수정하기</button>
-                            </div>
+                        <!-- 첨부 파일 -->
+                        <div>
+                            <label class="join-label">첨부파일</label>
+                            <!--                        <input type="file" class="update-box" th:field="*{attachFile}">-->
+                        </div>
+                        <!--                    <div th:if="${#fields.hasGlobalErrors()}">-->
+                        <!--                        <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>-->
+                        <!--                    </div>-->
+                        <div>
+                            <button id="modifyBtn" class="regi-btn" type="submit" disabled="true">수정하기</button>
                         </div>
                     </div>
-                    <script th:inline="javascript">
-                        $("#socialAdd").click(function () {
-                            $("#socialAddress2").removeAttr("hidden");
-                            $("#socialAdd").attr("hidden", true);
-                        });
-                        $(".minimodify").click(function () {
-                            $(".minisave").removeAttr("hidden");
-                            $(".minimodify").attr("hidden", true);
-                        });
+                </div>
+                <script th:inline="javascript">
+                    $("#socialAdd").click(function () {
+                        $("#socialAddress2").removeAttr("hidden");
+                        $("#socialAdd").attr("hidden", true);
+                    });
+                    $(".minimodify").click(function () {
+                        $(".minisave").removeAttr("hidden");
+                        $(".minimodify").attr("hidden", true);
+                    });
 
 
-                        function limitTextInput(event) {
-                            console.log(event);
-                            let countText = $(event).prev().children(".cm-text-count");
-                            console.log(countText);
-                            countText.html($(event).val().length + " / 300");
+                    function limitTextInput(event) {
+                        console.log(event);
+                        let countText = $(event).prev().children(".cm-text-count");
+                        console.log(countText);
+                        countText.html($(event).val().length + " / 300");
 
-                            if ($(event).val().length > 300) {
-                                $(event).val($(event).val().substring(0, 300));
-                                alert("300자까지 입력이 가능합니다.");
-                                countText.html("300 / 300");
-                            }
+                        if ($(event).val().length > 300) {
+                            $(event).val($(event).val().substring(0, 300));
+                            alert("300자까지 입력이 가능합니다.");
+                            countText.html("300 / 300");
                         }
+                    }
 
-                    </script>
+                </script>
     </th:block>
 </th:block>

@@ -31,4 +31,6 @@ public interface StoreMemberService {
     Slice<StoreDto> getFoodList(Pageable pageable);
     Slice<StoreDto> getFoodTypeList(Pageable pageable, StoreType storeType);
 
+    //StoreUpdate
+    StoreDto updateStore(Long id, StoreDto storeDto);
     }
