@@ -76,18 +76,6 @@ public class DetailController {
             model.addAttribute("cntLike", likesService.cntMemberLike(sno, principalDetails.getId()));
         }
 
-        //리뷰 이미지 리스트
-        List<ReviewImageDto> reviewImages = reviewImageService.findByStore(sno);
-        if (reviewImages.size() > 0) {
-            model.addAttribute("reviewImageList", reviewImages);
-            Collections.reverse(reviewImages);
-            log.info("plsssssssss" + reviewImages);
-        }
-
-        //이친구는 보류중
-        if (reviewImageService.findByReview(reviewDto.getRno()).size() > 0) {
-            model.addAttribute("listOfImage", reviewImageService.findByReview(reviewDto.getRno()));
-        }
 
         //리뷰 리스트
         List<DetailReviewDto> result = detailReviewService.findByStore(sno);
@@ -98,6 +86,15 @@ public class DetailController {
         model.addAttribute("memberReview", result);
         Collections.reverse(result);
 */
+
+
+        //리뷰 이미지 리스트
+        List<ReviewImageDto> reviewImages = reviewImageService.findByStore(sno);
+        if (reviewImages.size() > 0) {
+            model.addAttribute("reviewImageList", reviewImages);
+            Collections.reverse(reviewImages);
+            log.info("plsssssssss" + reviewImages);
+        }
 
         //가게별 멤버리뷰 카운팅
         Long cnt2 = detailReviewService.cntMemberReview(sno);
@@ -178,7 +175,6 @@ public class DetailController {
                                    @ModelAttribute("nestedReviewForm") DetailReviewDto reviewDto, Model model,
                                    @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request) {
 
-        //이건 뭐하는거지
         String reviewText = request.getParameter("reviewText");
         detailReviewService.saveNestedReview(reviewText, sno, principalDetails.getBasicUser(), rno);
 

@@ -14,9 +14,6 @@ public interface ReviewImageService {
 
     //listing
     List<ReviewImageDto> findByStore(Long sno);
-    //keep
-    List<ReviewImageDto> findByReview(Long rno);
-
 
 
     //delete review Images
