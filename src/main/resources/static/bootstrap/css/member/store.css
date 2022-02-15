@@ -41,8 +41,8 @@ input[type="radio"]:checked ~img{
     border: 3px solid #16a085;
 }
 .profile{
-    width: 2.5em;
-    height: 2.5em;
+    width: 2.3em;
+    height: 2.3em;
     border-radius: 50px;
     background: #fff;
     cursor: pointer;
