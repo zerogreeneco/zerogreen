@@ -42,6 +42,7 @@
     padding: 8px;
     width: 50%;
     height: 25px;
+    line-height: initial;
 }
 
 .profile-btn:hover {
@@ -111,6 +112,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    width: 150px;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 }
 
 /* 슬라이드 */
@@ -173,6 +177,7 @@
 .card-body span {
   font-size: 13px;
   margin: 0 0 5px;
+  height: 16px;
 }
 
 @media screen and (max-width: 736px) {
