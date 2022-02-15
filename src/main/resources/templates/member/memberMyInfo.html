@@ -11,9 +11,9 @@
 
     <script th:src="@{/bootstrap/js/member/memberMyInfo.js}"></script>
 
-        <div class="row gtr-200">
+    <div style="margin: 0 auto;">
         <!--    왼쪽 프로필-->
-        <div class="temp1 profile leftSide">
+        <div id="leftSide">
             <div class="profile-div inline">
                 <div class="profile-image">
                     <img th:src="@{'/bootstrap/images/profile/' +${profile.vegetarianGrade}+'.png'}"
@@ -36,7 +36,7 @@
         </div>
 
         <!--    우측 메뉴들-->
-        <div class="temp2 rightSide">
+        <div id="rightSide">
             <!--     우측 상단 찜한가게+내 리뷰-->
             <div class="counting">
                 <div class="div-cnt inline">
@@ -45,22 +45,21 @@
                 </div>
                 <div class="div-cnt inline">
                     <span>[[${reviewCount}]]</span><br>
-                    <span>내 리뷰</span>
+                    <span>내가 쓴 리뷰</span>
                 </div>
             </div>
 
 
             <!-- 찜한가게-->
             <div class="textList">
-                <span >찜한가게</span><br>
-                <span th:if="${#lists.size(listOfLikes) <= 0}">가게를 찜해보시지</span>
-                <br>
-                <span th:if="${#lists.size(listOfLikes) >= 1}">가게를 찜했다</span>
+                <span>찜한가게</span><br>
+                <span th:if="${#lists.size(listOfLikes) <= 0}">좋아하는 가게를 찜 해보세요!</span>
             </div>
+
             <div class="listing">
                 <div style="position: relative;" th:if="${#lists.size(listOfLikes) >= 1}">
-                    <span id="like-left" class="arrow-left">&#139;</span>
-                    <span id="like-right"  class="arrow-right">&#155;</span>
+                    <span id="like-left" class="arrow-left" th:if="${#lists.size(listOfLikes) >= 2}">&#139;</span>
+                    <span id="like-right"  class="arrow-right" th:if="${#lists.size(listOfLikes) >= 2}">&#155;</span>
 
                     <div class="slider-container">
                         <div class="like-slider slider">
@@ -73,7 +72,6 @@
 
                                 <div class="shopList-box">
                                     <div class="card-body">
-                                        <span class="shop-name">[[${liking.lno}]]</span>
                                         <span class="shop-name">[[${liking.storeMember.storeName}]]</span>
                                     </div>
                                 </div>
@@ -91,16 +89,13 @@
             <!--     내 리뷰-->
             <div class="textList">
                 <span>내 리뷰</span>
-                <span th:if="${#lists.size(listOfReview) <= 0}">가게에 리뷰를 남겨보시지</span>
-                <br>
-                <span th:if="${#lists.size(listOfReview) >= 1}">리뷰를 남겼다</span>
-
+                <span th:if="${#lists.size(listOfReview) <= 0}">만족스러웠던 가게에 리뷰를 남겨보세요!</span>
             </div>
 
             <div class="listing" >
                 <div style="position: relative;" th:if="${#lists.size(listOfReview) >= 1}">
-                    <span id="review-left" class="arrow-left">&#139;</span>
-                    <span id="review-right"  class="arrow-right">&#155;</span>
+                    <span id="review-left" class="arrow-left" th:if="${#lists.size(listOfReview) >= 2}">&#139;</span>
+                    <span id="review-right"  class="arrow-right" th:if="${#lists.size(listOfReview) >= 2}">&#155;</span>
 
                     <div class="slider-container">
                         <div class="review-slider slider">
@@ -113,8 +108,8 @@
 
                                 <div class="shopList-box">
                                     <div class="card-body">
-                                        <span class="shop-name">[[${review.rno}]]</span>
                                         <span class="shop-name">[[${review.storeName}]]</span>
+                                        <span class="shop-name inline reviewText">[[${review.reviewText}]]</span>
                                         <span class="shop-name">[[${#temporals.format(review.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
                                     </div>
                                 </div>

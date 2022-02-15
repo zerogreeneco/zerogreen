@@ -46,6 +46,8 @@ input[type="radio"]:checked ~img{
     border-radius: 50px;
     background: #fff;
     cursor: pointer;
+    padding: 0.1em;
+    border: 1px solid lightgrey;
 }
 /*버튼*/
 .add{

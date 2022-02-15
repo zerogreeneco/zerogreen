@@ -1,6 +1,10 @@
 <!DOCTYPE html>
-<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml"
+          xmlns:sec="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
+        <link th:href="@{/bootstrap/css/page/list.css}" rel="stylesheet"/>
+        <link th:href="@{/bootstrap/css/community/communityList.css}" rel="stylesheet"/>
+
         <script th:inline="javascript">
             $(function () {
 
@@ -43,187 +47,134 @@
 
                 });
 
+                if (window.location.href == "http://localhost:8080/zerogreen/community") {
+                    $(".category-list li:first").css('background', '#16a085');
+                    $(".category-list a:first").css('color', '#fff');
+                }
+                if (window.location.href.indexOf("QNA") > -1) {
+                    $(".category-list li").eq(1).css('background' , '#16a085');
+                    $(".category-list a").eq(1).css('color', '#fff');
+                }
+                if (window.location.href.indexOf("VEGAN") > -1) {
+                    $(".category-list li").eq(2).css('background' , '#16a085');
+                    $(".category-list a").eq(2).css('color', '#fff');
+                }
+                if (window.location.href.indexOf("NEWS") > -1) {
+                    $(".category-list li").eq(3).css('background' , '#16a085');
+                    $(".category-list a").eq(3).css('color', '#fff');
+                }
+                if (window.location.href.indexOf("PLOGGING") > -1) {
+                    $(".category-list li").eq(4).css('background' , '#16a085');
+                    $(".category-list a").eq(4).css('color', '#fff');
+                }
+                if (window.location.href.indexOf("PLOVING") > -1) {
+                    $(".category-list li").eq(5).css('background' , '#16a085');
+                    $(".category-list a").eq(5).css('color', '#fff');
+                }
             });
         </script>
-        <style>
-            .community-container {
-                margin: 0 auto;
-            }
 
-            /* 카테고리 리스트 */
-            ul.category-list {
-                text-align: center;
-                display: table;
-                width: 100%;
-                border-bottom: 2px solid #999;
-                table-layout: fixed;
-            }
+        <!-- 버튼 -->
+        <div>
+            <button id="top-btn">
+                <img th:src="@{/bootstrap/images/arrowup.png}" style="width: 35px;"/>
+            </button>
+        </div>
+        <div sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+            <button id="write-btn" type="button" th:onclick="|location.href='@{/community/write}'|">
+                <img th:src="@{/bootstrap/images/edit.png}" style="width: 35px;"/>
+            </button>
+        </div>
 
-            ul.category-list li {
-                display: table-cell;
-                vertical-align: middle;
-                text-align: center;
-                font-size: 20px;
-                height: 100%;
-            }
+        <!--검색-->
+        <div class="form-area">
+            <form th:method="get" th:action>
+                <select class="dropdown" name="searchType">
+                    <option th:each="searchType : ${T(zerogreen.eco.dto.search.SearchType).values()}"
+                            th:value="${searchType}" th:text="${searchType.searchName}"></option>
+                </select>
+                <div class="search-bar">
+                    <input id="search-input" name="keyword" th:value="${keyword}">
+                    <img class="truncate_icon" th:src="@{/bootstrap/images/list/close.png}"/>
+                </div>
+                <button class="btn_search" type="submit">
+                    <img class="search_icon" th:src="@{/bootstrap/images/list/search.png}">
+                </button>
+            </form>
 
-            .category-container {
-                margin: 0 auto;
-            }
-
-            #list-wrapper {
-                display: table;
-                margin: 0 auto;
-                border-bottom: solid black 1px;
-                width: 700px;
-                height: 150px;
-                margin-bottom: 10px;
-            }
-
-            .cm-content {
-                display: table-cell;
-                height: 150px;
-            }
-
-            /* 리스트 카테고리 */
-            .main-list-category {
-                margin: 15px 0 10px 0;
-            }
-
-            .cm-category {
-                display: inline-block;
-                border: 1px solid black;
-                background-color: #16a085;
-                font-size: 0.9em;
-                color: #FFF;
-                text-decoration: none;
-                padding: 4px;
-            }
-
-            /* 리스트 텍스트 */
-            .main-list-text {
-                height: 60px;
-                display: block;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            .main-list-text p {
-                display: block;
-                height: 60px;
-            }
-
-            .main-list-text a {
-                display: block;
-                text-decoration: none;
-                color: #000;
-                height: 50px;
-                width: 500px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            .main-like-btn {
-                cursor: pointer;
-            }
-
-            #write-btn {
-                position: fixed;
-                bottom: 16%;
-                right: 4%;
-                width: 70px;
-                height: 70px;
-                border-radius: 50px;
-                background: #f1c40f;
-                padding: 5px;
-            }
-
-            #top-btn {
-                position: fixed;
-                bottom: 5%;
-                right: 4%;
-                width: 70px;
-                height: 70px;
-                border-radius: 50px;
-                background: #f1c40f;
-                padding: 5px;
-            }
-
-        </style>
-        <!--카테고리-->
-        <div class="community-container">
-            <div class="category-container">
+            <!-- 카테고리 -->
+            <div>
                 <ul class="category-list">
+                    <li>
+                        <a th:href="@{/community}"> 전체 </a>
+                    </li>
                     <li th:each="categories : ${category}" th:value="${categories.name()}">
                         <a th:text="${categories.categoryName}"
                            th:href="@{/community(category=${categories.name()}) }"></a>
                     </li>
                 </ul>
-                <div>
-                    <button id="top-btn">
-                        <img th:src="@{/bootstrap/images/arrowup.png}" style="width: 35px;"/>
-                    </button>
-                </div>
-                <div sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-                    <button id="write-btn" type="button" th:onclick="|location.href='@{/community/write}'|">
-                        <img th:src="@{/bootstrap/images/edit.png}" style="width: 35px;"/>
-                    </button>
-                </div>
             </div>
-            <div>
-                <form th:method="get" th:action>
-                    <select name="searchType">
-                        <option th:each="searchType : ${T(zerogreen.eco.dto.search.SearchType).values()}"
-                                th:value="${searchType}" th:text="${searchType.searchName}"></option>
-                    </select>
-                    <input name="keyword" th:value="${keyword}">
-                    <button type="submit">검색</button>
-                </form>
-            </div>
-            <!-- 리스트 -->
-            <div id="list-wrapper" th:each="community : ${communityList}">
-                <input type="hidden" th:value="${community.id}" class="list-board-id">
+        </div>
 
-                <div class="cm-content">
+        <!-- 리스트 -->
+        <div id="list-wrapper" th:each="community : ${communityList}">
+            <input type="hidden" th:value="${community.id}" class="list-board-id">
+
+            <div class="cm-content">
+                <!--리스트 왼쪽-->
+                <div id="content-left">
                     <div class="main-list-category">
+                        <!-- 게시글 카테고리 라벨 -->
                         <span>
                             <a th:href="@{/community(category=${community.category.name()}) }"
                                th:text="${community.category.categoryName}" class="cm-category">카테고리</a>
                         </span>
+                        <!-- 게시글 미리보기 -->
+                        <div class="main-list-text">
+                            <p><a th:href="@{/community/read/{boardId}(boardId = ${community.id})}"
+                                  th:text="${community.text}">글 내용</a></p>
+                        </div>
                     </div>
-                    <div class="main-list-nickname" th:text="${community.nickname}">닉네임</div>
-                    <div class="main-list-text">
-                        <p><a th:href="@{/community/read/{boardId}(boardId = ${community.id})}"
-                              th:text="${community.text}">글 내용</a></p>
-                    </div>
+
                     <div>
+                        <!-- 게시자 -->
+                        <div class="writer-section">
+                            <img class="main-list-profile" th:src="@{'/bootstrap/images/profile/' +${session.veganGrade}+'.png'}" width="15px" height="15px">
+                            <div class="main-list-nickname" th:text="${community.nickname}">닉네임</div>
+                        </div>
+                        <!-- 리스트 반응 수치 -->
+                        <div class="number-section">
                         <span class="main-list-views">
-                            <img th:src="@{/bootstrap/images/list/visibility.png}"
-                                 width="17px" height="17px">[[${community.count}]]
+                            <img class="eye-icon" th:src="@{/bootstrap/images/list/visibility.png}">
+                            <span class="number">[[${community.count}]]</span>
                         </span>
-                        <!-- 회원 좋아요 -->
-                        <span sec:authorize="isAuthenticated()" id="like-wrapper">
-                <span class="like-count">
-                    <span class="main-like-btn">
-                        <img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"
-                             width="17px" height="17px"></span>
-                    <span class="test-count">[[${community.like}]]</span>
-                </span>
-                            <!--/*                <span class="like-count" th:if="${likeCount} == 1">
-                                                <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/like.png}" class="like-img"
-                                                                         width="17px" height="17px"></span>
-                                                <span class="test-count">[[${community.like}]]</span>
-                                            </span>*/-->
-            </span>
-                        <!-- 비회원 좋아요 -->
-                        <span sec:authorize="isAnonymous()">
-                <span>
-                    <img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img" width="17px"
-                         height="17px"> [[${community.like}]]
-                </span>
-            </span>
-                        <span>리뷰수 : [[${community.replyCount}]]</span>
+                            <!-- 회원 좋아요 -->
+                            <span sec:authorize="isAuthenticated()" id="like-wrapper">
+                            <span class="like-count">
+                                <span class="main-like-btn">
+                                    <img class="like-img heart-icon" th:attr="src = @{/bootstrap/images/like/disLike.png}">
+                                </span>
+                                <span class="test-count number">[[${community.like}]]</span>
+                            </span>
+                                <!--/*                <span class="like-count" th:if="${likeCount} == 1">
+                                                    <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/like.png}" class="like-img"
+                                                                             width="17px" height="17px"></span>
+                                                    <span class="test-count">[[${community.like}]]</span>
+                                                </span>*/-->
+                        </span>
+                            <!-- 비회원 좋아요 -->
+                            <span sec:authorize="isAnonymous()">
+                                <img class="like-img heart-icon" th:attr="src = @{/bootstrap/images/like/disLike.png}">
+                                <span class="number">[[${community.like}]]</span>
+                            </span>
+                            <span class="number">리뷰수 : [[${community.replyCount}]]</span>
+                        </div>
                     </div>
+                </div>
+                <!--리스트 오른쪽-->
+                <div id="content-right">
+                    <!--썸네일-->
+                    <div class="thumbnail-box"></div>
                 </div>
             </div>
         </div>

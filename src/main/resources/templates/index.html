@@ -28,12 +28,12 @@
 
         <div class="row gtr-200">
             <!--Shop List-->
-            <div id="shop-section">
+            <div id="leftSide">
                 <!--식당 리스트-->
                 <div style="position: relative;">
                     <span class="cate-title">내 주변 맛집</span>
-                    <span id="food-left" class="arrow-left">&#139;</span>
-                    <span id="food-right"  class="arrow-right">&#155;</span>
+                    <button id="food-left" class="arrow arrow-left">&#139;</button>
+                    <button id="food-right"  class="arrow arrow-right">&#155;</button>
                     <div class="slider-container">
                         <div class="food-slider slider">
                             <div class="card" th:each="temp : ${approval}" th:unless="${temp.storeType.toString().equals('ECO_SHOP')}"
@@ -54,8 +54,8 @@
                 <!--제로웨이스트샵 리스트-->
                 <div class="margin-title" style="position: relative;">
                     <span class="cate-title">근처 제로웨이스트샵</span>
-                    <span id="shop-left" class="arrow arrow-left">&#139;</span>
-                    <span id="shop-right" class="arrow arrow-right">&#155;</span>
+                    <button id="shop-left" class="arrow arrow-left">&#139;</button>
+                    <button id="shop-right" class="arrow arrow-right">&#155;</button>
                     <div class="slider-container">
                         <div class="shop-slider slider">
                             <div class="card" th:each="temp : ${approval}" th:if="${temp.storeType.toString().equals('ECO_SHOP')}"
@@ -76,7 +76,7 @@
             </div>
 
             <!--Google Map-->
-            <div id="map-section">
+            <div id="rightSide">
                 <div id="map"></div>
             </div>
         </div>

@@ -6,37 +6,6 @@ $(document).ready(function(e){
 
 
 
-    // save Reviews
-/*
-    $("#rv-btn").click(function () {
-        let reviewText = $("#reviewText");
-        let imageList = $("#img-input");
-
-        $.ajax({
-            url: contextPath+'/page/detail/addReview/' + sno,
-            method: "POST",
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            data: {
-                sno: sno,
-                reviewText: reviewText.val(),
-            }
-        })
-            .done(function (fragment) {
-                $("#reviewList").replaceWith(fragment);
-                $(".review-cnt").html(Number(cnt.text())+1);
-                //alert("댓글이 등록되었습니다.");
-                $("#reviewText").val("");
-                //$("#text-count").text("0 / 100");
-            });
-
-    }); // end save reviews
-*/
-
-
-
-//이하 완성
-
-
     //show comment input box
     $(".srv-toAdd").on("click", function(){
         let inputBox = $(this).parent().parent().children(".srv-input");
@@ -70,11 +39,11 @@ $(document).ready(function(e){
     }); //end save comment
 
 
-    //edit member + store Reviews
-    $(".rv-modify").on("click", function(){
+    //edit member reviews
+    $(".mrv-modify").on("click", function(){
         let rno = $(this).parent().parent().children(".rno").text();
-        let editText = $(this).parent().parent().children(".rv-textarea");
-
+        let editText = $(this).parent().parent().children(".mrv-textarea");
+        let deleteBtn = $(this).parent().children(".rv-delete");
         count++;
 
        if (count == 1) {
@@ -82,6 +51,7 @@ $(document).ready(function(e){
             editText.removeAttr('readonly');
             editText.css('border','solid 1px #3498db');
             editText.css('cursor','text');
+            deleteBtn.css('display','none');
             editText.focus();
 
        } else if (count == 2) {
@@ -99,7 +69,43 @@ $(document).ready(function(e){
             })
 
             .done(function (fragment) {
-                editText.replaceWith(editText.val());
+                editText.replaceWith("<textarea class='mrv-textarea' name='reviewText' readonly>" + editText.val() + "</textarea>");
+            });
+            count = 0;
+        } //end else if
+    });// end edit member + store Reviews
+
+    // edit store Reviews
+    $(".srv-modify").on("click", function(){
+        let rno = $(this).parent().parent().children(".rno").text();
+        let editText = $(this).parent().parent().children(".storeReviewText");
+        let deleteBtn = $(this).parent().children(".rv-delete");
+        count++;
+
+       if (count == 1) {
+            console.log("count");
+            editText.removeAttr('readonly');
+            editText.css('border','solid 1px #3498db');
+            editText.css('cursor','text');
+            deleteBtn.css('display','none');
+            editText.focus();
+
+       } else if (count == 2) {
+           console.log("countcount");
+
+            $.ajax({
+            url: contextPath + "/editReview/"+rno ,
+            type:"PUT",
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            data: JSON.stringify({
+                 rno: rno,
+                 reviewText: editText.val()
+            })
+            })
+
+            .done(function (fragment) {
+                editText.replaceWith("<textarea class='storeReviewText' name='storeReviewText' readonly>" + editText.val() + "</textarea>");
             });
             count = 0;
         } //end else if
@@ -149,10 +155,11 @@ $(document).ready(function(e){
 
 
     //textarea 자동 늘이기
-    $('textarea').keyup(function(e){
+    $('textarea').on('keyup',function (e) {
         $(this).css('height', 'auto');
         $(this).height(this.scrollHeight);
     });
+    $('textarea').keyup();
 
 
     //리뷰이미지 슬라이드
@@ -220,6 +227,33 @@ $(document).ready(function(e){
         $(".modal-slider").css({ "marginLeft": "-700px"});
         $(".modal-slider").animate({ marginLeft: 0 });
     });
+
+
+    // save Reviews
+/*
+    $("#rv-btn").click(function () {
+        let reviewText = $("#reviewText");
+        let imageList = $("#img-input");
+
+        $.ajax({
+            url: contextPath+'/page/detail/addReview/' + sno,
+            method: "POST",
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            data: {
+                sno: sno,
+                reviewText: reviewText.val(),
+            }
+        })
+            .done(function (fragment) {
+                $("#reviewList").replaceWith(fragment);
+                $(".review-cnt").html(Number(cnt.text())+1);
+                //alert("댓글이 등록되었습니다.");
+                $("#reviewText").val("");
+                //$("#text-count").text("0 / 100");
+            });
+
+    }); // end save reviews
+*/
 
 
 }); //end script

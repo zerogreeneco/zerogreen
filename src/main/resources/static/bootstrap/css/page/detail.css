@@ -2,7 +2,11 @@
     background: #cbced4;
 }
 .temp2 {
-    background:#f5f5f5;
+    background: #f5f5f5;
+}
+
+.temp3 {
+    background: #c7c7c7;
 }
 
 .detail-top {
@@ -11,7 +15,6 @@
 
 .top, .thr {
     display: inline-block;
-    background: #c7c7c7;
 }
 
 .store-name {
@@ -78,6 +81,11 @@
     text-align: left;
 }
 
+/* 3.5열 */
+.thr-bottom {
+    text-align: center;
+}
+
 /* 4열 지도 */
 .detail-map {
     text-align: center;
@@ -117,7 +125,7 @@ textarea:focus {
     cursor: pointer;
 }
 
-.mrv-delete, .srv-adding, .srv-toAdd, .srv-delete {
+.rv-delete, .srv-adding, .srv-toAdd {
     margin: 0 5px 10px 5px;
 }
 
@@ -129,20 +137,28 @@ textarea:focus {
     padding: 8px;
 }
 
+.wrapper-review-list {
+    display: flex;
+    justify-content: center;
+}
 
 /*리뷰 작성*/
 .rv-ta {
     margin: 15px 8px 0 0;
 }
 
-#rv-btn {
-    margin: 10px 0 15px;
+.rv-btn {
+    margin: 10px 0 15px 0;
+}
+
+.rvrv-btn {
+    margin-top: 10px;
 }
 
 #reviewText {
-    width: 900px;
-    min-height: 80px;
-    border: none;
+    width: 800px;
+    min-height: 60px;
+    border: 1px solid #3498db;
     padding: 10px;
     font-size: 0.9em;
 }
@@ -200,18 +216,16 @@ textarea:focus {
 }
 
 .reviewBox {
-    min-height: 90px;
     border-top: 1px solid #3498db;
+    width: 950px;
 }
 
-.rv-textarea {
+.mrv-textarea {
     background: none;
     //border: 1px solid black;
     border: none;
-    min-width: 700px;
-    max-width: 700px;
+    width: 700px;
     margin: 8px 8px 3px 8px;
-    //height: auto;
 }
 
 
@@ -227,15 +241,20 @@ textarea:focus {
 .storeReviewText {
     background: none;
     border: none;
-    min-width: 600px;
-    max-width: 600px;
+    width: 800px;
     margin: 8px 8px 3px 50px;
     //border: 1px solid black;
-    //height: auto;
+}
+
+.srv-input {
+    border-top: 1px solid #16a085;
 }
 
 .srv-input-textarea {
     border: 1px solid #16a085;
+    margin: 10px 0 0 15px;
+    width: 800px;
+    min-height: 57px;
 }
 
 .srv-storeName {
@@ -323,7 +342,7 @@ textarea:focus {
     position: absolute;
     top: 15px;
     right: 35px;
-    color: #f1f1f1;
+    color: #f5f5f5;
     font-size: 40px;
     font-weight: bold;
     transition: 0.3s;
@@ -333,4 +352,23 @@ textarea:focus {
     color: #bbb;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* 모달 슬라이드 */
+.modal-arrow-left {
+    left: 0;
+    top: 35%;
+    font-size: 8em;
+    position: absolute;
+    z-index: 999;
+    color: #f5f5f5;
+}
+
+.modal-arrow-right {
+    right: 0;
+    top: 35%;
+    font-size: 8em;
+    position: absolute;
+    z-index: 999;
+    color: #f5f5f5;
 }

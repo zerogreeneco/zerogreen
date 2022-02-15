@@ -90,12 +90,6 @@ public class ReviewImageServiceImpl implements ReviewImageService {
         return reviewImageRepository.findByStore(sno).stream().map(ReviewImageDto::new).collect(Collectors.toList());
     }
 
-    //List of Images on the review **이거안됨**
-    @Override
-    public List<ReviewImageDto> findByReview(Long rno) {
-        return reviewImageRepository.findByReview(rno).stream().map(ReviewImageDto::new).collect(Collectors.toList());
-    }
-
     // delete images
     @Override
     public void deleteReviewImage(Long id, String filePath) {
