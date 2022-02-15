@@ -2104,7 +2104,7 @@ html {
 			    font-size: 1.1rem !important;
 			}
 
-			li a:hover {
+			.nav-li a:hover {
 			    font-size: 1.2rem !important;
 			}
 
