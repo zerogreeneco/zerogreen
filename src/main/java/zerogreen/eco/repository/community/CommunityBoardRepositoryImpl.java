@@ -34,6 +34,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     }
 
     QBoardReply subReply = new QBoardReply("subReply");
+    QBoardImage subImage = new QBoardImage("subImage");
 
     @Override
     public CommunityResponseDto findDetailBoard(Long boardId) {

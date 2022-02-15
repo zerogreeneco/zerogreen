@@ -133,10 +133,10 @@ public class FileServiceImpl implements FileService{
         int width = (int) (readImage.getWidth() / ratio);
         int height = (int) (readImage.getHeight() / ratio);
 
-        BufferedImage thumbImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+        BufferedImage thumbImage = new BufferedImage(146, 146, BufferedImage.TYPE_3BYTE_BGR);
         Graphics2D graphics = thumbImage.createGraphics();
 
-        graphics.drawImage(readImage, 0, 0, width, height, null);
+        graphics.drawImage(readImage, 0, 0, 146, 146, null);
         ImageIO.write(thumbImage, "png", thumbnailFile);
 
         return new BoardImage(originalFilename, storeFilename, getFullPath(storeFilename));
