@@ -97,13 +97,13 @@
                 src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac&libraries=services"></script>
         <div th:each="app,i : ${approval}" id="ddiv">
             <input id="mapSize" th:value="${i.size}" hidden>
-
-<!--            <input class="mapAddress" th:value="${app.storeAddress}" hidden>-->
-            <input id="mapEco" th:if="${app.storeType.toString().equals('ECO_SHOP')}" th:value="${app.storeAddress}"
+            <input class="mapAddress" th:value="${app.storeAddress}" hidden>
+            <input class="mapType" th:value="${app.storeType}" hidden>
+            <input class="mapEco" th:if="${app.storeType.toString().equals('ECO_SHOP')}" th:value="${app.storeAddress}"
                    th:text="${app.storeAddress} + ' ' + ${app.storeType}" hidden>
-            <input id="mapVFood" th:if="${app.storeType.toString().equals('VEGAN_FOOD')}" th:value="${app.storeAddress}"
+            <input class="mapVFood" th:if="${app.storeType.toString().equals('VEGAN_FOOD')}" th:value="${app.storeAddress}"
                    th:text="${app.storeAddress} + ' ' + ${app.storeType}" hidden>
-            <input id="mapGFood" th:if="${app.storeType.toString().equals('GENERAL_FOOD')}"
+            <input class="mapGFood" th:if="${app.storeType.toString().equals('GENERAL_FOOD')}"
                    th:value="${app.storeAddress}" th:text="${app.storeAddress} + ' ' + ${app.storeType}" hidden>
             <hr>
         </div>
