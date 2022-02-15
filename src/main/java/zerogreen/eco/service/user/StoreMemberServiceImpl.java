@@ -177,4 +177,13 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     public Slice<StoreDto> getFoodTypeList(Pageable pageable, StoreType storeType) {
         return storeMemberRepository.getFoodTypeList(pageable,storeType);
     }
+
+    @Override
+    public StoreDto updateStore(Long id, StoreDto storeDto) {
+        StoreMember storeMember = storeMemberRepository.findById(id).orElseThrow();
+        StoreDto update = new StoreDto(storeMember.getStoreName(), storeMember.getStoreType(), storeMember.getPhoneNumber());
+
+        return update;
+
+    }
 }
