@@ -24,6 +24,7 @@ span, p, label {
 
 #content {
     margin: 2em 0 4em 0;
+    min-height: 20em;
 }
 
 @media screen and (max-width: 710px) {
@@ -1763,6 +1764,7 @@ html {
 
 			#content {
 				margin-bottom: 0 !important;
+				min-height: 28em !important;
 			}
 
 				#content > :last-child {

@@ -86,23 +86,22 @@
     display: inline-flex;
 }
 
-.arrow-left {
-    left: 0;
+.arrow {
     top: 35%;
     font-size: 4em;
     position: absolute;
     z-index: 999;
     font-family: 'Gothic A1', sans-serif;
     color: lightgray;
+    cursor: pointer;
+    padding: 0px !important;
+    background: none !important;
+}
+.arrow-left {
+    left: 0;
 }
 .arrow-right {
     right: 0;
-    top: 35%;
-    font-size: 4em;
-    position: absolute;
-    z-index: 999;
-    font-family: 'Gothic A1', sans-serif;
-    color: lightgray;
 }
 
 .cate-title {
