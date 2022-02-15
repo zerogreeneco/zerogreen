@@ -26,7 +26,7 @@
                         <!-- 가게 연락처 -->
                         <div>
                             <label for="storePhoneNumber" class="join-label">가게 전화번호</label>
-                            <input type="text" class="form-control input-box" id="storePhoneNumber">
+                            <input type="text" class="form-control update-box" id="storePhoneNumber">
                             <!--                        <div th:errors="*{phoneNumber}" class="field-error">-->
                             <!--                            전화 오류-->
                             <!--                        </div>-->
@@ -44,7 +44,7 @@
                         <div>
                             <label for="storeDescription" class="join-label">가게 소개<span
                                     class="cm-text-count">0 / 300</span></label>
-                            <textarea class="form-control input-box description" id="storeDescription"
+                            <textarea class="form-control update-box description" id="storeDescription"
                                       onkeyup="limitTextInput(this)"></textarea>
 
                         </div>
@@ -52,9 +52,9 @@
                         <!-- 소셜 주소 -->
                         <div>
                             <label for="socialAddress1" class="join-label">소셜 주소</label>
-                            <input type="text" class="form-control input-box" id="socialAddress1">
+                            <input type="text" class="form-control update-box" id="socialAddress1">
                             <img class="add" id="socialAdd" th:src="@{/bootstrap/images/add.png}">
-                            <input type="text" class="form-control input-box" id="socialAddress2" hidden>
+                            <input type="text" class="form-control update-box" id="socialAddress2" hidden>
                             <!--                        <span class="miniModify" id="socialModify">소셜 주소 수정</span> <span class="miniSave" id="socialSave"hidden>저장</span>-->
                             <!--                        <hr>-->
                         </div>
@@ -81,7 +81,7 @@
                             <!-- 첨부 파일 -->
                             <div>
                                 <label class="join-label">첨부파일</label>
-                                <!--                        <input type="file" class="input-box" th:field="*{attachFile}">-->
+                                <!--                        <input type="file" class="update-box" th:field="*{attachFile}">-->
                             </div>
                             <!--                    <div th:if="${#fields.hasGlobalErrors()}">-->
                             <!--                        <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>-->
