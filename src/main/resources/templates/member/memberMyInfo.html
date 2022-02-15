@@ -11,9 +11,9 @@
 
     <script th:src="@{/bootstrap/js/member/memberMyInfo.js}"></script>
 
-        <div class="row gtr-200">
+    <div style="margin: 0 auto;">
         <!--    왼쪽 프로필-->
-        <div class="profile leftSide">
+        <div id="leftSide">
             <div class="profile-div inline">
                 <div class="profile-image">
                     <img th:src="@{'/bootstrap/images/profile/' +${profile.vegetarianGrade}+'.png'}"
@@ -36,7 +36,7 @@
         </div>
 
         <!--    우측 메뉴들-->
-        <div class="rightSide">
+        <div id="rightSide">
             <!--     우측 상단 찜한가게+내 리뷰-->
             <div class="counting">
                 <div class="div-cnt inline">
