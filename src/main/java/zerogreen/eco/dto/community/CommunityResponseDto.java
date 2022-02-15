@@ -51,7 +51,7 @@ public class CommunityResponseDto {
     }
 
     public CommunityResponseDto(Long id, String text, String nickname, Category category, LocalDateTime modifiedDate,
-                                int count, Long like, List<BoardImage> imageList) {
+                                int count, Long like, Long replyCount, List<BoardImage> imageList) {
         this.id = id;
         this.text = text;
         this.nickname = nickname;
@@ -59,6 +59,7 @@ public class CommunityResponseDto {
         this.modifiedDate = modifiedDate;
         this.count = count;
         this.like = like;
+        this.replyCount = replyCount;
         this.imageList = (imageList != null) ? imageList : new ArrayList<>();
     }
 }

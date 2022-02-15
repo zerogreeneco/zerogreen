@@ -58,6 +58,11 @@ public class CommunityController {
         return categories;
     }
 
+    @GetMapping("/test")
+    public String testForm() {
+        return "community/homeTest";
+    }
+
     /* 커뮤티니 메인 화면 및 카테고리 페이징 */
     @GetMapping("")
     public String communityHomeForm(@RequestParam(value = "category", required = false) Category category,

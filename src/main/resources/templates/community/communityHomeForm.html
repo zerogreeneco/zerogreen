@@ -51,23 +51,23 @@
                     $(".category-list a:first").css('color', '#fff');
                 }
                 if (window.location.href.indexOf("QNA") > -1) {
-                    $(".category-list li").eq(1).css('background' , '#16a085');
+                    $(".category-list li").eq(1).css('background', '#16a085');
                     $(".category-list a").eq(1).css('color', '#fff');
                 }
                 if (window.location.href.indexOf("VEGAN") > -1) {
-                    $(".category-list li").eq(2).css('background' , '#16a085');
+                    $(".category-list li").eq(2).css('background', '#16a085');
                     $(".category-list a").eq(2).css('color', '#fff');
                 }
                 if (window.location.href.indexOf("NEWS") > -1) {
-                    $(".category-list li").eq(3).css('background' , '#16a085');
+                    $(".category-list li").eq(3).css('background', '#16a085');
                     $(".category-list a").eq(3).css('color', '#fff');
                 }
                 if (window.location.href.indexOf("PLOGGING") > -1) {
-                    $(".category-list li").eq(4).css('background' , '#16a085');
+                    $(".category-list li").eq(4).css('background', '#16a085');
                     $(".category-list a").eq(4).css('color', '#fff');
                 }
                 if (window.location.href.indexOf("PLOVING") > -1) {
-                    $(".category-list li").eq(5).css('background' , '#16a085');
+                    $(".category-list li").eq(5).css('background', '#16a085');
                     $(".category-list a").eq(5).css('color', '#fff');
                 }
             });
@@ -91,14 +91,33 @@
             }
 
             @media screen and (max-width: 570px) {
-                #content-left { width: 55% !important;}
-                #content-right { width: 35% !important; float: none;}
-                .thumbnail-box { float: none;}
+                #content-left {
+                    width: 55% !important;
+                }
+
+                #content-right {
+                    width: 35% !important;
+                    float: none;
+                }
+
+                .thumbnail-box {
+                    float: none;
+                }
             }
+
             @media screen and (max-width: 540px) {
-                #content-left { width: 42% !important;}
-                #content-right { width: auto !important; float: none;}
-                .thumbnail-box { float: none;}
+                #content-left {
+                    width: 42% !important;
+                }
+
+                #content-right {
+                    width: auto !important;
+                    float: none;
+                }
+
+                .thumbnail-box {
+                    float: none;
+                }
             }
 
             /* 카테고리 리스트 */
@@ -126,8 +145,10 @@
                 color: #16a085;
             }
 
-            @media screen and (max-width: 710px){
-                .category-list { margin-left: 20px; }
+            @media screen and (max-width: 710px) {
+                .category-list {
+                    margin-left: 20px;
+                }
             }
 
             #list-wrapper {
@@ -288,31 +309,27 @@
                     </span>
                         <!-- 회원 좋아요 -->
                         <span sec:authorize="isAuthenticated()" id="like-wrapper">
-            <span class="like-count">
-                <span class="main-like-btn">
-                    <img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"
-                         width="17px" height="17px"></span>
-                <span class="test-count">[[${community.like}]]</span>
-            </span>
-                            <!--/*                <span class="like-count" th:if="${likeCount} == 1">
-                                                <span id="like-btn"><img th:attr="src = @{/bootstrap/images/like/like.png}" class="like-img"
-                                                                         width="17px" height="17px"></span>
-                                                <span class="test-count">[[${community.like}]]</span>
-                                            </span>*/-->
-        </span>
+                            <span class="like-count">
+                                <span class="main-like-btn">
+                                    <img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"
+                                         width="17px" height="17px"></span>
+                                <span class="test-count">[[${community.like}]]</span>
+                            </span>
+                        </span>
                         <!-- 비회원 좋아요 -->
                         <span sec:authorize="isAnonymous()">
                         <img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img" width="17px"
                              height="17px"> [[${community.like}]]
-                    </span>
-                        <span>리뷰수 : [[${community.replyCount}]]</span>
+                        </span>
+                        <span><img th:src="@{/bootstrap/images/etc/bubble.png}" width="17px" height="17px">  [[${community.replyCount}]]</span>
                     </div>
                 </div>
 
                 <!--리스트 오른쪽-->
                 <div id="content-right">
                     <!--썸네일-->
-                    <div class="thumbnail-box"></div>
+                    <div class="thumbnail-box">
+                    </div>
                 </div>
             </div>
         </div>

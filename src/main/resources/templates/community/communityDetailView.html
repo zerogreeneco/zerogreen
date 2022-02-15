@@ -74,24 +74,25 @@
                         <input type="hidden" th:value="${replyList.replyId}" class="replyId">
                         <span>
                             <img th:src="@{'/bootstrap/images/profile/' +${replyList.vegetarianGrade}+'.png'}"
-                                 th:onclick="|location.href='@{/members/memberMyInfo}'|" width="15px" height="15px">
+                                 width="15px" height="15px">
                         </span>
                         <span th:text="${replyList.nickname}"></span>
                         <span style="font-size: 0.8em; padding-left: 10px;"
                               th:text="${#temporals.format(replyList.createdTime, 'yyyy-MM-dd HH:mm')}"></span>
-                        <div>
+                        <div id="text-count-wrapper">
                             <span class='cm-text-count' style="display: none;">0 / 100</span>
                         </div>
                         <p class="rp-text" th:text="${replyList.text}"></p>
                         <a type="button" class="modify-test-btn" style="display: none;"
                            onclick="modifyReply(this)">수정!
                         </a>
-
-                        <a class="nested-reply-btn" onclick="nestedReplyInput(this)">답글</a>
-                        <a th:if="${replyList.username} == ${session.loginUser}"
-                           th:onclick="'javascript:deleteReply(' + ${replyList.replyId} + ');'">삭제</a>
-                        <a th:if="${replyList.username} == ${session.loginUser}" class="rp-modify-btn"
-                           onclick="replaceTag(this)">수정</a>
+                        <div>
+                            <a class="nested-reply-btn" onclick="nestedReplyInput(this)">답글</a>
+                            <a th:if="${replyList.username} == ${session.loginUser}"
+                               th:onclick="'javascript:deleteReply(' + ${replyList.replyId} + ');'">삭제</a>
+                            <a th:if="${replyList.username} == ${session.loginUser}" class="rp-modify-btn"
+                               onclick="replaceTag(this)">수정</a>
+                        </div>
                         <div></div>
                         <div class="nested-reply-wrapper" style="display: none;">
                             <div><span class="cm-text-count">0 / 100</span></div>
@@ -105,7 +106,7 @@
                             <input type="hidden" th:value="${nestedList.replyId}" class="replyId">
                             <span>
                             <img th:src="@{'/bootstrap/images/profile/' +${nestedList.vegetarianGrade}+'.png'}"
-                                 th:onclick="|location.href='@{/members/memberMyInfo}'|" width="15px" height="15px">
+                                 width="15px" height="15px">
                             </span>
                             <span th:text="${nestedList.nickname}"></span>
                             <span style="font-size: 0.8em; padding-left: 10px;"
@@ -114,10 +115,12 @@
                             <a type="button" class="modify-test-btn" style="display: none;"
                                onclick="modifyReply(this)">수정!
                             </a>
-                            <a th:if="${nestedList.username} == ${session.loginUser}"
-                               th:onclick="'javascript:deleteReply(' + ${nestedList.replyId} + ');'">삭제</a>
-                            <a th:if="${nestedList.username} == ${session.loginUser}" class="rp-modify-btn"
-                               onclick="replaceTag(this)">수정</a>
+                            <div>
+                                <a th:if="${nestedList.username} == ${session.loginUser}"
+                                   th:onclick="'javascript:deleteReply(' + ${nestedList.replyId} + ');'">삭제</a>
+                                <a th:if="${nestedList.username} == ${session.loginUser}" class="rp-modify-btn"
+                                   onclick="replaceTag(this)">수정</a>
+                            </div>
                             <hr/>
                         </div>
                     </div>

@@ -46,7 +46,7 @@ public class CommunityApiController {
         }
     }
 
-    @RequestMapping("/api/communityReplyList")
+    @RequestMapping(value = "/api/communityReplyList", produces = MediaType.APPLICATION_JSON_VALUE)
     private ApiReturnDto communityReplyList(@RequestParam(value = "boardId") Long boardId, Model model) {
         List<CommunityReplyDto> replyList = replyService.findReplyByBoardId(boardId);
         int size = replyList.size();
