@@ -45,7 +45,7 @@ public class StoreDto {
     private Long count;
     private Long like;
 
-//    public StoreDto(){}
+    public StoreDto(){}
 
     //이친구...뭐죠..?
     public StoreDto(Long id) {
@@ -96,5 +96,12 @@ public class StoreDto {
         this.menuList = menuList;
     }
 
+    //StoreUpdate
+    //첫 가게 정보 수정
+    public StoreDto(String storeName, StoreType storeType, String storePhoneNumber){
+        this.storeName = storeName;
+        this.storeType = storeType;
+        this.storePhoneNumber = storePhoneNumber;
+    }
 }
 
