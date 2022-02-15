@@ -18,11 +18,11 @@
     position: absolute;
     top: 7%;
     right: 0;
-    width: 2em;
-    height: 2em;
+    width: 2.5em;
+    height: 2.5em;
     border-radius: 50px;
     background: #fff;
-    padding: 0.5em;
+    padding: 0.2em;
 }
 
 #profile:hover {
