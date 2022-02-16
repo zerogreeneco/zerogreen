@@ -15,6 +15,7 @@ Store Update
     margin-bottom: 10px;
     font-family: 'Noto Sans KR', sans-serif;
 }
+
 /*가게소개*/
 #store-name {
     display: inline-block;
@@ -28,6 +29,7 @@ Store Update
 .cm-text-count{
     float: right;
 }
+
 /*메뉴*/
 .menu{
     width: 195px;
@@ -47,20 +49,32 @@ input[type="radio"]:checked ~img{
     border: 3px solid #16a085;
 }
 .profile{
-    width: 2.6em;
-    height: 2.6em;
+    width: 2.3em;
+    height: 2.3em;
     border-radius: 50px;
     background: #fff;
     cursor: pointer;
     padding: 0.1em;
     border: 1px solid lightgrey;
 }
+
+/*리스트 테이블*/
+.table{
+    width: 500px;
+    margin-left: -90px;
+}
+
 /*버튼*/
 .add{
     height: 25px;
     cursor: pointer;
 }
-.miniModify, .miniSave{
-    float: right;
+.addBtn{
+    display: inline-block;
+    padding: 8px 15px;
+    margin: 25px 0;
+    border-radius: 15px;
+    background-color: lightgray;
+    color: #FFF;
     cursor: pointer;
 }
