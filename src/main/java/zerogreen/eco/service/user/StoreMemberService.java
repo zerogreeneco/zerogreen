@@ -4,6 +4,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.dto.store.StoreDto;
+import zerogreen.eco.dto.store.StoreMenuDto;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.StoreMember;
@@ -33,4 +34,5 @@ public interface StoreMemberService {
 
     //StoreUpdate
     StoreDto updateStore(Long id, StoreDto storeDto);
-    }
+
+}

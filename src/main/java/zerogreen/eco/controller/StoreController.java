@@ -5,14 +5,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.store.StoreDto;
+import zerogreen.eco.dto.store.StoreMenuDto;
+import zerogreen.eco.entity.userentity.StoreMenu;
 import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.security.auth.PrincipalDetails;
+import zerogreen.eco.service.store.StoreMenuService;
 import zerogreen.eco.service.user.StoreMemberService;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -21,6 +25,7 @@ import zerogreen.eco.service.user.StoreMemberService;
 public class StoreController {
 
     private final StoreMemberService storeMemberService;
+    private final StoreMenuService storeMenuService;
 
     @ModelAttribute("storeTypes")
     private StoreType[] storeTypes() {
@@ -41,6 +46,18 @@ public class StoreController {
         model.addAttribute("store", update);
 
         return "store/updateStoreInfo";
+    }
+
+    @RequestMapping(value = "/update/table", method = RequestMethod.POST)
+    @ResponseBody
+    public String updateMenuList(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                 Model model, StoreMenuDto storeMenuDto, HttpServletRequest request) {
+        String name = request.getParameter("name");
+        int price = Integer.parseInt(request.getParameter("price"));
+        VegetarianGrade vegetarianGrade = VegetarianGrade.valueOf(request.getParameter("grade"));
+       storeMenuService.updateStoreMenu(principalDetails.getId(), name, price, vegetarianGrade);
+
+        return "store/updateStoreInfo :: #list-table";
     }
 
     @GetMapping("/storeMyInfo")
