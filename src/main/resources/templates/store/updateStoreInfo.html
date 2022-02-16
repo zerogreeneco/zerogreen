@@ -18,7 +18,7 @@
                 <div class="store-info">
                     <!-- 매장 이름 -->
                     <h3 class="title">
-                        <img class="profile" th:src="@{/bootstrap/images/profile/shop.png}">
+                        <img class="profile" th:src="@{/bootstrap/images/profile/STORE.png}">
                         <span>[[${store.storeName}]]</span>
                     </h3>
 
@@ -31,101 +31,162 @@
                             <label th:text="${stores.storeType}"/>
                         </div>
                     </div>
+                </div>
+                <div class="update-info">
+                    <!-- 가게 연락처 -->
+                    <div>
+                        <label for="storePhoneNumber" class="join-label">가게 전화번호</label>
+                        <input type="text" class="form-control update-box" id="storePhoneNumber"
+                               th:value="${store.storePhoneNumber}">
+                        <!--                                <div th:errors="*{storePhoneNumber}" class="field-error">-->
+                        <!--                                    전화 오류-->
+                        <!--                                </div>-->
+                    </div>
 
-                    <div class="update-info">
-                        <!-- 가게 연락처 -->
+                    <!-- 영업시간 -->
+                    <div>
+                        <label class="join-label">영업시간</label>
+                        <input type="time" class="time startTime" id="startTime"/> ~ <input type="time"
+                                                                                            class="time closeTime"
+                                                                                            id="closeTime"/>
+                    </div>
+
+                    <!-- 가게 소개 -->
+                    <div>
+                        <label for="storeDescription" class="join-label">가게 소개<span class="cm-text-count">0 / 300</span></label>
+                        <textarea class="form-control update-box description" id="storeDescription"
+                                  onkeyup="limitTextInput(this)"></textarea>
+                    </div>
+
+                    <!-- 소셜 주소 -->
+                    <div>
+                        <label class="join-label">소셜 주소</label>
+                        <input type="text" class="form-control update-box" id="socialAddress1">
+                        <img class="add" id="socialAdd" th:src="@{/bootstrap/images/add.png}">
+                        <input type="text" class="form-control update-box" id="socialAddress2" hidden>
+                    </div>
+
+                    <!-- 메뉴 / 상품 -->
+                    <!-- 메뉴 -->
+                    <div th:if="${store.storeType.name() != 'ECO_SHOP'}">
+                        <label for="socialAddress1" class="join-label">메뉴</label>
+                        <input type="text" class="form-control menu" id="menuName" placeholder="메뉴이름">
+                        <input type="number" step="10" class="form-control price" id="menuPrice" placeholder="가격"><br>
+
+                        <!-- 비건 등급 -->
+                        <label th:each="vegan : ${vegan}">
+                            <input type="radio" style="display: none" id="vegetarianGrade" name="vegetarianGrade"
+                                   th:value="${vegan.name()}">
+                            <img class="profile" th:src="@{'/bootstrap/images/profile/'+${vegan.name()}+'.png'}">
+                        </label>
+                        <br><span class="addBtn" id="menuAdd">메뉴 추가</span>
+
+                        <!-- 메뉴 목록 -->
                         <div>
-                            <label for="storePhoneNumber" class="join-label">가게 전화번호</label>
-                            <input type="text" class="form-control update-box" id="storePhoneNumber" th:value="${store.storePhoneNumber}">
-                            <!--                                <div th:errors="*{storePhoneNumber}" class="field-error">-->
-                            <!--                                    전화 오류-->
-                            <!--                                </div>-->
+                            <label class="join-label">메뉴 목록</label>
+                            <div class="table">
+                                <table id="list-table">
+                                    <tr>
+                                        <td style="width: 40%;">메뉴</td>
+                                        <td style="width: 20%; border-left: 1px solid lightgray;">가격</td>
+                                        <td style="width: 18%; border-left: 1px solid lightgray;">비건등급</td>
+                                        <td style="width: 12%; border-left: 1px solid lightgray;">삭제</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 40%;">내용</td>
+                                        <td style="width: 20%; border-left: 1px solid lightgray;">내용</td>
+                                        <td style="width: 18%; border-left: 1px solid lightgray;">비건등급내용</td>
+                                        <td style="width: 12%; border-left: 1px solid lightgray;"><img</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
 
-                        <!-- 영업시간 -->
-                        <div>
-                            <label class="join-label">영업시간</label>
-                            <input type="time" class="time startTime" id="startTime"/> ~ <input type="time"
-                                                                                                class="time closeTime"
-                                                                                                id="closeTime"/>
-                        </div>
+                    </div>
 
-                        <!-- 가게 소개 -->
-                        <div>
-                            <label for="storeDescription" class="join-label">가게 소개<span
-                                    class="cm-text-count">0 / 300</span></label>
-                            <textarea class="form-control update-box description" id="storeDescription"
-                                      onkeyup="limitTextInput(this)"></textarea>
+                    <!-- 상품 -->
+                    <div th:if="${store.storeType.name() == 'ECO_SHOP'}">
+                        <label for="socialAddress1" class="join-label">상품</label>
+                        <input type="text" class="form-control menu" id="menuName" placeholder="상품이름">
+                        <input type="number" step="10" class="form-control price" id="menuPrice" placeholder="가격">
 
-                        </div>
+                        <!--                    <br><span class="addBtn" id="goodsAdd">상품 추가</span>-->
+                        <br><span class="addBtn" id="menuAdd">상품 추가</span> //grade null 허용?
 
-                        <!-- 소셜 주소 -->
+                        <!-- 상품 목록 -->
                         <div>
-                            <label class="join-label">소셜 주소</label>
-                            <input type="text" class="form-control update-box" id="socialAddress1">
-                            <img class="add" id="socialAdd" th:src="@{/bootstrap/images/add.png}">
-                            <input type="text" class="form-control update-box" id="socialAddress2" hidden>
-                            <!--                        <span class="miniModify" id="socialModify">소셜 주소 수정</span> <span class="miniSave" id="socialSave"hidden>저장</span>-->
-                            <!--                        <hr>-->
-                        </div>
+                            <label class="join-label">상품 목록</label>
+                            <div class="table">
 
-                        <!-- 메뉴 -->
-                        <div>
-                            <label for="socialAddress1" class="join-label">메뉴</label>
-                            <input type="text" class="form-control menu" id="menuName" placeholder="메뉴이름">
-                            <input type="number" step="10" class="form-control price" id="menuPrice" placeholder="가격">
-
-                            <!-- 비건 등급 -->
-                            <label th:each="vegan : ${vegan}">
-                                <input type="radio" style="display: none" class="radio-off" id="${vegan.name()}"
-                                       name="vegetarianGrade">
-                                <img class="profile" th:src="@{'/bootstrap/images/profile/'+${vegan.name()}+'.png'}">
-                            </label>
-                            <br><img class="add" id="menuAdd" th:src="@{/bootstrap/images/add.png}">
-
-                        </div>
-                        <hr>
-                        <div>
-                            <label for="socialAddress1" class="join-label">가게 메뉴 목록</label>
-
-                        </div>
-                        <!-- 첨부 파일 -->
-                        <div>
-                            <label class="join-label">첨부파일</label>
-                            <!--                        <input type="file" class="update-box" th:field="*{attachFile}">-->
-                        </div>
-                        <!--                    <div th:if="${#fields.hasGlobalErrors()}">-->
-                        <!--                        <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>-->
-                        <!--                    </div>-->
-                        <div>
-                            <button id="modifyBtn" class="regi-btn" type="submit" disabled="true">수정하기</button>
+                            </div>
                         </div>
                     </div>
+                    <!-- 첨부 파일 -->
+                    <div>
+                        <label class="join-label">첨부파일</label>
+                        <!--                        <input type="file" class="update-box" th:field="*{attachFile}">-->
+                    </div>
+                    <!--                    <div th:if="${#fields.hasGlobalErrors()}">-->
+                    <!--                        <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>-->
+                    <!--                    </div>-->
                 </div>
-                <script th:inline="javascript">
-                    $("#socialAdd").click(function () {
-                        $("#socialAddress2").removeAttr("hidden");
-                        $("#socialAdd").attr("hidden", true);
-                    });
-                    $(".minimodify").click(function () {
-                        $(".minisave").removeAttr("hidden");
-                        $(".minimodify").attr("hidden", true);
-                    });
 
+                <div>
+                    <button id="modifyBtn" class="regi-btn" type="submit" disabled="true">수정하기</button>
+                </div>
+            </div>
+        </div>
 
-                    function limitTextInput(event) {
-                        console.log(event);
-                        let countText = $(event).prev().children(".cm-text-count");
-                        console.log(countText);
-                        countText.html($(event).val().length + " / 300");
+        <script th:inline="javascript">
+            $("#socialAdd").click(function () {
+                $("#socialAddress2").removeAttr("hidden");
+                $("#socialAdd").attr("hidden", true);
+            });
 
-                        if ($(event).val().length > 300) {
-                            $(event).val($(event).val().substring(0, 300));
-                            alert("300자까지 입력이 가능합니다.");
-                            countText.html("300 / 300");
-                        }
+            $("#menuAdd").click(function () {
+                let name = $("#menuName").val();
+                let price = $("#menuPrice").val();
+                let grade = $(":input:radio[name=vegetarianGrade]:checked").val();
+                alert(grade);
+                $.ajax({
+                    url: "/zerogreen/store/update/table",
+                    method: "post",
+                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    data: {
+                        name: name,
+                        price: price,
+                        grade: grade
                     }
+                })
+                    .done(function (fragment) {
+                        $("#list-table").replaceWith(fragment);
+                        alert("메뉴 등록 완");
+                        $("#menuName").val("");
+                        $("#menuPrice").val("");
+                        $(":input:radio[name=vegetarianGrade]:checked").prop('checked', false);
+                    });
+            }); //menuAdd ajax end
 
-                </script>
+            $("#goodsAdd").click(function () {
+                alert("클릭 완");
+                let name = $("#menuName").val();
+                let price = $("#menuPrice").val();
+
+            })
+
+            function limitTextInput(event) {
+                console.log(event);
+                let countText = $(event).prev().children(".cm-text-count");
+                console.log(countText);
+                countText.html($(event).val().length + " / 300");
+
+                if ($(event).val().length > 300) {
+                    $(event).val($(event).val().substring(0, 300));
+                    alert("300자까지 입력이 가능합니다.");
+                    countText.html("300 / 300");
+                }
+            }
+
+        </script>
     </th:block>
 </th:block>
