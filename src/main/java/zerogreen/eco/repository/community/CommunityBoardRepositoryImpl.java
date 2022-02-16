@@ -35,6 +35,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
 
     QBoardReply subReply = new QBoardReply("subReply");
     QBoardImage subImage = new QBoardImage("subImage");
+    QCommunityLike subLike = new QCommunityLike("subLike");
 
     @Override
     public CommunityResponseDto findDetailBoard(Long boardId) {
@@ -42,17 +43,17 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     }
 
     /*
-     * 커뮤니티 게시판 전체 리스트
+     * 커뮤니티 게시판 전체 리스트 (검색)
      * */
     @Override
     public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable, SearchCondition condition) {
-        QCommunityLike subLike = new QCommunityLike("subLike");
 
         List<CommunityResponseDto> content = queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
                         communityBoard.text,
                         member.nickname,
+                        member.vegetarianGrade,
                         communityBoard.category,
                         communityBoard.modifiedDate,
                         communityBoard.count,
@@ -84,17 +85,16 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
         return new PageImpl<>(content, pageable, countQuery.size());
     }
 
-    ;
 
     @Override
     public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable) {
-        QCommunityLike subLike = new QCommunityLike("subLike");
 
         List<CommunityResponseDto> content = queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
                         communityBoard.text,
                         member.nickname,
+                        member.vegetarianGrade,
                         communityBoard.category,
                         communityBoard.modifiedDate,
                         communityBoard.count,
@@ -128,13 +128,13 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
      * */
     @Override
     public Slice<CommunityResponseDto> findByCategory(Pageable pageable, Category category) {
-        QCommunityLike subLike = new QCommunityLike("subLike");
 
         List<CommunityResponseDto> content = queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
                         communityBoard.text,
                         member.nickname,
+                        member.vegetarianGrade,
                         communityBoard.category,
                         communityBoard.modifiedDate,
                         communityBoard.count,
@@ -170,14 +170,13 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
      * */
     @Override
     public CommunityResponseDto findDetailView(Long id) {
-        QCommunityLike subLike = new QCommunityLike("subLike");
-        QBoardReply subReply = new QBoardReply("subReply");
 
         return queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
                         communityBoard.text,
                         member.nickname,
+                        member.vegetarianGrade,
                         communityBoard.category,
                         communityBoard.modifiedDate,
                         communityBoard.count,

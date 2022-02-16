@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.community.Category;
+import zerogreen.eco.entity.userentity.VegetarianGrade;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class CommunityResponseDto {
     private Long like;
 
     private String nickname;
+    private VegetarianGrade vegetarianGrade;
 
     private Long replyCount;
 
@@ -38,11 +40,12 @@ public class CommunityResponseDto {
         this.nickname = nickname;
     }
 
-    public CommunityResponseDto(Long id, String text, String nickname, Category category, LocalDateTime modifiedDate,
+    public CommunityResponseDto(Long id, String text, String nickname, VegetarianGrade vegetarianGrade, Category category, LocalDateTime modifiedDate,
                                 int count, Long like, Long replyCount) {
         this.id = id;
         this.text = text;
         this.nickname = nickname;
+        this.vegetarianGrade = vegetarianGrade;
         this.category = category;
         this.modifiedDate = modifiedDate;
         this.count = count;
