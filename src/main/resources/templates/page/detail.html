@@ -116,16 +116,16 @@
                 <form method="POST" th:object="${review}" enctype="multipart/form-data">
                     <span class="js-storeId" style="display:none;">[[${getStore.sno}]]</span>
 
-                    <div class="inline rv-ta" >
+                    <div class="rv-area" >
                         <textarea th:field="*{reviewText}" name="reviewText" id="reviewText" class="reviewText"
                         placeholder="리뷰를 남겨보세요!"></textarea>
                     </div>
 
-                    <div class="inline rv-btn">
-                        <label class="img-input rvrv-btn inline" for="img-input">사진선택</label><br>
+                    <div class="rv-area">
+                        <label class="img-input rvrv-btn" for="img-input">사진선택</label><br>
                         <input class="img-input" id="img-input" th:field="*{imageFiles}" name="reviewImages" type="file"
-                               multiple="multiple" />
-                        <label class="rvrv-btn inline" for="rv-btn">리뷰등록</label>
+                               multiple="multiple" style="display:none;"/>
+                        <label class="rvrv-btn" for="rv-btn">리뷰등록</label>
                         <button type="submit" id="rv-btn" style="display:none;">리뷰등록</button>
                         <!--                    <span typeof="button" class="rvrv-btn inline" id="rv-btn">리뷰등록</span>-->
                     </div>

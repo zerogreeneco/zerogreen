@@ -100,6 +100,10 @@
 /* 리뷰 */
 
 /*리뷰 공통*/
+.rv-area {
+    display: inline-grid;
+    margin-bottom: 2em;
+}
 textarea {
     resize: none;
     overflow: hidden;
@@ -133,8 +137,8 @@ textarea:focus {
     background: #3498db;
     color: #ffffff;
     border-radius: 5px;
-    font-size: 1em;
-    padding: 8px;
+    font-size: 0.8em;
+    padding: 15px 20px;
 }
 
 .wrapper-review-list {
@@ -149,10 +153,6 @@ textarea:focus {
 
 .rv-btn {
     margin: 10px 0 15px 0;
-}
-
-.rvrv-btn {
-    margin-top: 10px;
 }
 
 #reviewText {
