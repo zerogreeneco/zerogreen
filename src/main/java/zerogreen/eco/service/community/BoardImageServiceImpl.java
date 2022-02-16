@@ -31,7 +31,7 @@ public class BoardImageServiceImpl implements BoardImageService {
     @Override
     public void modifyImage(Long boardId, String storeName, String originalName, String path) {
         CommunityBoard communityBoard = boardRepository.findById(boardId).orElseThrow();
-        boardImageRepository.save(new BoardImage(originalName, storeName, path, communityBoard));
+        boardImageRepository.save(new BoardImage(originalName, storeName, path, communityBoard, "thumb_"+storeName));
     }
 
     // 이미지 삭제
@@ -50,6 +50,6 @@ public class BoardImageServiceImpl implements BoardImageService {
             e.printStackTrace();
             throw new IllegalStateException("파일 삭제에 실패했습니다.");
         }
-
     }
+
 }

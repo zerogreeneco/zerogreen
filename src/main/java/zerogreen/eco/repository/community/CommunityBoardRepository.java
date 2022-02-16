@@ -16,4 +16,5 @@ public interface CommunityBoardRepository extends JpaRepository<CommunityBoard, 
     @Transactional
     @Query("UPDATE CommunityBoard cb SET cb.count = cb.count + 1 WHERE cb.id=:boardId ")
     int boardCount(@Param("boardId") Long boardId);
+
 }

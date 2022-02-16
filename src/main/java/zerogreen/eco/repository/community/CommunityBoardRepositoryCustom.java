@@ -4,6 +4,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
+import zerogreen.eco.dto.community.ImageFileDto;
 import zerogreen.eco.dto.search.SearchCondition;
 import zerogreen.eco.dto.search.SearchType;
 import zerogreen.eco.entity.community.Category;
@@ -20,4 +21,5 @@ public interface CommunityBoardRepositoryCustom {
     CommunityResponseDto findDetailView(Long id);
 
     CommunityRequestDto boardModify(Long boardId);
+
 }
