@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,8 +74,6 @@ public class CommunityController {
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
         model.addAttribute("searchType", searchType);
         model.addAttribute("keyword", keyword);
-
-        log.info("CATEGORY={}", category);
 
         if (category == null) {
             if (searchType == null) {

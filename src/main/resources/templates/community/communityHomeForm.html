@@ -285,9 +285,8 @@
         </div>
 
         <!-- 리스트 -->
-        <div id="list-wrapper" th:each="community : ${communityList}">
+        <div th:if="${communityList.size} > 0" id="list-wrapper" th:each="community : ${communityList}">
             <input type="hidden" th:value="${community.id}" class="list-board-id">
-
             <div class="cm-content">
                 <!--리스트 왼쪽-->
                 <div id="content-left">
@@ -308,7 +307,7 @@
 
                         <!-- 게시자 -->
                         <div class="writer-section">
-                            <img class="main-list-profile" th:src="@{'/bootstrap/images/profile/' +${session.veganGrade}+'.png'}" width="15px" height="15px">
+                            <img class="main-list-profile" th:src="@{'/bootstrap/images/profile/' +${community.vegetarianGrade}+'.png'}" width="15px" height="15px">
                             <div class="main-list-nickname" th:text="${community.nickname}">닉네임</div>
                         </div>
                         <!-- 리스트 반응 수치 -->
@@ -342,6 +341,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div th:text="${noList}">
+            <h1>이게 보여라!</h1>
         </div>
     </th:block>
 </th:block>
