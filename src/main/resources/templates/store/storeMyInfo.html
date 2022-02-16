@@ -4,44 +4,102 @@
 
         <!-- 페이지 css/ js 추가 -->
         <link id="contextPathHolder" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
-        <link th:href="@{/bootstrap/css/store/storeMyInfo.css}" rel="stylesheet"/>
+        <link th:href="@{/bootstrap/css/member/memberMyInfo.css}" rel="stylesheet"/>
 
-        <div class="row gtr-200">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+        <script th:src="@{/bootstrap/js/member/memberMyInfo.js}"></script>
+
+        <div style="margin: 0 auto;">
             <!--    왼쪽 프로필-->
-            <div class="temp1 profile leftSide">
-                <div>
-                    <span>가게명</span>
-                </div>
-                <div class="profile-div">
-                    <span class="profile-btn inline">나의정보</span>
+            <div id="leftSide">
+                <div class="profile-div inline">
+                    <div class="profile-image">
+                        <img th:src="@{'/bootstrap/images/profile/STORE.png'}" width="70px" height="70px">
+                    </div>
+                    <span class="profile-name">storeshop</span>
                 </div>
 
+                <!-- 정보 수정 버튼 -->
                 <div class="profile-div">
-                    <span class="profile-btn inline">가게정보</span>
+                    <span class="editMyInfo profile-btn inline">내 정보</span>
+                </div>
+                <div class="profile-div">
+                    <span class="chatting profile-btn inline" th:onclick="@{/store/update}">내 가게 정보</span>
                 </div>
             </div>
 
             <!--    우측 메뉴들-->
-            <div class="temp2 rightSide">
-
-                <!--     우측 상단 좋아요 수 + 리뷰 수-->
+            <div id="rightSide">
+                <!--     우측 상단 찜한가게+내 리뷰-->
                 <div class="counting">
                     <div class="div-cnt inline">
-                        <span>여기 숫자</span><br>
-                        <span>좋아요 수</span>
+                        <span>0</span><br>
+                        <span>내 가게를 찜한 고객</span>
                     </div>
                     <div class="div-cnt inline">
-                        <span>여기 숫자</span><br>
-                        <span>리뷰 수</span>
+                        <span>0</span><br>
+                        <span>고객들이 쓴 리뷰</span>
                     </div>
                 </div>
-                <!-- end of counting -->
+
+                <!-- 고객 리뷰 리스트 슬라이더 -->
+                <div class="textList">
+                    <span>고객들이 쓴 리뷰</span>
+<!--                    <span>아직 리뷰가 없습니다.</span>-->
+                </div>
+
+                <div class="listing" >
+                    <div style="position: relative;">
+                        <span id="review-left" class="arrow-left">&#139;</span>
+                        <span id="review-right"  class="arrow-right">&#155;</span>
+
+                        <div class="slider-container">
+                            <div class="review-slider slider">
+                                <div class="card">
+
+                                    <div class="card-header">
+                                        <img src="http://placehold.it/300x300"/>
+                                    </div>
+
+                                    <div class="shopList-box">
+                                        <div class="card-body">
+                                            <span class="shop-name reviewText">댓글이지롱</span>
+                                            <span class="shop-name">yyyy-MM-dd HH:mm</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- end th:each-->
+                            </div>
+                        </div>
+                        <!--end slider-container -->
+                    </div>
+
+                </div>
+                <!-- end myReviews -->
 
             </div>
             <!-- end of right section -->
-
         </div>
         <!-- end page -->
+
+
+        <script th:inline="javascript">
+        function goAccount(id) {
+            //alert('goAccount');
+            var url = [[@{/members/account}]];
+            location.href = url;
+        }
+
+        function goStore(sno) {
+            //alert('goStore');
+            var url = [[@{/page/detail}]] + "/" +sno ;
+            location.href = url;
+        }
+
+    </script>
 
     </th:block>
 </th:block>

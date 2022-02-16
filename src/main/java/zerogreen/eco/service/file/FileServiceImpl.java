@@ -65,8 +65,6 @@ public class FileServiceImpl implements FileService{
         }
         // 사용자가 저장한 파일 이름
         String originalFilename = multipartFile.getOriginalFilename();
-        log.info("SERVICE ORIGIN NAME={}", originalFilename);
-        log.info("SERVICE ORIGIN NAME={}", extractExt(originalFilename));
 
         String storeFilename = createStoreFilename(originalFilename);
         multipartFile.transferTo(new File(getFullPath(storeFilename)));
@@ -122,6 +120,7 @@ public class FileServiceImpl implements FileService{
         // 사용자가 저장한 파일 이름
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFilename = createStoreFilename(originalFilename);
+        String thumbnailName = "thumb_" + storeFilename;
         File saveFile = new File(getFullPath(storeFilename));
         multipartFile.transferTo(saveFile);
 
@@ -133,13 +132,13 @@ public class FileServiceImpl implements FileService{
         int width = (int) (readImage.getWidth() / ratio);
         int height = (int) (readImage.getHeight() / ratio);
 
-        BufferedImage thumbImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+        BufferedImage thumbImage = new BufferedImage(146, 146, BufferedImage.TYPE_3BYTE_BGR);
         Graphics2D graphics = thumbImage.createGraphics();
 
-        graphics.drawImage(readImage, 0, 0, width, height, null);
+        graphics.drawImage(readImage, 0, 0, 146, 146, null);
         ImageIO.write(thumbImage, "png", thumbnailFile);
 
-        return new BoardImage(originalFilename, storeFilename, getFullPath(storeFilename));
+        return new BoardImage(originalFilename, storeFilename, getFullPath(storeFilename), thumbnailName);
     }
 
     @Override

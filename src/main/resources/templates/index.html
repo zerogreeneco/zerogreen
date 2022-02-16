@@ -11,20 +11,6 @@
                 integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
                 crossorigin="anonymous"></script>
         <script type="text/javascript" th:src="@{/bootstrap/js/index/slider.js}"></script>
-        <script type="text/javascript" th:src="@{/bootstrap/js/index/loginmodal.js}"></script>
-
-        <!--login pop-up-->
-        <div sec:authorize="isAnonymous()">
-            <div id="popup-wrap">
-                <div class="popup">
-                    <span id="popup-text">로그인시 추가적인 서비스<br>이용이 가능합니다.</span>
-                    <div>
-                        <button id="popup-cancle">취소</button>
-                        <button id="popup-login" th:onclick="|location.href='@{/login}'|">로그인</button></a>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="row gtr-200">
             <!--Shop List-->
@@ -97,13 +83,13 @@
                 src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac&libraries=services"></script>
         <div th:each="app,i : ${approval}" id="ddiv">
             <input id="mapSize" th:value="${i.size}" hidden>
-
-<!--            <input class="mapAddress" th:value="${app.storeAddress}" hidden>-->
-            <input id="mapEco" th:if="${app.storeType.toString().equals('ECO_SHOP')}" th:value="${app.storeAddress}"
+            <input class="mapAddress" th:value="${app.storeAddress}" hidden>
+            <input class="mapType" th:value="${app.storeType}" hidden>
+            <input class="mapEco" th:if="${app.storeType.toString().equals('ECO_SHOP')}" th:value="${app.storeAddress}"
                    th:text="${app.storeAddress} + ' ' + ${app.storeType}" hidden>
-            <input id="mapVFood" th:if="${app.storeType.toString().equals('VEGAN_FOOD')}" th:value="${app.storeAddress}"
+            <input class="mapVFood" th:if="${app.storeType.toString().equals('VEGAN_FOOD')}" th:value="${app.storeAddress}"
                    th:text="${app.storeAddress} + ' ' + ${app.storeType}" hidden>
-            <input id="mapGFood" th:if="${app.storeType.toString().equals('GENERAL_FOOD')}"
+            <input class="mapGFood" th:if="${app.storeType.toString().equals('GENERAL_FOOD')}"
                    th:value="${app.storeAddress}" th:text="${app.storeAddress} + ' ' + ${app.storeType}" hidden>
             <hr>
         </div>

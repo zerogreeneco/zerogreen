@@ -48,12 +48,17 @@ $(function () {
 
     }); // review send end.
 
+    // 게시물 삭제
     $("#delete-board").click(function () {
         actionForm
             .attr("action", "/zerogreen/community/" + boardId + "/delete")
             .attr("method", "post");
+        if (confirm("정말 삭제하시겠습니까?") === true) {
+            actionForm.submit();
+        } else {
+            return;
+        }
 
-        actionForm.submit();
     });
 
     $("#text").on("keyup", function () {
@@ -133,16 +138,20 @@ function getNestedReplyData(table, replyId) {
 /* 댓글 수정용 태그 변경 */
 function replaceTag(event) {
     let thisBtn = $(event);
-    let rpText = thisBtn.parent().find(".rp-text:first");
+    let parent = thisBtn.parent().parent();
+    let rpText = parent.find(".rp-text:first");
     let text = rpText.text();
+
     rpText.replaceWith("<textarea class='modify-test' name='text' onkeyup='limitTextInput(this)'>" + text + "</textarea>");
-    thisBtn.parent().find(".modify-test-btn:first").show();
-    thisBtn.parent().find(".cm-text-count").show();
+    parent.find(".modify-test-btn:first").show();
+    parent.find(".cm-text-count").show();
+    thisBtn.hide();
+
 }
 
 function nestedReplyInput(event) {
     let inputAdd = $(event);
-    inputAdd.parent().find(".nested-reply-wrapper").show();
+    inputAdd.parent().parent().find(".nested-reply-wrapper").show();
 }
 
 /* 댓글 수정 */
@@ -171,7 +180,8 @@ function modifyReply(event) {
                 $(".replyId").next(".modify-test").hide();
                 $(".replyId").next().next().children(".cm-text-count").hide();
                 modifyBtn.hide();
-                // location.reload()
+                modifyBtn.prevAll("#text-count-wrapper").children().hide()
+                modifyBtn.next().children(".rp-modify-btn").show();
             } else {
                 alert("실패");
             }

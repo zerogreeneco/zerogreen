@@ -11,14 +11,17 @@ import org.springframework.data.domain.Slice;
 import org.springframework.util.StringUtils;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
+import zerogreen.eco.dto.community.ImageFileDto;
 import zerogreen.eco.dto.search.SearchCondition;
 import zerogreen.eco.dto.search.SearchType;
 import zerogreen.eco.entity.community.*;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.querydsl.core.types.ExpressionUtils.count;
+import static zerogreen.eco.entity.community.QBoardImage.*;
 import static zerogreen.eco.entity.community.QCommunityBoard.communityBoard;
 import static zerogreen.eco.entity.userentity.QMember.member;
 
@@ -34,6 +37,8 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     }
 
     QBoardReply subReply = new QBoardReply("subReply");
+    QBoardImage subImage = new QBoardImage("subImage");
+    QCommunityLike subLike = new QCommunityLike("subLike");
 
     @Override
     public CommunityResponseDto findDetailBoard(Long boardId) {
@@ -41,17 +46,17 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     }
 
     /*
-     * 커뮤니티 게시판 전체 리스트
+     * 커뮤니티 게시판 전체 리스트 (검색)
      * */
     @Override
     public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable, SearchCondition condition) {
-        QCommunityLike subLike = new QCommunityLike("subLike");
 
         List<CommunityResponseDto> content = queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
                         communityBoard.text,
                         member.nickname,
+                        member.vegetarianGrade,
                         communityBoard.category,
                         communityBoard.modifiedDate,
                         communityBoard.count,
@@ -64,10 +69,12 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                                 JPAExpressions
                                         .select(count(subReply.id))
                                         .from(subReply, subReply)
-                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount")
+                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount"),
+                        subImage.thumbnailName
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
+                .leftJoin(communityBoard.imageList, subImage)
                 .where(
                         isSearch(condition.getSearchType(), condition.getContent())
                 )
@@ -83,17 +90,15 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
         return new PageImpl<>(content, pageable, countQuery.size());
     }
 
-    ;
-
     @Override
     public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable) {
-        QCommunityLike subLike = new QCommunityLike("subLike");
 
         List<CommunityResponseDto> content = queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
                         communityBoard.text,
                         member.nickname,
+                        member.vegetarianGrade,
                         communityBoard.category,
                         communityBoard.modifiedDate,
                         communityBoard.count,
@@ -106,10 +111,12 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                                 JPAExpressions
                                         .select(count(subReply.id))
                                         .from(subReply, subReply)
-                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount")
+                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount"),
+                        subImage.thumbnailName
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
+                .leftJoin(communityBoard.imageList, subImage)
                 .orderBy(communityBoard.createdDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -127,13 +134,13 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
      * */
     @Override
     public Slice<CommunityResponseDto> findByCategory(Pageable pageable, Category category) {
-        QCommunityLike subLike = new QCommunityLike("subLike");
 
         List<CommunityResponseDto> content = queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
                         communityBoard.text,
                         member.nickname,
+                        member.vegetarianGrade,
                         communityBoard.category,
                         communityBoard.modifiedDate,
                         communityBoard.count,
@@ -146,10 +153,12 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                                 JPAExpressions
                                         .select(count(subReply.id))
                                         .from(subReply, subReply)
-                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount")
+                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount"),
+                        subImage.thumbnailName
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
+                .leftJoin(communityBoard.imageList, subImage).distinct()
                 .where(communityBoard.category.eq(category))
                 .orderBy(communityBoard.createdDate.desc())
                 .offset(pageable.getOffset())
@@ -169,14 +178,13 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
      * */
     @Override
     public CommunityResponseDto findDetailView(Long id) {
-        QCommunityLike subLike = new QCommunityLike("subLike");
-        QBoardReply subReply = new QBoardReply("subReply");
 
         return queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
                         communityBoard.text,
                         member.nickname,
+                        member.vegetarianGrade,
                         communityBoard.category,
                         communityBoard.modifiedDate,
                         communityBoard.count,
@@ -189,10 +197,12 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                                 JPAExpressions
                                         .select(count(subReply.id))
                                         .from(subReply, subReply)
-                                        .where(subReply.board.id.eq(id)), "replyCount")
+                                        .where(subReply.board.id.eq(id)), "replyCount"),
+                        subImage.thumbnailName
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
+                .leftJoin(communityBoard.imageList, subImage)
                 .where(communityBoard.id.eq(id))
                 .fetchFirst();
     }
@@ -208,6 +218,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                 .where(communityBoard.id.eq(boardId))
                 .fetchFirst();
     }
+
 
     /*
      * 게시판 조회수
