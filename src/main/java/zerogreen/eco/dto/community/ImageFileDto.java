@@ -25,4 +25,8 @@ public class ImageFileDto {
         this.uploadFileName = image.getUploadFileName();
         this.filePath = image.getFilePath();
     }
+
+    public ImageFileDto(String storeFileName) {
+        this.thumbnailImage = "thumb_" + storeFileName;
+    }
 }

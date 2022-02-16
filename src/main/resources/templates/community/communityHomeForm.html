@@ -181,7 +181,8 @@
                 <!--리스트 오른쪽-->
                 <div id="content-right">
                     <!--썸네일-->
-                    <div class="thumbnail-box">
+                    <div class="thumbnail-box" >
+                        <img th:src="@{/community/images/{imageFile}(imageFile=${community.imageName})}">
                     </div>
                 </div>
             </div>

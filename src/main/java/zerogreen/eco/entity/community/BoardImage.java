@@ -19,6 +19,7 @@ public class BoardImage extends BaseTimeEntity {
 
     private String uploadFileName;
     private String storeFileName;
+    private String thumbnailName;
     private String filePath;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,16 +27,18 @@ public class BoardImage extends BaseTimeEntity {
     private CommunityBoard board;
 
     // 파일 폴더 저장 (FileService)
-    public BoardImage(String uploadFileName, String storeFileName, String filePath) {
+    public BoardImage(String uploadFileName, String storeFileName, String filePath, String thumbnailName) {
         this.uploadFileName = uploadFileName;
         this.storeFileName = storeFileName;
+        this.thumbnailName = thumbnailName;
         this.filePath = filePath;
     }
 
     // 파일 DB 저장
-    public BoardImage(String uploadFileName, String storeFileName, String filePath, CommunityBoard board) {
+    public BoardImage(String uploadFileName, String storeFileName, String filePath, CommunityBoard board, String thumbnailName) {
         this.uploadFileName = uploadFileName;
         this.storeFileName = storeFileName;
+        this.thumbnailName = thumbnailName;
         this.filePath = filePath;
         this.board = board;
     }

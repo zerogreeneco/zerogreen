@@ -132,6 +132,10 @@ public class DetailController {
                             @Validated @ModelAttribute("review") DetailReviewDto reviewDto, BindingResult bindingResult,
                             @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
 
+        if (bindingResult.hasErrors()) {
+            log.info("REVIEW ERROR={}", bindingResult.getAllErrors());
+        }
+
         List<ReviewImage> reviewImages = reviewImageService.reviewImageFiles(reviewDto.getImageFiles());
         detailReviewService.saveImageReview(reviewDto.getReviewText(), sno, principalDetails.getBasicUser(), reviewImages);
 
