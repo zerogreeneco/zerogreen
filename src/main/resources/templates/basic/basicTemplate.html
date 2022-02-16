@@ -45,9 +45,12 @@
                 <!--After Login-->
                 <div sec:authorize="isAuthenticated()">
                     <button id="btn-logout" class="btn-login" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
-                        <img id="profile" th:src="@{'/bootstrap/images/profile/' +${session.veganGrade}+'.png'}"
+                        <img class="profile" th:src="@{'/bootstrap/images/profile/' +${session.veganGrade}+'.png'}"
                              th:onclick="|location.href='@{/members/memberMyInfo}'|"
                              sec:authorize="hasRole('ROLE_USER')"/>
+                        <img class="profile" th:src="@{/bootstrap/images/profile/STORE.png}"
+                             th:onclick="|location.href='@{/store/storeMyInfo}'|"
+                             sec:authorize="hasRole('ROLE_STORE')"/>
                 </div>
             </header>
         </div>
