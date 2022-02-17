@@ -44,18 +44,23 @@ public class StoreController {
                                   Model model, StoreDto storeDto){
         StoreDto update = storeMemberService.updateStore(principalDetails.getBasicUser().getId(), storeDto);
         model.addAttribute("store", update);
+        List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
+        model.addAttribute("tableList", tableList);
 
         return "store/updateStoreInfo";
     }
 
-    @RequestMapping(value = "/update/table", method = RequestMethod.POST)
+    @PostMapping("/update/table")
     @ResponseBody
     public String updateMenuList(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                 Model model, StoreMenuDto storeMenuDto, HttpServletRequest request) {
+                                 Model model, HttpServletRequest request) {
         String name = request.getParameter("name");
         int price = Integer.parseInt(request.getParameter("price"));
         VegetarianGrade vegetarianGrade = VegetarianGrade.valueOf(request.getParameter("grade"));
-       storeMenuService.updateStoreMenu(principalDetails.getId(), name, price, vegetarianGrade);
+        storeMenuService.updateStoreMenu(principalDetails.getId(), name, price, vegetarianGrade);
+
+        List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
+        model.addAttribute("tableList", tableList);
 
         return "store/updateStoreInfo :: #list-table";
     }
