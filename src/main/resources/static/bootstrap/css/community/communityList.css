@@ -54,7 +54,7 @@ ul.category-list li a {
     .category-list { margin-left: 20px; }
 }
 
-#list-wrapper {
+.list-wrapper {
     display: table;
     margin: 0 auto;
     border-bottom: 1px solid lightgray;
@@ -135,24 +135,33 @@ ul.category-list li a {
     position: fixed;
     bottom: 16%;
     right: 4%;
-    width: 70px;
-    height: 70px;
+    width:60px;
+    height: 60px;
     border-radius: 50px;
     background: #f1c40f;
-    padding: 5px;
+    padding: 0 !important;
+    z-index: 999;
+}
+#write-btn img {
+    width: 30px;
+    margin-top: 4px;
 }
 
 #top-btn {
     position: fixed;
     bottom: 5%;
     right: 4%;
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     border-radius: 50px;
     background: #f1c40f;
-    padding: 5px;
+    padding: 0 !important;
+    z-index: 999;
 }
-
+#top-btn img {
+    width: 30px;
+    margin-top: 4px;
+}
 /* 게시물 정보 */
 .number-section {
     margin: 5px 0 0 5px;
@@ -181,7 +190,7 @@ ul.category-list li a {
     height: 18px;
 }
 
-.heart-icon {
+.heart-icon, .msg-icon {
     display: inline-block;
     width: 15px;
     height: 15px;

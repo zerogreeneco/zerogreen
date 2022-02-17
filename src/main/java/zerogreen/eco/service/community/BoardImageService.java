@@ -2,6 +2,7 @@ package zerogreen.eco.service.community;
 
 import zerogreen.eco.dto.community.ImageFileDto;
 
+import java.awt.*;
 import java.util.List;
 
 public interface BoardImageService {
@@ -11,4 +12,5 @@ public interface BoardImageService {
     void modifyImage(Long boardId, String storeName, String originalName, String path);
 
     void deleteImage(Long imageId, String filePath);
+
 }

@@ -45,13 +45,6 @@ public class MemberController {
         return new PasswordUpdateDto();
     }
 
-//    @ModelAttribute("vegan")
-//    private VegetarianGrade[] vegetarianGrades(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-//        VegetarianGrade[] vegans = VegetarianGrade.values();
-//        return vegans;
-//    }
-
-
     @GetMapping("/account")
     public String memberInfoForm(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                  MemberUpdateDto memberUpdateDto, PasswordUpdateDto passwordUpdateDto, Model model) {
@@ -69,7 +62,7 @@ public class MemberController {
     /*
     * 회원 정보 수정
     * */
-    @PostMapping("/account")
+    @PatchMapping("/account")
     @ResponseBody
     public String memberInfoUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                     @Validated @ModelAttribute("member") MemberUpdateDto memberUpdateResponse, BindingResult bindingResult,

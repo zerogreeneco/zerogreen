@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import zerogreen.eco.dto.community.CommunityReplyDto;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
@@ -34,12 +34,12 @@ import zerogreen.eco.service.file.FileService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -58,6 +58,11 @@ public class CommunityController {
         return categories;
     }
 
+    @GetMapping("/test")
+    public String testForm() {
+        return "community/homeTest";
+    }
+
     /* 커뮤티니 메인 화면 및 카테고리 페이징 */
     @GetMapping("")
     public String communityHomeForm(@RequestParam(value = "category", required = false) Category category,
@@ -66,14 +71,15 @@ public class CommunityController {
                                     @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
+        Slice<CommunityResponseDto> allCommunityBoard = boardService.findAllCommunityBoard(pageable);
+        List<CommunityResponseDto> collect = allCommunityBoard.getContent().stream().map(o -> new CommunityResponseDto(o.getId(), o.getText(), o.getNickname(), o.getVegetarianGrade(), o.getCategory(), o.getModifiedDate(), o.getCount(), o.getLike(), o.getReplyCount(), o.getImageName())).collect(Collectors.toList());
+        log.info("COLLECT!!!!!!!!!!!!!={}", collect);
         model.addAttribute("searchType", searchType);
         model.addAttribute("keyword", keyword);
 
-        log.info("CATEGORY={}", category);
-
         if (category == null) {
             if (searchType == null) {
-                model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable));
+                model.addAttribute("communityList", allCommunityBoard);
             } else {
                 model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable, new SearchCondition(keyword, searchType)));
             }
@@ -128,7 +134,7 @@ public class CommunityController {
 
     @PostMapping("/{imageId}/imageDelete")
     @ResponseBody
-    public ResponseEntity<Map<String, String>> imageDelete(@PathVariable("imageId")Long imageId,
+    public ResponseEntity<Map<String, String>> imageDelete(@PathVariable("imageId") Long imageId,
                                                            HttpServletRequest request) {
         HashMap<String, String> resultMap = new HashMap<>();
         String filePath = request.getParameter("filePath");
@@ -259,8 +265,8 @@ public class CommunityController {
     }
 
     /*
-    * 댓글 삭제
-    * */
+     * 댓글 삭제
+     * */
     @DeleteMapping("/{replyId}/delete")
     @ResponseBody
     public ResponseEntity<Map<String, String>> deleteReply(@PathVariable("replyId") Long replyId) {

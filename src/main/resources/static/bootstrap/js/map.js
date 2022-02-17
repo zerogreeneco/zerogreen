@@ -57,7 +57,7 @@ window.onload = function(){
         // 지도 중심좌표를 접속위치로 변경합니다
         map.setCenter(locPosition);
 
-                var imageSrc = "/zerogreen/bootstrap/images/map/11.png", // 마커이미지의 주소입니다
+                var imageSrc = "/zerogreen/bootstrap/images/map/greenpin.png", // 마커이미지의 주소입니다
                     imageSize = new kakao.maps.Size(40, 40), // 마커이미지의 크기입니다
                     imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
@@ -82,8 +82,8 @@ window.onload = function(){
         for(var j=0;j<=mapSize;j++){
 
         var geocoder = new kakao.maps.services.Geocoder();
-        var imageSrc = "/zerogreen/bootstrap/images/map/11.png", // 마커이미지의 주소입니다
-            imageSize = new kakao.maps.Size(40, 40), // 마커이미지의 크기입니다
+        var imageSrc = "/zerogreen/bootstrap/images/map/green.png", // 마커이미지의 주소입니다
+            imageSize = new kakao.maps.Size(15, 15), // 마커이미지의 크기입니다
             imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 //            if (mapAddress[j].value == mapEco[j].value){
 //                imageSrc = "/zerogreen/bootstrap/images/map/shop.png";

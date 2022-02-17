@@ -12,4 +12,5 @@ public interface BoardImageRepository extends JpaRepository<BoardImage, Long> {
     @Query("SELECT image " +
             "FROM BoardImage image WHERE image.board.id=:boardId ")
     List<BoardImage> findByBoard(@Param("boardId") Long boardId);
+
 }

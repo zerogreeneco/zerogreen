@@ -60,4 +60,10 @@ public class IndexController {
         return "개인정보";
     }
 
+    @GetMapping("/chat/chatIndex")
+    public void chat(){
+    }
+    @GetMapping("/chat/chatting")
+    public void chat2(){
+    }
 }

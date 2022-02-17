@@ -14,13 +14,19 @@ public class ImageFileDto {
 
     private Long id;
     private String storeFileName;
+    private String thumbnailImage;
     private String uploadFileName;
     private String filePath;
 
     public ImageFileDto(BoardImage image) {
         this.id = image.getId();
-        this.storeFileName = "thumb_" + image.getStoreFileName();
+        this.storeFileName = image.getStoreFileName();
+        this.thumbnailImage = "thumb_" + image.getStoreFileName();
         this.uploadFileName = image.getUploadFileName();
         this.filePath = image.getFilePath();
+    }
+
+    public ImageFileDto(String storeFileName) {
+        this.thumbnailImage = "thumb_" + storeFileName;
     }
 }

@@ -255,5 +255,130 @@ $(document).ready(function(e){
     }); // end save reviews
 */
 
+// Preview for review Images
+$("input[type='file']").change(function(e){
+      //div 내용 비워주기
+      $('#preview').empty();
+
+      var files = e.target.files;
+      var arr =Array.prototype.slice.call(files);
+
+      preview(arr);
+    });//file change
+
 
 }); //end script
+
+
+// Preview for review Images
+function preview(arr){
+    arr.forEach(function(f){
+
+    //파일명이 길면 파일명...으로 처리
+    let fileName = f.name;
+
+    if(fileName.length > 10){
+        fileName = fileName.substring(0,7)+"...";
+    }
+
+    //div에 이미지 추가
+    let str = '<div style="display: inline-flex; padding: 10px;"><li>';
+    str += '<span>'+fileName+'</span><br>';
+
+    //이미지 파일 미리보기
+    if(f.type.match('image.*')){
+        let reader = new FileReader(); //파일을 읽기 위한 FileReader객체 생성
+
+        reader.onload = function (e) { //파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
+        //str += '<button type="button" class="delBtn" value="'+f.name+'" style="background: red">x</button><br>';
+        str += '<img src="'+e.target.result+'" width=100 height=100>';
+        str += '</li></div>';
+
+        $(str).appendTo('#preview');
+        }
+
+        reader.readAsDataURL(f);
+/*
+    }else{
+        str += '<img src="/resources/img/fileImg.png" title="'+f.name+'" width=100 height=100 />';
+        $(str).appendTo('#preview');
+*/
+        }
+    });//arr.forEach
+} //end function(preview)
+
+
+/*
+function showResult(uploadResultArr1){
+    var uploadUL = $(".ul1");
+    var str = "";
+    $(uploadResultArr1).each(function(i,obj){
+        str += "<li data-name='" + obj.fileName + "' data-path='"
+            + obj.sfolderPath + "' data-uuid='"+obj.suuid+"'>";
+        str += "<div>";
+        str += "<button type='button' data-file='" + obj.imageURL
+            + "\' class='btn-warning btn-sm'>X</button><br>";
+        str += "<img src='"+contextPath+"/storeDisplay?fileName="+obj.thumbnailURL+"'>";;
+        str += "</div>";
+        str += "</li>";
+    });
+    uploadUL.append(str);
+}
+*/
+
+
+
+//이하 성공한 것들
+
+/*
+//다중파일 ** 뷰에 onchange="getPreview(event)" 추가 **
+function getPreview(event){
+    for(let image of event.target.files){
+        let reader = new FileReader();
+
+        reader.onload = function(event){
+            let img = document.createElement("img");
+
+            img.setAttribute("src", event.target.result);
+            document.querySelector("div#preview").appendChild(img);
+        };
+
+        console.log("FR"+image);
+        reader.readAsDataURL(image);
+    }
+}
+*/
+
+
+/*
+//단일 파일 ** 뷰에 onchange="getPreview(this,$('#preview'))" 추가 **
+function getPreview(html, expression) {
+    if (html.files && html.files[0]) {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+        $(expression).html('<img src="'+ e.target.result +'"/>');
+      }
+      reader.readAsDataURL(html.files[0]);
+  }
+}
+*/
+
+/*
+//이거 안쓸거야... 단일파일..
+//onload 밖에 있어야 함
+function getPreview(input, expression) {
+
+    if (input.files && input.files[0]) {
+        let reader = new FileReader();
+
+        reader.onload = function (e) {
+        $(expression).attr('src', e.target.result);
+      }
+      reader.readAsDataURL(input.files[0]);
+  }
+}
+//onload안에 있어야 함
+$('#img-input').change(function(){
+    getPreview(this, '#imgT');
+});
+*/

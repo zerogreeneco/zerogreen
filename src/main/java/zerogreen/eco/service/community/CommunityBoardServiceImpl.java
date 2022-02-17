@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.dto.search.SearchCondition;
-import zerogreen.eco.dto.search.SearchType;
 import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.community.CommunityBoard;
@@ -54,7 +53,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
         if (imageList.size() != 0) {
             for (BoardImage boardImage : imageList) {
                 boardImageRepository.save(new BoardImage(
-                        boardImage.getUploadFileName(), boardImage.getStoreFileName(), boardImage.getFilePath(), saveBoard));
+                        boardImage.getUploadFileName(), boardImage.getStoreFileName(), boardImage.getFilePath(), saveBoard, "thumb_"+boardImage.getStoreFileName()));
             }
         }
 

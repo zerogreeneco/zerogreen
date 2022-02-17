@@ -1,5 +1,5 @@
 $(function(){
-    $(".shopList-box").click(function(){
+    $("#delete-btn").click(function(){
         $("#popup-wrap").show();
     });
 

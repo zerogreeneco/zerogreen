@@ -17,6 +17,12 @@ Store Update
 }
 
 /*가게소개*/
+#store-name {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 15px;
+}
+
 .description{
     height: 150px;
 }
