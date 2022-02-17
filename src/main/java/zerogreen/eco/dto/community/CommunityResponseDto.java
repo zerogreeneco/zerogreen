@@ -29,6 +29,7 @@ public class CommunityResponseDto {
     private Long like;
 
     private String nickname;
+    private Long memberId;
     private VegetarianGrade vegetarianGrade;
 
     private Long replyCount;
@@ -45,12 +46,14 @@ public class CommunityResponseDto {
         this.nickname = nickname;
     }
 
-    public CommunityResponseDto(Long id, String text, String nickname, VegetarianGrade vegetarianGrade, Category category, LocalDateTime modifiedDate,
+    public CommunityResponseDto(Long id, String text, String nickname, VegetarianGrade vegetarianGrade, Long memberId, Category category, LocalDateTime modifiedDate,
                                 int count, Long like, Long replyCount) {
+
         this.id = id;
         this.text = text;
         this.nickname = nickname;
         this.vegetarianGrade = vegetarianGrade;
+        this.memberId = memberId;
         this.category = category;
         this.modifiedDate = modifiedDate;
         this.count = count;

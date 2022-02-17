@@ -4,6 +4,7 @@ import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -51,28 +52,8 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     @Override
     public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable, SearchCondition condition) {
 
-        List<CommunityResponseDto> content = queryFactory
-                .select(Projections.constructor(CommunityResponseDto.class,
-                        communityBoard.id,
-                        communityBoard.text,
-                        member.nickname,
-                        member.vegetarianGrade,
-                        communityBoard.category,
-                        communityBoard.modifiedDate,
-                        communityBoard.count,
-                        ExpressionUtils.as(
-                                JPAExpressions
-                                        .select(count(subLike.id))
-                                        .from(subLike, subLike)
-                                        .where(subLike.board.id.eq(communityBoard.id)), "likeCount"),
-                        ExpressionUtils.as(
-                                JPAExpressions
-                                        .select(count(subReply.id))
-                                        .from(subReply, subReply)
-                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount")
-                ))
-                .from(communityBoard, communityBoard)
-                .join(communityBoard.member, member)
+        List<CommunityResponseDto> content =
+                joinDuplicate(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id))
                 .where(
                         isSearch(condition.getSearchType(), condition.getContent())
                 )
@@ -91,28 +72,8 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     @Override
     public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable) {
 
-        List<CommunityResponseDto> content = queryFactory
-                .select(Projections.constructor(CommunityResponseDto.class,
-                        communityBoard.id,
-                        communityBoard.text,
-                        member.nickname,
-                        member.vegetarianGrade,
-                        communityBoard.category,
-                        communityBoard.modifiedDate,
-                        communityBoard.count,
-                        ExpressionUtils.as(
-                                JPAExpressions
-                                        .select(count(subLike.id))
-                                        .from(subLike, subLike)
-                                        .where(subLike.board.id.eq(communityBoard.id)), "likeCount"),
-                        ExpressionUtils.as(
-                                JPAExpressions
-                                        .select(count(subReply.id))
-                                        .from(subReply, subReply)
-                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount")
-                ))
-                .from(communityBoard, communityBoard)
-                .join(communityBoard.member, member)
+        List<CommunityResponseDto> content =
+                joinDuplicate(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id))
                 .orderBy(communityBoard.createdDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -131,28 +92,8 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     @Override
     public Slice<CommunityResponseDto> findByCategory(Pageable pageable, Category category) {
 
-        List<CommunityResponseDto> content = queryFactory
-                .select(Projections.constructor(CommunityResponseDto.class,
-                        communityBoard.id,
-                        communityBoard.text,
-                        member.nickname,
-                        member.vegetarianGrade,
-                        communityBoard.category,
-                        communityBoard.modifiedDate,
-                        communityBoard.count,
-                        ExpressionUtils.as(
-                                JPAExpressions
-                                        .select(count(subLike.id))
-                                        .from(subLike, subLike)
-                                        .where(subLike.board.id.eq(communityBoard.id)), "likeCount"),
-                        ExpressionUtils.as(
-                                JPAExpressions
-                                        .select(count(subReply.id))
-                                        .from(subReply, subReply)
-                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount")
-                ))
-                .from(communityBoard, communityBoard)
-                .join(communityBoard.member, member)
+        List<CommunityResponseDto> content =
+                joinDuplicate(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id))
                 .where(communityBoard.category.eq(category))
                 .orderBy(communityBoard.createdDate.desc())
                 .offset(pageable.getOffset())
@@ -173,12 +114,19 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     @Override
     public CommunityResponseDto findDetailView(Long id) {
 
+        return joinDuplicate(subLike.board.id.eq(id), subReply.board.id.eq(id))
+                .where(communityBoard.id.eq(id))
+                .fetchFirst();
+    }
+
+    private JPAQuery<CommunityResponseDto> joinDuplicate(BooleanExpression id, BooleanExpression id1) {
         return queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
                         communityBoard.text,
                         member.nickname,
                         member.vegetarianGrade,
+                        member.id,
                         communityBoard.category,
                         communityBoard.modifiedDate,
                         communityBoard.count,
@@ -186,17 +134,15 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                                 JPAExpressions
                                         .select(count(subLike.id))
                                         .from(subLike, subLike)
-                                        .where(subLike.board.id.eq(id)), "likeCount"),
+                                        .where(id), "likeCount"),
                         ExpressionUtils.as(
                                 JPAExpressions
                                         .select(count(subReply.id))
                                         .from(subReply, subReply)
-                                        .where(subReply.board.id.eq(id)), "replyCount")
+                                        .where(id1), "replyCount")
                 ))
                 .from(communityBoard, communityBoard)
-                .join(communityBoard.member, member)
-                .where(communityBoard.id.eq(id))
-                .fetchFirst();
+                .join(communityBoard.member, member);
     }
 
     @Override
