@@ -81,6 +81,24 @@
     text-align: left;
 }
 
+.menu1 {
+    width: 100px;
+}
+
+.menu2 {
+    width: 70px;
+    color: #a1a1a1;
+}
+
+.menu3 {
+    width: 40px;
+}
+
+.veganImg {
+    width: 23px;
+    height: 23px;
+}
+
 /* 3.5열 */
 .thr-bottom {
     text-align: center;

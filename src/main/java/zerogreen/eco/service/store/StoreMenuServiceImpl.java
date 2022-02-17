@@ -40,4 +40,22 @@ public class StoreMenuServiceImpl implements StoreMenuService {
     public void menuDelete(Long id) {
         storeMenuRepository.delete(id);
     }
+
+    //일단 예진이
+    @Override
+    public List<StoreMenuDto> getMenuByStore(Long sno) {
+        List<StoreMenu> tableList = storeMenuRepository.getMenuByStore(sno);
+        return tableList.stream().map(StoreMenuDto::new).collect(Collectors.toList());
+    }
+
+    //테스트 데이터
+    @Transactional
+    @Override
+    public Long saveStoreMenuTest(StoreMenu storeMenu) {
+        StoreMember storeMember = storeMemberRepository.findById(storeMenu.getStoreMember().getId()).orElseThrow();
+
+        return storeMenuRepository.save(new StoreMenu(storeMenu.getMenuName(), storeMenu.getMenuPrice(), storeMenu.getVegetarianGrade() ,storeMember))
+                .getId();
+    }
+
 }
