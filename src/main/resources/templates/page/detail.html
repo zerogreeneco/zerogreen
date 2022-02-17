@@ -75,15 +75,15 @@
             <div class="detail-thr">
                 <!-- 3열 좌측 -->
                 <div class="thr-thr inline">
-                    <div class="thr thr-left temp2">
+                    <div class="thr thr-left">
                         <div th:each="menu: ${menuList}">
                             <span>
                                 <img th:src="@{'/bootstrap/images/profile/' +${menu.vegetarianGrade}+'.png'}"
-                                 width="17px" height="17px">
+                                 class="veganImg">
                             </span>
-                            <span th:text="${menu.menuName}"></span>
-                            <span>-----------</span>
-                            <span th:text="${menu.menuPrice}"></span>
+                            <span class="inline menu1" th:text="${menu.menuName}"></span>
+                            <span class="inline menu2">-----------</span>
+                            <span class="inline menu3" th:text="${menu.menuPrice}"></span>
                         </div>
                     </div>
                 </div>

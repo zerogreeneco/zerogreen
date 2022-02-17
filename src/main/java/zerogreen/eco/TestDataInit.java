@@ -239,7 +239,7 @@ public class TestDataInit {
 
             StoreMenu storeMenu1 = new StoreMenu("menu1-1",1000,VegetarianGrade.LACTO, foodTest1);
             storeMenuService.saveStoreMenuTest(storeMenu1);
-            StoreMenu storeMenu11 = new StoreMenu("menu1-2 여러분 사랑해",1000,VegetarianGrade.PLEXITARIAN, foodTest1);
+            StoreMenu storeMenu11 = new StoreMenu("menu1-2 Luv",1000,VegetarianGrade.PLEXITARIAN, foodTest1);
             storeMenuService.saveStoreMenuTest(storeMenu11);
             StoreMenu storeMenu2 = new StoreMenu("menu2-1",5000,VegetarianGrade.PLEXITARIAN, generalTest1);
             storeMenuService.saveStoreMenuTest(storeMenu2);
