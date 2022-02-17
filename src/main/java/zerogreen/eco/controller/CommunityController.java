@@ -72,12 +72,12 @@ public class CommunityController {
 
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
         Slice<CommunityResponseDto> allCommunityBoard = boardService.findAllCommunityBoard(pageable);
-        List<CommunityResponseDto> collect = allCommunityBoard.getContent()
-                .stream()
-                .map(o -> new CommunityResponseDto(o.getId(), o.getText(), o.getNickname(), o.getVegetarianGrade(),
-                        o.getCategory(), o.getModifiedDate(), o.getCount(), o.getLike(), o.getReplyCount()))
-                .collect(Collectors.toList());
-        log.info("COLLECT!!!!!!!!!!!!!={}", collect);
+//        List<CommunityResponseDto> collect = allCommunityBoard.getContent()
+//                .stream()
+//                .map(o -> new CommunityResponseDto(o.getId(), o.getText(), o.getNickname(), o.getVegetarianGrade(),
+//                        o.getCategory(), o.getModifiedDate(), o.getCount(), o.getLike(), o.getReplyCount()))
+//                .collect(Collectors.toList());
+//        log.info("COLLECT!!!!!!!!!!!!!={}", collect);
         model.addAttribute("searchType", searchType);
         model.addAttribute("keyword", keyword);
 

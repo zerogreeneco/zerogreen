@@ -22,94 +22,45 @@
                             console.log(contentElement.category);
                             console.log(contentElement.nickname);
                             console.log(contentElement.like);
-                            html += "<div class=\"cm-content\">\n"
-                            html += "<div id='content-left'>";
-                            html += "<div class='main-list-category'>";
+                            html += "<div class=\"list-wrapper\">"
+                            html += "<div class=\"cm-content\">\n";
+                            html += "<div id=\"content-left\">";
+                            html += "<div class=\"main-list-category\">";
                             html += "<span>";
-                            // url X
-                            html += "<a class='cm-category'>" + contentElement.category + "</a>";
-                            html += " </span>";
-                            html += "<div class='main-list-text'>";
-                            // url X
-                            html += "<p><a>"+contentElement.text+"</a></p>";
+                            html += "<div class=\"main-list-text\">";
+                            html +="<p><a >"+contentElement.category+"</a></p>";
+                            html += "</span>";
+                            html += "<div class=\"main-list-text\">";
+                            html += "<p><a>"+contentElement.text+"</a></p>"
+                            html += "</div>";
+                            html += "</div>";
+                            html += "<div>";
+                            html += "<div class=\"writer-section\">";
+                            html += "<div class=\"main-list-nickname\" >"+contentElement.nickname+"</div>";
+                            html += "</div>";
+                            html += "<div class=\"number-section\">";
+                            html += "<span>";
+                            html += "<span class=\"number\">"+contentElement.count+"</span>";
+                            html += "</span>";
+                            html += "<span class=\"like-count\">";
+                            html += "<span class=\"test-count number\">"+contentElement.like+"</span>";
+                            html += "</span>";
+                            html += "<span>";
+                            html += "<span class=\"number\">"+contentElement.replyCount+"</span>"
+                            html += "</span>";
                             html += "</div>";
                             html += "</div>";
                             html += "</div>";
-                            html += "<div class='writer-section'>";
-                            html += "<div class='main-list-nickname'>" + contentElement.nickname + "</div>";
-                            html += "<span class='test-count number'>" + contentElement.like + "</span>";
-                            html += "</div>";
+                            html += "<button type='button' class='more-list'>더보기</button>";
 
                         }
                             $("#content").append(html);
                     });
             });
+
+            
         </script>
-        <!-- 리스트 -->
-        <div class="list-wrapper" th:each="community : ${communityList}">
-            <input type="hidden" th:value="${community.id}" class="list-board-id">
 
-            <div class="cm-content">
-                <!--리스트 왼쪽-->
-<!--/*                <div id="content-left">
-                    <div class="main-list-category">
-                        &lt;!&ndash; 게시글 카테고리 라벨 &ndash;&gt;
-                        <span>
-                            <a th:href="@{/community(category=${community.category.name()}) }"
-                               th:text="${community.category.categoryName}" class="cm-category">카테고리</a>
-                        </span>
-                        &lt;!&ndash; 게시글 미리보기 &ndash;&gt;
-                        <div class="main-list-text">
-                            <p><a th:href="@{/community/read/{boardId}(boardId = ${community.id})}"
-                                  th:text="${community.text}">글 내용</a></p>
-                        </div>
-                    </div>
-
-                    <div>
-
-                        &lt;!&ndash; 게시자 &ndash;&gt;
-                        <div class="writer-section">
-                            <img class="main-list-profile" th:src="@{'/bootstrap/images/profile/' +${community.vegetarianGrade}+'.png'}" width="15px" height="15px">
-                            <div class="main-list-nickname" th:text="${community.nickname}">닉네임</div>
-                        </div>
-
-                        <div class="number-section">
-                            &lt;!&ndash; 조회수 &ndash;&gt;
-                            <span>
-                                <img class="eye-icon" th:src="@{/bootstrap/images/list/visibility.png}">
-                                <span class="number">[[${community.count}]]</span>
-                            </span>
-                            &lt;!&ndash; 회원 좋아요 &ndash;&gt;
-                            <span sec:authorize="isAuthenticated()" id="like-wrapper">
-                                <span class="like-count">
-                                    <span class="main-like-btn">
-                                        <img class="like-img heart-icon" th:attr="src = @{/bootstrap/images/like/disLike.png}">
-                                    </span>
-                                    <span class="test-count number">[[${community.like}]]</span>
-                                </span>
-                            </span>
-                            &lt;!&ndash; 비회원 좋아요 &ndash;&gt;
-                            <span sec:authorize="isAnonymous()">
-                                <img class="like-img heart-icon" th:attr="src = @{/bootstrap/images/like/disLike.png}">
-                                <span class="number">[[${community.like}]]</span>
-                            </span>
-                            &lt;!&ndash; 댓글수 &ndash;&gt;
-                            <span>
-                                <img class="msg-icon" th:src="@{/bootstrap/images/etc/bubble.png}">
-                                <span class="number">[[${community.replyCount}]]</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                &lt;!&ndash;리스트 오른쪽&ndash;&gt;
-                <div id="content-right">
-                    &lt;!&ndash;썸네일&ndash;&gt;
-                    <div class="thumbnail-box" >
-                        <img th:src="@{/community/images/{imageFile}(imageFile=${community.imageName})}">
-                    </div>
-                </div>*/-->
-            </div>
-        </div>
 
     </th:block>
 </th:block>
