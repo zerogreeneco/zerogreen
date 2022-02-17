@@ -16,6 +16,7 @@ import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.detail.ReviewImageDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.dto.store.StoreDto;
+import zerogreen.eco.dto.store.StoreMenuDto;
 import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.security.auth.PrincipalDetails;
@@ -23,6 +24,7 @@ import zerogreen.eco.security.auth.PrincipalUser;
 import zerogreen.eco.service.detail.DetailReviewService;
 import zerogreen.eco.service.detail.LikesService;
 import zerogreen.eco.service.detail.ReviewImageService;
+import zerogreen.eco.service.store.StoreMenuService;
 import zerogreen.eco.service.user.StoreMemberService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +45,7 @@ public class DetailController {
     private final LikesService likesService;
     private final ReviewImageService reviewImageService;
     private final DetailReviewService detailReviewService;
+    private final StoreMenuService storeMenuService;
 
 /*
     @ModelAttribute("memberReview")
@@ -87,6 +90,10 @@ public class DetailController {
         Collections.reverse(result);
 */
 
+
+        //메뉴 리스트
+        List<StoreMenuDto> menuList = storeMenuService.getMenuByStore(sno);
+        model.addAttribute("menuList", menuList);
 
         //리뷰 이미지 리스트
         List<ReviewImageDto> reviewImages = reviewImageService.findByStore(sno);

@@ -62,14 +62,13 @@ public class StoreDto {
     //Detail에 Store데이터 가져오기
     @Builder
     public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo,
-                    Long count, List<StoreMenu> menuList) {
+                    Long count) {
 
         this.sno = sno;
         this.storeName = storeName;
         this.storeType = storeType;
         this.storeInfo = storeInfo;
         this.count = count;
-        this.menuList = menuList;
     }
 
 

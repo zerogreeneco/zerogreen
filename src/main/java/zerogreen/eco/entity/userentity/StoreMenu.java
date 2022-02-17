@@ -25,16 +25,16 @@ public class StoreMenu extends BaseTimeEntity {
     private int menuPrice;
 
     @Enumerated(EnumType.STRING)
-    private VegetarianGrade vegetarianGrades;
+    private VegetarianGrade vegetarianGrade;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private StoreMember storeMember;
 
-    public StoreMenu(String menuName, int menuPrice, VegetarianGrade vegetarianGrades, StoreMember storeMember) {
+    public StoreMenu(String menuName, int menuPrice, VegetarianGrade vegetarianGrade, StoreMember storeMember) {
         this.menuName = menuName;
         this.menuPrice = menuPrice;
-        this.vegetarianGrades = vegetarianGrades;
+        this.vegetarianGrade = vegetarianGrade;
         this.storeMember = storeMember;
     }
 
@@ -50,7 +50,7 @@ public class StoreMenu extends BaseTimeEntity {
     }
 
     public void setVegetarianGrades(VegetarianGrade vegetarianGrades) {
-        this.vegetarianGrades = vegetarianGrades;
+        this.vegetarianGrade = vegetarianGrade;
     }
 
     public void setStoreMember(StoreMember storeMember) {
