@@ -177,7 +177,8 @@
                                          th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
                                          th:value="${mImage.uploadFileName}"
                                          width="120px" height="120px" >
-                                    <span>[[${mImage.filePath}]]</span>
+                                    <input type="hidden" class="imgPath" th:value="${mImage.filePath}">
+                                    <input type="hidden" class="imgId" th:value="${mImage.id}">
                                 </div>
                             </div>
 
@@ -186,7 +187,7 @@
                             <div class="btn-Box">
                                 <span class="srv-toAdd inline mrv-btn" th:if="${rvMember == mReview.sno}">답글</span>
                                 <span class="mrv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.id}">수정</span>
-                                <span class="rv-delete mrv-delete inline mrv-btn" th:if="${rvMember} == ${mReview.id}">삭제</span>
+                                <span class="rv-delete mrv-delete inline mrv-btn" onclick="deleteImage(this)" th:if="${rvMember} == ${mReview.id}">삭제</span>
                             </div>
 
                             <!-- 스토어 리뷰 입력창 -->

@@ -40,7 +40,7 @@ $(document).ready(function(e){
 
 
     //edit member reviews
-    $(".mrv-modify").on("click", function(){
+   $(".mrv-modify").on("click", function(){
         let rno = $(this).parent().parent().children(".rno").text();
         let editText = $(this).parent().parent().children(".mrv-textarea");
         let deleteBtn = $(this).parent().children(".rv-delete");
@@ -73,10 +73,10 @@ $(document).ready(function(e){
             });
             count = 0;
         } //end else if
-    });// end edit member + store Reviews
+   });// end edit member + store Reviews
 
     // edit store Reviews
-    $(".srv-modify").on("click", function(){
+   $(".srv-modify").on("click", function(){
         let rno = $(this).parent().parent().children(".rno").text();
         let editText = $(this).parent().parent().children(".storeReviewText");
         let deleteBtn = $(this).parent().children(".rv-delete");
@@ -109,11 +109,11 @@ $(document).ready(function(e){
             });
             count = 0;
         } //end else if
-    });// end edit member + store Reviews
+   });// end edit member + store Reviews
 
 
     //delete member review
-    $(".mrv-delete").on("click", function(){
+   $(".mrv-delete").on("click", function(){
        let rno = $(this).parent().parent().children(".rno").text();
 
        $.ajax({
@@ -128,19 +128,18 @@ $(document).ready(function(e){
             .done(function (fragment) {
                 //$("#reviewList").replaceWith(fragment);
                 $(".review-cnt").html(Number(cnt.text())-1);
-                self.location.reload();
+                //self.location.reload();
             });
-    }); //delete member Review end
+   }); //delete member Review end
 
 
     //delete store review
-    $(".srv-delete").on("click", function(){
+   $(".srv-delete").on("click", function(){
        let srno = $(this).parent().parent().children(".srno").text();
 
        $.ajax({
             url: contextPath + "/deleteReview/"+srno ,
             type:"DELETE",
-            contentType:"application/x-www-form-urlencoded; charset=utf-8",
             contentType:"application/json; charset=utf-8",
             dataType:"json",
             data: JSON.stringify({
@@ -151,15 +150,41 @@ $(document).ready(function(e){
                 self.location.reload();
                 //$("#reviewList").replaceWith(fragment);
             });
-    }); //delete store Review end
+   }); //delete store Review end
+
+
+    ///delete Review Images
+/*
+   $(".mrv-delete").on("click", function(){
+       let parentChildren = $(this).parent().parent().children().children();
+       let id = parentChildren.children(".imgId").val();
+       let filePath = parentChildren.children(".imgPath").val();
+
+       $.ajax({
+            url: contextPath +"/"+ id + "/imageDelete",
+            type:"DELETE",
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            data: JSON.stringify({
+                id: id,
+                filePath: filePath
+            })
+            })
+            .done(function (data) {
+                if (data.key === "success") {
+                    alert("이미지가 삭제되었습니다.");
+                }
+            });
+   }); //delete Review Images end
+*/
 
 
     //textarea 자동 늘이기
-    $('textarea').on('keyup',function (e) {
+   $('textarea').on('keyup',function (e) {
         $(this).css('height', 'auto');
         $(this).height(this.scrollHeight);
-    });
-    $('textarea').keyup();
+   });
+   $('textarea').keyup();
 
 
     //리뷰이미지 슬라이드
@@ -260,11 +285,19 @@ $("input[type='file']").change(function(e){
       //div 내용 비워주기
       $('#preview').empty();
 
-      var files = e.target.files;
-      var arr =Array.prototype.slice.call(files);
+      let files = e.target.files;
+      let arr =Array.prototype.slice.call(files);
 
       preview(arr);
     });//file change
+
+$("#preview").on("click", "ul button", function() {
+    console.log("clickyyyyyyyyyyyy");
+    let files = e.target.files;
+});
+
+
+
 
 
 }); //end script
@@ -274,38 +307,52 @@ $("input[type='file']").change(function(e){
 function preview(arr){
     arr.forEach(function(f){
 
-    //파일명이 길면 파일명...으로 처리
-    let fileName = f.name;
-
-    if(fileName.length > 10){
-        fileName = fileName.substring(0,7)+"...";
-    }
 
     //div에 이미지 추가
-    let str = '<div style="display: inline-flex; padding: 10px;"><li>';
-    str += '<span>'+fileName+'</span><br>';
+    let str = '<div style="display: inline-flex; padding: 10px;"><ul>';
 
     //이미지 파일 미리보기
     if(f.type.match('image.*')){
         let reader = new FileReader(); //파일을 읽기 위한 FileReader객체 생성
 
         reader.onload = function (e) { //파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
-        //str += '<button type="button" class="delBtn" value="'+f.name+'" style="background: red">x</button><br>';
+
+        str += '<button type="button" class="previewDel" value="'+f.name+'" style="background: gray">X</button><br>';
         str += '<img src="'+e.target.result+'" width=100 height=100>';
-        str += '</li></div>';
+        str += '</ul></div>';
 
         $(str).appendTo('#preview');
         }
 
         reader.readAsDataURL(f);
-/*
-    }else{
-        str += '<img src="/resources/img/fileImg.png" title="'+f.name+'" width=100 height=100 />';
-        $(str).appendTo('#preview');
-*/
         }
     });//arr.forEach
 } //end function(preview)
+
+
+//리뷰 이미지 삭제
+function deleteImage(event) {
+       let parentChildren = $(event).parent().parent().children().children();
+       let id = parentChildren.children(".imgId").val();
+       let filePath = parentChildren.children(".imgPath").val();
+
+    $.ajax({
+        url: "/zerogreen/"+ id + "/imageDelete",
+        method: "post",
+        contentType:"application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify({
+            id: id,
+            filePath: filePath
+        })
+    })
+        .done(function (data) {
+            if (data.key === "success") {
+                alert("이미지가 삭제되었습니다.");
+            }
+        });
+}
+
 
 
 /*

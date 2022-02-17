@@ -48,6 +48,7 @@ public class DetailReview extends BaseTimeEntity {
     @JoinColumn(name = "parentReview")
     private List<DetailReview> nestedReviewList = new ArrayList<>();
 
+//    @OneToMany(mappedBy = "detailReview")
     @OneToMany(mappedBy = "detailReview", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
     private List<ReviewImage> imageList = new ArrayList<>();
 
