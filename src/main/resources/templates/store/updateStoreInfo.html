@@ -85,18 +85,18 @@
                         <div>
                             <label class="join-label">메뉴 목록</label>
                             <div class="table">
-                                <table id="list-table">
+                                <table>
                                     <tr>
                                         <td style="width: 40%;">메뉴</td>
                                         <td style="width: 20%; border-left: 1px solid lightgray;">가격</td>
                                         <td style="width: 18%; border-left: 1px solid lightgray;">비건등급</td>
                                         <td style="width: 12%; border-left: 1px solid lightgray;">삭제</td>
                                     </tr>
-                                    <tr>
-                                        <td style="width: 40%;">내용</td>
-                                        <td style="width: 20%; border-left: 1px solid lightgray;">내용</td>
-                                        <td style="width: 18%; border-left: 1px solid lightgray;">비건등급내용</td>
-                                        <td style="width: 12%; border-left: 1px solid lightgray;"><img</td>
+                                    <tr id="list-table" th:each="tableList : ${tableList}">
+                                        <td style="width: 40%;">[[${tableList.menuName}]]</td>
+                                        <td style="width: 20%; border-left: 1px solid lightgray;">[[${tableList.menuPrice}]]</td>
+                                        <td style="width: 18%; border-left: 1px solid lightgray;">[[${tableList.vegetarianGrade}]]</td>
+                                        <td style="width: 12%; border-left: 1px solid lightgray;"><img class="truncate_icon" th:src="@{/bootstrap/images/list/close.png}"/></td>
                                     </tr>
                                 </table>
                             </div>

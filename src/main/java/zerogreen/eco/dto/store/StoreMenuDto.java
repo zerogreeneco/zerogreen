@@ -1,9 +1,9 @@
 package zerogreen.eco.dto.store;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import zerogreen.eco.entity.userentity.StoreMenu;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
 
 @Setter
@@ -26,9 +26,9 @@ public class StoreMenuDto {
         this.vegetarianGrade = vegetarianGrade;
     }
 
-    public StoreMenuDto(String menuName, int menuPrice, VegetarianGrade vegetarianGrade){
-        this.menuName = menuName;
-        this.menuPrice = menuPrice;
-        this.vegetarianGrade = vegetarianGrade;
+    public StoreMenuDto(StoreMenu storeMenu) {
+        this.menuName = storeMenu.getMenuName();
+        this.menuPrice = storeMenu.getMenuPrice();
+        this.vegetarianGrade = storeMenu.getVegetarianGrades();
     }
 }
