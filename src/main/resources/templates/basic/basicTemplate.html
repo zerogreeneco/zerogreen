@@ -32,10 +32,10 @@
                 <!-- Nav -->
                 <nav id="nav">
                     <ul>
-                        <li class="nav-li"><a th:href="@{/shop/list}">제로웨이스트샵</a></li>
-                        <li class="nav-li"><a th:href="@{/food/list}">비건맛집</a></li>
-                        <li class="nav-li"><a th:href="@{/community}">커뮤니티</a></li>
-                        <li  class="nav-li" sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/approvalStore}">가게회원 관리</a></li>
+                        <li><a th:href="@{/shop/list}">제로웨이스트샵</a></li>
+                        <li><a th:href="@{/food/list}">비건맛집</a></li>
+                        <li><a th:href="@{/community}">커뮤니티</a></li>
+                        <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/approvalStore}">가게회원 관리</a></li>
                     </ul>
                 </nav>
                 <!--Before Login-->
@@ -49,7 +49,7 @@
                              th:onclick="|location.href='@{/members/memberMyInfo}'|"
                              sec:authorize="hasRole('ROLE_USER')"/>
                         <img class="profile" th:src="@{/bootstrap/images/profile/STORE.png}"
-                             th:onclick="|location.href='@{/store/storeMyInfo}'|"
+                             th:onclick="|location.href='@{/stores/myInfo}'|"
                              sec:authorize="hasRole('ROLE_STORE')"/>
                 </div>
             </header>

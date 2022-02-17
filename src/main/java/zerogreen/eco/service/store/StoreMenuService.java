@@ -1,7 +1,6 @@
 package zerogreen.eco.service.store;
 
 import zerogreen.eco.dto.store.StoreMenuDto;
-import zerogreen.eco.entity.userentity.StoreMenu;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
 
 import java.util.List;
@@ -12,11 +11,5 @@ public interface StoreMenuService {
 
     List<StoreMenuDto> getStoreMenu(Long id);
 
-    //상세페이지 리스트
-    List<StoreMenuDto> getMenuByStore(Long sno);
-    //save test data
-    Long saveStoreMenuTest(StoreMenu storeMenu);
-
-
-
-    }
+    void menuDelete(Long id);
+}
