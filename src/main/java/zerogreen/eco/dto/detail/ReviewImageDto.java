@@ -18,6 +18,7 @@ public class ReviewImageDto {
     private Long id;
     private String reviewFileName;
     private String uploadFileName;
+    private String filePath;
     private DetailReview detailReview;
     private StoreMember storeMember;
     //얘는 어디에 있어야 하는걸까..
@@ -31,6 +32,7 @@ public class ReviewImageDto {
         this.uploadFileName = reviewImage.getUploadFileName();
         this.detailReview = reviewImage.getDetailReview();
         this.storeMember = reviewImage.getStoreMember();
+        this.filePath = reviewImage.getFilePath();
     }
 
 

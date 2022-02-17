@@ -28,6 +28,7 @@ import zerogreen.eco.service.store.StoreMenuService;
 import zerogreen.eco.service.user.StoreMemberService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collections;
@@ -58,7 +59,7 @@ public class DetailController {
 
     //상세페이지
     @GetMapping("/page/detail/{sno}")
-    public String detail(@PathVariable("sno") Long sno, Model model, RequestPageSortDto requestPageSortDto,
+    public String detail(@PathVariable("sno") Long sno, Model model,
                          @ModelAttribute("review") DetailReviewDto reviewDto,
                          @PrincipalUser BasicUser basicUser,
                          @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException{
@@ -100,7 +101,6 @@ public class DetailController {
         if (reviewImages.size() > 0) {
             model.addAttribute("reviewImageList", reviewImages);
             Collections.reverse(reviewImages);
-            log.info("plsssssssss" + reviewImages);
         }
 
         //가게별 멤버리뷰 카운팅
@@ -155,20 +155,6 @@ public class DetailController {
     }
 
 
-    //이미지 삭제
-    @ResponseBody
-    @DeleteMapping("/{id}/imageDelete")
-    public ResponseEntity<Map<String, String>> imageDelete(@PathVariable("id")Long id,
-                                                           HttpServletRequest request) {
-        HashMap<String, String> resultMap = new HashMap<>();
-        String filePath = request.getParameter("filePath");
-        log.info("<<<<<<<<<<<<<<<<FILEPATH={}", filePath);
-
-        reviewImageService.deleteReviewImage(id, filePath);
-        resultMap.put("key", "success");
-
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
-    }
 
 
     //이미지 불러오기
@@ -205,12 +191,29 @@ public class DetailController {
         return new ResponseEntity<>(rno, HttpStatus.OK);
     }
 
+
     //리뷰 삭제
     @ResponseBody
     @DeleteMapping("/deleteReview/{rno}")
     public ResponseEntity<Long> remove(@PathVariable("rno") Long rno) {
         detailReviewService.remove(rno);
         return new ResponseEntity<>(rno, HttpStatus.OK);
+    }
+
+
+    // 로컬 이미지 삭제
+    @ResponseBody
+    @PostMapping("/{id}/imageDelete")
+    public ResponseEntity<Map<String, String>> imageDelete(@PathVariable("id")Long id,
+                                                           @RequestBody ReviewImageDto reviewImageDto) {
+        HashMap<String, String> resultMap = new HashMap<>();
+        String filePath = reviewImageDto.getFilePath();
+        log.info("zzzzzzzzzz1"+filePath);
+
+        reviewImageService.deleteReviewImage(id, filePath);
+        resultMap.put("key", "success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
 
