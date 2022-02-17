@@ -35,4 +35,9 @@ public class StoreMenuServiceImpl implements StoreMenuService {
         List<StoreMenu> tableList = storeMenuRepository.getStoreMenu(id);
         return tableList.stream().map(StoreMenuDto::new).collect(Collectors.toList());
     }
+
+    @Override
+    public void menuDelete(Long id) {
+        storeMenuRepository.delete(id);
+    }
 }

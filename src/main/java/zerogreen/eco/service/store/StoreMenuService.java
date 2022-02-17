@@ -10,4 +10,6 @@ public interface StoreMenuService {
     void updateStoreMenu(Long id, String menuName, int menuPrice, VegetarianGrade vegetarianGrade);
 
     List<StoreMenuDto> getStoreMenu(Long id);
+
+    void menuDelete(Long id);
 }

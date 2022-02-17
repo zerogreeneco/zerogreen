@@ -2,6 +2,8 @@ package zerogreen.eco.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -69,4 +71,9 @@ public class StoreController {
         return "store/myInfo";
     }
 
+    @DeleteMapping("update/table/delete")
+    public ResponseEntity<String> delete(Long id){
+        storeMenuService.menuDelete(id);
+        return new ResponseEntity<>("delete", HttpStatus.OK);
+    }
 }
