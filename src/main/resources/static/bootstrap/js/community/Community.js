@@ -211,17 +211,20 @@ function nestedReplySend(event) {
 }
 
 function deleteReply(replyId) {
-    alert("동작");
+
+    let boardId = $("#id").val();
+
     $.ajax({
         url: "/zerogreen/community/" + replyId + "/delete",
         method: "delete",
-        dataType: "json",
-        data: {replyId: replyId},
+        // dataType: "json",
+        data: {
+            replyId: replyId,
+            boardId: boardId
+        },
     })
-        .done(function (data) {
-            if (data.key === "success") {
-                alert("댓글이 삭제되었습니다.");
-            }
+        .done(function (fragment) {
+            alert("댓글이 삭제되었습니다.");
+            $("#review-table").replaceWith(fragment);
         });
-    console.log("ajax???");
 }

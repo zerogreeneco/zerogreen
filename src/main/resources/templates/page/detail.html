@@ -76,8 +76,14 @@
                 <!-- 3열 좌측 -->
                 <div class="thr-thr inline">
                     <div class="thr thr-left temp2">
-                        <div th:object="${getStore}">
-                            <span th:text="*{menuName}"></span><span th:text="*{menuPrice}"></span>
+                        <div th:each="menu: ${menuList}">
+                            <span>
+                                <img th:src="@{'/bootstrap/images/profile/' +${menu.vegetarianGrade}+'.png'}"
+                                 width="17px" height="17px">
+                            </span>
+                            <span th:text="${menu.menuName}"></span>
+                            <span>-----------</span>
+                            <span th:text="${menu.menuPrice}"></span>
                         </div>
                     </div>
                 </div>
@@ -171,6 +177,7 @@
                                          th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
                                          th:value="${mImage.uploadFileName}"
                                          width="120px" height="120px" >
+                                    <span>[[${mImage.filePath}]]</span>
                                 </div>
                             </div>
 

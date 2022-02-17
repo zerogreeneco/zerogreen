@@ -15,6 +15,7 @@ import zerogreen.eco.repository.detail.DetailReviewRepository;
 import zerogreen.eco.repository.user.MemberRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 import zerogreen.eco.service.detail.DetailReviewService;
+import zerogreen.eco.service.store.StoreMenuService;
 import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.MemberService;
 import zerogreen.eco.service.user.StoreMemberService;
@@ -46,6 +47,7 @@ public class TestDataInit {
         private final StoreMemberService storeMemberService;
         private final BasicUserService basicUserService;
         private final DetailReviewService detailReviewService;
+        private final StoreMenuService storeMenuService;
 
         private final MemberRepository memberRepository;
         private final StoreMemberRepository storeMemberRepository;
@@ -229,6 +231,24 @@ public class TestDataInit {
 
             em.flush();
             em.clear();
+
+
+            //StoreMenu
+            StoreMember foodTest1 = storeMemberRepository.findByUsername("foodTest1").get();
+            StoreMember generalTest1 = storeMemberRepository.findByUsername("generalTest1").get();
+
+            StoreMenu storeMenu1 = new StoreMenu("menu1-1",1000,VegetarianGrade.LACTO, foodTest1);
+            storeMenuService.saveStoreMenuTest(storeMenu1);
+            StoreMenu storeMenu11 = new StoreMenu("menu1-2 여러분 사랑해",1000,VegetarianGrade.PLEXITARIAN, foodTest1);
+            storeMenuService.saveStoreMenuTest(storeMenu11);
+            StoreMenu storeMenu2 = new StoreMenu("menu2-1",5000,VegetarianGrade.PLEXITARIAN, generalTest1);
+            storeMenuService.saveStoreMenuTest(storeMenu2);
+            StoreMenu storeMenu22 = new StoreMenu("menu2-2 XOXO",5000,VegetarianGrade.PLEXITARIAN, generalTest1);
+            storeMenuService.saveStoreMenuTest(storeMenu22);
+
+            em.flush();
+            em.clear();
+
 
         }
 

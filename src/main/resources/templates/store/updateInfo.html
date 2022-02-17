@@ -155,23 +155,19 @@
                     });
             }); //menuAdd ajax end
 
-            $(".table").on('click','#truncate_icon',function () {
+            $("#truncate_icon").click(function () {
                 alert("삭제");
                 $.ajax({
                     url: "/zerogreen/stores/update/table/delete",
                     method: "delete"
                 })
-                    .done(function () {
-                        alert("삭제완");
-                        self.location.reload();
+                    .done(function (fragment) {
+                        $("#list-table").replaceWith(fragment);
                     });
             }); //menuDel ajax end
 
             $("#goodsAdd").click(function () {
                 alert("클릭 완");
-                let name = $("#menuName").val();
-                let price = $("#menuPrice").val();
-
             })
 
             function limitTextInput(event) {

@@ -69,12 +69,10 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                                 JPAExpressions
                                         .select(count(subReply.id))
                                         .from(subReply, subReply)
-                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount"),
-                        subImage.thumbnailName
+                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount")
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
-                .leftJoin(communityBoard.imageList, subImage)
                 .where(
                         isSearch(condition.getSearchType(), condition.getContent())
                 )
@@ -111,12 +109,10 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                                 JPAExpressions
                                         .select(count(subReply.id))
                                         .from(subReply, subReply)
-                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount"),
-                        subImage.thumbnailName
+                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount")
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
-                .leftJoin(communityBoard.imageList, subImage)
                 .orderBy(communityBoard.createdDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -153,12 +149,10 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                                 JPAExpressions
                                         .select(count(subReply.id))
                                         .from(subReply, subReply)
-                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount"),
-                        subImage.thumbnailName
+                                        .where(subReply.board.id.eq(communityBoard.id)), "replyCount")
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
-                .leftJoin(communityBoard.imageList, subImage).distinct()
                 .where(communityBoard.category.eq(category))
                 .orderBy(communityBoard.createdDate.desc())
                 .offset(pageable.getOffset())
@@ -197,12 +191,10 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                                 JPAExpressions
                                         .select(count(subReply.id))
                                         .from(subReply, subReply)
-                                        .where(subReply.board.id.eq(id)), "replyCount"),
-                        subImage.thumbnailName
+                                        .where(subReply.board.id.eq(id)), "replyCount")
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member)
-                .leftJoin(communityBoard.imageList, subImage)
                 .where(communityBoard.id.eq(id))
                 .fetchFirst();
     }

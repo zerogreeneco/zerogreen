@@ -39,6 +39,12 @@ public class StoreController {
         VegetarianGrade[] vegetarianGrades = VegetarianGrade.values();
         return vegetarianGrades;
     }
+//    내정보
+    @GetMapping("/myInfo")
+    public String storeMyInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model){
+        model.addAttribute("id",principalDetails.getId());
+        return "store/myInfo";
+    }
 
     @GetMapping("/update")
     public String updateStoreInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
@@ -65,15 +71,14 @@ public class StoreController {
         return "store/updateInfo :: #list-table";
     }
 
-    @GetMapping("/myInfo")
-    public String storeMyInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model){
-        model.addAttribute("id",principalDetails.getId());
-        return "store/myInfo";
-    }
-
     @DeleteMapping("update/table/delete")
-    public ResponseEntity<String> delete(Long id){
+    public String delete(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                         Long id, Model model){
         storeMenuService.menuDelete(id);
-        return new ResponseEntity<>("delete", HttpStatus.OK);
+
+        List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
+        model.addAttribute("tableList", tableList);
+
+        return "store/updateInfo :: #list-table";
     }
 }

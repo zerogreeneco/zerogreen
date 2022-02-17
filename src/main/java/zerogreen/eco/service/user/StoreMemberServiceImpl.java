@@ -142,14 +142,12 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     @Override
     public StoreDto getStore(Long sno) {
         StoreMember storeMember = storeMemberRepository.getById(sno);
-        List<StoreMenu> storeMenus = storeMenuRepository.getMenuByStore(sno);
         return StoreDto.builder()
                 .sno(storeMember.getId())
                 .storeName(storeMember.getStoreName())
                 .storeType(storeMember.getStoreType())
                 .storeInfo(storeMember.getStoreInfo())
                 .count(likesRepository.counting(storeMember.getId()))
-                .menuList(storeMenus)
                 .build();
     }
 

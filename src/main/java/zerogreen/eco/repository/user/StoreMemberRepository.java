@@ -2,7 +2,9 @@ package zerogreen.eco.repository.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import zerogreen.eco.entity.userentity.StoreMember;
+import zerogreen.eco.entity.userentity.StoreMenu;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.list.StoreListRepository;
 

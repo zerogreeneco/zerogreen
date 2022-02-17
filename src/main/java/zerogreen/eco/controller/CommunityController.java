@@ -72,7 +72,11 @@ public class CommunityController {
 
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
         Slice<CommunityResponseDto> allCommunityBoard = boardService.findAllCommunityBoard(pageable);
-        List<CommunityResponseDto> collect = allCommunityBoard.getContent().stream().map(o -> new CommunityResponseDto(o.getId(), o.getText(), o.getNickname(), o.getVegetarianGrade(), o.getCategory(), o.getModifiedDate(), o.getCount(), o.getLike(), o.getReplyCount(), o.getImageName())).collect(Collectors.toList());
+        List<CommunityResponseDto> collect = allCommunityBoard.getContent()
+                .stream()
+                .map(o -> new CommunityResponseDto(o.getId(), o.getText(), o.getNickname(), o.getVegetarianGrade(),
+                        o.getCategory(), o.getModifiedDate(), o.getCount(), o.getLike(), o.getReplyCount()))
+                .collect(Collectors.toList());
         log.info("COLLECT!!!!!!!!!!!!!={}", collect);
         model.addAttribute("searchType", searchType);
         model.addAttribute("keyword", keyword);
@@ -132,6 +136,7 @@ public class CommunityController {
         return "redirect:/community/read/" + boardId;
     }
 
+    // 이미지 삭제
     @PostMapping("/{imageId}/imageDelete")
     @ResponseBody
     public ResponseEntity<Map<String, String>> imageDelete(@PathVariable("imageId") Long imageId,
@@ -227,6 +232,7 @@ public class CommunityController {
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
+
     /*
      * 댓글
      * */
@@ -237,8 +243,7 @@ public class CommunityController {
 
         replyService.replySave(replyDto.getText(), boardId, principalDetails.getBasicUser());
 
-        List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
-        model.addAttribute("replyList", replyByBoardId);
+        model.addAttribute("replyList", replyService.findReplyByBoardId(boardId));
 
         return "community/communityDetailView :: #review-table";
     }
@@ -268,22 +273,20 @@ public class CommunityController {
      * 댓글 삭제
      * */
     @DeleteMapping("/{replyId}/delete")
-    @ResponseBody
-    public ResponseEntity<Map<String, String>> deleteReply(@PathVariable("replyId") Long replyId) {
-        Map<String, String> resultMap = new HashMap<>();
+    public String deleteReply(@PathVariable("replyId") Long replyId, Model model, HttpServletRequest request) {
 
+        String boardId = request.getParameter("boardId");
         replyService.deleteReply(replyId);
 
-        resultMap.put("key", "success");
+        model.addAttribute("replyList", replyService.findReplyByBoardId(Long.valueOf(boardId)));
 
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        return "community/communityDetailView :: #review-table";
     }
 
     /*
      * 대댓글
      * */
     @PostMapping("/{boardId}/{replyId}/nestedReply")
-
     public String nestedReplySend(@PathVariable("boardId") Long boardId, @PathVariable("replyId") Long replyId,
                                   @ModelAttribute("nestedReplyForm") CommunityReplyDto replyDto,
                                   Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request) {
