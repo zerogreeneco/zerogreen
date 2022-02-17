@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.dto.store.StoreMenuDto;
-import zerogreen.eco.entity.userentity.StoreMenu;
 import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.security.auth.PrincipalDetails;
@@ -20,7 +19,7 @@ import java.util.List;
 
 @Controller
 @Slf4j
-@RequestMapping("/store")
+@RequestMapping("/stores")
 @RequiredArgsConstructor
 public class StoreController {
 
@@ -47,11 +46,10 @@ public class StoreController {
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
         model.addAttribute("tableList", tableList);
 
-        return "store/updateStoreInfo";
+        return "store/updateInfo";
     }
 
     @PostMapping("/update/table")
-    @ResponseBody
     public String updateMenuList(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                  Model model, HttpServletRequest request) {
         String name = request.getParameter("name");
@@ -62,13 +60,13 @@ public class StoreController {
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
         model.addAttribute("tableList", tableList);
 
-        return "store/updateStoreInfo :: #list-table";
+        return "store/updateInfo :: #list-table";
     }
 
-    @GetMapping("/storeMyInfo")
-    public String storeMyInfo(){
-
-        return "store/storeMyInfo";
+    @GetMapping("/myInfo")
+    public String storeMyInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model){
+        model.addAttribute("id",principalDetails.getId());
+        return "store/myInfo";
     }
 
 }
