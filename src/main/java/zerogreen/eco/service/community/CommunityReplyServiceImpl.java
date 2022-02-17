@@ -59,8 +59,7 @@ public class CommunityReplyServiceImpl implements CommunityReplyService{
 
     @Override
     public List<CommunityReplyDto> findReplyByBoardId(Long boardId) {
-        List<BoardReply> replyList = boardReplyRepository.findBoardRepliesByBoardId(boardId);
         log.info("SERVICE REPLY LIST>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        return replyList.stream().map(CommunityReplyDto::new).collect(Collectors.toList());
+        return boardReplyRepository.findBoardRepliesByBoardId(boardId).stream().map(CommunityReplyDto::new).collect(Collectors.toList());
     }
 }
