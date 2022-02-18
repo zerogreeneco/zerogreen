@@ -14,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.detail.ReviewImageDto;
-import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.dto.store.StoreMenuDto;
 import zerogreen.eco.entity.detail.ReviewImage;
@@ -28,7 +27,6 @@ import zerogreen.eco.service.store.StoreMenuService;
 import zerogreen.eco.service.user.StoreMemberService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collections;
@@ -47,14 +45,6 @@ public class DetailController {
     private final ReviewImageService reviewImageService;
     private final DetailReviewService detailReviewService;
     private final StoreMenuService storeMenuService;
-
-/*
-    @ModelAttribute("memberReview")
-    public MemberReviewDto mReview() {
-        MemberReviewDto mReview = new MemberReviewDto();
-        return mReview;
-    }
-*/
 
 
     //상세페이지
@@ -113,26 +103,6 @@ public class DetailController {
     }
 
 
-
-    //save reviews with ajax. text only  ** on working **
-/*
-    @PostMapping("/page/detail/addReview/{sno}")
-    public String saveReview(@PathVariable("sno") Long sno, Model model, RequestPageSortDto requestPageSortDto,
-                            @ModelAttribute("review") DetailReviewDto reviewDto,
-                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
-
-//        List<ReviewImage> reviewImages = reviewImageService.reviewImageFiles(reviewDto.getImageFiles());
-//        detailReviewService.saveReview(reviewDto.getReviewText(), sno, principalDetails.getBasicUser(), reviewImages);
-        detailReviewService.saveReview(reviewDto.getReviewText(), sno, principalDetails.getBasicUser());
-
-        List<DetailReviewDto> saveResult = detailReviewService.findByStore(sno);
-        model.addAttribute("memberReview", saveResult);
-
-        return "page/detail :: #reviewList";
-    }
-*/
-
-
     // 이미지 포함 리뷰 db
     @PostMapping("/page/detail/{sno}")
     public String addReview(@PathVariable("sno") Long sno, Model model,
@@ -155,13 +125,27 @@ public class DetailController {
     }
 
 
-
-
     //이미지 불러오기
     @ResponseBody
     @GetMapping("/page/detail/images/{filename}")
     private Resource getReviewImages(@PathVariable("filename") String filename) throws MalformedURLException {
         return new UrlResource("file:" + reviewImageService.getFullPath(filename));
+    }
+
+
+    // 로컬 이미지 삭제
+    @ResponseBody
+    @DeleteMapping("/{id}/imageDelete")
+    public ResponseEntity<Map<String, String>> imageDelete(@PathVariable("id")Long id,
+                                                           @RequestBody ReviewImageDto reviewImageDto) {
+        HashMap<String, String> resultMap = new HashMap<>();
+        String filePath = reviewImageDto.getFilePath();
+        log.info("zzzzzzzzzz1"+filePath);
+
+        reviewImageService.deleteReviewImage(id, filePath);
+        resultMap.put("key", "success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
 
@@ -201,22 +185,6 @@ public class DetailController {
     }
 
 
-    // 로컬 이미지 삭제
-    @ResponseBody
-    @PostMapping("/{id}/imageDelete")
-    public ResponseEntity<Map<String, String>> imageDelete(@PathVariable("id")Long id,
-                                                           @RequestBody ReviewImageDto reviewImageDto) {
-        HashMap<String, String> resultMap = new HashMap<>();
-        String filePath = reviewImageDto.getFilePath();
-        log.info("zzzzzzzzzz1"+filePath);
-
-        reviewImageService.deleteReviewImage(id, filePath);
-        resultMap.put("key", "success");
-
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
-    }
-
-
     //좋아요
     @ResponseBody
     @PostMapping("/detailLikes/{sno}")
@@ -240,6 +208,26 @@ public class DetailController {
         // Map에 JSON 형태로 담긴 데이터를 Response 해줌
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
+
+
+    //save reviews with ajax. text only  ** on working **
+/*
+    @PostMapping("/page/detail/addReview/{sno}")
+    public String saveReview(@PathVariable("sno") Long sno, Model model, RequestPageSortDto requestPageSortDto,
+                            @ModelAttribute("review") DetailReviewDto reviewDto,
+                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+
+//        List<ReviewImage> reviewImages = reviewImageService.reviewImageFiles(reviewDto.getImageFiles());
+//        detailReviewService.saveReview(reviewDto.getReviewText(), sno, principalDetails.getBasicUser(), reviewImages);
+        detailReviewService.saveReview(reviewDto.getReviewText(), sno, principalDetails.getBasicUser());
+
+        List<DetailReviewDto> saveResult = detailReviewService.findByStore(sno);
+        model.addAttribute("memberReview", saveResult);
+
+        return "page/detail :: #reviewList";
+    }
+*/
+
 
 
 }

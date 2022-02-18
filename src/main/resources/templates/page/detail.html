@@ -115,7 +115,6 @@
 
                 <!-- preview -->
                     <div id="preview">
-                        <img id="imgT" />
                     </div>
 
                 <!-- 리뷰작성 textarea -->
@@ -124,7 +123,10 @@
 
                     <div class="rv-area" >
                         <textarea th:field="*{reviewText}" name="reviewText" id="reviewText" class="reviewText"
-                        placeholder="리뷰를 남겨보세요!"></textarea>
+                                  onkeyup="limitTextInput(this)" placeholder="리뷰를 남겨보세요!"></textarea>
+                        <div>
+                            <span class="cm-text-count">0 / 500</span>
+                        </div>
                     </div>
 
                     <div class="rv-area">
@@ -193,7 +195,10 @@
                             <!-- 스토어 리뷰 입력창 -->
                             <div class="srv-input" style="display:none;">
                                 <textarea class="srv-input-textarea" name="storeReviewText" id="storeReviewText"
-                                placeholder="답글을 입력해주세요"></textarea>
+                                          onkeyup="limitTextInput(this)" placeholder="답글을 입력해주세요"></textarea>
+                                <div>
+                                    <span class="cm-text-count">0 / 500</span>
+                                </div>
                                 <div class="btn-Box">
                                     <span class="srv-adding inline mrv-btn" id="srv-adding">등록</span>
                                 </div>
