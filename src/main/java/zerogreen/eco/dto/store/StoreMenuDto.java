@@ -19,14 +19,14 @@ public class StoreMenuDto {
 
     public StoreMenuDto(){}
 
-    public StoreMenuDto(Long id, String menuName, int menuPrice, VegetarianGrade vegetarianGrade){
-        this.id = id;
+    public StoreMenuDto(String menuName, int menuPrice, VegetarianGrade vegetarianGrade){
         this.menuName = menuName;
         this.menuPrice = menuPrice;
         this.vegetarianGrade = vegetarianGrade;
     }
 
     public StoreMenuDto(StoreMenu storeMenu) {
+        this.id = storeMenu.getId();
         this.menuName = storeMenu.getMenuName();
         this.menuPrice = storeMenu.getMenuPrice();
         this.vegetarianGrade = storeMenu.getVegetarianGrade();

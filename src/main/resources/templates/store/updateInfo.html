@@ -93,6 +93,7 @@
                                         <td style="width: 13%; border-left: 1px solid lightgray;">삭제</td>
                                     </tr>
                                     <tr th:each="tableList : ${tableList}">
+                                        <input type="hidden" class="tableId" th:value="${tableList.id}">
                                         <td style="width: 40%;">[[${tableList.menuName}]]</td>
                                         <td style="width: 19%; border-left: 1px solid lightgray;">
                                             [[${tableList.menuPrice}]]
@@ -101,7 +102,8 @@
                                             [[${tableList.vegetarianGrade}]]
                                         </td>
                                         <td style="width: 13%; border-left: 1px solid lightgray;">
-                                            <img id="truncate_icon" th:src="@{/bootstrap/images/list/close.png}"/>
+                                            <img class="truncate_icon" th:src="@{/bootstrap/images/list/close.png}"
+                                            onclick="tableDel(this)"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -126,11 +128,27 @@
         </div>
 
         <script th:inline="javascript">
+            // 글자수 제한
+            function limitTextInput(event) {
+                console.log(event);
+                let countText = $(event).prev().children(".cm-text-count");
+                console.log(countText);
+                countText.html($(event).val().length + " / 300");
+
+                if ($(event).val().length > 300) {
+                    $(event).val($(event).val().substring(0, 300));
+                    alert("300자까지 입력이 가능합니다.");
+                    countText.html("300 / 300");
+                }
+            }
+
+            // Social 주소 추가
             $("#socialAdd").click(function () {
                 $("#socialAddress2").removeAttr("hidden");
                 $("#socialAdd").attr("hidden", true);
             });
 
+            // 테이블 추가
             $("#menuAdd").click(function () {
                 let name = $("#menuName").val();
                 let price = $("#menuPrice").val();
@@ -155,33 +173,26 @@
                     });
             }); //menuAdd ajax end
 
-            $("#truncate_icon").click(function () {
-                alert("삭제");
+            // 테이블 삭제
+            function tableDel(event){
+                let tableDel = $(event);
+                let id = tableDel.parent().parent().find(".tableId").val();
+                alert(id);
                 $.ajax({
                     url: "/zerogreen/stores/update/table/delete",
-                    method: "delete"
+                    method: "delete",
+                    data: {
+                        id: id
+                    }
                 })
                     .done(function (fragment) {
                         $("#list-table").replaceWith(fragment);
                     });
-            }); //menuDel ajax end
 
+            }
             $("#goodsAdd").click(function () {
                 alert("클릭 완");
             })
-
-            function limitTextInput(event) {
-                console.log(event);
-                let countText = $(event).prev().children(".cm-text-count");
-                console.log(countText);
-                countText.html($(event).val().length + " / 300");
-
-                if ($(event).val().length > 300) {
-                    $(event).val($(event).val().substring(0, 300));
-                    alert("300자까지 입력이 가능합니다.");
-                    countText.html("300 / 300");
-                }
-            }
 
         </script>
     </th:block>

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.dto.store.StoreMenuDto;
+import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.security.auth.PrincipalDetails;
@@ -51,6 +52,7 @@ public class StoreController {
                                   Model model, StoreDto storeDto){
         StoreDto update = storeMemberService.updateStore(principalDetails.getBasicUser().getId(), storeDto);
         model.addAttribute("store", update);
+
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
         model.addAttribute("tableList", tableList);
 
@@ -63,6 +65,7 @@ public class StoreController {
         String name = request.getParameter("name");
         int price = Integer.parseInt(request.getParameter("price"));
         VegetarianGrade vegetarianGrade = VegetarianGrade.valueOf(request.getParameter("grade"));
+
         storeMenuService.updateStoreMenu(principalDetails.getId(), name, price, vegetarianGrade);
 
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
@@ -73,8 +76,10 @@ public class StoreController {
 
     @DeleteMapping("update/table/delete")
     public String delete(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                         Long id, Model model){
-        storeMenuService.menuDelete(id);
+                         Model model, HttpServletRequest request){
+
+        Long id = Long.valueOf(request.getParameter("id"));
+        storeMenuService.deleteMenu(id);
 
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
         model.addAttribute("tableList", tableList);
