@@ -75,6 +75,7 @@ $(document).ready(function(e){
         } //end else if
    });// end edit member + store Reviews
 
+
     // edit store Reviews
    $(".srv-modify").on("click", function(){
         let rno = $(this).parent().parent().children(".rno").text();
@@ -153,32 +154,6 @@ $(document).ready(function(e){
    }); //delete store Review end
 
 
-    ///delete Review Images
-/*
-   $(".mrv-delete").on("click", function(){
-       let parentChildren = $(this).parent().parent().children().children();
-       let id = parentChildren.children(".imgId").val();
-       let filePath = parentChildren.children(".imgPath").val();
-
-       $.ajax({
-            url: contextPath +"/"+ id + "/imageDelete",
-            type:"DELETE",
-            contentType:"application/json; charset=utf-8",
-            dataType:"json",
-            data: JSON.stringify({
-                id: id,
-                filePath: filePath
-            })
-            })
-            .done(function (data) {
-                if (data.key === "success") {
-                    alert("이미지가 삭제되었습니다.");
-                }
-            });
-   }); //delete Review Images end
-*/
-
-
     //textarea 자동 늘이기
    $('textarea').on('keyup',function (e) {
         $(this).css('height', 'auto');
@@ -254,6 +229,36 @@ $(document).ready(function(e){
     });
 
 
+    // Preview for review Images
+    $("input[type='file']").change(function(e){
+          //div 내용 비워주기
+          $('#preview').empty();
+
+          let files = e.target.files;
+          let arr =Array.prototype.slice.call(files);
+
+          preview(arr);
+        });//file change
+
+
+    //프리뷰 삭제
+    $("#preview").on("click", "ul button", function() {
+        console.log("clickyyyyyyyyyyyy");
+
+        let previewImg = $(this).parent().parent("div");
+        let target = $(e.target);
+        let data = $(this).attr("value");
+        let idx = $(this).attr("data-idx");
+        console.log(previewImg);
+        console.log(target);
+        console.log(data);
+        console.log(idx);
+
+        previewImg.remove();
+
+    });
+
+
     // save Reviews
 /*
     $("#rv-btn").click(function () {
@@ -280,77 +285,71 @@ $(document).ready(function(e){
     }); // end save reviews
 */
 
-// Preview for review Images
-$("input[type='file']").change(function(e){
-      //div 내용 비워주기
-      $('#preview').empty();
-
-      let files = e.target.files;
-      let arr =Array.prototype.slice.call(files);
-
-      preview(arr);
-    });//file change
-
-$("#preview").on("click", "ul button", function() {
-    console.log("clickyyyyyyyyyyyy");
-    let files = e.target.files;
-});
-
-
-
-
-
 }); //end script
 
 
 // Preview for review Images
 function preview(arr){
-    arr.forEach(function(f){
+    arr.forEach(function(f, idx){
 
+        //div에 이미지 추가
+        let str = '<div style="display: inline-flex; padding: 10px;" class="previewImg"><ul>';
 
-    //div에 이미지 추가
-    let str = '<div style="display: inline-flex; padding: 10px;"><ul>';
+        //이미지 파일 미리보기
+        if(f.type.match('image.*')){
+            let reader = new FileReader(); //파일을 읽기 위한 FileReader객체 생성
 
-    //이미지 파일 미리보기
-    if(f.type.match('image.*')){
-        let reader = new FileReader(); //파일을 읽기 위한 FileReader객체 생성
+            reader.onload = function (e) { //파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
 
-        reader.onload = function (e) { //파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
+                str += '<button type="button" class="previewDel" data-idx="'+idx+'" value="'+f.name+'" style="background: gray">X</button><br>';
+                str += '<img src="'+e.target.result+'" width=100 height=100>';
+                str += '</ul></div>';
 
-        str += '<button type="button" class="previewDel" value="'+f.name+'" style="background: gray">X</button><br>';
-        str += '<img src="'+e.target.result+'" width=100 height=100>';
-        str += '</ul></div>';
+                $(str).appendTo('#preview');
+            }
 
-        $(str).appendTo('#preview');
-        }
-
-        reader.readAsDataURL(f);
-        }
+            reader.readAsDataURL(f);
+            }
     });//arr.forEach
 } //end function(preview)
 
 
-//리뷰 이미지 삭제
-function deleteImage(event) {
-       let parentChildren = $(event).parent().parent().children().children();
-       let id = parentChildren.children(".imgId").val();
-       let filePath = parentChildren.children(".imgPath").val();
+// 글자 수 제한
+function limitTextInput(event) {
+    let countText = $(event).parent().children().children(".cm-text-count");
+    countText.html($(event).val().length + " / 500");
 
-    $.ajax({
-        url: "/zerogreen/"+ id + "/imageDelete",
-        method: "post",
-        contentType:"application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify({
-            id: id,
-            filePath: filePath
+    if ($(event).val().length > 500) {
+        $(event).val($(event).val().substring(0, 500));
+        countText.html("500 / 500");
+    }
+}
+
+
+//리뷰 이미지 로컬 삭제
+function deleteImage(event) {
+    let parentChildren = $(event).parent().parent().children().children();
+    let id = parentChildren.children(".imgId").val();
+    let filePath = parentChildren.children(".imgPath").val();
+
+    if (id != null) {
+
+        $.ajax({
+            url: "/zerogreen/"+ id + "/imageDelete",
+            type: "DELETE",
+            contentType:"application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({
+                id: id,
+                filePath: filePath
+            })
         })
-    })
         .done(function (data) {
             if (data.key === "success") {
                 alert("이미지가 삭제되었습니다.");
             }
         });
+   }
 }
 
 
