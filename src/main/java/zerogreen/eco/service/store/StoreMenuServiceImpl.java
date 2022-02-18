@@ -27,7 +27,7 @@ public class StoreMenuServiceImpl implements StoreMenuService {
     public void updateStoreMenu(Long id, String menuName, int menuPrice, VegetarianGrade vegetarianGrade) {
         StoreMember storeMember = storeMemberRepository.findById(id).orElseThrow();
 
-        storeMenuRepository.save(new StoreMenu(menuName, menuPrice, vegetarianGrade ,storeMember));
+        storeMenuRepository.save(new StoreMenu(menuName, menuPrice, vegetarianGrade, storeMember));
     }
 
     @Override
@@ -37,8 +37,8 @@ public class StoreMenuServiceImpl implements StoreMenuService {
     }
 
     @Override
-    public void menuDelete(Long id) {
-        storeMenuRepository.delete(id);
+    public void deleteMenu(Long id) {
+        storeMenuRepository.deleteById(id);
     }
 
     //일단 예진이
