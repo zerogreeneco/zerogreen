@@ -12,17 +12,14 @@ import org.springframework.data.domain.Slice;
 import org.springframework.util.StringUtils;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
-import zerogreen.eco.dto.community.ImageFileDto;
 import zerogreen.eco.dto.search.SearchCondition;
 import zerogreen.eco.dto.search.SearchType;
 import zerogreen.eco.entity.community.*;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.querydsl.core.types.ExpressionUtils.count;
-import static zerogreen.eco.entity.community.QBoardImage.*;
 import static zerogreen.eco.entity.community.QCommunityBoard.communityBoard;
 import static zerogreen.eco.entity.userentity.QMember.member;
 
@@ -53,7 +50,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable, SearchCondition condition) {
 
         List<CommunityResponseDto> content =
-                joinDuplicate(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id))
+                dtoProjections(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id))
                 .where(
                         isSearch(condition.getSearchType(), condition.getContent())
                 )
@@ -73,7 +70,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable) {
 
         List<CommunityResponseDto> content =
-                joinDuplicate(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id))
+                dtoProjections(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id))
                 .orderBy(communityBoard.createdDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -93,7 +90,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     public Slice<CommunityResponseDto> findByCategory(Pageable pageable, Category category) {
 
         List<CommunityResponseDto> content =
-                joinDuplicate(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id))
+                dtoProjections(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id))
                 .where(communityBoard.category.eq(category))
                 .orderBy(communityBoard.createdDate.desc())
                 .offset(pageable.getOffset())
@@ -114,12 +111,12 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     @Override
     public CommunityResponseDto findDetailView(Long id) {
 
-        return joinDuplicate(subLike.board.id.eq(id), subReply.board.id.eq(id))
+        return dtoProjections(subLike.board.id.eq(id), subReply.board.id.eq(id))
                 .where(communityBoard.id.eq(id))
                 .fetchFirst();
     }
 
-    private JPAQuery<CommunityResponseDto> joinDuplicate(BooleanExpression id, BooleanExpression id1) {
+    private JPAQuery<CommunityResponseDto> dtoProjections(BooleanExpression id, BooleanExpression id1) {
         return queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,

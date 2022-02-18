@@ -2,8 +2,11 @@
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
         <style>
-            #rg-main-wrapper {
+            #select-img {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
             }
+
 
             #category {
                 width: 532px;
@@ -20,6 +23,44 @@
                 padding: 15px;
             }
         </style>
+        <script>
+            let selFiles = [];
+
+            $(function () {
+                $("#imageFiles").on('change', handleImageFileSelect);
+            });
+
+            function fileUploadAction() {
+                console.log("fileUploadAction");
+                $("#imageFiles").trigger('click');
+            }
+
+            function handleImageFileSelect(e) {
+                selFiles = [];
+                $("#select-img").empty();
+
+                let files = e.target.files;
+                let filesArr = Array.prototype.slice.call(files);
+
+                let idx = 0;
+                filesArr.forEach(function (f) {
+                    if (!f.type.match("image.*")) {
+                        alert("이미지만 업로드 가능합니다.");
+                        return
+                    }
+
+                    selFiles.push(f);
+
+                    let reader = new FileReader();
+                    reader.onload = function (ev) {
+                        let html = "<a><img src='"+e.target.result+"' data-file='"+f.name+"'></a>";
+                        $("#select-img").append(html);
+                        idx++;
+                    };
+                    reader.readAsDataURL(f);
+                });
+            }
+        </script>
         <form method="post" th:object="${writeForm}" th:action="@{/community/write}" enctype="multipart/form-data">
             <div id="rg-main-wrapper">
                 <div>
@@ -32,7 +73,7 @@
                     <textarea th:field="*{text}" class="rg-input"></textarea>
                 </div>
                 <input type="file" multiple="multiple" th:field="*{imageFiles}">
-                <div class="select-img"><img src=""/></div>
+                <div id="select-img"><img id="rg-img" src=""/></div>
             </div>
             <button type="submit">글 작성</button>
             <button type="button">취소</button>
