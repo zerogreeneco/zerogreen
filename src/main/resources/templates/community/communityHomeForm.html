@@ -7,7 +7,18 @@
 
         <script th:inline="javascript">
             $(function () {
-
+                    let page = 1;
+                $("#more-list").click(function () {
+                    ++page;
+                    $.ajax({
+                        url: "/zerogreen/community?page=" + page,
+                        method: "post",
+                        data: {page: page}
+                    })
+                        .done(function (fragment) {
+                            $("#more-wrapper").append(fragment);
+                        });
+                });
                 $(".main-like-btn").click(function (e) {
 
                     let likeBtn = $(this);
@@ -78,6 +89,8 @@
                     $(".list-none").css('display', 'block');
                 }
             });
+
+
         </script>
 
         <!-- 버튼 -->
@@ -123,6 +136,7 @@
         </div>
 
         <!-- 리스트 -->
+        <div id="more-wrapper">
         <div class="list-wrapper" th:each="community : ${communityList}">
             <input type="hidden" th:value="${community.id}" class="list-board-id">
 
@@ -189,6 +203,8 @@
                 </div>
             </div>
         </div>
+        </div>
+        <button type="button" id="more-list">더보기</button>
         <!-- 게시글이 없을 때 -->
         <div class="list-none">
             <span id="sorry-emoji">😅</span>
