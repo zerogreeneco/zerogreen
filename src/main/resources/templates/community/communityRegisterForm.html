@@ -24,6 +24,7 @@
             }
         </style>
         <script>
+
             let selFiles = [];
 
             $(function () {
@@ -42,23 +43,33 @@
                 let files = e.target.files;
                 let filesArr = Array.prototype.slice.call(files);
 
-                let idx = 0;
-                filesArr.forEach(function (f) {
-                    if (!f.type.match("image.*")) {
+                let index = 0;
+                filesArr.forEach(function (file) {
+                    if (!file.type.match("image.*")) {
                         alert("이미지만 업로드 가능합니다.");
                         return
                     }
 
-                    selFiles.push(f);
+                    selFiles.push(file);
 
                     let reader = new FileReader();
-                    reader.onload = function (ev) {
-                        let html = "<a><img src='"+e.target.result+"' data-file='"+f.name+"'></a>";
+                    reader.onload = function (e) {
+                        let html = "<a href='javascript:void(0);' onclick=\"deleteImage("+index+")\" id=\"img_id_"+index+"\"><img src='"+e.target.result+"' data-file='"+file.name+"' width='150px' height='auto'></a>";
                         $("#select-img").append(html);
-                        idx++;
+                        index++;
                     };
-                    reader.readAsDataURL(f);
+                    reader.readAsDataURL(file);
                 });
+            }
+
+            function deleteImage(idx) {
+                console.log("INDEX : " + idx);
+                selFiles.splice(idx, 1);
+
+                let img_id = "img_id_" + idx;
+                $(img_id).remove();
+
+                console.log(selFiles);
             }
         </script>
         <form method="post" th:object="${writeForm}" th:action="@{/community/write}" enctype="multipart/form-data">
@@ -78,21 +89,6 @@
             <button type="submit">글 작성</button>
             <button type="button">취소</button>
         </form>
-        <script>
-            $(function () {
-                // 이미지 미리보기
-                $("#imageFiles").change(function () {
-                    if (this.files && this.files[0]) {
-                        let reader = new FileReader();
-                        reader.onload = function (data) {
-                            $(".select-img img").attr("src", data.target.result).width(500);
-                        };
-                        this.files.reader.readAsDataURL(this.files[0]);
-                    }
-                });
-            });
-
-        </script>
     </th:block>
 </th:block>
 </html>
