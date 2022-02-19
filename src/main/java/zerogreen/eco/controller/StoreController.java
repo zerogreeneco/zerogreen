@@ -2,15 +2,14 @@ package zerogreen.eco.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.dto.store.StoreMenuDto;
-import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.security.auth.PrincipalDetails;
@@ -40,18 +39,25 @@ public class StoreController {
         VegetarianGrade[] vegetarianGrades = VegetarianGrade.values();
         return vegetarianGrades;
     }
+
 //    내정보
     @GetMapping("/myInfo")
-    public String storeMyInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model){
-        model.addAttribute("id",principalDetails.getId());
+    public String storeMyInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                              Model model){
+
+        StoreDto info = storeMemberService.getStore(principalDetails.getId());
+        model.addAttribute("info",info);
+
         return "store/myInfo";
     }
 
     @GetMapping("/update")
     public String updateStoreInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                   Model model, StoreDto storeDto){
-        StoreDto update = storeMemberService.updateStore(principalDetails.getBasicUser().getId(), storeDto);
-        model.addAttribute("store", update);
+
+        StoreDto info = storeMemberService.storeInfo(principalDetails.getBasicUser().getId(), storeDto);
+        model.addAttribute("storeInfo", info);
+        log.info(info.getCloseTime());
 
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
         model.addAttribute("tableList", tableList);
@@ -59,9 +65,24 @@ public class StoreController {
         return "store/updateInfo";
     }
 
+    @PostMapping("/update")
+    public String updateStoreInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                  @Validated @ModelAttribute("storeInfo") StoreDto storeDto,
+                                  BindingResult bindingResult){
+
+        if (bindingResult.hasErrors()) {
+            return "store/updateInfo";
+        }
+
+        storeMemberService.updateStore(principalDetails.getId(), storeDto);
+
+        return "redirect:/stores/myInfo";
+    }
+
     @PostMapping("/update/table")
     public String updateMenuList(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                  Model model, HttpServletRequest request) {
+
         String name = request.getParameter("name");
         int price = Integer.parseInt(request.getParameter("price"));
         VegetarianGrade vegetarianGrade = VegetarianGrade.valueOf(request.getParameter("grade"));

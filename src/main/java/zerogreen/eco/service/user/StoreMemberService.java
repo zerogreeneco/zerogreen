@@ -4,7 +4,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.dto.store.StoreDto;
-import zerogreen.eco.dto.store.StoreMenuDto;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.StoreMember;
@@ -33,6 +32,7 @@ public interface StoreMemberService {
     Slice<StoreDto> getFoodTypeList(Pageable pageable, StoreType storeType);
 
     //StoreUpdate
-    StoreDto updateStore(Long id, StoreDto storeDto);
+    StoreDto storeInfo(Long id, StoreDto storeDto);
+    void updateStore(Long id, StoreDto storeDto);
 
 }
