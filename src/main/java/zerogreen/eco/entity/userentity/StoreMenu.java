@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.lang.Nullable;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class StoreMenu extends BaseTimeEntity {
     private String menuName;
     private int menuPrice;
 
+    @Nullable
     @Enumerated(EnumType.STRING)
     private VegetarianGrade vegetarianGrade;
 
@@ -35,6 +37,12 @@ public class StoreMenu extends BaseTimeEntity {
         this.menuName = menuName;
         this.menuPrice = menuPrice;
         this.vegetarianGrade = vegetarianGrade;
+        this.storeMember = storeMember;
+    }
+
+    public StoreMenu(String menuName, int menuPrice, StoreMember storeMember) {
+        this.menuName = menuName;
+        this.menuPrice = menuPrice;
         this.storeMember = storeMember;
     }
 

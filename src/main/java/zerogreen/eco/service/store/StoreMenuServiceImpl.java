@@ -31,6 +31,13 @@ public class StoreMenuServiceImpl implements StoreMenuService {
     }
 
     @Override
+    public void updateStoreMenu(Long id, String menuName, int menuPrice) {
+        StoreMember storeMember = storeMemberRepository.findById(id).orElseThrow();
+
+        storeMenuRepository.save(new StoreMenu(menuName, menuPrice, storeMember));
+    }
+
+    @Override
     public List<StoreMenuDto> getStoreMenu(Long id) {
         List<StoreMenu> tableList = storeMenuRepository.getStoreMenu(id);
         return tableList.stream().map(StoreMenuDto::new).collect(Collectors.toList());
