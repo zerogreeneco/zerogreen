@@ -54,7 +54,7 @@ public class StoreController {
 
     @GetMapping("/update")
     public String updateStoreInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                  Model model, StoreDto storeDto){
+                                  StoreDto storeDto, Model model){
 
         StoreDto info = storeMemberService.storeInfo(principalDetails.getBasicUser().getId(), storeDto);
         model.addAttribute("storeInfo", info);
@@ -66,9 +66,8 @@ public class StoreController {
     }
 
     @PostMapping("/update")
-    public String updateStoreInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                  @Validated @ModelAttribute("storeInfo") StoreDto storeDto,
-                                  BindingResult bindingResult){
+    public String updateStoreInfo(@Validated @ModelAttribute("storeInfo") StoreDto storeDto, BindingResult bindingResult,
+                                  @AuthenticationPrincipal PrincipalDetails principalDetails){
 
         if (bindingResult.hasErrors()) {
             List<ObjectError> allErrors = bindingResult.getAllErrors();
