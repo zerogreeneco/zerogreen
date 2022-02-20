@@ -3,13 +3,13 @@ let stompClient;
 let selectedUser;
 let newMessages = new Map();
 
-function connectToChat(userName) {
+function connectToChat(userId) {
     console.log("connecting to chat...")
     let socket = new SockJS(url + '/chat');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log("connected to: " + frame);
-        stompClient.subscribe("/topic/messages/" + userName, function (response) {
+        stompClient.subscribe("/topic/messages/" + userId, function (response) {
             let data = JSON.parse(response.body);
             if (selectedUser === data.fromLogin) {
                 render(data.message, data.fromLogin);
@@ -29,9 +29,10 @@ function sendMsg(from, text) {
 }
 
 function registration() {
-    let userName = document.getElementById("userName").value;
-    $.get(url + "/registration/" + userName, function (response) {
-        connectToChat(userName);
+    let userId = document.getElementById("userId").value;
+    let myId = document.getElementById("myId").value;
+    $.get(url + "/registration/" + userId, function (response) {
+        connectToChat(userId);
     }).fail(function (error) {
         if (error.status === 400) {
             alert("Login is already busy!")
@@ -39,26 +40,27 @@ function registration() {
     })
 }
 
-function selectUser(userName) {
-    console.log("selecting users: " + userName);
-    selectedUser = userName;
-    let isNew = document.getElementById("newMessage_" + userName) !== null;
+function selectUser(userId) {
+    console.log("selecting users: " + userId);
+    selectedUser = userId;
+    let isNew = document.getElementById("newMessage_" + userId) !== null;
     if (isNew) {
-        let element = document.getElementById("newMessage_" + userName);
+        let element = document.getElementById("newMessage_" + userId);
         element.parentNode.removeChild(element);
-        render(newMessages.get(userName), userName);
+        render(newMessages.get(userId), userId);
     }
     $('#selectedUserId').html('');
-    $('#selectedUserId').append('To.  '+userName);
+    $('#selectedUserId').append("<input type='hidden' id='selectId' value='" + userId + "'>");
+    $('#selectedUserId').append('To.  '+userId);
 }
 
 function fetchAll() {
     $.get(url + "/fetchAllUsers", function (response) {
         let users = response;
+        let nickname = document.getElementById("nickname").value;
         let usersTemplateHTML = "";
         for (let i = 0; i < users.length; i++) {
             usersTemplateHTML = usersTemplateHTML + '<a href="#" onclick="selectUser(\'' + users[i] + '\')"><li class="clearfix">\n' +
-                '                <img src="/zerogreen/bootstrap/images/profile/pollo.png" width="55px" height="55px" alt="avatar" />\n' +
                 '                <div class="about">\n' +
                 '                    <div id="userNameAppender_' + users[i] + '" class="name" style="color:white;">' + users[i] + '</div>\n' +
                 '                    <div class="status">\n' +

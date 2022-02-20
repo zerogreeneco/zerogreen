@@ -4,12 +4,13 @@ import lombok.*;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
 import zerogreen.eco.entity.community.CommunityBoard;
 import zerogreen.eco.entity.detail.DetailReview;
+import zerogreen.eco.webSocket.entity.Notice;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.CascadeType.*;
+import static javax.persistence.CascadeType.REMOVE;
 
 @Entity
 @Getter
@@ -39,6 +40,9 @@ public class BasicUser extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "member", cascade = REMOVE)
     List<CommunityBoard> boardList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Notice> notices;
 
     // 회원가입
     public BasicUser(String username, String phoneNumber,

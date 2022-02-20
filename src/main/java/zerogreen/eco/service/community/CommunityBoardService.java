@@ -2,11 +2,9 @@ package zerogreen.eco.service.community;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.jpa.repository.Modifying;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.dto.search.SearchCondition;
-import zerogreen.eco.dto.search.SearchType;
 import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.userentity.BasicUser;
@@ -15,7 +13,6 @@ import zerogreen.eco.entity.userentity.Member;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Optional;
 
 public interface CommunityBoardService {
 
@@ -31,7 +28,6 @@ public interface CommunityBoardService {
 
     void boardModify(Long boardId, Category category, String text);
     void boardDelete(Long boardId);
-
     int boardCount(Long boardId);
 
     /* Like */

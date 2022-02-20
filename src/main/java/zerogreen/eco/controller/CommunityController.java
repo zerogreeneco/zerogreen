@@ -30,6 +30,7 @@ import zerogreen.eco.service.community.BoardImageService;
 import zerogreen.eco.service.community.CommunityBoardService;
 import zerogreen.eco.service.community.CommunityReplyService;
 import zerogreen.eco.service.file.FileService;
+import zerogreen.eco.service.user.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,6 +49,7 @@ import java.util.stream.Collectors;
 public class CommunityController {
 
     private final CommunityBoardService boardService;
+    private final MemberService memberService;
     private final FileService fileService;
     private final CommunityReplyService replyService;
     private final BoardImageService boardImageService;
@@ -195,7 +197,6 @@ public class CommunityController {
         if (boardImageService.findByBoardId(boardId).size() > 0) {
             model.addAttribute("images", boardImageService.findByBoardId(boardId));
         }
-
         return "community/communityDetailView";
     }
 
@@ -250,7 +251,6 @@ public class CommunityController {
         // Map에 JSON 형태로 담긴 데이터를 Response 해줌
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
-
 
     /*
      * 댓글

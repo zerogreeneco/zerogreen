@@ -6,10 +6,11 @@
         <link th:href="@{/bootstrap/css/community/community.css}" rel="stylesheet"/>
 
         <script th:inline="javascript" th:src="@{/bootstrap/js/community/community.js}"></script>
+
         <div th:object="${detailView}" class="cm-main-wrapper">
             <!-- 상세보기 제목 -->
             <input type="hidden" th:field="*{id}">
-            <input type="hidden" th:field="*{memberId}">
+            <input type="hidden" th:field="*{memberId}" id="userId">
             <!-- 카테고리 -->
             <div th:field="*{category}">
                 <a class="cm-category" th:href="@{/community(category=${detailView.category.name()}) }"
@@ -44,6 +45,7 @@
                 </span>
             </span>
             <div style="float: right">
+                <a th:href="@{/chatting/{boardId}(boardId = *{memberId})}" onclick="registration()">채팅하기</a>
                 <a th:href="@{'/community/' + ${detailView.id} + '/modify'}">수정</a>
                 <a id="delete-board">삭제</a>
             </div>
@@ -131,6 +133,8 @@
                 </div>
             </div>
         </div>
+        <script th:src="@{/bootstrap/js/chat/custom.js}"></script>
+        <script th:src="@{/bootstrap/js/chat/chat.js}"></script>
     </th:block>
 </th:block>
 </html>
