@@ -16,8 +16,6 @@ import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.detail.ReviewImageDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.dto.store.StoreMenuDto;
-import zerogreen.eco.entity.community.Category;
-import zerogreen.eco.entity.detail.DetailReview;
 import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.security.auth.PrincipalDetails;
@@ -35,8 +33,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static javax.swing.UIManager.get;
 
 @Controller
 @Slf4j
@@ -97,7 +93,7 @@ public class DetailController {
 
 
         //메뉴 리스트
-        List<StoreMenuDto> menuList = storeMenuService.getMenuByStore(sno);
+        List<StoreMenuDto> menuList = storeMenuService.getStoreMenu(sno);
         model.addAttribute("menuList", menuList);
 
         //리뷰 이미지 리스트 (스토어전체)

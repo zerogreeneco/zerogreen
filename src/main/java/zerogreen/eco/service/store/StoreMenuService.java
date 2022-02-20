@@ -15,8 +15,6 @@ public interface StoreMenuService {
 
     void deleteMenu(Long id);
 
-    //상세페이지 리스트
-    List<StoreMenuDto> getMenuByStore(Long sno);
     //save test data
     Long saveStoreMenuTest(StoreMenu storeMenu);
 

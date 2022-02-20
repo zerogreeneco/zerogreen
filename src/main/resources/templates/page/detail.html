@@ -176,16 +176,16 @@
                             <span class="rv-nickname">[[${mReview.nickname}]]</span>
                             <span class="rv-date inline">[[${#temporals.format(mReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
                             <br>
-                            <div th:if="${mReview.imageList != null}" class="inline div11">
+                            <div th:if="${reviewImageList != null}" class="inline div11">
 
-                                <div class="rv-img inline" th:each="mImage, idx: ${mReview.imageList[0]}" >
+                                <div class="rv-img inline" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
                                     <img class="inline mImage mImage-fr"
                                          th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
                                          th:value="${mImage.uploadFileName}"
                                          width="120px" height="120px" >
                                 </div>
 
-                                <div class="rv-img inline imgInfo" th:each="mImage, idx: ${mReview.imageList}" >
+                                <div class="rv-img inline imgInfo" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
                                     <input class="imgPath" th:value="${mImage.filePath}">
                                     <input class="rnoRno" th:value="${mImage.detailReview.id}">
                                     <input class="imgId" th:value="${mImage.id}">
