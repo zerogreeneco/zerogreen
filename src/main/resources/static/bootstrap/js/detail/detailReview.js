@@ -365,7 +365,9 @@ function limitTextInput(event) {
 
 //리뷰 이미지 로컬 삭제
 function deleteImage(event) {
-    let parentChildren = $(event).parent().parent().find(".div11").find(".rv-img");
+
+    let parentChildren = $(event).parent().parent().find(".div11").find(".imgInfo");
+
     let id = parentChildren.children(".imgId").val();
     let rno = parentChildren.children(".rnoRno").val();
     let length = parentChildren.length;
@@ -389,7 +391,9 @@ function deleteImage(event) {
                 })
                 .done(function (data) {
                     if (data.key === "success") {
+
                         //alert("이미지가 삭제되었습니다.");
+
                     }
                 });
            })(i); //end function(i)
