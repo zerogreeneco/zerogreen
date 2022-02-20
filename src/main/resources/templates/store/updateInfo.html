@@ -39,11 +39,10 @@
                             <!-- 가게 연락처 -->
                             <div>
                                 <label for="storePhoneNumber" class="join-label">가게 전화번호</label>
-                                <input type="text" class="form-control update-box" id="storePhoneNumber"
-                                       th:field="*{storePhoneNumber}">
-                                <!--                                            <div th:errors="*{storePhoneNumber}" class="field-error">-->
-                                <!--                                                전화번호를 입력해주세요-->
-                                <!--                                            </div>-->
+                                <input type="text" class="form-control input-box" id="storePhoneNumber" th:field="*{storePhoneNumber}">
+                                <div th:errors="*{storePhoneNumber}" class="field-error">
+                                    전화 오류
+                                </div>
                             </div>
 
                             <!-- 영업시간 -->
