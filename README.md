@@ -15,6 +15,8 @@
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
+![image](https://user-images.githubusercontent.com/76557211/154848851-8e7e74ef-01a3-4cdb-94b4-4ff7a3785d04.png)
+
 
 #### 팀 제로그린
 [Kimgeunhye](https://github.com/Kimgeunhye)<br>
