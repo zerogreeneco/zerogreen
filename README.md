@@ -16,6 +16,13 @@
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
 
+#### 팀 제로그린
+[Kimgeunhye](https://github.com/Kimgeunhye)<br>
+[enzy](https://github.com/aibeam)<br>
+[yoonjeongoh](https://github.com/yoonjeongoh)<br>
+[dylee111](https://github.com/dylee111)<br>
+[Ginaben](https://github.com/Ginaben)<br>
+
 ##### 제로그린은 지속가능한 가치를 제공합니다
 ###### We built a platform about eco-friendly shops around us for someone who want to save the Earth.
 
