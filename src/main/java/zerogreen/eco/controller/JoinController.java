@@ -139,7 +139,7 @@ public class JoinController {
             List<ObjectError> allErrors = bindingResult.getAllErrors();
 
             for (ObjectError allError : allErrors) {
-                log.info("ERRORCODE={}", allError);
+                log.info("ERROR CODE={}", allError);
             }
             return "register/storeRegisterForm";
         }

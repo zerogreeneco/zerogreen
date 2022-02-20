@@ -114,6 +114,6 @@ public class BasicUserServiceImpl implements BasicUserService{
     @Override
     @Transactional(readOnly = true)
     public BasicUser findByName(String userName) {
-        return basicUserRepository.findBychatUsername(userName);
+        return basicUserRepository.findByChatUsername(userName);
     }
 }

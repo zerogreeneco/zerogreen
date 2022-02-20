@@ -32,6 +32,8 @@ public class CommunityResponseDto {
     private Long memberId;
     private VegetarianGrade vegetarianGrade;
 
+    private String thumbnail;
+
     private Long replyCount;
 
     private List<ImageFileDto> files = new ArrayList<>();
@@ -47,7 +49,7 @@ public class CommunityResponseDto {
     }
 
     public CommunityResponseDto(Long id, String text, String nickname, VegetarianGrade vegetarianGrade, Long memberId, Category category, LocalDateTime modifiedDate,
-                                int count, Long like, Long replyCount) {
+                                int count, Long like, Long replyCount, String thumbnail) {
 
         this.id = id;
         this.text = text;
@@ -59,6 +61,7 @@ public class CommunityResponseDto {
         this.count = count;
         this.like = like;
         this.replyCount = replyCount;
+        this.thumbnail = thumbnail;
     }
 
     public CommunityResponseDto(Long id, String text, String nickname, Category category, LocalDateTime modifiedDate,

@@ -51,7 +51,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable, SearchCondition condition) {
 
         List<CommunityResponseDto> content =
-                dtoProjections(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id))
+                dtoProjections(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id), subImage.board.id.eq(communityBoard.id))
                 .where(
                         isSearch(condition.getSearchType(), condition.getContent())
                 )
@@ -71,7 +71,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable) {
 
         List<CommunityResponseDto> content =
-                dtoProjections(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id))
+                dtoProjections(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id), subImage.board.id.eq(communityBoard.id))
                 .orderBy(communityBoard.createdDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -91,7 +91,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     public Slice<CommunityResponseDto> findByCategory(Pageable pageable, Category category) {
 
         List<CommunityResponseDto> content =
-                dtoProjections(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id))
+                dtoProjections(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id), subImage.board.id.eq(communityBoard.id))
                 .where(communityBoard.category.eq(category))
                 .orderBy(communityBoard.createdDate.desc())
                 .offset(pageable.getOffset())
@@ -112,12 +112,12 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     @Override
     public CommunityResponseDto findDetailView(Long id) {
 
-        return dtoProjections(subLike.board.id.eq(id), subReply.board.id.eq(id))
+        return dtoProjections(subLike.board.id.eq(id), subReply.board.id.eq(id), subImage.board.id.eq(communityBoard.id))
                 .where(communityBoard.id.eq(id))
                 .fetchFirst();
     }
 
-    private JPAQuery<CommunityResponseDto> dtoProjections(BooleanExpression id, BooleanExpression id1) {
+    private JPAQuery<CommunityResponseDto> dtoProjections(BooleanExpression id, BooleanExpression id1, BooleanExpression id2) {
         return queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
                         communityBoard.id,
@@ -137,7 +137,12 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                                 JPAExpressions
                                         .select(count(subReply.id))
                                         .from(subReply, subReply)
-                                        .where(id1), "replyCount")
+                                        .where(id1), "replyCount"),
+                        ExpressionUtils.as(
+                                JPAExpressions
+                                        .select(subImage.thumbnailName.min())
+                                        .from(subImage, subImage)
+                                        .where(id2), "thumbImage")
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member);

@@ -13,5 +13,5 @@ public interface StoreMenuRepository extends JpaRepository<StoreMenu, Long> {
     List<StoreMenu> getMenuByStore(@Param("sno") Long sno);
 
     @Query("select menu from StoreMenu menu where menu.storeMember.id=:id")
-    List<StoreMenu> getStoreMenu(Long id);
+    List<StoreMenu> getStoreMenu(@Param("id") Long id);
 }
