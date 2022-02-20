@@ -79,8 +79,8 @@ public class StoreController {
         return "redirect:/stores/myInfo";
     }
 
-    @PostMapping("/update/table")
-    public String updateMenuList(@AuthenticationPrincipal PrincipalDetails principalDetails,
+    @PostMapping("/update/gradeTable")
+    public String updateGradeList(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                  Model model, HttpServletRequest request) {
 
         String name = request.getParameter("name");
@@ -88,6 +88,22 @@ public class StoreController {
         VegetarianGrade vegetarianGrade = VegetarianGrade.valueOf(request.getParameter("grade"));
 
         storeMenuService.updateStoreMenu(principalDetails.getId(), name, price, vegetarianGrade);
+
+        List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
+        log.info("KKK"+tableList);
+        model.addAttribute("tableList", tableList);
+
+        return "store/updateInfo :: #grade-table";
+    }
+
+    @PostMapping("/update/table")
+    public String updateMenuList(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                 Model model, HttpServletRequest request) {
+
+        String name = request.getParameter("name");
+        int price = Integer.parseInt(request.getParameter("price"));
+
+        storeMenuService.updateStoreMenu(principalDetails.getId(), name, price);
 
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
         model.addAttribute("tableList", tableList);

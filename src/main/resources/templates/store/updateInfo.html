@@ -9,7 +9,7 @@
         <link rel="stylesheet" th:href="@{/bootstrap/css/member/store.css}">
 
         <!-- 본문 시작 -->
-<!--        <div sec:authorize="isAuthenticated()">-->
+        <div sec:authorize="isAuthenticated()">
             <div style="margin: 2em 0 !important;" sec:authorize="hasRole('ROLE_STORE')">
                 <div class="center-box">
                     <div class="py-5 text-center">
@@ -19,7 +19,7 @@
                     <div class="store-info">
                         <!-- 매장 이름 -->
                         <h3 class="title">
-                            <img class="grade" th:src="@{/bootstrap/images/profile/shop.png}">
+                            <img class="grade" th:src="@{/bootstrap/images/profile/STORE.png}">
                             <span id="store-name">[[${storeInfo.storeName}]]</span>
                         </h3>
 
@@ -41,16 +41,16 @@
                                 <label for="storePhoneNumber" class="join-label">가게 전화번호</label>
                                 <input type="text" class="form-control update-box" id="storePhoneNumber"
                                        th:field="*{storePhoneNumber}">
-<!--                                            <div th:errors="*{storePhoneNumber}" class="field-error">-->
-<!--                                                전화번호를 입력해주세요-->
-<!--                                            </div>-->
+                                <!--                                            <div th:errors="*{storePhoneNumber}" class="field-error">-->
+                                <!--                                                전화번호를 입력해주세요-->
+                                <!--                                            </div>-->
                             </div>
 
                             <!-- 영업시간 -->
                             <div>
                                 <label class="join-label">영업시간</label>
-                                <input type="time" class="time startTime" id="startTime" th:field="*{openTime}"/>
-                                ~ <input type="time" class="time closeTime" id="closeTime" th:field="*{closeTime}"/>
+                                <input type="time" class="time startTime" th:field="*{openTime}"/>
+                                ~ <input type="time" class="time closeTime" th:field="*{closeTime}"/>
                             </div>
 
                             <!-- 가게 소개 -->
@@ -64,39 +64,51 @@
                             <!-- 소셜 주소 -->
                             <div>
                                 <label class="join-label">소셜 주소</label>
-                                <input type="text" class="form-control update-box" id="socialAddress1"
+                                <input type="text" class="form-control update-box"
                                        th:field="*{socialAddress1}">
-                                <img class="add" id="socialAdd" th:src="@{/bootstrap/images/add.png}">
-                                <input type="text" class="form-control update-box" id="socialAddress2"
-                                       th:field="*{socialAddress2}" hidden>
+                                <div th:if="*{socialAddress2}==null">
+                                    <img class="add" id="socialAdd" th:src="@{/bootstrap/images/add.png}">
+                                    <input type="text" class="form-control update-box"
+                                           th:field="*{socialAddress2}" hidden>
+                                </div>
+                                <div th:if="*{socialAddress2}!=null">
+                                    <input type="text" class="form-control update-box"
+                                           th:field="*{socialAddress2}">
+                                </div>
                             </div>
 
                             <!-- 메뉴 / 상품 -->
                             <!-- VEGAN FOOD -->
-                            <div th:if="${storeInfo.storeType.name() == 'VEGAN_FOOD'}">
-                                <label class="join-label">메뉴</label>
-                                <input type="text" class="form-control menu" id="menuName" placeholder="메뉴이름">
-                                <input type="number" step="10" class="form-control price" id="menuPrice" placeholder="가격">
+                            <label class="join-label" th:if="${storeInfo.storeType.name() != 'ECO_SHOP'}">메뉴</label>
+                            <label class="join-label" th:if="${storeInfo.storeType.name() == 'ECO_SHOP'}">상품</label>
+                            <input type="text" class="form-control menu" id="menuName" placeholder="이름">
+                            <input type="number" step="10" class="form-control price" id="menuPrice" placeholder="가격">
 
-                                <!-- 비건 등급 -->
+
+                            <!-- 비건 등급 -->
+                            <div th:if="${storeInfo.storeType.name() == 'VEGAN_FOOD'}">
                                 <div>
                                     <label th:each="vegan : ${vegan}">
                                         <input type="radio" style="display: none" name="vegetarianGrade"
                                                th:value="${vegan.name()}">
                                         <img class="grade"
                                              th:src="@{'/bootstrap/images/profile/'+${vegan.name()}+'.png'}">
-                                        <!--                                <input type="radio" name="vegetarianGrade" value="null" checked/>-->
                                     </label>
                                 </div>
-                                <span class="addBtn" id="menuAdd">메뉴 추가</span>
+                            </div>
+                                <span class="addBtn" id="menuAdd" th:if="${storeInfo.storeType.name() == 'VEGAN_FOOD'}">메뉴 추가</span>
+                                <span class="addBtn menuAdd" th:if="${storeInfo.storeType.name() == 'GENERAL_FOOD'}">메뉴 추가</span>
+                                <span class="addBtn menuAdd" th:if="${storeInfo.storeType.name() == 'ECO_SHOP'}">상품 추가</span>
 
                                 <!-- 메뉴 목록 -->
                                 <div>
-                                    <label class="join-label">메뉴 목록</label>
-                                    <div class="table" id="list-table">
-                                        <table>
+                                    <label class="join-label" th:if="${storeInfo.storeType.name() != 'ECO_SHOP'}">메뉴 목록</label>
+                                    <label class="join-label" th:if="${storeInfo.storeType.name() == 'ECO_SHOP'}">상품 목록</label>
+                                    <!-- Grade Table -->
+                                    <div class="table" th:if="${storeInfo.storeType.name() == 'VEGAN_FOOD'}">
+                                        <table id="grade-table">
                                             <tr>
-                                                <td style="width: 40%;">메뉴</td>
+                                                <td style="width: 40%;">이름</td>
                                                 <td style="width: 19%; border-left: 1px solid lightgray;">가격</td>
                                                 <td style="width: 18%; border-left: 1px solid lightgray;">비건등급</td>
                                                 <td style="width: 13%; border-left: 1px solid lightgray;">삭제</td>
@@ -117,10 +129,31 @@
                                                 </td>
                                             </tr>
                                         </table>
-                                    </div>
-                                </div>
+                                    </div> <!-- end Grade Table -->
 
-<!--                            </div>-->
+                                    <!-- Table -->
+                                    <div class="table" th:if="${storeInfo.storeType.name() != 'VEGAN_FOOD'}">
+                                        <table id="list-table">
+                                            <tr>
+                                                <td style="width: 40%;">이름</td>
+                                                <td style="width: 19%; border-left: 1px solid lightgray;">가격</td>
+                                                <td style="width: 13%; border-left: 1px solid lightgray;">삭제</td>
+                                            </tr>
+                                            <tr th:each="tableList : ${tableList}">
+                                                <input type="hidden" class="tableId" th:value="${tableList.id}">
+                                                <td style="width: 40%;">[[${tableList.menuName}]]</td>
+                                                <td style="width: 19%; border-left: 1px solid lightgray;">
+                                                    [[${tableList.menuPrice}]]
+                                                </td>
+                                                <td style="width: 13%; border-left: 1px solid lightgray;">
+                                                    <img class="truncate_icon"
+                                                         th:src="@{/bootstrap/images/list/close.png}"
+                                                         onclick="tableDel(this)"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div> <!-- end Table -->
+                                </div> <!-- end MenuList -->
 
                             <!-- 첨부 파일 -->
                             <!--                        <div>-->
@@ -162,14 +195,14 @@
                 $("#socialAdd").attr("hidden", true);
             });
 
-            // 테이블 추가
+            // 테이블 Grade 추가
             $("#menuAdd").click(function () {
                 let name = $("#menuName").val();
                 let price = $("#menuPrice").val();
                 let grade = $(":input:radio[name=vegetarianGrade]:checked").val();
                 alert(grade);
                 $.ajax({
-                    url: "/zerogreen/stores/update/table",
+                    url: "/zerogreen/stores/update/gradeTable",
                     method: "post",
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                     data: {
@@ -179,11 +212,32 @@
                     }
                 })
                     .done(function (fragment) {
-                        $("#list-table").replaceWith(fragment);
+                        $("#grade-table").replaceWith(fragment);
                         alert("메뉴 등록 완");
                         $("#menuName").val("");
                         $("#menuPrice").val("");
                         $(":input:radio[name=vegetarianGrade]:checked").prop('checked', false);
+                    });
+            }); //menuAdd ajax end
+
+            //테이블 추가
+            $(".menuAdd").click(function () {
+                let name = $("#menuName").val();
+                let price = $("#menuPrice").val();
+                $.ajax({
+                    url: "/zerogreen/stores/update/table",
+                    method: "post",
+                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    data: {
+                        name: name,
+                        price: price
+                    }
+                })
+                    .done(function (fragment) {
+                        $("#list-table").replaceWith(fragment);
+                        alert("메뉴 등록 완");
+                        $("#menuName").val("");
+                        $("#menuPrice").val("");
                     });
             }); //menuAdd ajax end
 
@@ -204,10 +258,6 @@
                     });
 
             }
-
-            $("#goodsAdd").click(function () {
-                alert("클릭 완");
-            })
 
         </script>
     </th:block>
