@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.detail.DetailReviewDto;
-import zerogreen.eco.dto.detail.ReviewImageDto;
 import zerogreen.eco.entity.detail.DetailReview;
 import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
@@ -14,7 +13,6 @@ import zerogreen.eco.repository.detail.DetailReviewRepository;
 import zerogreen.eco.repository.detail.ReviewImageRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,28 +25,6 @@ public class DetailReviewServiceImpl implements DetailReviewService {
     private final ReviewImageRepository reviewImageRepository;
     private final DetailReviewRepository detailReviewRepository;
 
-    //save reviews
-/*
-    @Override
-    @Transactional
-    public Long saveReview(String reviewText, Long sno, BasicUser basicUser) {
-        StoreMember storeMember = storeMemberRepository.findById(sno).orElseThrow();
-        DetailReview saveReview = detailReviewRepository.save(new DetailReview(reviewText, basicUser, storeMember));// 생성자 없음 왜요,,?
-*/
-/*
-        if(reviewImages.size() != 0) {
-            for (ReviewImage image : reviewImages) {
-                log.info("aaaaaaaareviewImage " + image);
-
-                reviewImageRepository.save(new ReviewImage(
-                        image.getUploadFileName(), image.getReviewFileName(), image.getFilePath(), saveReview, storeMember));
-            }
-        }
-*//*
-
-        return saveReview.getId();
-    }
-*/
 
 //멤버리뷰 DB저장 (이미지 포함)
     @Override
@@ -68,6 +44,12 @@ public class DetailReviewServiceImpl implements DetailReviewService {
         return saveReview.getId();
     }
 
+    //휴 시발 ** rno못받아와서 못쓰는중 ^^ **
+    @Override
+    public DetailReviewDto getById(Long rno) {
+        DetailReview detailReview = detailReviewRepository.getById(rno);
+        return new DetailReviewDto(detailReview.getId());
+    }
 
 
     //리스팅
@@ -76,7 +58,8 @@ public class DetailReviewServiceImpl implements DetailReviewService {
         List<DetailReview> reviewList = detailReviewRepository.findByStore(sno);
         return reviewList.stream().map(DetailReviewDto::new).collect(Collectors.toList());
     }
-/*
+
+/* 얘는뭐야
     @Override
     public List<DetailReviewDto> findByStore(Long sno, Long rno) {
         List<DetailReview> reviewList = detailReviewRepository.findByStore(sno);
@@ -160,6 +143,29 @@ public class DetailReviewServiceImpl implements DetailReviewService {
         parentReview.addNestedReview(childReview);
         return childReview.getId();
     }
+
+    //save reviews
+/*
+    @Override
+    @Transactional
+    public Long saveReview(String reviewText, Long sno, BasicUser basicUser) {
+        StoreMember storeMember = storeMemberRepository.findById(sno).orElseThrow();
+        DetailReview saveReview = detailReviewRepository.save(new DetailReview(reviewText, basicUser, storeMember));// 생성자 없음 왜요,,?
+*/
+/*
+        if(reviewImages.size() != 0) {
+            for (ReviewImage image : reviewImages) {
+                log.info("aaaaaaaareviewImage " + image);
+
+                reviewImageRepository.save(new ReviewImage(
+                        image.getUploadFileName(), image.getReviewFileName(), image.getFilePath(), saveReview, storeMember));
+            }
+        }
+*//*
+
+        return saveReview.getId();
+    }
+*/
 
 
 }

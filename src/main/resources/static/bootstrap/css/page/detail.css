@@ -164,6 +164,10 @@ textarea:focus {
     justify-content: center;
 }
 
+.text-count-div {
+    text-align: right;
+}
+
 /*리뷰 작성*/
 .rv-ta {
     margin: 15px 8px 0 0;
