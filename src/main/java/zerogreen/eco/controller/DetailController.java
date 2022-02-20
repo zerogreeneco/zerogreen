@@ -16,6 +16,8 @@ import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.detail.ReviewImageDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.dto.store.StoreMenuDto;
+import zerogreen.eco.entity.community.Category;
+import zerogreen.eco.entity.detail.DetailReview;
 import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.security.auth.PrincipalDetails;
@@ -33,6 +35,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static javax.swing.UIManager.get;
 
 @Controller
 @Slf4j
@@ -71,6 +75,7 @@ public class DetailController {
         }
 
 
+
         //리뷰 리스트
         List<DetailReviewDto> result = detailReviewService.findByStore(sno);
         model.addAttribute("memberReview", result);
@@ -82,11 +87,20 @@ public class DetailController {
 */
 
 
+        //리뷰 이미지 리스트 (리뷰별)
+        DetailReviewDto detailReviewDto = detailReviewService.getById(sno);
+        List<ReviewImageDto> imagesByReview = reviewImageService.findByReview(detailReviewDto.getRno());
+        if (imagesByReview.size() > 0) {
+            model.addAttribute("imagesByReview", imagesByReview);
+            Collections.reverse(imagesByReview);
+        }
+
+
         //메뉴 리스트
         List<StoreMenuDto> menuList = storeMenuService.getMenuByStore(sno);
         model.addAttribute("menuList", menuList);
 
-        //리뷰 이미지 리스트
+        //리뷰 이미지 리스트 (스토어전체)
         List<ReviewImageDto> reviewImages = reviewImageService.findByStore(sno);
         if (reviewImages.size() > 0) {
             model.addAttribute("reviewImageList", reviewImages);

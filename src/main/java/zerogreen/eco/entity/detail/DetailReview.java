@@ -12,6 +12,7 @@ import zerogreen.eco.entity.userentity.StoreMember;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static javax.persistence.CascadeType.*;
@@ -48,23 +49,14 @@ public class DetailReview extends BaseTimeEntity {
     @JoinColumn(name = "parentReview")
     private List<DetailReview> nestedReviewList = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "detailReview")
+//    @OneToMany(cascade = {PERSIST, REMOVE}, orphanRemoval = true)
     @OneToMany(mappedBy = "detailReview", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
     private List<ReviewImage> imageList = new ArrayList<>();
+//    private ReviewImage reviewImage;
 
     //계층구분
     private int depth = 1;
 
-
-    //이미지 리뷰 추가 ** 작업중 **
-/*
-    public DetailReview(String reviewText, BasicUser reviewer, StoreMember storeMember, List<ReviewImage> imageList) {
-        this.reviewText = reviewText;
-        this.reviewer = reviewer;
-        this.storeMember = storeMember;
-        this.imageList = imageList;
-    }
-*/
 
     //리뷰 수정
     public void editReview(String reviewText) {

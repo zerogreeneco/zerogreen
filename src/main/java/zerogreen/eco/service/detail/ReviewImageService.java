@@ -2,6 +2,7 @@ package zerogreen.eco.service.detail;
 
 import org.springframework.web.multipart.MultipartFile;
 import zerogreen.eco.dto.detail.ReviewImageDto;
+import zerogreen.eco.entity.detail.DetailReview;
 import zerogreen.eco.entity.detail.ReviewImage;
 
 import java.io.IOException;
@@ -14,6 +15,10 @@ public interface ReviewImageService {
 
     //listing
     List<ReviewImageDto> findByStore(Long sno);
+
+    //리뷰별 리스팅
+//    List<ReviewImageDto> findByReview(DetailReview detailReview);
+    List<ReviewImageDto> findByReview(Long rno);
 
 
     //delete review Images

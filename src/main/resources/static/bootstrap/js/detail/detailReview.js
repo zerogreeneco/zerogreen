@@ -190,15 +190,36 @@ $(document).ready(function(e){
     let imageList = $(".rv-imageOnly");
     let mImage = $(".mImage-fr");
 
-    //이미지(list) 모달 띄우기 ** on working **
+    //이미지(list) 모달 띄우기 + 모달 슬라이드 ** on working **
     $(".rv-img-list").click(function () {
-        let imgSrc = $(this).children().attr("src");
-        let imgEach = $(this).attr("each");
+        let idx = $(this).index();
+        let next = idx + 1;
+        let prev = idx - 1;
+        let imgSrc = $(this).find(".rv-imageOnly").attr("src");
+        let nextImg = $(".rv-img-list").eq(next).find(".rv-imageOnly").attr("src");
+        let prevImg = $(".rv-img-list").eq(prev).find(".rv-imageOnly").attr("src");
 
-        $(".modal").show();
-        $(".modalEach").attr("each", imgEach);
         $(".modal_content").attr("src", imgSrc);
-    });
+        //console.log("imgSrc  " + imgSrc);
+        $(".modal").show();
+
+        //모달 슬라이드
+        $("#modal-right").click(function() {
+            $(".modal-slider").animate({marginLeft: "-700px"},
+            function() {
+                $(".modal-slider .card:first").appendTo(".modal-slider");
+                $(".modal-slider").css({marginLeft: 0 });
+                $(".modal_content").attr("src", nextImg);
+            });
+        });
+        $("#modal-left").click(function() {
+            $(".modal-slider .card:last").prependTo(".modal-slider");
+            $(".modal-slider").css({ "marginLeft": "-700px"});
+            $(".modal-slider").animate({ marginLeft: 0 });
+            $(".modal_content").attr("src", prevImg);
+        });
+    }); //end 이미지 리스트 모달 띄우기 + 모달 슬라이드
+
 
     //이미지(withReview) 모달 띄우기
     $(".mImage-fr").click(function () {
@@ -208,24 +229,10 @@ $(document).ready(function(e){
         $(".modal_content").attr("src", imgSrc2);
     });
 
-    //이미지 모달 닫기
+    //이미지 모달 닫기 (공통)
     $(".close").click(function () {
-        console.log("closeeeeee");
+        //console.log("closeeeeee");
         $(".modal").hide();
-    });
-
-    //모달이미지 슬라이드
-    $("#modal-right").click(function() {
-        $(".modal-slider").animate({marginLeft: "-700px"},
-        function() {
-            $(".modal-slider .card:first").appendTo(".modal-slider");
-            $(".modal-slider").css({marginLeft: 0 });
-        });
-    });
-    $("#modal-left").click(function() {
-        $(".modal-slider .card:last").prependTo(".modal-slider");
-        $(".modal-slider").css({ "marginLeft": "-700px"});
-        $(".modal-slider").animate({ marginLeft: 0 });
     });
 
 
@@ -237,8 +244,15 @@ $(document).ready(function(e){
           let files = e.target.files;
           let arr =Array.prototype.slice.call(files);
 
+          //업로드 가능 파일인지 체크
+          for(i=0; i < files.length; i++){
+            if(!checkExtension(files[i].name,files[i].size)){
+            return false;
+            }
+          }
+
           preview(arr);
-        });//file change
+    });//file change
 
 
     //프리뷰 삭제
@@ -248,11 +262,11 @@ $(document).ready(function(e){
         let previewImg = $(this).parent().parent("div");
         let target = $(e.target);
         let data = $(this).attr("value");
-        let idx = $(this).attr("data-idx");
+//        let idx = $(this).attr("data-idx");
         console.log(previewImg);
         console.log(target);
         console.log(data);
-        console.log(idx);
+//        console.log(idx);
 
         previewImg.remove();
 
@@ -288,9 +302,32 @@ $(document).ready(function(e){
 }); //end script
 
 
+//업로드 가능한 파일크기, 파일
+function checkExtension(fileName, fileSize){
+
+    let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+    let maxSize = 1048576;  //1MB
+
+    if(fileSize >= maxSize){
+        alert('파일 사이즈 초과');
+        $("input[type='file']").val("");  //파일 초기화
+        return false;
+    }
+
+    //이건 되는지 잘 모르겠음
+    if(regex.test(fileName)){
+        alert('업로드 불가능한 파일이 있습니다.');
+        $("input[type='file']").val("");  //파일 초기화
+        return false;
+    }
+    return true;
+}
+
+
+
 // Preview for review Images
 function preview(arr){
-    arr.forEach(function(f, idx){
+    arr.forEach(function(f){
 
         //div에 이미지 추가
         let str = '<div style="display: inline-flex; padding: 10px;" class="previewImg"><ul>';
@@ -301,7 +338,7 @@ function preview(arr){
 
             reader.onload = function (e) { //파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
 
-                str += '<button type="button" class="previewDel" data-idx="'+idx+'" value="'+f.name+'" style="background: gray">X</button><br>';
+                str += '<button type="button" class="previewDel" value="'+f.name+'" style="background: gray">X</button><br>';
                 str += '<img src="'+e.target.result+'" width=100 height=100>';
                 str += '</ul></div>';
 
@@ -316,7 +353,7 @@ function preview(arr){
 
 // 글자 수 제한
 function limitTextInput(event) {
-    let countText = $(event).parent().children().children(".cm-text-count");
+    let countText = $(event).parent().children().children(".text-count");
     countText.html($(event).val().length + " / 500");
 
     if ($(event).val().length > 500) {
@@ -328,30 +365,37 @@ function limitTextInput(event) {
 
 //리뷰 이미지 로컬 삭제
 function deleteImage(event) {
-    let parentChildren = $(event).parent().parent().children().children();
+    let parentChildren = $(event).parent().parent().find(".div11").find(".rv-img");
     let id = parentChildren.children(".imgId").val();
-    let filePath = parentChildren.children(".imgPath").val();
+    let rno = parentChildren.children(".rnoRno").val();
+    let length = parentChildren.length;
 
     if (id != null) {
 
-        $.ajax({
-            url: "/zerogreen/"+ id + "/imageDelete",
-            type: "DELETE",
-            contentType:"application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify({
-                id: id,
-                filePath: filePath
-            })
-        })
-        .done(function (data) {
-            if (data.key === "success") {
-                alert("이미지가 삭제되었습니다.");
-            }
-        });
-   }
-}
+        for (let i = 0; i < parentChildren.length; i++) {
+            let filePath = parentChildren.eq(i).children(".imgPath").val();
 
+            (function(i) {
+
+                $.ajax({
+                    url: "/zerogreen/"+ id + "/imageDelete",
+                    type: "DELETE",
+                    contentType:"application/json; charset=utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify({
+                        filePath: filePath
+                    })
+                })
+                .done(function (data) {
+                    if (data.key === "success") {
+                        //alert("이미지가 삭제되었습니다.");
+                    }
+                });
+           })(i); //end function(i)
+       }//end for statement
+    } //end if statement
+} //end of function deleteImage
 
 
 /*
