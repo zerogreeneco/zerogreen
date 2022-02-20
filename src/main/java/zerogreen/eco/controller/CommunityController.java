@@ -88,9 +88,11 @@ public class CommunityController {
     }
 
     @PostMapping("")
-    public String communityMoreList(@RequestParam("page")Long page, @RequestParam(value = "category", required = false) Category category,
-                                    RequestPageSortDto requestPageDto, Model model,
-                                    SearchType searchType, String keyword) {
+    public String communityMoreList(@RequestParam("page")Long page,
+                                    @RequestParam(value = "category", required = false) Category category,
+                                    @RequestParam(value = "searchType", required = false) SearchType searchType,
+                                    @RequestParam(value = "keyword", required = false) String keyword,
+                                    RequestPageSortDto requestPageDto, Model model) {
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
         Slice<CommunityResponseDto> allCommunityBoard = boardService.findAllCommunityBoard(pageable);
 

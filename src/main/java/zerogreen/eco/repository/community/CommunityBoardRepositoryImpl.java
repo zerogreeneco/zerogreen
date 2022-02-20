@@ -18,6 +18,7 @@ import zerogreen.eco.entity.community.*;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static com.querydsl.core.types.ExpressionUtils.count;
 import static zerogreen.eco.entity.community.QCommunityBoard.communityBoard;
@@ -187,5 +188,4 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
             return eqContent(searchText).or(eqNickname(searchText));
         }
     }
-
 }
