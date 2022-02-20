@@ -22,6 +22,7 @@ function cacheDOM() {
 
 function render(message, userName) {
     scrollToBottom();
+
     // responses
     var templateResponse = Handlebars.compile($("#message-response-template").html());
     var contextResponse = {
@@ -37,9 +38,12 @@ function render(message, userName) {
 }
 
 function sendMessage(message) {
-    let username = $('#userName').val();
-    console.log(username)
-    sendMsg(username, message);
+    let userId = $('#userId').val();
+    let selectId = $('#selectId').val();
+    let testyj = $('#testyj').val();
+
+    console.log(userId)
+    sendMsg(userId, message);
     scrollToBottom();
     if (message.trim() !== '') {
         var template = Handlebars.compile($("#message-template").html());

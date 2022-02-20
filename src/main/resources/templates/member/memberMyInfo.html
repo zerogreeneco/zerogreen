@@ -30,7 +30,8 @@
             </div>
 
             <div class="profile-div">
-                <span class="chatting profile-btn inline">내채팅</span>
+                <span class="chatting profile-btn inline"
+                      th:onclick="|location.href='@{/chat}'|">내채팅</span>
 <!--                <button type="button" class="chatting profile-btn">내채팅</button>-->
             </div>
         </div>
@@ -67,7 +68,7 @@
                                  th:onclick="|javascript: goStore('${liking.storeMember.id}')|">
 
                                 <div class="card-header">
-                                    <img src="http://placehold.it/300x300"/>
+                                    <img src="https://via.placeholder.com/300"/>
                                 </div>
 
                                 <div class="shopList-box">
@@ -103,7 +104,7 @@
                                  th:onclick="|javascript: goStore('${review.sno}')|">
 
                                 <div class="card-header">
-                                    <img src="http://placehold.it/300x300"/>
+                                    <img src="https://via.placeholder.com/300"/>
                                 </div>
 
                                 <div class="shopList-box">
