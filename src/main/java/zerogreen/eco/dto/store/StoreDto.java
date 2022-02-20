@@ -1,11 +1,13 @@
 package zerogreen.eco.dto.store;
 
+import com.sun.istack.Nullable;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.*;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Getter
@@ -15,8 +17,8 @@ public class StoreDto {
     private Long id;
     private String username;
     private UserRole userRole;
-
     private String storeAddress;
+    @NotBlank
     private String storePhoneNumber;
     private String openTime;
     private String closeTime;
@@ -31,7 +33,7 @@ public class StoreDto {
 
     private StoreMember storeMember;
     private String storeRegNum;
-
+    @Nullable
     private VegetarianGrade vegetarianGrades;
 
     //여기서부터..
