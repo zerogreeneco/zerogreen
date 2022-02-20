@@ -111,4 +111,9 @@ public class BasicUserServiceImpl implements BasicUserService{
         basicUserRepository.deleteById(id);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public BasicUser findByName(String userName) {
+        return basicUserRepository.findBychatUsername(userName);
+    }
 }

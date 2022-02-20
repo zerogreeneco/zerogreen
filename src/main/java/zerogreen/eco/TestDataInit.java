@@ -208,6 +208,7 @@ public class TestDataInit {
                 communityBoardRepository.save(new CommunityBoard("TEST TEXT"+i, findMember1, Category.PLOGGING));
                 communityBoardRepository.save(new CommunityBoard("테스트입니다"+i, findMember2, Category.NEWS));
             }
+            communityBoardRepository.save(new CommunityBoard("TEST TEXT", findMember2, Category.NEWS));
 
             em.flush();
             em.clear();

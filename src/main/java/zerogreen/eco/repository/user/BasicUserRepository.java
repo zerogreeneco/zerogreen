@@ -1,15 +1,20 @@
 package zerogreen.eco.repository.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 import zerogreen.eco.entity.userentity.BasicUser;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface BasicUserRepository extends JpaRepository<BasicUser, Long>, BasicUserRepositoryCustom {
 
     Optional<BasicUser> findByUsername(String username);
+
+    @Query("select u from BasicUser u where u.username =:username ")
+    BasicUser findBychatUsername(String username);
 
     long countByUsernameAndPhoneNumber(@Param("username") String username, @Param("phoneNumber") String phoneNumber);
     long countByPhoneNumber(@Param("phoneNumber") String phoneNumber);
