@@ -48,12 +48,6 @@ public class StoreMenuServiceImpl implements StoreMenuService {
         storeMenuRepository.deleteById(id);
     }
 
-    //일단 예진이
-    @Override
-    public List<StoreMenuDto> getMenuByStore(Long sno) {
-        List<StoreMenu> tableList = storeMenuRepository.getMenuByStore(sno);
-        return tableList.stream().map(StoreMenuDto::new).collect(Collectors.toList());
-    }
 
     //테스트 데이터
     @Transactional

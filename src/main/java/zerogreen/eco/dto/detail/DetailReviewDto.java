@@ -102,7 +102,6 @@ public class DetailReviewDto {
         this.createdTime = detailReview.getModifiedDate();
         this.nestedReviewList = collect;
         this.storeName = detailReview.getStoreMember().getStoreName();
-        this.imageList = detailReview.getImageList();
 
     }
 /*
