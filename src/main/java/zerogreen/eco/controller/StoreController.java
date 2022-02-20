@@ -6,6 +6,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.store.StoreDto;
@@ -57,7 +58,6 @@ public class StoreController {
 
         StoreDto info = storeMemberService.storeInfo(principalDetails.getBasicUser().getId(), storeDto);
         model.addAttribute("storeInfo", info);
-        log.info(info.getCloseTime());
 
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
         model.addAttribute("tableList", tableList);
@@ -71,6 +71,11 @@ public class StoreController {
                                   BindingResult bindingResult){
 
         if (bindingResult.hasErrors()) {
+            List<ObjectError> allErrors = bindingResult.getAllErrors();
+
+            for (ObjectError allError : allErrors) {
+                log.info("ERRORCODE={}", allError);
+            }
             return "store/updateInfo";
         }
 
@@ -81,7 +86,11 @@ public class StoreController {
 
     @PostMapping("/update/gradeTable")
     public String updateGradeList(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                 Model model, HttpServletRequest request) {
+                                 Model model, HttpServletRequest request, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "store/updateInfo";
+        }
 
         String name = request.getParameter("name");
         int price = Integer.parseInt(request.getParameter("price"));
@@ -90,7 +99,6 @@ public class StoreController {
         storeMenuService.updateStoreMenu(principalDetails.getId(), name, price, vegetarianGrade);
 
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
-        log.info("KKK"+tableList);
         model.addAttribute("tableList", tableList);
 
         return "store/updateInfo :: #grade-table";

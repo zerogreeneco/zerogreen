@@ -25,7 +25,6 @@ public class StoreMenu extends BaseTimeEntity {
     private String menuName;
     private int menuPrice;
 
-    @Nullable
     @Enumerated(EnumType.STRING)
     private VegetarianGrade vegetarianGrade;
 
