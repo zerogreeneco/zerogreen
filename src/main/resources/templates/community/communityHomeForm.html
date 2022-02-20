@@ -7,13 +7,24 @@
 
         <script th:inline="javascript">
             $(function () {
-                    let page = 1;
+                let page = 1;
+
                 $("#more-list").click(function () {
                     ++page;
+                    let keyword = getParameterByName("keyword");
+                    let category = getParameterByName("category");
+                    let searchType = getParameterByName("searchType");
+                    console.log(searchType);
+                    console.log(category);
                     $.ajax({
-                        url: "/zerogreen/community?page=" + page,
+                        url: "/zerogreen/community",
                         method: "post",
-                        data: {page: page}
+                        data: {
+                            page: page,
+                            category: category,
+                            keyword: keyword,
+                            searchType: searchType
+                        }
                     })
                         .done(function (fragment) {
                             $("#more-wrapper").append(fragment);
@@ -47,17 +58,6 @@
                     $('html, body').animate({scrollTop: 0}, '400');
                 });
 
-                $("#search-btn").click(function () {
-
-                    let type = $().val();
-                    let content = $().val();
-
-                    $.ajax({
-                        url: ""
-                    });
-
-                });
-
                 if (window.location.href == "http://localhost:8080/zerogreen/community") {
                     $(".category-list li:first").css('background', '#16a085');
                     $(".category-list a:first").css('color', '#fff');
@@ -89,6 +89,14 @@
                     $(".list-none").css('display', 'block');
                 }
             });
+
+            // parameter 값 불러오기
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                let regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
+                return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+
 
 
         </script>
@@ -130,6 +138,7 @@
                     <li th:each="categories : ${category}" th:value="${categories.name()}">
                         <a th:text="${categories.categoryName}"
                            th:href="@{/community(category=${categories.name()}) }"></a>
+                        <input class="category-name" type="hidden" th:value="${categories.name()}">
                     </li>
                 </ul>
             </div>
