@@ -2,7 +2,7 @@
 Store Update
 */
 .update-box{
-    width: 300px;
+    width: 260px;
     height: 40px;
     margin-bottom: 10px;
     font-family: 'Noto Sans KR', sans-serif;
@@ -38,7 +38,7 @@ Store Update
     font-family: 'Noto Sans KR', sans-serif;
 }
 .price{
-    width: 95px;
+    width: 69px;
     height: 40px;
     margin-bottom: 10px;
     font-family: 'Noto Sans KR', sans-serif;

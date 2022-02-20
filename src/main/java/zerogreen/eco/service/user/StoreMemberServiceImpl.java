@@ -3,21 +3,19 @@ package zerogreen.eco.service.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import zerogreen.eco.dto.paging.PagingDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.StoreInfo;
 import zerogreen.eco.entity.userentity.StoreMember;
+import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.entity.userentity.UserRole;
-import zerogreen.eco.entity.userentity.*;
 import zerogreen.eco.repository.detail.LikesRepository;
 import zerogreen.eco.repository.file.StoreImageFileRepository;
 import zerogreen.eco.repository.store.StoreMenuRepository;
@@ -177,11 +175,27 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     }
 
     @Override
-    public StoreDto updateStore(Long id, StoreDto storeDto) {
+    public StoreDto storeInfo(Long id, StoreDto storeDto) {
         StoreMember storeMember = storeMemberRepository.findById(id).orElseThrow();
-        StoreDto update = new StoreDto(storeMember.getStoreName(), storeMember.getStoreType(), storeMember.getPhoneNumber());
+        StoreDto info = new StoreDto(storeMember.getStoreName(), storeMember.getStoreType(),
+                storeMember.getStoreInfo().getStorePhoneNumber(), storeMember.getStoreInfo().getOpenTime(),
+                storeMember.getStoreInfo().getCloseTime(), storeMember.getStoreInfo().getStoreDescription(),
+                storeMember.getStoreInfo().getSocialAddress1(), storeMember.getStoreInfo().getSocialAddress2());
 
-        return update;
+        return info;
+    }
 
+    @Transactional
+    @Override
+    public void updateStore(Long id, StoreDto storeDto) {
+        StoreMember storeMember = storeMemberRepository.findById(id).orElseThrow();
+        //더티 체킹
+        storeMember.getStoreInfo().setStorePhoneNumber(storeDto.getStorePhoneNumber());
+        storeMember.getStoreInfo().setOpenTime(storeDto.getOpenTime());
+        storeMember.getStoreInfo().setCloseTime(storeDto.getCloseTime());
+        storeMember.getStoreInfo().setStoreDescription(storeDto.getStoreDescription());
+        storeMember.getStoreInfo().setSocialAddress1(storeDto.getSocialAddress1());
+        storeMember.getStoreInfo().setSocialAddress2(storeDto.getSocialAddress2());
+        storeMember.getStoreInfo().setSocialAddress2(storeDto.getSocialAddress2());
     }
 }

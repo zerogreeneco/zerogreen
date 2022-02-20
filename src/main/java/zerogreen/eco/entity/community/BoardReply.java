@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
 import zerogreen.eco.entity.userentity.BasicUser;
 
@@ -35,7 +36,8 @@ public class BoardReply extends BaseTimeEntity {
     @JoinColumn(name = "parent_reply_id", nullable = true)
     private BoardReply parentReply;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @BatchSize(size = 100)
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "parentReply")
     private List<BoardReply> nestedReplyList = new ArrayList<>();
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml"
+          xmlns:sec="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
 
         <!-- 페이지 css/ js 추가 -->
@@ -11,102 +12,111 @@
 
         <script th:src="@{/bootstrap/js/member/memberMyInfo.js}"></script>
 
-        <div style="margin: 0 auto;">
-            <!--왼쪽 프로필-->
-            <div id="leftSide">
-                <div class="profile-div inline">
-                    <div class="profile-image">
-                        <img th:src="@{'/bootstrap/images/profile/STORE.png'}" width="70px" height="70px">
-                    </div>
-                    <span class="profile-name">storeshop</span>
-                </div>
-
-                <!-- 정보 수정 버튼 -->
-                <div class="profile-div">
-                    <span class="chatting profile-btn inline" th:onclick="|javascript:goStore(${id})|">내 가게</span>
-                </div>
-                <div class="profile-div">
-                    <span class="editMyInfo profile-btn inline">내 정보</span>
-                </div>
-                <div class="profile-div">
-                    <span class="chatting profile-btn inline" th:onclick="|javascript:goUpdate()|">내 가게 정보 수정</span>
-                </div>
-            </div>
-
-            <!--우측 메뉴들-->
-            <div id="rightSide">
-                <!--우측 상단 찜한가게+내 리뷰-->
-                <div class="counting">
-                    <div class="div-cnt inline">
-                        <span>0</span><br>
-                        <span>내 가게를 찜한 고객</span>
-                    </div>
-                    <div class="div-cnt inline">
-                        <span>0</span><br>
-                        <span>고객들이 쓴 리뷰</span>
-                    </div>
-                </div>
-
-                <!-- 고객 리뷰 리스트 슬라이더 -->
-                <div class="textList">
-                    <span>고객들이 쓴 리뷰</span>
-<!--                    <span>아직 리뷰가 없습니다.</span>-->
-                </div>
-
-                <div class="listing" >
-                    <div style="position: relative;">
-                        <span id="review-left" class="arrow-left">&#139;</span>
-                        <span id="review-right"  class="arrow-right">&#155;</span>
-
-                        <div class="slider-container">
-                            <div class="review-slider slider">
-                                <div class="card">
-
-                                    <div class="card-header">
-                                        <img src="http://placehold.it/300x300"/>
-                                    </div>
-
-                                    <div class="shopList-box">
-                                        <div class="card-body">
-                                            <span class="shop-name reviewText">댓글이지롱</span>
-                                            <span class="shop-name">yyyy-MM-dd HH:mm</span>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <!-- end th:each-->
-                            </div>
+        <div style="margin: 0 auto;" sec:authorize="isAuthenticated()">
+            <div sec:authorize="hasRole('ROLE_STORE')">
+                <!--왼쪽 프로필-->
+                <div id="leftSide">
+                    <div class="profile-div inline">
+                        <div class="profile-image">
+                            <img th:src="@{'/bootstrap/images/profile/STORE.png'}" width="70px" height="70px">
                         </div>
-                        <!--end slider-container -->
+                        <span class="profile-name">[[${info.storeName}]]</span>
                     </div>
 
+                    <!-- 정보 수정 버튼 -->
+                    <div class="profile-div">
+                        <span class="chatting profile-btn inline" th:onclick="|javascript:goStore(${id})|">내 가게</span>
+                    </div>
+                    <div class="profile-div">
+                        <span class="editMyInfo profile-btn inline">내 정보</span>
+                    </div>
+                    <div class="profile-div">
+                        <span class="chatting profile-btn inline" th:onclick="|javascript:goUpdate()|">내 가게 정보 수정</span>
+                    </div>
                 </div>
-                <!-- end myReviews -->
 
+                <!--우측 메뉴들-->
+                <div id="rightSide">
+                    <!--우측 상단 찜한가게+내 리뷰-->
+                    <div class="counting">
+                        <div class="div-cnt inline">
+                            <span>0</span><br>
+                            <span>내 가게를 찜한 고객</span>
+                        </div>
+                        <div class="div-cnt inline">
+                            <span>0</span><br>
+                            <span>고객들이 쓴 리뷰</span>
+                        </div>
+                    </div>
+
+                    <!-- 고객 리뷰 리스트 슬라이더 -->
+                    <div class="textList">
+                        <span>고객들이 쓴 리뷰</span>
+                        <!--                    <span>아직 리뷰가 없습니다.</span>-->
+                    </div>
+
+                    <div class="listing">
+                        <div style="position: relative;">
+                            <span id="review-left" class="arrow-left">&#139;</span>
+                            <span id="review-right" class="arrow-right">&#155;</span>
+
+                            <div class="slider-container">
+                                <div class="review-slider slider">
+                                    <div class="card">
+
+                                        <div class="card-header">
+                                            <img src="http://placehold.it/300x300"/>
+                                        </div>
+
+                                        <div class="shopList-box">
+                                            <div class="card-body">
+                                                <span class="shop-name reviewText">댓글이지롱</span>
+                                                <span class="shop-name">yyyy-MM-dd HH:mm</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- end th:each-->
+                                </div>
+                            </div>
+                            <!--end slider-container -->
+                        </div>
+
+                    </div>
+                    <!-- end myReviews -->
+
+                </div>
+                <!-- end of right section -->
             </div>
-            <!-- end of right section -->
         </div>
+
         <!-- end page -->
 
 
         <script th:inline="javascript">
-        function goAccount(id) {
-            //alert('goAccount');
-            var url = [[@{/stores/account}]];
-            location.href = url;
-        }
+            function goAccount(id) {
+                //alert('goAccount');
+                var url = [[@{/stores/account
+            }]]
+                ;
+                location.href = url;
+            }
 
-        function goUpdate() {
-            var url = [[@{/stores/update}]];
-            location.href = url;
-        }
+            function goUpdate() {
+                var url = [[@{/stores/update
+            }]]
+                ;
+                location.href = url;
+            }
 
-        function goStore(sno) {
-            var url = [[@{/page/detail}]] + "/" +sno ;
-            location.href = url;
-        }
+            function goStore(sno) {
+                var url = [[@{/page/detail
+            }]]
+                +"/" + sno;
+                location.href = url;
+            }
 
-    </script>
+        </script>
 
     </th:block>
 </th:block>

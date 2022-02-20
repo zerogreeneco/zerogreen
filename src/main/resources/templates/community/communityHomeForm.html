@@ -7,7 +7,18 @@
 
         <script th:inline="javascript">
             $(function () {
-
+                    let page = 1;
+                $("#more-list").click(function () {
+                    ++page;
+                    $.ajax({
+                        url: "/zerogreen/community?page=" + page,
+                        method: "post",
+                        data: {page: page}
+                    })
+                        .done(function (fragment) {
+                            $("#more-wrapper").append(fragment);
+                        });
+                });
                 $(".main-like-btn").click(function (e) {
 
                     let likeBtn = $(this);
@@ -52,23 +63,23 @@
                     $(".category-list a:first").css('color', '#fff');
                 }
                 if (window.location.href.indexOf("QNA") > -1) {
-                    $(".category-list li").eq(1).css('background' , '#16a085');
+                    $(".category-list li").eq(1).css('background', '#16a085');
                     $(".category-list a").eq(1).css('color', '#fff');
                 }
                 if (window.location.href.indexOf("VEGAN") > -1) {
-                    $(".category-list li").eq(2).css('background' , '#16a085');
+                    $(".category-list li").eq(2).css('background', '#16a085');
                     $(".category-list a").eq(2).css('color', '#fff');
                 }
                 if (window.location.href.indexOf("NEWS") > -1) {
-                    $(".category-list li").eq(3).css('background' , '#16a085');
+                    $(".category-list li").eq(3).css('background', '#16a085');
                     $(".category-list a").eq(3).css('color', '#fff');
                 }
                 if (window.location.href.indexOf("PLOGGING") > -1) {
-                    $(".category-list li").eq(4).css('background' , '#16a085');
+                    $(".category-list li").eq(4).css('background', '#16a085');
                     $(".category-list a").eq(4).css('color', '#fff');
                 }
                 if (window.location.href.indexOf("PLOVING") > -1) {
-                    $(".category-list li").eq(5).css('background' , '#16a085');
+                    $(".category-list li").eq(5).css('background', '#16a085');
                     $(".category-list a").eq(5).css('color', '#fff');
                 }
 
@@ -78,6 +89,8 @@
                     $(".list-none").css('display', 'block');
                 }
             });
+
+
         </script>
 
         <!-- 버튼 -->
@@ -123,6 +136,7 @@
         </div>
 
         <!-- 리스트 -->
+        <div id="more-wrapper">
         <div class="list-wrapper" th:each="community : ${communityList}">
             <input type="hidden" th:value="${community.id}" class="list-board-id">
 
@@ -146,7 +160,9 @@
 
                         <!-- 게시자 -->
                         <div class="writer-section">
-                            <img class="main-list-profile" th:src="@{'/bootstrap/images/profile/' +${community.vegetarianGrade}+'.png'}" width="15px" height="15px">
+                            <img class="main-list-profile"
+                                 th:src="@{'/bootstrap/images/profile/' +${community.vegetarianGrade}+'.png'}"
+                                 width="15px" height="15px">
                             <div class="main-list-nickname" th:text="${community.nickname}">닉네임</div>
                         </div>
 
@@ -160,7 +176,8 @@
                             <span sec:authorize="isAuthenticated()" id="like-wrapper">
                                 <span class="like-count">
                                     <span class="main-like-btn">
-                                        <img class="like-img heart-icon" th:attr="src = @{/bootstrap/images/like/disLike.png}">
+                                        <img class="like-img heart-icon"
+                                             th:attr="src = @{/bootstrap/images/like/disLike.png}">
                                     </span>
                                     <span class="test-count number">[[${community.like}]]</span>
                                 </span>
@@ -181,11 +198,13 @@
                 <!--리스트 오른쪽-->
                 <div id="content-right">
                     <!--썸네일-->
-                    <div class="thumbnail-box" >
+                    <div class="thumbnail-box">
                     </div>
                 </div>
             </div>
         </div>
+        </div>
+        <button type="button" id="more-list">더보기</button>
         <!-- 게시글이 없을 때 -->
         <div class="list-none">
             <span id="sorry-emoji">😅</span>

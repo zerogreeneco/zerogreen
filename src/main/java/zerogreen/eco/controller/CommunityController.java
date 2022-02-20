@@ -67,17 +67,11 @@ public class CommunityController {
     @GetMapping("")
     public String communityHomeForm(@RequestParam(value = "category", required = false) Category category,
                                     RequestPageSortDto requestPageDto, Model model,
-                                    SearchType searchType, String keyword,
-                                    @AuthenticationPrincipal PrincipalDetails principalDetails) {
+                                    SearchType searchType, String keyword) {
 
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
         Slice<CommunityResponseDto> allCommunityBoard = boardService.findAllCommunityBoard(pageable);
-//        List<CommunityResponseDto> collect = allCommunityBoard.getContent()
-//                .stream()
-//                .map(o -> new CommunityResponseDto(o.getId(), o.getText(), o.getNickname(), o.getVegetarianGrade(),
-//                        o.getCategory(), o.getModifiedDate(), o.getCount(), o.getLike(), o.getReplyCount()))
-//                .collect(Collectors.toList());
-//        log.info("COLLECT!!!!!!!!!!!!!={}", collect);
+
         model.addAttribute("searchType", searchType);
         model.addAttribute("keyword", keyword);
 
@@ -93,9 +87,32 @@ public class CommunityController {
         return "community/communityHomeForm";
     }
 
+    @PostMapping("")
+    public String communityMoreList(@RequestParam("page")Long page, @RequestParam(value = "category", required = false) Category category,
+                                    RequestPageSortDto requestPageDto, Model model,
+                                    SearchType searchType, String keyword) {
+        Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
+        Slice<CommunityResponseDto> allCommunityBoard = boardService.findAllCommunityBoard(pageable);
+
+        model.addAttribute("searchType", searchType);
+        model.addAttribute("keyword", keyword);
+
+        if (category == null) {
+            if (searchType == null) {
+                model.addAttribute("communityList", allCommunityBoard);
+            } else {
+                model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable, new SearchCondition(keyword, searchType)));
+            }
+        } else {
+            model.addAttribute("communityList", boardService.findByCategory(pageable, category));
+        }
+        return "community/communityHomeForm :: #more-wrapper";
+    }
+
     /* 커뮤니티 글 작성 */
     @GetMapping("/write")
     public String writeForm(@ModelAttribute("writeForm") CommunityRequestDto dto) {
+
         return "community/communityRegisterForm";
     }
 

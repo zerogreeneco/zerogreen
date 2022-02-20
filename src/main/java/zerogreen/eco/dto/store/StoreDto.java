@@ -20,6 +20,8 @@ public class StoreDto {
     private String storePhoneNumber;
     private String openTime;
     private String closeTime;
+    private String storeDescription;
+    private String socialAddress1, socialAddress2;
 
     private Long menuId;
     private String menuName;
@@ -96,11 +98,16 @@ public class StoreDto {
     }
 
     //StoreUpdate
-    //첫 가게 정보 수정
-    public StoreDto(String storeName, StoreType storeType, String storePhoneNumber){
+    public StoreDto(String storeName, StoreType storeType, String storePhoneNumber, String openTime, String closeTime,
+                    String storeDescription, String socialAddress1, String socialAddress2){
         this.storeName = storeName;
         this.storeType = storeType;
         this.storePhoneNumber = storePhoneNumber;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+        this.storeDescription = storeDescription;
+        this.socialAddress1 = socialAddress1;
+        this.socialAddress2 = socialAddress2;
     }
 }
 
