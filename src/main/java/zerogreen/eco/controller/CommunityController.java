@@ -70,14 +70,13 @@ public class CommunityController {
                                     SearchType searchType, String keyword) {
 
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
-        Slice<CommunityResponseDto> allCommunityBoard = boardService.findAllCommunityBoard(pageable);
 
         model.addAttribute("searchType", searchType);
         model.addAttribute("keyword", keyword);
 
         if (category == null) {
             if (searchType == null) {
-                model.addAttribute("communityList", allCommunityBoard);
+                model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable));
             } else {
                 model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable, new SearchCondition(keyword, searchType)));
             }
@@ -87,6 +86,7 @@ public class CommunityController {
         return "community/communityHomeForm";
     }
 
+    // 더보기
     @PostMapping("")
     public String communityMoreList(@RequestParam("page")Long page,
                                     @RequestParam(value = "category", required = false) Category category,
@@ -94,14 +94,13 @@ public class CommunityController {
                                     @RequestParam(value = "keyword", required = false) String keyword,
                                     RequestPageSortDto requestPageDto, Model model) {
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
-        Slice<CommunityResponseDto> allCommunityBoard = boardService.findAllCommunityBoard(pageable);
 
         model.addAttribute("searchType", searchType);
         model.addAttribute("keyword", keyword);
 
         if (category == null) {
             if (searchType == null) {
-                model.addAttribute("communityList", allCommunityBoard);
+                model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable));
             } else {
                 model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable, new SearchCondition(keyword, searchType)));
             }

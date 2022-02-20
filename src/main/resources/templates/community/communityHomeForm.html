@@ -9,6 +9,7 @@
             $(function () {
                 let page = 1;
 
+                // 더보기
                 $("#more-list").click(function () {
                     ++page;
                     let keyword = getParameterByName("keyword");
@@ -30,6 +31,8 @@
                             $("#more-wrapper").append(fragment);
                         });
                 });
+
+                // 좋아요
                 $(".main-like-btn").click(function (e) {
 
                     let likeBtn = $(this);
@@ -54,10 +57,12 @@
                         });
                 }); // like-btn end.
 
+                // 페이지 상단으로 이동
                 $("#top-btn").click(function () {
                     $('html, body').animate({scrollTop: 0}, '400');
                 });
 
+                // 카테고리 태그 색상 변경
                 if (window.location.href == "http://localhost:8080/zerogreen/community") {
                     $(".category-list li:first").css('background', '#16a085');
                     $(".category-list a:first").css('color', '#fff');
@@ -96,8 +101,6 @@
                 let regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
                 return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
             }
-
-
 
         </script>
 
