@@ -124,7 +124,7 @@ public class FileServiceImpl implements FileService{
         File saveFile = new File(getFullPath(storeFilename));
         multipartFile.transferTo(saveFile);
 
-        File thumbnailFile = new File(getFullPath("thumb_" + storeFilename));
+        File thumbnailFile = new File(getFullPath(thumbnailName));
 
         BufferedImage readImage = ImageIO.read(saveFile);
 
