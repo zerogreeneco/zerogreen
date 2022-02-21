@@ -18,6 +18,8 @@ import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.service.community.CommunityBoardService;
 import zerogreen.eco.service.community.CommunityReplyService;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -36,7 +38,11 @@ public class CommunityApiController {
         log.info("CATEGORY={}", category);
 
         if (category == null) {
+            Instant start = Instant.now();
             Slice<CommunityResponseDto> allCommunityBoard = boardService.findAllCommunityBoard(pageable);
+            Instant close = Instant.now();
+            Long timeElapsed = Duration.between(start, close).toMillis();
+            log.info("TIME TEST={}", timeElapsed);
             int size = allCommunityBoard.getSize();
             return new ApiReturnDto<>(size, allCommunityBoard);
         } else {
