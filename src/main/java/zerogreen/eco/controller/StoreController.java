@@ -6,7 +6,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.store.StoreDto;
@@ -58,7 +57,7 @@ public class StoreController {
 
         StoreDto info = storeMemberService.storeInfo(principalDetails.getBasicUser().getId(), storeDto);
         model.addAttribute("storeInfo", info);
-
+        log.info(">>>"+info.getStoreName());
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
         model.addAttribute("tableList", tableList);
 
@@ -67,17 +66,14 @@ public class StoreController {
 
     @PostMapping("/update")
     public String updateStoreInfo(@Validated @ModelAttribute("storeInfo") StoreDto storeDto, BindingResult bindingResult,
-                                  @AuthenticationPrincipal PrincipalDetails principalDetails){
+                                  @AuthenticationPrincipal PrincipalDetails principalDetails, Model model){
 
         if (bindingResult.hasErrors()) {
-            List<ObjectError> allErrors = bindingResult.getAllErrors();
+//            StoreDto info = storeMemberService.storeInfoError(principalDetails.getBasicUser().getId(), storeDto);
+//            model.addAttribute("storeInfo", info);
 
-            for (ObjectError allError : allErrors) {
-                log.info("ERRORCODE={}", allError);
-            }
             return "store/updateInfo";
         }
-
         storeMemberService.updateStore(principalDetails.getId(), storeDto);
 
         return "redirect:/stores/myInfo";
@@ -85,12 +81,7 @@ public class StoreController {
 
     @PostMapping("/update/gradeTable")
     public String updateGradeList(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                 Model model, HttpServletRequest request, BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-            return "store/updateInfo";
-        }
-
+                                 Model model, HttpServletRequest request) {
         String name = request.getParameter("name");
         int price = Integer.parseInt(request.getParameter("price"));
         VegetarianGrade vegetarianGrade = VegetarianGrade.valueOf(request.getParameter("grade"));
