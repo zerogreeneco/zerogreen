@@ -4,16 +4,17 @@ $(function() {
     let id = $("#username");
     let password = $("#password");
     let rePassword = $("#re-password")
+    let idCheck = false;
     let nicknameCheck = false;
+    let phoneNumberCheck = false;
     let authKey = "";
     // 이메일 확인
-    console.log(nicknameCheck);
     $("#send-mail").click(function() {
 
         if(id === "") {
             alert("메일 주소를 입력해주세요.");
         } else if (! emailRegCheck(id.val())) {
-            alert("이메일 양식이 아닙니다 - "+id.val());
+            alert("이메일 양식이 아닙니다.");
         } else {
             $.ajax({
                 url: "/zerogreen/members/checkMail",
@@ -46,9 +47,12 @@ $(function() {
 
         if(key.val() === authKey) {
             alert("인증 성공");
-            $("#joinBtn").removeAttr("disabled");
-            key.attr("disabled", true);
-            this.attr("disabled", true);
+            idCheck = true;
+            if (idCheck === true) {
+                $("#joinBtn").removeAttr("disabled");
+                key.attr("disabled", true);
+                this.attr("disabled", true);
+            }
         } else {
             alert("인증 실패");
         }
@@ -59,7 +63,7 @@ $(function() {
         let nickname = $("#nickname");
 
         if (nickname.val() === "" || nickname.val() === "undefined") {
-            alert("닉네임을 입려해주세요");
+            alert("닉네임을 입려해주세요.");
         } else {
             $.ajax({
                 url: "/zerogreen/members/nickname",
@@ -70,14 +74,15 @@ $(function() {
                 }
             })
                 .done(function (data) {
+                    let $nickname = $(".nickname-error");
                     if (data.result === 1) {
-                        alert("NO");
-                        $(".nickname-error").text("이미 존재하는 닉네임입니다.");
+                        $nickname.text("이미 존재하는 닉네임입니다.");
+                        $nickname.css("color", "red");
                         nickname.focus();
                     } else {
-                        alert("OK");
-                        $(".nickname-error").text("사용 가능한 닉네임입니다.");
                         nicknameCheck = true;
+                        $nickname.text("사용 가능한 닉네임입니다.");
+                        $nickname.css("color", "blue");
                     }
                 });
         }
@@ -100,13 +105,14 @@ $(function() {
                 }
             })
                 .done(function (data) {
+                    let $phoneNumber = $(".phoneNumber-error");
                     if (data.result === 1) {
-                        alert("NO");
-                        $(".nickname-error").text("이미 존재하는 연락처입니다.");
+                        $phoneNumber.text("이미 존재하는 연락처입니다.");
+                        $phoneNumber.css("color","red");
                     } else {
-                        alert("OK");
-                        $(".nickname-error").text("사용 가능한 연락처입니다.");
-                        nicknameCheck = true;
+                        phoneNumberCheck = true;
+                        $phoneNumber.text("사용 가능한 연락처입니다.");
+                        $phoneNumber.css("color","blue");
                     }
                 });
         }
@@ -117,23 +123,42 @@ $(function() {
     * */
     password.blur(function () {
 
-        console.log(password.val());
+        let $password = $(".password-error");
         if (!passwordRegCheck(password.val())) {
-            console.log("정규식 불일치");
+            $password.text("숫자/대,소문자/특수기호를 포함한 8~12자리");
+            $password.css("color", "red");
             this.focus();
+        } else {
+            $password.text("사용 가능한 비밀번호입니다.");
+            $password.css("color", "blue");
         }
     });
 
+    // 비밀번호 중복 확인
     rePassword.blur(function () {
-        if (password.val() !== rePassword.val) {
-            console.log(password.val());
-            console.log(rePassword.val());
-            console.log("비밀번호 불일치");
-            return false;
+        let $re = $(".re-password-error");
+        if (password.val() !== rePassword.val()) {
+            $re.text("비밀번호가 일치하지 않습니다.");
+            $re.css("color", "red");
+            this.focus();
+        } else {
+            $re.text("비밀번호가 일치합니다.");
+            $re.css("color", "blue");
         }
     });
-
-
+    // 회원가입
+    $("#joinBtn").click(function () {
+        if (phoneNumberCheck === true && nicknameCheck === true
+            && (password.val() === rePassword.val())) {
+            $("#reg-form").submit();
+        } else if (phoneNumberCheck !== true) {
+            alert("연락처를 중복 확인을 해주세요.");
+        } else if (nicknameCheck !== true) {
+            alert("닉네임을 중복 확인을 해주세요.");
+        } else if (password.val() !== rePassword.val()) {
+            alert("비밀번호 일치여부를 확인해주세요.");
+        }
+    });
 });
 
 // 이메일 정규식 확인
@@ -146,7 +171,6 @@ function emailRegCheck(email) {
 // 비밀번호 정규식 확인 (숫자, 소문자, 대문자, 특수문자 1개 이상 8~12자리)
 function passwordRegCheck(password) {
     let regExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,12}/;
-
     return regExp.test(password);
 }
 
