@@ -18,7 +18,7 @@ public class StoreDto {
     private String username;
     private UserRole userRole;
     private String storeAddress;
-    @NotBlank
+    @NotBlank(message = "가게 연락처를 입력해 주세요")
     private String storePhoneNumber;
     private String openTime;
     private String closeTime;
