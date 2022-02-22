@@ -5,7 +5,6 @@ $(document).ready(function(e){
     let count = 0;
 
 
-
     //show comment input box
     $(".srv-toAdd").on("click", function(){
         let inputBox = $(this).parent().parent().children(".srv-input");
@@ -47,7 +46,7 @@ $(document).ready(function(e){
         count++;
 
        if (count == 1) {
-            console.log("count");
+            //console.log("count");
             editText.removeAttr('readonly');
             editText.css('border','solid 1px #3498db');
             editText.css('cursor','text');
@@ -55,7 +54,7 @@ $(document).ready(function(e){
             editText.focus();
 
        } else if (count == 2) {
-           console.log("countcount");
+           //console.log("countcount");
 
             $.ajax({
             url: contextPath + "/editReview/"+rno ,
@@ -160,6 +159,17 @@ $(document).ready(function(e){
         $(this).height(this.scrollHeight);
    });
    $('textarea').keyup();
+
+
+    //리뷰 이미지 등록시 textarea 마진 재설정
+//   $('.mrv-textarea').on('change',function (e) {
+//       let img = $(this).parent().children().children('.rv-img').val();
+//
+//        if (img != null) {
+//            $(this).css('marginLeft','130px');
+//        }
+//   });
+//   $('.mrv-textarea').change();
 
 
     //리뷰이미지 슬라이드
@@ -324,7 +334,6 @@ function checkExtension(fileName, fileSize){
 }
 
 
-
 // Preview for review Images
 function preview(arr){
     arr.forEach(function(f){
@@ -366,7 +375,7 @@ function limitTextInput(event) {
 //리뷰 이미지 로컬 삭제
 function deleteImage(event) {
 
-    let parentChildren = $(event).parent().parent().find(".div11").find(".imgInfo");
+    let parentChildren = $(event).parent().parent().find(".div12").find(".imgInfo");
 
     let id = parentChildren.children(".imgId").val();
     let rno = parentChildren.children(".rnoRno").val();
