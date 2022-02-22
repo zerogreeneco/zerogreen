@@ -187,8 +187,8 @@ public class JoinController {
     }
 
     /*
-    * 닉네임 중복 확인
-    * */
+     * 닉네임 중복 확인
+     * */
     @PostMapping("/nickname")
     @ResponseBody
     public ResponseEntity<Map<String, Integer>> nicknameDuplicateCheck(String nickname) {
@@ -196,7 +196,9 @@ public class JoinController {
 
         Integer count = memberService.countByNickname(nickname);
 
-        if (count == 1) { resultMap.put("result", count); }
+        if (count == 1) {
+            resultMap.put("result", count);
+        }
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
@@ -211,7 +213,23 @@ public class JoinController {
 
         Integer count = basicUserService.countByPhoneNumber(phoneNumber);
 
-        if (count == 1) { resultMap.put("result", count); }
+        if (count == 1) {
+            resultMap.put("result", count);
+        }
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
+    @PostMapping("/storeRegNum")
+    @ResponseBody
+    public ResponseEntity<Map<String, Integer>> storeRegNumDuplicateCheck(String storeRegNum) {
+        HashMap<String, Integer> resultMap = new HashMap<>();
+
+        Integer count = storeMemberService.countByStoreRegNum(storeRegNum);
+
+        if (count == 1) {
+            resultMap.put("result", count);
+        }
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }

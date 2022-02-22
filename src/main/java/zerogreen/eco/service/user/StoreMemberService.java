@@ -34,4 +34,6 @@ public interface StoreMemberService {
     //StoreUpdate
     StoreDto storeInfo(Long id, StoreDto storeDto);
     void updateStore(Long id, StoreDto storeDto);
+
+    int countByStoreRegNum(String storeRegNum);
 }
