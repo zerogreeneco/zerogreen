@@ -88,8 +88,10 @@
                     $(".category-list a").eq(5).css('color', '#fff');
                 }
 
+                // 게시물이 없을 경우
                 if ($("div").hasClass("list-wrapper")) {
                     $(".list-none").css('display', 'none');
+                    $("#more-list").css('display', 'block');
                 } else {
                     $(".list-none").css('display', 'block');
                 }
@@ -220,7 +222,8 @@
             </div>
         </div>
         </div>
-        <button type="button" id="more-list">더보기</button>
+        <button type="button" id="more-list"> + </button>
+
         <!-- 게시글이 없을 때 -->
         <div class="list-none">
             <span id="sorry-emoji">😅</span>
