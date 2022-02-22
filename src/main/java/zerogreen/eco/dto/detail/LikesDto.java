@@ -6,7 +6,6 @@ import zerogreen.eco.entity.detail.Likes;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 
-import javax.mail.Store;
 import java.time.LocalDateTime;
 
 @Getter
@@ -29,7 +28,6 @@ public class LikesDto {
     private LocalDateTime modifiedDate;
 
 
-
     public LikesDto() {
     }
 
@@ -39,7 +37,5 @@ public class LikesDto {
         this.storeMember = likes.getStoreMember();
         this.basicUser = likes.getBasicUser();
     }
-
-
 
 }

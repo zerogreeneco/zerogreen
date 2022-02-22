@@ -4,16 +4,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
-import zerogreen.eco.entity.community.CommunityBoard;
 import zerogreen.eco.entity.userentity.StoreMember;
 
 import javax.persistence.*;
-
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.CascadeType.REMOVE;
 
 @Entity
 @Getter
@@ -30,6 +24,7 @@ public class ReviewImage extends BaseTimeEntity {
     private String uploadFileName;
     private String reviewFileName;
     private String filePath;
+    private String thumbnailName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
@@ -40,22 +35,23 @@ public class ReviewImage extends BaseTimeEntity {
     private StoreMember storeMember;
 
 
-
     // 파일 폴더 저장
-    public ReviewImage(String uploadFileName, String reviewFileName, String filePath) {
+    public ReviewImage(String uploadFileName, String reviewFileName, String filePath, String thumbnailName) {
         this.uploadFileName = uploadFileName;
         this.reviewFileName = reviewFileName;
         this.filePath = filePath;
+        this.thumbnailName = thumbnailName;
     }
 
     // 파일 DB 저장
     public ReviewImage(String uploadFileName, String reviewFileName, String filePath,
-                       DetailReview detailReview, StoreMember storeMember) {
+                       DetailReview detailReview, StoreMember storeMember, String thumbnailName) {
         this.uploadFileName = uploadFileName;
         this.reviewFileName = reviewFileName;
         this.filePath = filePath;
         this.detailReview = detailReview;
         this.storeMember = storeMember;
+        this.thumbnailName = thumbnailName;
     }
 
 }

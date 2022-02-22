@@ -125,6 +125,7 @@
                         <textarea th:field="*{reviewText}" name="reviewText" id="reviewText" class="reviewText"
                                   onkeyup="limitTextInput(this)" placeholder="리뷰를 남겨보세요!"></textarea>
                         <div class="text-count-div">
+                            <span>띄어쓰기 포함 최대 500자까지 입력이 가능합니다. </span>
                             <span class="text-count">0 / 500</span>
                         </div>
                     </div>
@@ -151,19 +152,16 @@
                         <span id="image-right"  class="arrow-right">&#155;</span>
                         <div class="slider-container">
                             <div class="image-slider slider">
-                                <div class="card rv-img-list" th:each="imageList, i: ${reviewImageList}">
+                                <div class="card rv-img-list" th:each="imageList: ${reviewImageList}">
                                     <img class="inline rv-imageOnly" th:src="@{/page/detail/images/{imageList}(imageList=*{imageList.reviewFileName})}"
                                          th:value="${imageList.uploadFileName}"
                                          width="120px" height="120px">
-                                    <span class="idx">[[${i.index}]]</span>
-                                    <span>[[${i.size}]]</span>
                                 </div>
                             </div>
                         </div>
                         <!-- end slider-container -->
                     </div>
                     <!-- end review image list -->
-
 
                     <div th:each="mReview : ${memberReview}">
                         <!-- 멤버리뷰 리스트 -->
@@ -176,21 +174,22 @@
                             <span class="rv-nickname">[[${mReview.nickname}]]</span>
                             <span class="rv-date inline">[[${#temporals.format(mReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
                             <br>
-                            <div th:if="${reviewImageList != null}" class="inline div11">
-
-                                <div class="rv-img inline" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
-                                    <img class="inline mImage mImage-fr"
-                                         th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
-                                         th:value="${mImage.uploadFileName}"
-                                         width="120px" height="120px" >
+                            <div th:if="${reviewImageList != null}" class="inline div12">
+                                <div class="div11">
+                                    <div class="rv-img inline" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
+                                        <img class="inline mImage mImage-fr"
+                                             th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
+                                             th:value="${mImage.uploadFileName}"
+                                             width="120px" height="120px" >
+                                    </div>
                                 </div>
 
-                                <div class="rv-img inline imgInfo" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
-                                    <input class="imgPath" th:value="${mImage.filePath}">
-                                    <input class="rnoRno" th:value="${mImage.detailReview.id}">
-                                    <input class="imgId" th:value="${mImage.id}">
-                                    <span class="size" th:text="${idx.size}"></span>
-                                    <span class="idx" th:text="${idx.index}"></span>
+                                <div class="inline imgInfo" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
+                                    <input class="imgPath" th:value="${mImage.filePath}" type="hidden">
+                                    <input class="rnoRno" th:value="${mImage.detailReview.id}" type="hidden">
+                                    <input class="imgId" th:value="${mImage.id}" type="hidden">
+                                    <span class="size" th:text="${idx.size}" style="display:none;"></span>
+                                    <span class="idx" th:text="${idx.index}" style="display:none;"></span>
                                 </div>
                             </div>
 

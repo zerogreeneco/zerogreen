@@ -70,31 +70,10 @@ public class DetailController {
             model.addAttribute("cntLike", likesService.cntMemberLike(sno, principalDetails.getId()));
         }
 
-
-
-        //리뷰 리스트
+        //리뷰 텍스트 리스트
         List<DetailReviewDto> result = detailReviewService.findByStore(sno);
         model.addAttribute("memberReview", result);
         Collections.reverse(result);
-/*
-        List<DetailReviewDto> result = detailReviewService.findByStore(sno, reviewDto.getRno());
-        model.addAttribute("memberReview", result);
-        Collections.reverse(result);
-*/
-
-
-        //리뷰 이미지 리스트 (리뷰별)
-        DetailReviewDto detailReviewDto = detailReviewService.getById(sno);
-        List<ReviewImageDto> imagesByReview = reviewImageService.findByReview(detailReviewDto.getRno());
-        if (imagesByReview.size() > 0) {
-            model.addAttribute("imagesByReview", imagesByReview);
-            Collections.reverse(imagesByReview);
-        }
-
-
-        //메뉴 리스트
-        List<StoreMenuDto> menuList = storeMenuService.getStoreMenu(sno);
-        model.addAttribute("menuList", menuList);
 
         //리뷰 이미지 리스트 (스토어전체)
         List<ReviewImageDto> reviewImages = reviewImageService.findByStore(sno);
@@ -102,6 +81,10 @@ public class DetailController {
             model.addAttribute("reviewImageList", reviewImages);
             Collections.reverse(reviewImages);
         }
+
+        //메뉴 리스트
+        List<StoreMenuDto> menuList = storeMenuService.getStoreMenu(sno);
+        model.addAttribute("menuList", menuList);
 
         //가게별 멤버리뷰 카운팅
         Long cnt2 = detailReviewService.cntMemberReview(sno);
