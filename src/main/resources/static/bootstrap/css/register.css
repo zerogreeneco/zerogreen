@@ -88,4 +88,7 @@
     font-family: 'Noto Sans KR', sans-serif;
     background: #d4d4d4;
 }
+.field-error{
+    color: #dc3545;
+}
 
