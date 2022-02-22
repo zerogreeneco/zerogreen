@@ -210,8 +210,9 @@
                 <!--리스트 오른쪽-->
                 <div id="content-right">
                     <!--썸네일-->
-                    <div class="thumbnail-box">
-                        <img th:src="@{/community/images/{imageFile}(imageFile=${community.thumbnail})}"
+                    <div class="thumbnail-box" style="border: none;">
+                        <img th:if="${not #strings.isEmpty(community.thumbnail)}"
+                             th:src="@{/community/images/{imageFile}(imageFile=${community.thumbnail})}"
                              th:value="${community.thumbnail}"
                              width="178px" height="auto">
                     </div>

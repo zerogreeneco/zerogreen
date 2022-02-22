@@ -117,6 +117,9 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                 .fetchFirst();
     }
 
+    /*
+    * 공통 SELECT절
+    * */
     private JPAQuery<CommunityResponseDto> dtoProjections(BooleanExpression id, BooleanExpression id1, BooleanExpression id2) {
         return queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
@@ -140,9 +143,13 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                                         .where(id1), "replyCount"),
                         ExpressionUtils.as(
                                 JPAExpressions
-                                        .select(subImage.thumbnailName.min())
+                                        .select(subImage.thumbnailName)
                                         .from(subImage, subImage)
-                                        .where(id2), "thumbImage")
+                                        .where(id2.
+                                                and(subImage.id.eq(
+                                                        JPAExpressions
+                                                                .select(subImage.id.min())
+                                                                .from(subImage, subImage)))), "thumbImage")
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member);
@@ -159,7 +166,6 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                 .where(communityBoard.id.eq(boardId))
                 .fetchFirst();
     }
-
 
     /*
      * 게시판 조회수

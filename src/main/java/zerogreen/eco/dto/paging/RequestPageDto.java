@@ -15,7 +15,7 @@ public class RequestPageDto {
 
     public RequestPageDto() {
         this.page = 1;
-        this.size = 10;
+        this.size = 1000;
     }
 
     public Pageable getPageable() {
