@@ -15,34 +15,38 @@
                     <div class="py-5 text-center">
                         <h2 class="title"><span>내 가게 정보 수정</span></h2>
                     </div>
+                        <div class="store-info">
+                            <!-- 매장 이름 -->
+                            <h3 class="title">
+                                <img class="grade" th:src="@{/bootstrap/images/profile/STORE.png}">
+                                <span id="store-name" th:text="${storeInfo.storeName}"/>
+                            </h3>
 
-                    <div class="store-info">
-                        <!-- 매장 이름 -->
-                        <h3 class="title">
-                            <img class="grade" th:src="@{/bootstrap/images/profile/STORE.png}">
-                            <span id="store-name">[[${storeInfo.storeName}]]</span>
-                        </h3>
-
-                        <!-- 사업장 종류 -->
-                        <label class="join-label">사업장 종류</label>
-                        <div class="storeType">
-                            <div th:each="stores : ${storeTypes}">
-                                <input type="radio" style="margin-left: 10px;" th:value="${stores.name()}"
-                                       th:checked="${stores.name() == storeInfo.storeType.name()}" disabled>
-                                <label th:text="${stores.storeType}"/>
+                            <!-- 사업장 종류 -->
+                            <label class="join-label">사업장 종류</label>
+                            <div class="storeType">
+                                <div th:each="stores : ${storeTypes}">
+                                    <input type="radio" style="margin-left: 10px;" th:value="${stores}"
+                                           th:checked="${stores == storeInfo.storeType}" disabled>
+                                    <label th:text="${stores.storeType}"/>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
                     <form method="post" th:action="@{/stores/update}" th:object="${storeInfo}">
+                        <input type="hidden" th:field="*{storeName}">
+                        <input type="hidden" th:field="*{storeType}">
                         <div class="update-info">
                             <!-- 가게 연락처 -->
                             <div>
                                 <label for="storePhoneNumber" class="join-label">가게 전화번호</label>
-                                <input type="text" class="form-control input-box" id="storePhoneNumber" th:field="*{storePhoneNumber}">
+                                <input type="text" class="form-control input-box" id="storePhoneNumber"
+                                       th:field="*{storePhoneNumber}"
+                                       onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">
                                 <div th:errors="*{storePhoneNumber}" class="field-error">
-                                    전화 오류
+                                    가게 연락처를 입력해 주세요
                                 </div>
+                                <span class="field-error" id="phoneCheck"></span>
                             </div>
 
                             <!-- 영업시간 -->
@@ -93,79 +97,82 @@
                                         <img class="grade"
                                              th:src="@{'/bootstrap/images/profile/'+${vegan.name()}+'.png'}">
                                     </label>
+                                    <br><span id="gradeCheck"/>
                                 </div>
                             </div>
-                                <span class="addBtn" id="menuAdd" th:if="${storeInfo.storeType.name() == 'VEGAN_FOOD'}">메뉴 추가</span>
-                                <span class="addBtn menuAdd" th:if="${storeInfo.storeType.name() == 'GENERAL_FOOD'}">메뉴 추가</span>
-                                <span class="addBtn menuAdd" th:if="${storeInfo.storeType.name() == 'ECO_SHOP'}">상품 추가</span>
+                            <span class="addBtn" id="menuAdd" th:if="${storeInfo.storeType.name() == 'VEGAN_FOOD'}">메뉴 추가</span>
+                            <span class="addBtn menuAdd" th:if="${storeInfo.storeType.name() == 'GENERAL_FOOD'}">메뉴 추가</span>
+                            <span class="addBtn menuAdd" th:if="${storeInfo.storeType.name() == 'ECO_SHOP'}">상품 추가</span>
 
-                                <!-- 메뉴 목록 -->
-                                <div>
-                                    <label class="join-label" th:if="${storeInfo.storeType.name() != 'ECO_SHOP'}">메뉴 목록</label>
-                                    <label class="join-label" th:if="${storeInfo.storeType.name() == 'ECO_SHOP'}">상품 목록</label>
-                                    <!-- Grade Table -->
-                                    <div class="table" th:if="${storeInfo.storeType.name() == 'VEGAN_FOOD'}">
-                                        <table id="grade-table">
-                                            <tr>
-                                                <td style="width: 40%;">이름</td>
-                                                <td style="width: 19%; border-left: 1px solid lightgray;">가격</td>
-                                                <td style="width: 18%; border-left: 1px solid lightgray;">비건등급</td>
-                                                <td style="width: 13%; border-left: 1px solid lightgray;">삭제</td>
-                                            </tr>
-                                            <tr th:each="tableList : ${tableList}">
-                                                <input type="hidden" class="tableId" th:value="${tableList.id}">
-                                                <td style="width: 40%;">[[${tableList.menuName}]]</td>
-                                                <td style="width: 19%; border-left: 1px solid lightgray;">
-                                                    [[${tableList.menuPrice}]]
-                                                </td>
-                                                <td style="width: 18%; border-left: 1px solid lightgray;">
-                                                    [[${tableList.vegetarianGrade}]]
-                                                </td>
-                                                <td style="width: 13%; border-left: 1px solid lightgray;">
-                                                    <img class="truncate_icon"
-                                                         th:src="@{/bootstrap/images/list/close.png}"
-                                                         onclick="tableDel(this)"/>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div> <!-- end Grade Table -->
+                            <!-- 메뉴 목록 -->
+                            <div>
+                                <label class="join-label" th:if="${storeInfo.storeType.name() != 'ECO_SHOP'}">메뉴 목록</label>
+                                <label class="join-label" th:if="${storeInfo.storeType.name() == 'ECO_SHOP'}">상품 목록</label>
+                                <!-- Grade Table -->
+                                <div class="table" th:if="${storeInfo.storeType.name() == 'VEGAN_FOOD'}">
+                                    <table id="grade-table">
+                                        <tr>
+                                            <td style="width: 40%;">이름</td>
+                                            <td style="width: 19%; border-left: 1px solid lightgray;">가격</td>
+                                            <td style="width: 18%; border-left: 1px solid lightgray;">비건등급</td>
+                                            <td style="width: 13%; border-left: 1px solid lightgray;">삭제</td>
+                                        </tr>
+                                        <tr th:each="tableList : ${tableList}">
+                                            <input type="hidden" class="tableId" th:value="${tableList.id}">
+                                            <td style="width: 40%;">[[${tableList.menuName}]]</td>
+                                            <td style="width: 19%; border-left: 1px solid lightgray;">
+                                                [[${tableList.menuPrice}]]
+                                            </td>
+                                            <td style="width: 18%; border-left: 1px solid lightgray;">
+                                                [[${tableList.vegetarianGrade}]]
+                                            </td>
+                                            <td style="width: 13%; border-left: 1px solid lightgray;">
+                                                <img class="truncate_icon"
+                                                     th:src="@{/bootstrap/images/list/close.png}"
+                                                     onclick="tableDel(this)"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div> <!-- end Grade Table -->
 
-                                    <!-- Table -->
-                                    <div class="table" th:if="${storeInfo.storeType.name() != 'VEGAN_FOOD'}">
-                                        <table id="list-table">
-                                            <tr>
-                                                <td style="width: 40%;">이름</td>
-                                                <td style="width: 19%; border-left: 1px solid lightgray;">가격</td>
-                                                <td style="width: 13%; border-left: 1px solid lightgray;">삭제</td>
-                                            </tr>
-                                            <tr th:each="tableList : ${tableList}">
-                                                <input type="hidden" class="tableId" th:value="${tableList.id}">
-                                                <td style="width: 40%;">[[${tableList.menuName}]]</td>
-                                                <td style="width: 19%; border-left: 1px solid lightgray;">
-                                                    [[${tableList.menuPrice}]]
-                                                </td>
-                                                <td style="width: 13%; border-left: 1px solid lightgray;">
-                                                    <img class="truncate_icon"
-                                                         th:src="@{/bootstrap/images/list/close.png}"
-                                                         onclick="tableDel(this)"/>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div> <!-- end Table -->
-                                </div> <!-- end MenuList -->
+                                <!-- Table -->
+                                <div class="table" th:if="${storeInfo.storeType.name() != 'VEGAN_FOOD'}">
+                                    <table id="list-table">
+                                        <tr>
+                                            <td style="width: 40%;">이름</td>
+                                            <td style="width: 19%; border-left: 1px solid lightgray;">가격</td>
+                                            <td style="width: 13%; border-left: 1px solid lightgray;">삭제</td>
+                                        </tr>
+                                        <tr th:each="tableList : ${tableList}">
+                                            <input type="hidden" class="tableId" th:value="${tableList.id}">
+                                            <td style="width: 40%;">[[${tableList.menuName}]]</td>
+                                            <td style="width: 19%; border-left: 1px solid lightgray;">
+                                                [[${tableList.menuPrice}]]
+                                            </td>
+                                            <td style="width: 13%; border-left: 1px solid lightgray;">
+                                                <img class="truncate_icon"
+                                                     th:src="@{/bootstrap/images/list/close.png}"
+                                                     onclick="tableDel(this)"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div> <!-- end Table -->
+                            </div> <!-- end MenuList -->
 
                             <!-- 첨부 파일 -->
-                            <!--                        <div>-->
-                            <!--                            <label class="join-label">첨부파일</label>-->
-                            <!--                            &lt;!&ndash;                        <input type="file" class="update-box" th:field="*{attachFile}">&ndash;&gt;-->
-                            <!--                        </div>-->
-                            <!--                    <div th:if="${#fields.hasGlobalErrors()}">-->
-                            <!--                        <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>-->
-                            <!--                    </div>-->
+                            <div>
+                                <label class="join-label">첨부파일</label>
+                                <!--                        <input type="file" class="update-box" th:field="*{attachFile}">-->
+                            </div>
+                            <div th:if="${#fields.hasGlobalErrors()}">
+                                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류
+                                    메시지</p>
+                            </div>
                         </div>
 
                         <div>
                             <button id="modifyBtn" class="regi-btn" type="submit">수정하기</button>
+                            </button>
                         </div>
                     </form>
 
@@ -176,9 +183,7 @@
         <script th:inline="javascript">
             // 글자수 제한
             function limitTextInput(event) {
-                console.log(event);
                 let countText = $(event).prev().children(".cm-text-count");
-                console.log(countText);
                 countText.html($(event).val().length + " / 300");
 
                 if ($(event).val().length > 300) {
@@ -199,7 +204,13 @@
                 let name = $("#menuName").val();
                 let price = $("#menuPrice").val();
                 let grade = $(":input:radio[name=vegetarianGrade]:checked").val();
-                alert(grade);
+                let check = $("#gradeCheck");
+
+                if(grade == null){
+                    check.html("해당 메뉴의 비건 등급을 입력해 주세요");
+                    check.css("color","#dc3545");
+                }
+
                 $.ajax({
                     url: "/zerogreen/stores/update/gradeTable",
                     method: "post",
@@ -212,7 +223,6 @@
                 })
                     .done(function (fragment) {
                         $("#grade-table").replaceWith(fragment);
-                        alert("메뉴 등록 완");
                         $("#menuName").val("");
                         $("#menuPrice").val("");
                         $(":input:radio[name=vegetarianGrade]:checked").prop('checked', false);
@@ -234,7 +244,6 @@
                 })
                     .done(function (fragment) {
                         $("#list-table").replaceWith(fragment);
-                        alert("메뉴 등록 완");
                         $("#menuName").val("");
                         $("#menuPrice").val("");
                     });
@@ -255,9 +264,7 @@
                     .done(function (fragment) {
                         $("#list-table").replaceWith(fragment);
                     });
-
             }
-
         </script>
     </th:block>
 </th:block>

@@ -66,14 +66,12 @@ public class StoreController {
 
     @PostMapping("/update")
     public String updateStoreInfo(@Validated @ModelAttribute("storeInfo") StoreDto storeDto, BindingResult bindingResult,
-                                  @AuthenticationPrincipal PrincipalDetails principalDetails, Model model){
+                                  @AuthenticationPrincipal PrincipalDetails principalDetails){
 
         if (bindingResult.hasErrors()) {
-//            StoreDto info = storeMemberService.storeInfoError(principalDetails.getBasicUser().getId(), storeDto);
-//            model.addAttribute("storeInfo", info);
-
             return "store/updateInfo";
         }
+
         storeMemberService.updateStore(principalDetails.getId(), storeDto);
 
         return "redirect:/stores/myInfo";
