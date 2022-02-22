@@ -17,7 +17,7 @@ public interface BasicUserRepository extends JpaRepository<BasicUser, Long>, Bas
     BasicUser findByChatUsername(@Param("username") String username);
 
     long countByUsernameAndPhoneNumber(@Param("username") String username, @Param("phoneNumber") String phoneNumber);
-    long countByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+    int countByPhoneNumber(@Param("phoneNumber") String phoneNumber);
     long countByUsername(@Param("username") String username);
 
 

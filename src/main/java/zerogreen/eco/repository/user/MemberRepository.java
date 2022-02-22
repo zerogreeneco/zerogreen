@@ -2,6 +2,7 @@ package zerogreen.eco.repository.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import zerogreen.eco.entity.userentity.Member;
 
 import java.util.Optional;
@@ -14,4 +15,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     String findmemberNick(Long memberId);
 
     Optional<Member> findByUsername(String username);
+
+    Integer countByNickname(@Param("nickname") String nickname);
 }

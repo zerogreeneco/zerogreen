@@ -17,7 +17,7 @@
                             <label for="username" class="join-label">로그인 ID</label>
                             <div>
                                 <input type="text" id="username" th:field="*{username}" class="form-control login-box">
-                                <button type="button" class="sendMail">인증</button>
+                                <button type="button" class="sendMail" id="send-mail">인증</button>
                             </div>
                             <div th:errors="*{username}" class="field-error">아이디 오류</div>
                         </div>
@@ -34,20 +34,27 @@
                                 비번 오류
                             </div>
                         </div>
+                        <div>
+                            <label for="re-password" class="join-label">비밀번호 확인</label>
+                            <input type="password" id="re-password" class="form-control input-box">
+                        </div>
 
                         <!--닉네임-->
                         <div>
                             <label for="nickname" class="join-label">닉네임</label>
-                            <input type="text" id="nickname" th:field="*{nickname}" class="form-control input-box">
-                            <div th:errors="*{nickname}" class="field-error">
+                            <input type="text" id="nickname" th:field="*{nickname}" class="form-control login-box">
+                            <button type="button" class="sendMail" id="nickname-check">중복 확인</button>
+                            <div th:errors="*{nickname}" class="field-error nickname-error">
                                 닉네임 오류
                             </div>
+                            <div class="field-error nickname-error"></div>
                         </div>
 
                         <!--전화번호-->
                         <div>
                             <label for="phoneNumber" class="join-label">전화번호</label>
-                            <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control input-box">
+                            <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control login-box">
+                            <button type="button" class="sendMail" id="phoneNumber-check">중복 확인</button>
                             <div th:errors="*{phoneNumber}" class="field-error">
                                 전화 오류
                             </div>

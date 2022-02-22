@@ -21,7 +21,7 @@ public class ImageFileDto {
     public ImageFileDto(BoardImage image) {
         this.id = image.getId();
         this.storeFileName = image.getStoreFileName();
-        this.thumbnailImage = "thumb_" + image.getStoreFileName();
+        this.thumbnailImage = image.getThumbnailName();
         this.uploadFileName = image.getUploadFileName();
         this.filePath = image.getFilePath();
     }

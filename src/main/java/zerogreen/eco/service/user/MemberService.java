@@ -20,6 +20,7 @@ public interface MemberService {
     Optional<Member> findById(Long id);
     Long findAuthMember(String username);
 
-
+    // 닉네임 중복체크
+    Integer countByNickname(String nickname);
 
 }

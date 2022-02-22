@@ -61,7 +61,7 @@ public class BasicUserServiceImpl implements BasicUserService{
     * 카운트 쿼리
     * */
     @Override
-    public long countByPhoneNumber(String phoneNumber) {
+    public int countByPhoneNumber(String phoneNumber) {
         log.info("SERVICE COUNT={}",phoneNumber);
         return basicUserRepository.countByPhoneNumber(phoneNumber);
     }
