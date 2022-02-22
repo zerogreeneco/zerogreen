@@ -29,7 +29,4 @@ public class FindMemberDto {
         this.username = username;
         this.phoneNumber = phoneNumber;
     }
-
-
-
 }

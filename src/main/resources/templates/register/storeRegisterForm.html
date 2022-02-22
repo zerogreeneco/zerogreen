@@ -104,7 +104,7 @@
                                 <label for="username" class="join-label">로그인 ID</label>
                                 <div>
                                     <input type="text" id="username" th:field="*{username}" class="form-control login-box">
-                                    <button type="button" class="sendMail">인증</button>
+                                    <button type="button" id="send-mail" class="sendMail">인증</button>
                                 </div>
                                 <div th:errors="*{username}" class="field-error">
                                     아이디 오류
@@ -113,7 +113,7 @@
                             <!-- 이메일 인증 -->
                             <div style="display:none;" class="auth-box">
                                 <input type="text" class="authKey form-control login-box">
-                                <button type="button" id="authConfirm sendMail">인증 확인</button>
+                                <button type="button" id="authConfirm" class="sendMail">인증 확인</button>
                             </div>
                             <!-- 비밀번호 (재확인 창 추가 필요) -->
                             <div>
@@ -123,13 +123,19 @@
                                     비번 오류
                                 </div>
                             </div>
+                            <div>
+                                <label for="re-password" class="join-label">비밀번호</label>
+                                <input type="password" id="re-password" class="form-control input-box">
+                            </div>
                             <!-- 개인 연락처 -->
                             <div>
                                 <label for="phoneNumber" class="join-label">전화번호</label>
-                                <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control input-box">
+                                <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control login-box">
+                                <button type="button" class="sendMail" id="phoneNumber-check">중복 확인</button>
                                 <div th:errors="*{phoneNumber}" class="field-error">
                                     전화 오류
                                 </div>
+                                <div class="phoneNumber-error"></div>
                             </div>
                         </div>
                         <!-- 가게 이름 -->
@@ -155,7 +161,8 @@
                             <!-- 사업자 등록번호 -->
                             <div>
                                 <label for="storeRegNum" class="join-label">사업자 등록 번호</label>
-                                <input type="text" id="storeRegNum" th:field="*{storeRegNum}" class="form-control input-box">
+                                <input type="text" id="storeRegNum" th:field="*{storeRegNum}" class="form-control login-box">
+                                <button type="button" class="sendMail" id="storeRegNum-check">중복 확인</button>
                                 <div th:errors="*{storeRegNum}" class="field-error">
                                     사업자 등록번호 오류
                                 </div>
@@ -189,7 +196,7 @@
                         <hr class="my-4 hr-margin">
                         <div>
                             <button class="cancle-btn" th:onclick="|location.href='@{/}'|" type="button">취소 </button>
-                            <button class="regi-btn" type="submit" disabled="true">회원 가입</button>
+                            <button id="joinBtn" class="regi-btn" type="button" disabled="true">회원 가입</button>
                         </div>
                     </div>
                 </form>

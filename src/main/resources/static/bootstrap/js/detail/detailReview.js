@@ -129,7 +129,7 @@ $(document).ready(function(e){
             .done(function (fragment) {
                 //$("#reviewList").replaceWith(fragment);
                 $(".review-cnt").html(Number(cnt.text())-1);
-                //self.location.reload();
+                self.location.reload();
             });
    }); //delete member Review end
 
@@ -391,9 +391,7 @@ function deleteImage(event) {
                 })
                 .done(function (data) {
                     if (data.key === "success") {
-
                         //alert("이미지가 삭제되었습니다.");
-
                     }
                 });
            })(i); //end function(i)
@@ -443,36 +441,3 @@ function getPreview(event){
 }
 */
 
-
-/*
-//단일 파일 ** 뷰에 onchange="getPreview(this,$('#preview'))" 추가 **
-function getPreview(html, expression) {
-    if (html.files && html.files[0]) {
-        let reader = new FileReader();
-        reader.onload = function (e) {
-        $(expression).html('<img src="'+ e.target.result +'"/>');
-      }
-      reader.readAsDataURL(html.files[0]);
-  }
-}
-*/
-
-/*
-//이거 안쓸거야... 단일파일..
-//onload 밖에 있어야 함
-function getPreview(input, expression) {
-
-    if (input.files && input.files[0]) {
-        let reader = new FileReader();
-
-        reader.onload = function (e) {
-        $(expression).attr('src', e.target.result);
-      }
-      reader.readAsDataURL(input.files[0]);
-  }
-}
-//onload안에 있어야 함
-$('#img-input').change(function(){
-    getPreview(this, '#imgT');
-});
-*/

@@ -3,6 +3,8 @@ package zerogreen.eco.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +24,7 @@ import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.service.file.FileService;
 import zerogreen.eco.service.mail.MailService;
+import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.MemberService;
 import zerogreen.eco.service.user.StoreMemberService;
 
@@ -40,6 +43,7 @@ public class JoinController {
     @Value("C:/imageUpload/")
     private String imageFileDir;
 
+    private final BasicUserService basicUserService;
     private final MemberService memberService;
     private final StoreMemberService storeMemberService;
     private final FileService fileService;
@@ -59,8 +63,8 @@ public class JoinController {
     }
 
     /*
-    * 일반 회원 가입
-    * */
+     * 일반 회원 가입
+     * */
     @GetMapping("/add")
     public String addForm(@ModelAttribute("member") MemberJoinDto member) {
 
@@ -100,21 +104,29 @@ public class JoinController {
 
         HashMap<String, String> keyMap = new HashMap<>();
 
-        log.info("이메일 인증 컨트롤러 OK");
-        log.info("EMAIL ={}", mail);
-        String key = mailService.createAuthKey();
+        long count = basicUserService.countByUsername(mail);
 
-        keyMap.put("key", key);
-        log.info("Before Send Key={}", key);
-        mailService.sendAuthMail(mail, key);
-        log.info("key={}", key);
+        if (count == 1) {
+            log.info("중복 회원 이메일 인증 불가");
+            keyMap.put("fail", "아이디 중복");
+            return keyMap;
+        } else {
+            log.info("이메일 인증 컨트롤러 OK");
+            log.info("EMAIL ={}", mail);
+            String key = mailService.createAuthKey();
+
+            keyMap.put("key", key);
+            log.info("Before Send Key={}", key);
+            mailService.sendAuthMail(mail, key);
+            log.info("key={}", key);
+        }
 
         return keyMap;
     }
 
     /*
-    * 환영 페이지
-    * */
+     * 환영 페이지
+     * */
     @GetMapping("/welcome")
     public String welcome(@RequestParam("nickname") String nickname, Model model) {
 
@@ -123,23 +135,23 @@ public class JoinController {
     }
 
     /*
-    * 가게 회원 가입
-    * */
+     * 가게 회원 가입
+     * */
     @GetMapping("/store/add")
-    public String storeAddForm(@ModelAttribute("store")StoreJoinDto storeJoinDto, @ModelAttribute("file")FileForm fileForm) {
+    public String storeAddForm(@ModelAttribute("store") StoreJoinDto storeJoinDto, @ModelAttribute("file") FileForm fileForm) {
         return "register/storeRegisterForm";
     }
 
     @PostMapping("/store/add")
     public String storeAdd(@RequestBody @Validated @ModelAttribute("store") StoreJoinDto storeJoinDto, BindingResult bindingResult,
-                            RedirectAttributes redirectAttributes) throws IOException {
+                           RedirectAttributes redirectAttributes) throws IOException {
 
         // 기본 유효성 검사 (Null 체크 등)
         if (bindingResult.hasErrors()) {
             List<ObjectError> allErrors = bindingResult.getAllErrors();
 
             for (ObjectError allError : allErrors) {
-                log.info("ERRORCODE={}", allError);
+                log.info("ERROR CODE={}", allError);
             }
             return "register/storeRegisterForm";
         }
@@ -151,7 +163,7 @@ public class JoinController {
             bindingResult.reject("attachFile", null);
             return "register/storeRegisterForm";
         } else if (!attachFile.getContentType().startsWith("image")
-                && !attachFile.getContentType().equals("application/pdf") ) {
+                && !attachFile.getContentType().equals("application/pdf")) {
             log.warn("이미지 또는 PDF 파일이 아닙니다.");
             bindingResult.reject("incorrectAttachFile", null);
             return "register/storeRegisterForm";
@@ -172,5 +184,53 @@ public class JoinController {
 
         return "redirect:/members/welcome";
 
+    }
+
+    /*
+     * 닉네임 중복 확인
+     * */
+    @PostMapping("/nickname")
+    @ResponseBody
+    public ResponseEntity<Map<String, Integer>> nicknameDuplicateCheck(String nickname) {
+        HashMap<String, Integer> resultMap = new HashMap<>();
+
+        Integer count = memberService.countByNickname(nickname);
+
+        if (count == 1) {
+            resultMap.put("result", count);
+        }
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
+    /*
+     * 연락처 중복 확인
+     * */
+    @PostMapping("/phoneNumber")
+    @ResponseBody
+    public ResponseEntity<Map<String, Integer>> phoneNumberDuplicateCheck(String phoneNumber) {
+        HashMap<String, Integer> resultMap = new HashMap<>();
+
+        Integer count = basicUserService.countByPhoneNumber(phoneNumber);
+
+        if (count == 1) {
+            resultMap.put("result", count);
+        }
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
+    @PostMapping("/storeRegNum")
+    @ResponseBody
+    public ResponseEntity<Map<String, Integer>> storeRegNumDuplicateCheck(String storeRegNum) {
+        HashMap<String, Integer> resultMap = new HashMap<>();
+
+        Integer count = storeMemberService.countByStoreRegNum(storeRegNum);
+
+        if (count == 1) {
+            resultMap.put("result", count);
+        }
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 }

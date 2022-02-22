@@ -10,22 +10,12 @@ import java.util.List;
 
 public interface DetailReviewRepository extends JpaRepository<DetailReview, Long> {
 
-    //Detail 리스팅 (이미지포함)
-    @Query("select dr from DetailReview dr " +
-            "join fetch dr.storeMember s " +
-            "join fetch dr.reviewer r " +
-            "left outer join ReviewImage ri " +
-            "on dr.id = ri.detailReview.id " +
-            "where dr.depth = 1 and dr.storeMember.id =:sno")
-    List<DetailReview> findByStore(@Param("sno") Long sno);
     //Detail 리스팅
-/*
     @Query("select dr from DetailReview dr " +
             "join fetch dr.storeMember s " +
             "join fetch dr.reviewer r " +
             "where dr.depth = 1 and dr.storeMember.id =:sno")
     List<DetailReview> findByStore(@Param("sno") Long sno);
-*/
 
     //memberMyInfo에 나타나는 회원별 리뷰 수
     @Query("select count(dr.id) from DetailReview dr " +
@@ -42,5 +32,15 @@ public interface DetailReviewRepository extends JpaRepository<DetailReview, Long
             "where bu.userRole ='USER' and dr.storeMember.id =:sno")
     Long counting(@Param("sno") Long sno);
 
+/*
+    //Detail 리스팅 (이미지포함)
+    @Query("select dr from DetailReview dr " +
+            "join fetch dr.storeMember s " +
+            "join fetch dr.reviewer r " +
+            "left outer join ReviewImage ri " +
+            "on dr.id = ri.detailReview.id " +
+            "where dr.depth = 1 and dr.storeMember.id =:sno")
+    List<DetailReview> findByStore(@Param("sno") Long sno);
+*/
 
 }

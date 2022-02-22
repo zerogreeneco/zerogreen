@@ -9,6 +9,7 @@
             $(function () {
                 let page = 1;
 
+                // 더보기
                 $("#more-list").click(function () {
                     ++page;
                     let keyword = getParameterByName("keyword");
@@ -30,6 +31,8 @@
                             $("#more-wrapper").append(fragment);
                         });
                 });
+
+                // 좋아요
                 $(".main-like-btn").click(function (e) {
 
                     let likeBtn = $(this);
@@ -54,10 +57,12 @@
                         });
                 }); // like-btn end.
 
+                // 페이지 상단으로 이동
                 $("#top-btn").click(function () {
                     $('html, body').animate({scrollTop: 0}, '400');
                 });
 
+                // 카테고리 태그 색상 변경
                 if (window.location.href == "http://localhost:8080/zerogreen/community") {
                     $(".category-list li:first").css('background', '#16a085');
                     $(".category-list a:first").css('color', '#fff');
@@ -83,8 +88,10 @@
                     $(".category-list a").eq(5).css('color', '#fff');
                 }
 
+                // 게시물이 없을 경우
                 if ($("div").hasClass("list-wrapper")) {
                     $(".list-none").css('display', 'none');
+                    $("#more-list").css('display', 'block');
                 } else {
                     $(".list-none").css('display', 'block');
                 }
@@ -96,8 +103,6 @@
                 let regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
                 return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
             }
-
-
 
         </script>
 
@@ -207,13 +212,18 @@
                 <!--리스트 오른쪽-->
                 <div id="content-right">
                     <!--썸네일-->
-                    <div class="thumbnail-box">
+                    <div class="thumbnail-box" style="border: none;">
+                        <img th:if="${not #strings.isEmpty(community.thumbnail)}"
+                             th:src="@{/community/images/{imageFile}(imageFile=${community.thumbnail})}"
+                             th:value="${community.thumbnail}"
+                             width="178px" height="auto">
                     </div>
                 </div>
             </div>
         </div>
         </div>
-        <button type="button" id="more-list">더보기</button>
+        <button type="button" id="more-list"> + </button>
+
         <!-- 게시글이 없을 때 -->
         <div class="list-none">
             <span id="sorry-emoji">😅</span>

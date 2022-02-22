@@ -33,24 +33,19 @@ public class DetailReviewServiceImpl implements DetailReviewService {
         StoreMember storeMember = storeMemberRepository.findById(sno).orElseThrow();
         DetailReview saveReview = detailReviewRepository.save(new DetailReview(reviewText, basicUser, storeMember));
 
+        detailReviewRepository.flush();
+
         if(reviewImages.size() != 0) {
             for (ReviewImage image : reviewImages) {
                 log.info("aaaaaaaareviewImage " + image);
 
                 reviewImageRepository.save(new ReviewImage(
-                        image.getUploadFileName(), image.getReviewFileName(), image.getFilePath(), saveReview, storeMember));
+                        image.getUploadFileName(), image.getReviewFileName(), image.getFilePath(), saveReview, storeMember,
+                        "thumb_" + image.getReviewFileName()));
             }
         }
         return saveReview.getId();
     }
-
-    //휴 시발 ** rno못받아와서 못쓰는중 ^^ **
-    @Override
-    public DetailReviewDto getById(Long rno) {
-        DetailReview detailReview = detailReviewRepository.getById(rno);
-        return new DetailReviewDto(detailReview.getId());
-    }
-
 
     //리스팅
     @Override
@@ -58,20 +53,6 @@ public class DetailReviewServiceImpl implements DetailReviewService {
         List<DetailReview> reviewList = detailReviewRepository.findByStore(sno);
         return reviewList.stream().map(DetailReviewDto::new).collect(Collectors.toList());
     }
-
-/* 얘는뭐야
-    @Override
-    public List<DetailReviewDto> findByStore(Long sno, Long rno) {
-        List<DetailReview> reviewList = detailReviewRepository.findByStore(sno);
-
-        List<ReviewImageDto> reviewImage = reviewImageRepository.findByReview(rno).stream().map(ReviewImageDto::new).collect(Collectors.toList());
-        int listSize = reviewImage.size();
-        String arr[] = reviewImage.toArray(new String[listSize]);
-
-        return reviewList.stream().map(DetailReviewDto::new).collect(Collectors.toList());
-    }
-*/
-
 
     //대댓글
     @Override

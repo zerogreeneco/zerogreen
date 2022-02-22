@@ -166,6 +166,8 @@ textarea:focus {
 
 .text-count-div {
     text-align: right;
+    color: #969696;
+    font-size: 0.95em;
 }
 
 /*리뷰 작성*/
@@ -190,6 +192,7 @@ textarea:focus {
 .rv-images {
     //background: #5187e0;
     //height: 100px;
+    width: 950px;
 }
 
 .rv-img-list {
@@ -210,6 +213,7 @@ textarea:focus {
     font-size: 4em;
     position: absolute;
     z-index: 999;
+    color: #3498db;
 }
 
 .arrow-right {
@@ -218,6 +222,7 @@ textarea:focus {
     font-size: 4em;
     position: absolute;
     z-index: 999;
+    color: #3498db;
 }
 
 
@@ -235,6 +240,7 @@ textarea:focus {
 
 .rv-img {
     margin: 3px;
+    position: absolute;
 }
 
 .reviewBox {
@@ -244,12 +250,21 @@ textarea:focus {
 
 .mrv-textarea {
     background: none;
-    //border: 1px solid black;
-    border: none;
+    border: 1px solid black;
+    //border: none;
     width: 700px;
     margin: 8px 8px 3px 16px;
 }
 
+.div11 {
+}
+
+.div12 {
+/*
+    width: 120px;
+    height: 120px;
+*/
+}
 
 /*스토어 리뷰*/
 .sReview-Box {

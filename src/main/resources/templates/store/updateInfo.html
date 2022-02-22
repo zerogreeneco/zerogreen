@@ -34,9 +34,11 @@
                         </div>
 
                     <form method="post" th:action="@{/stores/update}" th:object="${storeInfo}">
+                      
                         <input type="hidden" th:field="*{storeName}">
                         <input type="hidden" th:field="*{storeType}">
-                        <div class="update-info">
+                        
+                      <div class="update-info">
                             <!-- 가게 연락처 -->
                             <div>
                                 <label for="storePhoneNumber" class="join-label">가게 전화번호</label>

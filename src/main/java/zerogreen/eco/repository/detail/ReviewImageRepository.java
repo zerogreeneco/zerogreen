@@ -10,16 +10,8 @@ import java.util.List;
 
 public interface ReviewImageRepository extends JpaRepository<ReviewImage, Long> {
 
+    //스토어별 리뷰 이미지 리스트
     @Query("select img from ReviewImage img where img.storeMember.id =:sno")
     List<ReviewImage> findByStore(@Param("sno") Long sno);
-
-    //얘는보류
-//    @Query("select img from ReviewImage img where img.detailReview =:detailReview")
-//    List<ReviewImage> findByReview(@Param("detailReview")DetailReview detailReview);
-    @Query("select img from ReviewImage img where img.detailReview.id =:rno")
-    List<ReviewImage> findByReview(@Param("rno") Long rno);
-
-
-
 
 }

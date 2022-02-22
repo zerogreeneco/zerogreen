@@ -1,18 +1,14 @@
 package zerogreen.eco.entity.detail;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.StoreMember;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static javax.persistence.CascadeType.*;
@@ -49,10 +45,8 @@ public class DetailReview extends BaseTimeEntity {
     @JoinColumn(name = "parentReview")
     private List<DetailReview> nestedReviewList = new ArrayList<>();
 
-//    @OneToMany(cascade = {PERSIST, REMOVE}, orphanRemoval = true)
     @OneToMany(mappedBy = "detailReview", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
     private List<ReviewImage> imageList = new ArrayList<>();
-//    private ReviewImage reviewImage;
 
     //계층구분
     private int depth = 1;
@@ -77,6 +71,5 @@ public class DetailReview extends BaseTimeEntity {
         nestedReview.depth = this.depth + 1;
         this.nestedReviewList.add(nestedReview);
     }
-
 
 }

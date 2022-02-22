@@ -16,8 +16,6 @@ import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.detail.ReviewImageDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.dto.store.StoreMenuDto;
-import zerogreen.eco.entity.community.Category;
-import zerogreen.eco.entity.detail.DetailReview;
 import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.security.auth.PrincipalDetails;
@@ -35,8 +33,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static javax.swing.UIManager.get;
 
 @Controller
 @Slf4j
@@ -74,31 +70,10 @@ public class DetailController {
             model.addAttribute("cntLike", likesService.cntMemberLike(sno, principalDetails.getId()));
         }
 
-
-
-        //리뷰 리스트
+        //리뷰 텍스트 리스트
         List<DetailReviewDto> result = detailReviewService.findByStore(sno);
         model.addAttribute("memberReview", result);
         Collections.reverse(result);
-/*
-        List<DetailReviewDto> result = detailReviewService.findByStore(sno, reviewDto.getRno());
-        model.addAttribute("memberReview", result);
-        Collections.reverse(result);
-*/
-
-
-        //리뷰 이미지 리스트 (리뷰별)
-        DetailReviewDto detailReviewDto = detailReviewService.getById(sno);
-        List<ReviewImageDto> imagesByReview = reviewImageService.findByReview(detailReviewDto.getRno());
-        if (imagesByReview.size() > 0) {
-            model.addAttribute("imagesByReview", imagesByReview);
-            Collections.reverse(imagesByReview);
-        }
-
-
-        //메뉴 리스트
-        List<StoreMenuDto> menuList = storeMenuService.getMenuByStore(sno);
-        model.addAttribute("menuList", menuList);
 
         //리뷰 이미지 리스트 (스토어전체)
         List<ReviewImageDto> reviewImages = reviewImageService.findByStore(sno);
@@ -106,6 +81,10 @@ public class DetailController {
             model.addAttribute("reviewImageList", reviewImages);
             Collections.reverse(reviewImages);
         }
+
+        //메뉴 리스트
+        List<StoreMenuDto> menuList = storeMenuService.getStoreMenu(sno);
+        model.addAttribute("menuList", menuList);
 
         //가게별 멤버리뷰 카운팅
         Long cnt2 = detailReviewService.cntMemberReview(sno);

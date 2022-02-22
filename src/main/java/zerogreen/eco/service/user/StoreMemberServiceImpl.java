@@ -198,4 +198,10 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         storeMember.getStoreInfo().setSocialAddress2(storeDto.getSocialAddress2());
         storeMember.getStoreInfo().setSocialAddress2(storeDto.getSocialAddress2());
     }
+
+    @Override
+    public int countByStoreRegNum(String storeRegNum) {
+        return storeMemberRepository.countByStoreRegNum(storeRegNum);
+    }
+
 }

@@ -18,6 +18,7 @@ public interface StoreMemberRepository extends JpaRepository<StoreMember, Long>,
 
     Optional<StoreMember> findById(Long id);
 
+    int countByStoreRegNum(@Param("storeRegNum") String storeRegNum);
 
     //승인받은 스토어
     @Query("select sm from StoreMember sm left outer join BasicUser bu on sm.id = bu.id " +

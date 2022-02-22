@@ -22,7 +22,7 @@ public interface BasicUserService {
 
     void passwordChange(Long id, PasswordUpdateDto passwordUpdateDto);
 
-    long countByPhoneNumber(String phoneNumber);
+    int countByPhoneNumber(String phoneNumber);
     long countByUsername(String username);
 
     long countByUsernameAndPhoneNumber(String username, String phoneNumber);
