@@ -1,35 +1,46 @@
+
 $(function() {
 
+    let id = $("#username");
+    let password = $("#password");
+    let rePassword = $("#re-password")
+    let nicknameCheck = false;
     let authKey = "";
-
-    $(".sendMail").click(function() {
-
-        let id = $("#username").val();
+    // 이메일 확인
+    console.log(nicknameCheck);
+    $("#send-mail").click(function() {
 
         if(id === "") {
             alert("메일 주소를 입력해주세요.");
+        } else if (! emailRegCheck(id.val())) {
+            alert("이메일 양식이 아닙니다 - "+id.val());
         } else {
             $.ajax({
                 url: "/zerogreen/members/checkMail",
                 type: "post",
-                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 dataType: "json",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 data: {
-                    mail:id
+                    mail: id.val(),
                 },
-                success: function(key) {
-                    alert("인증 번호가 전송되었습니다.");
-                    authKey = key.key;
-                    $(".auth-box").show();
+                success: function (key) {
+                    if (key.fail) {
+                        alert(key.fail);
+                        id.focus();
+                    } else {
+                        alert("인증 번호가 전송되었습니다.");
+                        authKey = key.key;
+                        $(".auth-box").show();
+                    }
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     alert("Error" + status + ">>>> " + error);
                 }
             }); // ajax end.
         }
     });
 
-
+    // 이메일 인증
     $('#authConfirm').click(function() {
         let key = $(".authKey");
 
@@ -42,7 +53,102 @@ $(function() {
             alert("인증 실패");
         }
     });
+
+    // 닉네임 중복 확인
+    $("#nickname-check").click(function () {
+        let nickname = $("#nickname");
+
+        if (nickname.val() === "" || nickname.val() === "undefined") {
+            alert("닉네임을 입려해주세요");
+        } else {
+            $.ajax({
+                url: "/zerogreen/members/nickname",
+                method: "post",
+                dataType: "json",
+                data: {
+                    nickname: nickname.val()
+                }
+            })
+                .done(function (data) {
+                    if (data.result === 1) {
+                        alert("NO");
+                        $(".nickname-error").text("이미 존재하는 닉네임입니다.");
+                        nickname.focus();
+                    } else {
+                        alert("OK");
+                        $(".nickname-error").text("사용 가능한 닉네임입니다.");
+                        nicknameCheck = true;
+                    }
+                });
+        }
+        console.log(nicknameCheck);
+    });
+
+    // 연락처 중복 확인
+    $("#phoneNumber-check").click(function () {
+        let phoneNumber = $("#phoneNumber").val();
+
+        if (phoneNumber === "" || phoneNumber === "undefined") {
+            alert("연락처를 입력해주세요요");
+        } else {
+            $.ajax({
+                url: "/zerogreen/members/phoneNumber",
+                method: "post",
+                dataType: "json",
+                data: {
+                    phoneNumber: phoneNumber
+                }
+            })
+                .done(function (data) {
+                    if (data.result === 1) {
+                        alert("NO");
+                        $(".nickname-error").text("이미 존재하는 연락처입니다.");
+                    } else {
+                        alert("OK");
+                        $(".nickname-error").text("사용 가능한 연락처입니다.");
+                        nicknameCheck = true;
+                    }
+                });
+        }
+    });
+
+    /*
+    * 유효성 검사 (Blur)
+    * */
+    password.blur(function () {
+
+        console.log(password.val());
+        if (!passwordRegCheck(password.val())) {
+            console.log("정규식 불일치");
+            this.focus();
+        }
+    });
+
+    rePassword.blur(function () {
+        if (password.val() !== rePassword.val) {
+            console.log(password.val());
+            console.log(rePassword.val());
+            console.log("비밀번호 불일치");
+            return false;
+        }
+    });
+
+
 });
+
+// 이메일 정규식 확인
+function emailRegCheck(email) {
+    let regExp =
+        /^([\w\.\_\-])*[a-zA-Z0-9]+([\w\.\_\-])*([a-zA-Z0-9])+([\w\.\_\-])+@([a-zA-Z0-9]+\.)+[a-zA-Z0-9]{2,8}$/;
+    return (email !== "" && email !== "undefined" && regExp.test(email));
+}
+
+// 비밀번호 정규식 확인 (숫자, 소문자, 대문자, 특수문자 1개 이상 8~12자리)
+function passwordRegCheck(password) {
+    let regExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,12}/;
+
+    return regExp.test(password);
+}
 
 // KAKAO 추가 데이터
 $(function() {

@@ -21,34 +21,20 @@ public class CommunityResponseDto {
 
     private Long id;
     private String text;
-    private List<BoardImage> imageList;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asis/Seoul")
     private LocalDateTime modifiedDate;
     private Category category;
     private int count;
     private Long like;
-
     private String nickname;
     private Long memberId;
     private VegetarianGrade vegetarianGrade;
-
     private String thumbnail;
-
     private Long replyCount;
 
-    private List<ImageFileDto> files = new ArrayList<>();
-    private List<CommunityReplyDto> replyList = new ArrayList<>();
-
-    public CommunityResponseDto(Long id, String text, List<BoardImage> imageList,
-                                LocalDateTime modifiedDate, String nickname) {
-        this.id = id;
-        this.text = text;
-        this.imageList = imageList;
-        this.modifiedDate = modifiedDate;
-        this.nickname = nickname;
-    }
-
-    public CommunityResponseDto(Long id, String text, String nickname, VegetarianGrade vegetarianGrade, Long memberId, Category category, LocalDateTime modifiedDate,
+    public CommunityResponseDto(Long id, String text, String nickname, VegetarianGrade vegetarianGrade,
+                                Long memberId, Category category, LocalDateTime modifiedDate,
                                 int count, Long like, Long replyCount, String thumbnail) {
 
         this.id = id;
@@ -64,16 +50,4 @@ public class CommunityResponseDto {
         this.thumbnail = thumbnail;
     }
 
-    public CommunityResponseDto(Long id, String text, String nickname, Category category, LocalDateTime modifiedDate,
-                                int count, Long like, Long replyCount, List<BoardImage> imageList) {
-        this.id = id;
-        this.text = text;
-        this.nickname = nickname;
-        this.category = category;
-        this.modifiedDate = modifiedDate;
-        this.count = count;
-        this.like = like;
-        this.replyCount = replyCount;
-        this.imageList = (imageList != null) ? imageList : new ArrayList<>();
-    }
 }

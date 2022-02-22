@@ -61,6 +61,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /*
+    * 닉네임 중복 확인
+    * */
+    @Override
+    public Integer countByNickname(String nickname) {
+        return memberRepository.countByNickname(nickname);
+    }
+
+    /*
      * 회원 인증 상태 변경 : false -> true
      * */
     @Transactional

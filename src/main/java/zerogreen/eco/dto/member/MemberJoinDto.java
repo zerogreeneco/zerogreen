@@ -25,7 +25,7 @@ public class MemberJoinDto {
     private String phoneNumber;
 
     @NotBlank
-//    @Pattern(regexp="[a-zA-Z1-9]{6,12}", message = "비밀번호는 영어와 숫자로 포함해서 6~12자리 이내로 입력해주세요.")
+    @Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{8,12}", message = "숫자,소문자,대문자,특수기호 포함 8~12글자")
     private String password;
 
     private VegetarianGrade vegetarianGrade;
