@@ -19,13 +19,11 @@ $(document).ready(function(e){
                 //값을 똑바로 맞춰주자 ^.ㅠ
             if (data.memberCnt === 1) {
                 $(".liking").attr("src", contextPath + "/bootstrap/images/like/disLike.png");
-                console.log("dislikelike");
                 //$(".countLikes").text(data.totalCount);
                 $(".like-cnt").html(Number(cnt.text())-1);
 
             } else if (data.memberCnt === 0) {
                 $(".liking").attr("src", "/zerogreen/bootstrap/images/like/like.png");
-                console.log("likelike")
                 //$(".countLikes").text(data.totalCount);
                 $(".like-cnt").html(Number(cnt.text())+1);
             }

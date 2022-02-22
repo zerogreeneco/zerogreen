@@ -89,16 +89,16 @@
                 </div>
                 <!-- 3열 우측 -->
                 <div class="thr-thr inline">
-                    <div class="thr thr-right temp2" th:object="${getStore}">
-                        <span>전화 번호 : </span><span th:text="*{storeInfo.storePhoneNumber}"></span><br>
-                        <span>영업 시간 : </span><span>[[*{storeInfo.openTime}]] - [[*{storeInfo.closeTime}]]</span><br>
-                        <span>소셜 : </span><span>[[${getStore.storeInfo.socialAddress1}]]</span><br>
-                        <span>소셜 : </span><span>[[${getStore.storeInfo.socialAddress2}]]</span><br>
+                    <div class="thr thr-right" th:object="${getStore}">
+                        <span th:if="*{storeInfo.storePhoneNumber} != null" >전화번호 : </span><span th:text="*{storeInfo.storePhoneNumber}"></span><br>
+                        <span th:if="*{storeInfo.openTime} != null">영업시간 : [[*{storeInfo.openTime}]] - [[*{storeInfo.closeTime}]]</span><br>
+                        <span th:if="*{storeInfo.socialAddress1} != null">소&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;셜 : [[${getStore.storeInfo.socialAddress1}]]</span><br>
+                        <span th:if="${getStore.storeInfo.socialAddress2 != null}">소&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;셜 : [[${getStore.storeInfo.socialAddress2}]]</span>
                     </div>
                 </div>
             </div>
             <!-- 3.5열  -->
-            <div class="thr-bottom temp2">
+            <div class="thr-bottom">
                 <span>[[${getStore.storeInfo.storeDescription}]]</span>
             </div>
 
@@ -192,7 +192,11 @@
                                 </div>
                             </div>
 
-                            <textarea class="mrv-textarea" name="reviewText" readonly>[[${mReview.reviewText}]]</textarea><br>
+                            <textarea class="mrv-textarea" name="reviewText" onkeyup="limitTextInput(this)" readonly>[[${mReview.reviewText}]]</textarea>
+                            <div class="text-count-div hidden-text-count" style="display:none;">
+                                <span>띄어쓰기 포함 최대 500자까지 입력이 가능합니다. </span>
+                                <span class="text-count">0 / 500</span>
+                            </div>
 
                             <div class="btn-Box">
                                 <span class="srv-toAdd inline mrv-btn" th:if="${rvMember == mReview.sno}">답글</span>
@@ -228,7 +232,12 @@
                                     <span class="srv-storeName">[[${sReview.storeName}]]</span>
                                     <span class="rv-date inline">[[${#temporals.format(sReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
                                     <br>
-                                    <textarea class="storeReviewText" name="storeReviewText" readonly>[[${sReview.reviewText}]]</textarea><br>
+                                    <textarea class="storeReviewText" name="storeReviewText" onkeyup="limitTextInput(this)" readonly>[[${sReview.reviewText}]]</textarea>
+                                    <div class="text-count-div hidden-text-count width60" style="display:none;">
+                                        <span>띄어쓰기 포함 최대 500자까지 입력이 가능합니다. </span>
+                                        <span class="text-count">0 / 500</span>
+                                    </div>
+
                                     <div class="btn-Box">
                                         <span class="srv-modify inline mrv-btn" th:if="${rvMember} == ${sReview.id}">수정</span>
                                         <span class="rv-delete srv-delete inline mrv-btn" th:if="${rvMember} == ${sReview.id}">삭제</span>
