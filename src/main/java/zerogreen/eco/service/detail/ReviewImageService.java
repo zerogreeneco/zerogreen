@@ -15,13 +15,7 @@ public interface ReviewImageService {
 
     //listing
     List<ReviewImageDto> findByStore(Long sno);
-
-    //리뷰별 리스팅
-//    List<ReviewImageDto> findByReview(DetailReview detailReview);
-    List<ReviewImageDto> findByReview(Long rno);
-
-
     //delete review Images
     void deleteReviewImage(Long id, String filePath);
 
-    }
+}

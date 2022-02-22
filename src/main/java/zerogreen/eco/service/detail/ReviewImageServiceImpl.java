@@ -9,6 +9,9 @@ import zerogreen.eco.dto.detail.ReviewImageDto;
 import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.repository.detail.ReviewImageRepository;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,9 +69,26 @@ public class ReviewImageServiceImpl implements ReviewImageService {
         }
         String originalFilename = multipartFile.getOriginalFilename();
         String reviewFileName = createStoreFilename(originalFilename);
-        multipartFile.transferTo(new File(getFullPath(reviewFileName)));
+        String thumbnailName = "thumb_" + reviewFileName;
+        File saveFile = new File(getFullPath(reviewFileName));
+        multipartFile.transferTo(saveFile);
 
-        return new ReviewImage(originalFilename, reviewFileName, getFullPath(reviewFileName));
+        File thumbnailFile = new File(getFullPath("thumb_" + reviewFileName));
+
+        BufferedImage readImage = ImageIO.read(saveFile);
+
+        double ratio = 3.0;
+        int width = (int) (readImage.getWidth() / ratio);
+        int height = (int) (readImage.getHeight() / ratio);
+
+        BufferedImage thumbImage = new BufferedImage(120, 120, BufferedImage.TYPE_3BYTE_BGR);
+        Graphics2D graphics = thumbImage.createGraphics();
+
+        graphics.drawImage(readImage, 0, 0, 120, 120, null);
+        ImageIO.write(thumbImage, "png", thumbnailFile);
+
+
+        return new ReviewImage(originalFilename, reviewFileName, getFullPath(reviewFileName), thumbnailName);
 
     }
 
@@ -90,18 +110,6 @@ public class ReviewImageServiceImpl implements ReviewImageService {
         return reviewImageRepository.findByStore(sno).stream().map(ReviewImageDto::new).collect(Collectors.toList());
     }
 
-    //리뷰별 리스트 ㅅㅂ
-    @Override
-    public List<ReviewImageDto> findByReview(Long rno) {
-        return reviewImageRepository.findByReview(rno).stream().map(ReviewImageDto::new).collect(Collectors.toList());
-    }
-/*
-    @Override
-    public List<ReviewImageDto> findByReview(DetailReview detailReview) {
-        return reviewImageRepository.findByReview(detailReview).stream().map(ReviewImageDto::new).collect(Collectors.toList());
-    }
-*/
-
     // delete images
     @Override
     public void deleteReviewImage(Long id, String filePath) {
@@ -119,7 +127,6 @@ public class ReviewImageServiceImpl implements ReviewImageService {
             throw new IllegalStateException("파일 삭제에 실패했습니다.");
         }
     }
-
 
 
 }

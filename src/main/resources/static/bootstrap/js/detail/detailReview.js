@@ -129,7 +129,7 @@ $(document).ready(function(e){
             .done(function (fragment) {
                 //$("#reviewList").replaceWith(fragment);
                 $(".review-cnt").html(Number(cnt.text())-1);
-                //self.location.reload();
+                self.location.reload();
             });
    }); //delete member Review end
 
@@ -391,9 +391,7 @@ function deleteImage(event) {
                 })
                 .done(function (data) {
                     if (data.key === "success") {
-
                         //alert("이미지가 삭제되었습니다.");
-
                     }
                 });
            })(i); //end function(i)

@@ -9,19 +9,14 @@ import java.util.List;
 
 public interface DetailReviewService {
     //save reviews
+    Long saveImageReview(String reviewText, Long sno, BasicUser basicUser, List<ReviewImage> reviewImages);
     //void saveReview(String reviewText, Long sno, BasicUser basicUser);
     //Long saveReview(String reviewText, Long sno, BasicUser basicUser, List<ReviewImage> reviewImages);
     //Long saveReview(String reviewText, Long sno, BasicUser basicUser);
-    Long saveImageReview(String reviewText, Long sno, BasicUser basicUser, List<ReviewImage> reviewImages);
 
 
     //listing
     List<DetailReviewDto> findByStore(Long sno);
-//    List<DetailReviewDto> findByStore(Long sno, Long rno);
-
-    DetailReviewDto getById(Long rno);
-
-
     //save comments
     void saveNestedReview(String reviewText, Long sno, BasicUser basicUser, Long rno);
     //edit reviews

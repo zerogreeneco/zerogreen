@@ -4,29 +4,24 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
-import zerogreen.eco.dto.detail.LikesDto;
 import zerogreen.eco.entity.detail.Likes;
 import zerogreen.eco.entity.userentity.BasicUser;
-import zerogreen.eco.entity.userentity.StoreMember;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface LikesRepository extends JpaRepository<Likes, Long> {
 
+    //전체 좋아요 수 (Detail)
     @Query("select count(l.id) from Likes l where l.storeMember.id =:storeMember")
     Long counting(@Param("storeMember") Long storeMember);
 
-    @Query("select l from Likes l where l.storeMember =:storeMember and l.basicUser =:basicUser")
-    Likes getLikesByStoreAndUser(StoreMember storeMember, BasicUser basicUser);
-
+    // 회원별 좋아요 유무 (Detail)
     @Query("select count(l.id) from Likes l where l.storeMember.id =:sno " +
             "and l.basicUser.id =:mno")
     Long cntMemberLike(@Param("sno") Long sno, @Param("mno") Long mno);
 
+    // 좋아요 취소 (Detail)
     @Transactional
     @Modifying
     @Query("delete from Likes l where l.storeMember.id =:sno and l.basicUser.id =:mno ")
@@ -40,5 +35,4 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
     @Query("select l from Likes l where l.basicUser =:basicUser")
     List<Likes> getLikesByUser(@Param("basicUser") BasicUser basicUser);
 
-
-    }
+}
