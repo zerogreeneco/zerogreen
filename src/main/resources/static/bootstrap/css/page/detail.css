@@ -102,6 +102,7 @@
 /* 3.5열 */
 .thr-bottom {
     text-align: center;
+    margin-bottom: 20px;
 }
 
 /* 4열 지도 */
@@ -122,6 +123,7 @@
     display: inline-grid;
     margin-bottom: 2em;
 }
+
 textarea {
     resize: none;
     overflow: hidden;
@@ -135,6 +137,7 @@ textarea:focus {
 
 .btn-Box {
     text-align: right;
+    line-height: 3;
 }
 
 .mrv-btn {
@@ -167,7 +170,7 @@ textarea:focus {
 .text-count-div {
     text-align: right;
     color: #969696;
-    font-size: 0.95em;
+    font-size: 0.9em;
 }
 
 /*리뷰 작성*/
@@ -180,7 +183,7 @@ textarea:focus {
 }
 
 #reviewText {
-    width: 800px;
+    width: 54em;
     min-height: 60px;
     border: 1px solid #3498db;
     padding: 10px;
@@ -192,7 +195,7 @@ textarea:focus {
 .rv-images {
     //background: #5187e0;
     //height: 100px;
-    width: 950px;
+    width: 59.5em;
 }
 
 .rv-img-list {
@@ -238,6 +241,14 @@ textarea:focus {
     margin-left: 2px;
 }
 
+.div12 {
+    float: left;
+}
+
+.div11 {
+    position: relative;
+}
+
 .rv-img {
     margin: 3px;
     position: absolute;
@@ -245,25 +256,19 @@ textarea:focus {
 
 .reviewBox {
     border-top: 1px solid #3498db;
-    width: 950px;
+    width: 59.5em;
 }
 
 .mrv-textarea {
     background: none;
-    border: 1px solid black;
-    //border: none;
-    width: 700px;
+    //border: 1px solid black;
+    border: none;
+    width: 44em;
     margin: 8px 8px 3px 16px;
 }
 
-.div11 {
-}
-
-.div12 {
-/*
-    width: 120px;
-    height: 120px;
-*/
+.hidden-text-count {
+    width: 51em;
 }
 
 /*스토어 리뷰*/
@@ -278,7 +283,7 @@ textarea:focus {
 .storeReviewText {
     background: none;
     border: none;
-    width: 800px;
+    width: 50em;
     margin: 8px 8px 3px 60px;
     //border: 1px solid black;
 }
@@ -290,7 +295,7 @@ textarea:focus {
 .srv-input-textarea {
     border: 1px solid #16a085;
     margin: 10px 0 0 15px;
-    width: 800px;
+    width: 50em;
     min-height: 57px;
 }
 
@@ -313,6 +318,9 @@ textarea:focus {
     margin-left: 20px;
 }
 
+.width60 {
+    width: 60.6em;
+}
 
 /*어디 소속인지 아직 정리못함*/
 .rv {

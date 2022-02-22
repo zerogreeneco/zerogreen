@@ -15,9 +15,7 @@ import java.util.List;
 public interface StoreMemberService {
     //스토어 회원가입
     Long save(StoreMember storeMember, RegisterFile registerFile);
-    //스토어 회원가입 테스트 데이터용
-    Long saveV2(StoreMember storeMember, RegisterFile register);
-    Long saveV3(StoreMember storeMember);
+    //이친구뭐예용
     void storeInfoSave(StoreMember storeMember);
 
     void imageSave(Long id, List<StoreImageFile> storeImageFile);
@@ -36,4 +34,9 @@ public interface StoreMemberService {
     void updateStore(Long id, StoreDto storeDto);
 
     int countByStoreRegNum(String storeRegNum);
+
+    //스토어 회원가입 테스트 데이터용
+    Long saveV2(StoreMember storeMember, RegisterFile register);
+    Long saveV3(StoreMember storeMember);
+
 }

@@ -61,7 +61,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
                 .getId();
     }
 
-    //임시
+    //test data
     @Transactional
     @Override
     public Long saveV2(StoreMember storeMember, RegisterFile registerFile) {
@@ -84,28 +84,6 @@ public class StoreMemberServiceImpl implements StoreMemberService {
                         storeMember.getStoreInfo().getStoreDescription(), storeMember.getStoreInfo().getSocialAddress1() ,storeMember.getStoreInfo(). getSocialAddress2(),
                         storeMember.getStoreInfo().getOpenTime(), storeMember.getStoreInfo().getCloseTime(), registerFile1))
                 .getId();
-/*
-        return storeMemberRepository.save(StoreMember.testBuilder()
-                        .username(storeMember.getUsername())
-                        .phoneNumber(storeMember.getPhoneNumber())
-                        .password(encPassword)
-                        .userRole(UserRole.STORE)
-                        .storeName(storeMember.getStoreName())
-                        .storeRegNum(storeMember.getStoreRegNum())
-                        .storeType(StoreType.ECO_SHOP)
-                        .storeAddress(storeMember.getStoreInfo().getStoreAddress())
-                        .storeDetailAddress(storeMember.getStoreInfo().getStoreDetailAddress())
-                        .socialAddress1(storeMember.getStoreInfo().getSocialAddress1())
-                        .socialAddress2(storeMember.getStoreInfo().getSocialAddress2())
-                        .storePhoneNumber(storeMember.getStoreInfo().getStorePhoneNumber())
-                        .storeDescription(storeMember.getStoreInfo().getStoreDescription())
-                        .postalCode(storeMember.getStoreInfo().getPostalCode())
-                        .openTime(storeMember.getStoreInfo().getOpenTime())
-                        .closeTime(storeMember.getStoreInfo().getCloseTime())
-                        .registerFile(registerFile1)
-                        .build())
-                .getId();
-*/
     }
 
 

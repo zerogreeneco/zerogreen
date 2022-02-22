@@ -98,21 +98,20 @@ public class TestDataInit {
             general.add("부산 부산진구 서면문화로 19");
             general.add("부산 부산진구 서면로 26");
 
+
+            for (int i = 0; i < ecoAddress.size(); i++) {
+                storeMemberService.saveV3(new StoreMember("ecotest"+i, "01033334444", "1",
+                        UserRole.UN_STORE, "ECO_SHOP"+i, "REGNUM1111",StoreType.ECO_SHOP, "1111",
+                        ecoAddress.get(i), "DA","0517778888", "descript","alalal","dddd","10:00","22:00", new RegisterFile("origin3","store3", "path3"))
+                );
+            }
+
             for (int i = 0; i < ecoAddress.size(); i++) {
                 storeMemberService.saveV2(new StoreMember("ecoTest"+i, "01033334444", "1",
                         UserRole.UN_STORE, "ECO_SHOP"+i, "REGNUM1111",StoreType.ECO_SHOP,
                         ecoAddress.get(i), "DA","0517778888","1111")
                         , new RegisterFile("origin3","store3", "path3"));
             }
-
-
-            for (int i = 0; i < ecoAddress.size(); i++) {
-                storeMemberService.saveV3(new StoreMember("ecotest"+i, "01033334444", "1",
-                        UserRole.UN_STORE, "ECO_SHOP"+i, "REGNUM1111",StoreType.ECO_SHOP, "1111",
-                        ecoAddress.get(i), "DA","0517778888", "descript","alalal","dddd","10:00","22:00", new RegisterFile("origin3","store3", "path3"))
-                        );
-            }
-
 
             for (int i = 0; i < foodAddress.size(); i++) {
                 storeMemberService.saveV2(new StoreMember("foodTest"+i, "01033334444", "1",
@@ -179,8 +178,11 @@ public class TestDataInit {
             //Detail 부모리뷰 추가
             Member findMember1 = memberRepository.findByUsername("test").get();
             Member findMember2 = memberRepository.findByUsername("test2").get();
-            StoreMember findEcoStore1 = storeMemberRepository.findByUsername("ecoTest5").get();
-            StoreMember findEcoStore2 = storeMemberRepository.findByUsername("ecoTest6").get();
+            StoreMember findEcoStore1 = storeMemberRepository.findByUsername("ecotest5").get();
+            StoreMember findEcoStore2 = storeMemberRepository.findByUsername("ecotest6").get();
+            StoreMember foodTest1 = storeMemberRepository.findByUsername("foodTest1").get();
+            StoreMember generalTest1 = storeMemberRepository.findByUsername("generalTest1").get();
+
 
             DetailReview detailReview1 = new DetailReview("mReview1 by test",findMember1,findEcoStore1);
             detailReviewService.saveReviewTest(detailReview1);
@@ -199,6 +201,24 @@ public class TestDataInit {
             detailReviewService.saveReviewTest(detailReview7);
             DetailReview detailReview8 = new DetailReview("mReview4 by test2",findMember2,findEcoStore2);
             detailReviewService.saveReviewTest(detailReview8);
+
+            DetailReview detailReview9 = new DetailReview("mReview1 by test",findMember1,foodTest1);
+            detailReviewService.saveReviewTest(detailReview9);
+            DetailReview detailReview10 = new DetailReview("mReview2 by test",findMember1,foodTest1);
+            detailReviewService.saveReviewTest(detailReview10);
+            DetailReview detailReview11 = new DetailReview("mReview3 by test2",findMember2,foodTest1);
+            detailReviewService.saveReviewTest(detailReview11);
+            DetailReview detailReview12 = new DetailReview("mReview4 by test2",findMember2,foodTest1);
+            detailReviewService.saveReviewTest(detailReview12);
+
+            DetailReview detailReview13 = new DetailReview("mReview1 by test",findMember1,generalTest1);
+            detailReviewService.saveReviewTest(detailReview13);
+            DetailReview detailReview14 = new DetailReview("mReview2 by test",findMember1,generalTest1);
+            detailReviewService.saveReviewTest(detailReview14);
+            DetailReview detailReview15 = new DetailReview("mReview3 by test2",findMember2,generalTest1);
+            detailReviewService.saveReviewTest(detailReview15);
+            DetailReview detailReview16 = new DetailReview("mReview4 by test2",findMember2,generalTest1);
+            detailReviewService.saveReviewTest(detailReview16);
 
             // 커뮤니티 리스트 추가
             communityBoardRepository.save(new CommunityBoard("TEST TEXT", findMember1, Category.PLOGGING));
@@ -219,15 +239,28 @@ public class TestDataInit {
             Long parentsReview2 = detailReviewRepository.findById(2L).get().getId();
             Long parentsReview3 = detailReviewRepository.findById(3L).get().getId();
             Long parentsReview4 = detailReviewRepository.findById(4L).get().getId();
+            Long parentsReview9 = detailReviewRepository.findById(9L).get().getId();
+            Long parentsReview10 = detailReviewRepository.findById(10L).get().getId();
+            Long parentsReview11 = detailReviewRepository.findById(11L).get().getId();
+            Long parentsReview12 = detailReviewRepository.findById(12L).get().getId();
 
-            DetailReview detailReview11 = new DetailReview("childReview1 by Store",findEcoStore1,findEcoStore1);
-            detailReviewService.saveNestedReviewTest(detailReview11, parentsReview1);
-            DetailReview detailReview22 = new DetailReview("childReview2 by Store",findEcoStore1,findEcoStore1);
-            detailReviewService.saveNestedReviewTest(detailReview22, parentsReview2);
-            DetailReview detailReview33 = new DetailReview("childReview3 by Store",findEcoStore1,findEcoStore1);
-            detailReviewService.saveNestedReviewTest(detailReview33, parentsReview3);
-            DetailReview detailReview44 = new DetailReview("childReview4 by Store",findEcoStore1,findEcoStore1);
-            detailReviewService.saveNestedReviewTest(detailReview44, parentsReview4);
+            DetailReview detailReview17 = new DetailReview("childReview1 by Store",findEcoStore1,findEcoStore1);
+            detailReviewService.saveNestedReviewTest(detailReview17, parentsReview1);
+            DetailReview detailReview18 = new DetailReview("childReview2 by Store",findEcoStore1,findEcoStore1);
+            detailReviewService.saveNestedReviewTest(detailReview18, parentsReview2);
+            DetailReview detailReview19 = new DetailReview("childReview3 by Store",findEcoStore1,findEcoStore1);
+            detailReviewService.saveNestedReviewTest(detailReview19, parentsReview3);
+            DetailReview detailReview20 = new DetailReview("childReview4 by Store",findEcoStore1,findEcoStore1);
+            detailReviewService.saveNestedReviewTest(detailReview20, parentsReview4);
+
+            DetailReview detailReview21 = new DetailReview("childReview1 by Store",foodTest1,foodTest1);
+            detailReviewService.saveNestedReviewTest(detailReview21, parentsReview9);
+            DetailReview detailReview22 = new DetailReview("childReview2 by Store",foodTest1,foodTest1);
+            detailReviewService.saveNestedReviewTest(detailReview22, parentsReview10);
+            DetailReview detailReview23 = new DetailReview("childReview3 by Store",foodTest1,foodTest1);
+            detailReviewService.saveNestedReviewTest(detailReview23, parentsReview11);
+            DetailReview detailReview24 = new DetailReview("childReview4 by Store",foodTest1,foodTest1);
+            detailReviewService.saveNestedReviewTest(detailReview24, parentsReview12);
 
 
             em.flush();
@@ -235,9 +268,6 @@ public class TestDataInit {
 
 
             //StoreMenu
-            StoreMember foodTest1 = storeMemberRepository.findByUsername("foodTest1").get();
-            StoreMember generalTest1 = storeMemberRepository.findByUsername("generalTest1").get();
-
             StoreMenu storeMenu1 = new StoreMenu("menu1-1",1000,VegetarianGrade.LACTO, foodTest1);
             storeMenuService.saveStoreMenuTest(storeMenu1);
             StoreMenu storeMenu11 = new StoreMenu("menu1-2 Luv",1000,VegetarianGrade.PLEXITARIAN, foodTest1);

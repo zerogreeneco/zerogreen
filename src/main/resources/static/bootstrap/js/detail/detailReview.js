@@ -5,8 +5,7 @@ $(document).ready(function(e){
     let count = 0;
 
 
-
-    //show comment input box
+    //show 대댓글 입력박스
     $(".srv-toAdd").on("click", function(){
         let inputBox = $(this).parent().parent().children(".srv-input");
         let toAdd = $(this).parent().children(".srv-toAdd");
@@ -44,18 +43,20 @@ $(document).ready(function(e){
         let rno = $(this).parent().parent().children(".rno").text();
         let editText = $(this).parent().parent().children(".mrv-textarea");
         let deleteBtn = $(this).parent().children(".rv-delete");
+        let textCnt = $(this).parent().parent().children(".hidden-text-count");
         count++;
 
        if (count == 1) {
-            console.log("count");
+            //console.log("count");
             editText.removeAttr('readonly');
             editText.css('border','solid 1px #3498db');
             editText.css('cursor','text');
             deleteBtn.css('display','none');
+            textCnt.css('display','show');
             editText.focus();
 
        } else if (count == 2) {
-           console.log("countcount");
+           //console.log("countcount");
 
             $.ajax({
             url: contextPath + "/editReview/"+rno ,
@@ -70,6 +71,7 @@ $(document).ready(function(e){
 
             .done(function (fragment) {
                 editText.replaceWith("<textarea class='mrv-textarea' name='reviewText' readonly>" + editText.val() + "</textarea>");
+                textCnt.css('display','none');
             });
             count = 0;
         } //end else if
@@ -81,18 +83,18 @@ $(document).ready(function(e){
         let rno = $(this).parent().parent().children(".rno").text();
         let editText = $(this).parent().parent().children(".storeReviewText");
         let deleteBtn = $(this).parent().children(".rv-delete");
+        let textCnt = $(this).parent().parent().children(".hidden-text-count");
         count++;
 
        if (count == 1) {
-            console.log("count");
             editText.removeAttr('readonly');
             editText.css('border','solid 1px #3498db');
             editText.css('cursor','text');
             deleteBtn.css('display','none');
+            textCnt.css('display','show');
             editText.focus();
 
        } else if (count == 2) {
-           console.log("countcount");
 
             $.ajax({
             url: contextPath + "/editReview/"+rno ,
@@ -107,6 +109,7 @@ $(document).ready(function(e){
 
             .done(function (fragment) {
                 editText.replaceWith("<textarea class='storeReviewText' name='storeReviewText' readonly>" + editText.val() + "</textarea>");
+                textCnt.css('display','none');
             });
             count = 0;
         } //end else if
@@ -160,6 +163,17 @@ $(document).ready(function(e){
         $(this).height(this.scrollHeight);
    });
    $('textarea').keyup();
+
+
+    //리뷰 이미지 등록시 textarea 마진 재설정
+   $('.mrv-textarea').on('change',function (e) {
+       let img = $(this).parent().children().children('.rv-img').val();
+
+        if (img != null) {
+            $(this).css('marginLeft','130px');
+        }
+   });
+   $('.mrv-textarea').change();
 
 
     //리뷰이미지 슬라이드
@@ -221,13 +235,38 @@ $(document).ready(function(e){
     }); //end 이미지 리스트 모달 띄우기 + 모달 슬라이드
 
 
-    //이미지(withReview) 모달 띄우기
-    $(".mImage-fr").click(function () {
-        let imgSrc2 = $(this).attr("src");
+    //이미지(withReview) 모달 띄우기 + 모달 슬라이드 ** on working **
+    $(".rv-img").click(function () {
+        let idx = $(this).index();
+        console.log("idx " + idx)
+        let next = idx + 1;
+        let prev = idx - 1;
 
-        $(".modal").show();
+        let imgSrc2 = $(this).children(".mImage").attr("src");
+        console.log("imgSrc2" + imgSrc2)
+        let nextImg = $(".rv-img").eq(next).find(".mImage").attr("src");
+        let prevImg = $(".rv-img").eq(prev).find(".mImage").attr("src");
+
         $(".modal_content").attr("src", imgSrc2);
-    });
+        $(".modal").show();
+
+        //모달 슬라이드
+        $("#modal-right").click(function() {
+            $(".modal-slider").animate({marginLeft: "-700px"},
+            function() {
+                $(".modal-slider .card:first").appendTo(".modal-slider");
+                $(".modal-slider").css({marginLeft: 0 });
+                $(".modal_content").attr("src", prevImg);
+            });
+        });
+        $("#modal-left").click(function() {
+            $(".modal-slider .card:last").prependTo(".modal-slider");
+            $(".modal-slider").css({ "marginLeft": "-700px"});
+            $(".modal-slider").animate({ marginLeft: 0 });
+            $(".modal_content").attr("src", nextImg);
+        });
+    }); //end 이미지 (review) 모달 띄우기 + 모달 슬라이드
+
 
     //이미지 모달 닫기 (공통)
     $(".close").click(function () {
@@ -269,6 +308,7 @@ $(document).ready(function(e){
 //        console.log(idx);
 
         previewImg.remove();
+        previewImg.empty();
 
     });
 
@@ -324,7 +364,6 @@ function checkExtension(fileName, fileSize){
 }
 
 
-
 // Preview for review Images
 function preview(arr){
     arr.forEach(function(f){
@@ -366,7 +405,7 @@ function limitTextInput(event) {
 //리뷰 이미지 로컬 삭제
 function deleteImage(event) {
 
-    let parentChildren = $(event).parent().parent().find(".div11").find(".imgInfo");
+    let parentChildren = $(event).parent().parent().find(".div12").find(".imgInfo");
 
     let id = parentChildren.children(".imgId").val();
     let rno = parentChildren.children(".rnoRno").val();
