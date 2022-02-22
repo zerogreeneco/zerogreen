@@ -250,14 +250,20 @@ textarea:focus {
 
 .mrv-textarea {
     background: none;
-    //border: 1px solid black;
-    border: none;
+    border: 1px solid black;
+    //border: none;
     width: 700px;
     margin: 8px 8px 3px 16px;
 }
 
 .div11 {
-    position: relative;
+}
+
+.div12 {
+/*
+    width: 120px;
+    height: 120px;
+*/
 }
 
 /*스토어 리뷰*/

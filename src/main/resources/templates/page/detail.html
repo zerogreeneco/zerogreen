@@ -174,21 +174,22 @@
                             <span class="rv-nickname">[[${mReview.nickname}]]</span>
                             <span class="rv-date inline">[[${#temporals.format(mReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
                             <br>
-                            <div th:if="${reviewImageList != null}" class="inline div11">
-
-                                <div class="rv-img inline" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
-                                    <img class="inline mImage mImage-fr"
-                                         th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
-                                         th:value="${mImage.uploadFileName}"
-                                         width="120px" height="120px" >
+                            <div th:if="${reviewImageList != null}" class="inline div12">
+                                <div class="div11">
+                                    <div class="rv-img inline" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
+                                        <img class="inline mImage mImage-fr"
+                                             th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
+                                             th:value="${mImage.uploadFileName}"
+                                             width="120px" height="120px" >
+                                    </div>
                                 </div>
 
                                 <div class="inline imgInfo" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
                                     <input class="imgPath" th:value="${mImage.filePath}" type="hidden">
                                     <input class="rnoRno" th:value="${mImage.detailReview.id}" type="hidden">
                                     <input class="imgId" th:value="${mImage.id}" type="hidden">
-                                    <span class="size" th:text="${idx.size}"></span>
-                                    <span class="idx" th:text="${idx.index}"></span>
+                                    <span class="size" th:text="${idx.size}" style="display:none;"></span>
+                                    <span class="idx" th:text="${idx.index}" style="display:none;"></span>
                                 </div>
                             </div>
 
