@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
+        <link th:href="@{/bootstrap/css/community/communityDetailView.css}" rel="stylesheet"/>
         <script th:inline="javascript">
             function deleteImage(event) {
                 let thisBtn = $(event);
@@ -24,13 +25,13 @@
                     });
             }
         </script>
-        <form method="post" th:object="${writeForm}" th:action enctype="multipart/form-data">
+        <form class="write-form" method="post" th:object="${writeForm}" th:action enctype="multipart/form-data">
             <div>
                 <select th:field="*{category}">
                     <option th:each="categories : ${category}" th:value="${categories.name()}"
                             th:text="${categories.categoryName}"></option>
                 </select>
-                <textarea th:field="*{text}"></textarea>
+                <textarea class="rg-input" th:field="*{text}"></textarea>
                 <input type="file" multiple="multiple" th:field="*{imageFiles}">
                 <div class="select-img"><img src="" /></div>
             </div>
@@ -42,8 +43,12 @@
                      width="700px" height="auto">
                 <input type="button" value="삭제" onclick="deleteImage(this)">
             </div>
-            <button type="submit">수정</button>
-            <button type="button">취소</button>
+
+            <div id="button-section">
+                <button id="write-btn" type="submit">수정</button>
+                <button id="cancle-btn" type="button">취소</button>
+            </div>
+
         </form>
     </th:block>
 </th:block>
