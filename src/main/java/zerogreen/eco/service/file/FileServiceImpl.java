@@ -84,10 +84,22 @@ public class FileServiceImpl implements FileService{
         // 사용자가 저장한 파일 이름
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFilename = createStoreFilename(originalFilename);
+        String thumbnailName = "thumb_" + storeFilename;
+
         File saveFile = new File(getFullPathImage(storeFilename, storeName));
         multipartFile.transferTo(saveFile);
 
-        return new StoreImageFile(originalFilename, storeFilename, getFullPathImage(storeFilename, storeName));
+
+        File thumbnailFile = new File(getFullPathImage("thumb_"+storeFilename, storeName));
+
+        BufferedImage readImage = ImageIO.read(saveFile);
+        BufferedImage thumbImage = new BufferedImage(300, 300, BufferedImage.TYPE_3BYTE_BGR);
+        Graphics2D graphics2D = thumbImage.createGraphics();
+
+        graphics2D.drawImage(readImage, 0, 0, 300, 300, null);
+        ImageIO.write(thumbImage, "png", thumbnailFile);
+
+        return new StoreImageFile(originalFilename, storeFilename, thumbnailName, getFullPathImage(storeFilename, storeName));
     }
 
     /*

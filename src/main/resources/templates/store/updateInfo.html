@@ -33,7 +33,7 @@
                             </div>
                         </div>
 
-                    <form method="post" th:action="@{/stores/update}" th:object="${storeInfo}">
+                    <form method="post" th:action="@{/stores/update}" th:object="${storeInfo}" enctype="multipart/form-data">
                       
                         <input type="hidden" th:field="*{storeName}">
                         <input type="hidden" th:field="*{storeType}">
@@ -64,6 +64,7 @@
                                     <span class="cm-text-count">0 / 300</span></label>
                                 <textarea class="form-control update-box description" id="storeDescription"
                                           th:field="*{storeDescription}" onkeyup="limitTextInput(this)"></textarea>
+                                <br><span id="textCheck"/>
                             </div>
 
                             <!-- 소셜 주소 -->
@@ -164,11 +165,12 @@
                             <!-- 첨부 파일 -->
                             <div>
                                 <label class="join-label">첨부파일</label>
-                                <!--                        <input type="file" class="update-box" th:field="*{attachFile}">-->
+                                <input type="file" multiple="multiple" class="update-box" th:field="*{uploadFiles}">
                             </div>
                             <div th:if="${#fields.hasGlobalErrors()}">
-                                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류
-                                    메시지</p>
+<!--                                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">-->
+<!--                                    글로벌 오류 메시지</p>-->
+                                <span class="field-error"></span>
                             </div>
                         </div>
 
@@ -180,93 +182,12 @@
 
                 </div>
             </div>
+            <div style="margin: 2em 0 !important;" sec:authorize="hasRole('ROLE_UN_STORE')">
+                <div class="center-box">
+                    <span id="sorry-emoji">😅</span>
+                    <span id="sorry-text">관리자 승인 대기 중 입니다.</span>
+                </div>
+            </div>
         </div>
-
-        <script th:inline="javascript">
-            // 글자수 제한
-            function limitTextInput(event) {
-                let countText = $(event).prev().children(".cm-text-count");
-                countText.html($(event).val().length + " / 300");
-
-                if ($(event).val().length > 300) {
-                    $(event).val($(event).val().substring(0, 300));
-                    alert("300자까지 입력이 가능합니다.");
-                    countText.html("300 / 300");
-                }
-            }
-
-            // Social 주소 추가
-            $("#socialAdd").click(function () {
-                $("#socialAddress2").removeAttr("hidden");
-                $("#socialAdd").attr("hidden", true);
-            });
-
-            // 테이블 Grade 추가
-            $("#menuAdd").click(function () {
-                let name = $("#menuName").val();
-                let price = $("#menuPrice").val();
-                let grade = $(":input:radio[name=vegetarianGrade]:checked").val();
-                let check = $("#gradeCheck");
-
-                if(grade == null){
-                    check.html("해당 메뉴의 비건 등급을 입력해 주세요");
-                    check.css("color","#dc3545");
-                }
-
-                $.ajax({
-                    url: "/zerogreen/stores/update/gradeTable",
-                    method: "post",
-                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                    data: {
-                        name: name,
-                        price: price,
-                        grade: grade
-                    }
-                })
-                    .done(function (fragment) {
-                        $("#grade-table").replaceWith(fragment);
-                        $("#menuName").val("");
-                        $("#menuPrice").val("");
-                        $(":input:radio[name=vegetarianGrade]:checked").prop('checked', false);
-                    });
-            }); //menuAdd ajax end
-
-            //테이블 추가
-            $(".menuAdd").click(function () {
-                let name = $("#menuName").val();
-                let price = $("#menuPrice").val();
-                $.ajax({
-                    url: "/zerogreen/stores/update/table",
-                    method: "post",
-                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                    data: {
-                        name: name,
-                        price: price
-                    }
-                })
-                    .done(function (fragment) {
-                        $("#list-table").replaceWith(fragment);
-                        $("#menuName").val("");
-                        $("#menuPrice").val("");
-                    });
-            }); //menuAdd ajax end
-
-            // 테이블 삭제
-            function tableDel(event) {
-                let tableDel = $(event);
-                let id = tableDel.parent().parent().find(".tableId").val();
-                alert(id);
-                $.ajax({
-                    url: "/zerogreen/stores/update/table/delete",
-                    method: "delete",
-                    data: {
-                        id: id
-                    }
-                })
-                    .done(function (fragment) {
-                        $("#list-table").replaceWith(fragment);
-                    });
-            }
-        </script>
     </th:block>
 </th:block>
