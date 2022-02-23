@@ -13,6 +13,7 @@ import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.user.MemberRepository;
 import zerogreen.eco.security.auth.PrincipalDetails;
+import zerogreen.eco.security.dto.SessionUser;
 import zerogreen.eco.service.community.BoardImageService;
 import zerogreen.eco.service.community.CommunityBoardService;
 import zerogreen.eco.service.community.CommunityReplyService;
@@ -23,6 +24,7 @@ import zerogreen.eco.service.user.StoreMemberService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Enumeration;
 import java.util.List;
 
 @Controller
@@ -37,6 +39,12 @@ public class IndexController {
     @GetMapping("")
     public String approvedStore(Model model, UserRole userRole, HttpSession session,
                                 @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        Enumeration<String> attributeNames = session.getAttributeNames();
+        while (attributeNames.hasMoreElements()) {
+            String s = attributeNames.nextElement();
+            log.info("SESSIONSESSION={}",s);
+        }
 
         if (principalDetails != null && principalDetails.getBasicUser().getUserRole().equals(UserRole.USER)) {
             session.setAttribute("veganGrade", principalDetails.getVegetarianGrade());
