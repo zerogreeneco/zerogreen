@@ -15,6 +15,7 @@ import javax.persistence.Enumerated;
 @DiscriminatorValue("MEMBER")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @OnDelete(action = OnDeleteAction.CASCADE)
+@ToString
 public class Member extends BasicUser {
 
     @Enumerated(EnumType.STRING)
@@ -28,7 +29,7 @@ public class Member extends BasicUser {
     @Builder
     public Member(String username, String nickname, String phoneNumber, String password,
                   UserRole userRole,Boolean authState,VegetarianGrade vegetarianGrade) {
-        super(username, phoneNumber, password, userRole,authState);
+        super(username, phoneNumber, password, userRole, authState);
         this.vegetarianGrade = vegetarianGrade;
         this.nickname = nickname;
     }
@@ -41,7 +42,7 @@ public class Member extends BasicUser {
         this.socialType = socialType;
     }
 
-    @Builder
+    @Builder(builderMethodName = "googleBuilder")
     public Member(String username, String password, UserRole userRole, String nickname) {
         super(username, password, userRole);
         this.nickname = nickname;
@@ -64,4 +65,9 @@ public class Member extends BasicUser {
     public Member(String nickname) {
     }
 
+    // oauth update
+    public Member update(String nickname) {
+        this.nickname = nickname;
+        return this;
+    }
 }

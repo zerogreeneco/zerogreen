@@ -122,10 +122,12 @@
                                 <div th:errors="*{password}" class="field-error">
                                     비번 오류
                                 </div>
+                                <div class="password-error"></div>
                             </div>
                             <div>
-                                <label for="re-password" class="join-label">비밀번호</label>
+                                <label for="re-password" class="join-label">비밀번호 확인</label>
                                 <input type="password" id="re-password" class="form-control input-box">
+                                <div class="re-password-error"></div>
                             </div>
                             <!-- 개인 연락처 -->
                             <div>
