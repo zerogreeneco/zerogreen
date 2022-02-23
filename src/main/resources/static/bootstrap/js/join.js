@@ -9,7 +9,7 @@ $(function() {
     let phoneNumberCheck = false;
     let authKey = "";
     // 이메일 확인
-    $("#send-mail").click(function() {
+    $("#send-mail").off().on("click",function() {
 
         if(id === "") {
             alert("메일 주소를 입력해주세요.");
@@ -42,7 +42,7 @@ $(function() {
     });
 
     // 이메일 인증
-    $('#authConfirm').click(function() {
+    $('#authConfirm').off().on("click",function() {
         let key = $(".authKey");
 
         if(key.val() === authKey) {
@@ -59,7 +59,7 @@ $(function() {
     });
 
     // 닉네임 중복 확인
-    $("#nickname-check").click(function () {
+    $("#nickname-check").off().on("click",function () {
         let nickname = $("#nickname");
 
         if (nickname.val() === "" || nickname.val() === "undefined") {
@@ -90,7 +90,7 @@ $(function() {
     });
 
     // 연락처 중복 확인
-    $("#phoneNumber-check").click(function () {
+    $("#phoneNumber-check").off().on("click", function () {
         let phoneNumber = $("#phoneNumber").val();
 
         if (phoneNumber === "" || phoneNumber === "undefined") {
