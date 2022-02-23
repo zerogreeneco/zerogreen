@@ -40,7 +40,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         Collection<GrantedAuthority> collect = new ArrayList<>();
 
         collect.add((GrantedAuthority) () -> {
-            return "ROLE_"+ basicUser.getUserRole(); // ROLE_ 생략시 권한 인식을 못함
+            return basicUser.getUserRole().getKey(); // ROLE_ 생략시 권한 인식을 못함
         });
 
         return collect;

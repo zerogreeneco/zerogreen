@@ -71,22 +71,10 @@ public class CommunityController {
                                     RequestPageSortDto requestPageDto, Model model,
                                     SearchType searchType, String keyword) {
 
-        Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
-
-        model.addAttribute("searchType", searchType);
-        model.addAttribute("keyword", keyword);
-
-        if (category == null) {
-            if (searchType == null) {
-                model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable));
-            } else {
-                model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable, new SearchCondition(keyword, searchType)));
-            }
-        } else {
-            model.addAttribute("communityList", boardService.findByCategory(pageable, category));
-        }
+        communityPagingList(requestPageDto, model, searchType, keyword, category);
         return "community/communityHomeForm";
     }
+
 
     // 더보기
     @PostMapping("")
@@ -95,20 +83,8 @@ public class CommunityController {
                                     @RequestParam(value = "searchType", required = false) SearchType searchType,
                                     @RequestParam(value = "keyword", required = false) String keyword,
                                     RequestPageSortDto requestPageDto, Model model) {
-        Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
 
-        model.addAttribute("searchType", searchType);
-        model.addAttribute("keyword", keyword);
-
-        if (category == null) {
-            if (searchType == null) {
-                model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable));
-            } else {
-                model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable, new SearchCondition(keyword, searchType)));
-            }
-        } else {
-            model.addAttribute("communityList", boardService.findByCategory(pageable, category));
-        }
+        communityPagingList(requestPageDto, model, searchType, keyword, category);
         return "community/communityHomeForm :: #more-wrapper";
     }
 
@@ -315,5 +291,23 @@ public class CommunityController {
         model.addAttribute("replyList", replyService.findReplyByBoardId(boardId));
 
         return "/community/communityDetailView :: #review-table";
+    }
+
+    // Paging List
+    private void communityPagingList(RequestPageSortDto requestPageDto, Model model, SearchType searchType, String keyword, Category category) {
+        Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
+
+        model.addAttribute("searchType", searchType);
+        model.addAttribute("keyword", keyword);
+
+        if (category == null) {
+            if (searchType == null) {
+                model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable));
+            } else {
+                model.addAttribute("communityList", boardService.findAllCommunityBoard(pageable, new SearchCondition(keyword, searchType)));
+            }
+        } else {
+            model.addAttribute("communityList", boardService.findByCategory(pageable, category));
+        }
     }
 }
