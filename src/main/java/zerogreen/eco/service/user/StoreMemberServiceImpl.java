@@ -129,7 +129,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
 
         for (StoreImageFile image : storeImageFile) {
             storeImageFileRepository.save(new StoreImageFile(image.getFileName(),
-                    image.getStoreFileName(), image.getFilePath(), findMember));
+                    image.getStoreFileName(), image.getThumbnailName(), image.getFilePath(), findMember));
         }
 
         log.info("파일 저장 OK");
@@ -195,7 +195,6 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         storeMember.getStoreInfo().setCloseTime(storeDto.getCloseTime());
         storeMember.getStoreInfo().setStoreDescription(storeDto.getStoreDescription());
         storeMember.getStoreInfo().setSocialAddress1(storeDto.getSocialAddress1());
-        storeMember.getStoreInfo().setSocialAddress2(storeDto.getSocialAddress2());
         storeMember.getStoreInfo().setSocialAddress2(storeDto.getSocialAddress2());
     }
 

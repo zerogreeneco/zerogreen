@@ -4,6 +4,7 @@ import com.sun.istack.Nullable;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.*;
 
@@ -44,6 +45,7 @@ public class StoreDto {
     private StoreInfo storeInfo;
 
     private List<StoreImageFile> imageFiles;
+    private List<MultipartFile> uploadFiles;
     private List<StoreMenu> menuList;
 
     private Long count;

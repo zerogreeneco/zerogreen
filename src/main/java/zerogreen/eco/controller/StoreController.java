@@ -10,13 +10,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.dto.store.StoreMenuDto;
+import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.security.auth.PrincipalDetails;
+import zerogreen.eco.service.file.FileService;
 import zerogreen.eco.service.store.StoreMenuService;
 import zerogreen.eco.service.user.StoreMemberService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -27,6 +30,7 @@ public class StoreController {
 
     private final StoreMemberService storeMemberService;
     private final StoreMenuService storeMenuService;
+    private final FileService fileService;
 
     @ModelAttribute("storeTypes")
     private StoreType[] storeTypes() {
@@ -57,7 +61,7 @@ public class StoreController {
 
         StoreDto info = storeMemberService.storeInfo(principalDetails.getBasicUser().getId(), storeDto);
         model.addAttribute("storeInfo", info);
-        log.info(">>>"+info.getStoreName());
+
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
         model.addAttribute("tableList", tableList);
 
@@ -66,11 +70,15 @@ public class StoreController {
 
     @PostMapping("/update")
     public String updateStoreInfo(@Validated @ModelAttribute("storeInfo") StoreDto storeDto, BindingResult bindingResult,
-                                  @AuthenticationPrincipal PrincipalDetails principalDetails){
+                                  @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException{
 
         if (bindingResult.hasErrors()) {
+            log.info("errorCode={}", bindingResult.getAllErrors());
+
             return "store/updateInfo";
         }
+        List<StoreImageFile> storeImageFiles = fileService.storeImageFiles(storeDto.getUploadFiles(), storeDto.getStoreName());
+        storeMemberService.imageSave(principalDetails.getId(), storeImageFiles);
 
         storeMemberService.updateStore(principalDetails.getId(), storeDto);
 
