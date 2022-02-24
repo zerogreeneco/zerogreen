@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface StoreImageFileRepository extends JpaRepository<StoreImageFile, Long> {
 
-    // 전체 이미지 리스트 (Detail)
     @Query("select si from StoreImageFile si where si.storeMember.id =:sno")
     List<StoreImageFile> getImageByStore(@Param("sno") Long sno);
 
