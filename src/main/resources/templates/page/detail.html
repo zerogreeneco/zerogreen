@@ -19,15 +19,15 @@
 
             <!-- 1열 -->
             <div class="detail-top">
-                <div class="div21" style="position: relative;" th:if="${#lists.size(storeImageList) >= 1}">
+                <div class="div21" style="position: relative;" th:if="${#lists.size(getStore.imageFile) >= 1}">
                     <span id="image-left-top" class="arrow-left-top arrow"
-                          th:if="${#lists.size(storeImageList) >= 5}">&#139;</span>
+                          th:if="${#lists.size(getStore.imageFile) >= 5}">&#139;</span>
                     <span id="image-right-top" class="arrow-right-top arrow"
-                          th:if="${#lists.size(storeImageList) >= 5}">&#155;</span>
+                          th:if="${#lists.size(getStore.imageFile) >= 5}">&#155;</span>
                     <div class="slider-container">
                         <div class="image-slider-top slider">
-                            <div class="card sImg-list" th:each="sImg: ${storeImageList}">
-                                <img class="inline " th:src="@{/page/detail/image/} + ${sImg.storeMember.storeName} + ${sImg.storeFileName}"
+                            <div class="card sImg-list" th:each="sImg: ${getStore.imageFile}">
+                                <img class="inline " th:src="@{/page/detail/image/} + ${getStore.storeName} + ${sImg.storeFileName}"
                                      th:value="${sImg.fileName}"
                                      width="200px" height="200px">
                             </div>
@@ -91,7 +91,7 @@
                 <!-- 3열 좌측 -->
                 <div class="thr-thr inline">
                     <div class="thr thr-left inline">
-                        <div th:each="menu: ${menuList}">
+                        <div th:each="menu: ${getStore.menuList}">
                             <span>
                                 <img th:src="@{'/bootstrap/images/profile/' +${menu.vegetarianGrade}+'.png'}"
                                  class="veganImg">
