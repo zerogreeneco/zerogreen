@@ -32,29 +32,28 @@
                 <div class="hr-sect">또는</div>
                 <!-- 소셜 로그인 -->
                 <div class="center-box">
-                    <a href="https://kauth.kakao.com/oauth/authorize?client_id=ed6be877b0d7d2dddcc441eaae07a48c&redirect_uri=http://localhost:8080/zerogreen/auth/kakao/callback&response_type=code">
+                    <a th:href="@{/oauth2/authorization/kakao}">
                         <img th:src="@{/bootstrap/images/loginButton/kakao_circle.png}" width="50px" height="50px">
                     </a>
-                    <div class="center-box">
-                        <a th:href="@{/oauth2/authorization/kakao}">
-                            <img th:src="@{/bootstrap/images/loginButton/kakao_circle.png}" width="50px" height="50px">
-                        </a>
-                        <a th:href="@{/oauth2/authorization/google}">
-                            <img th:src="@{/bootstrap/images/loginButton/google_circle.png}" width="50px" height="50px">
-                        </a>
-                        <a th:href="@{/oauth2/authorization/naver}">
-                            <img th:src="@{/bootstrap/images/loginButton/naver_logo.png}" width="50px" height="50px">
-                        </a>
-                    </div>
-                    <!-- 회원 가입 -->
-                    <div class="center-box" style="margin-bottom: 2.5em;">
-                        <p style="margin: 1em 0 0 0; color: rgb(68, 68, 68);">아직 회원이 아니신가요?</p>
-                        <span class="vertical-line" style="padding-right: 5px;"><a
-                                th:href="@{/members/add}">일반 회원 가입</a></span><span style="padding-left: 5px;"><a
-                            th:href="@{/members/store/add}">사업자 회원 가입</a></span>
-                    </div>
+                    <a th:href="@{/oauth2/authorization/google}">
+                        <img th:src="@{/bootstrap/images/loginButton/google_circle.png}" width="50px" height="50px">
+                    </a>
+                    <a th:href="@{/oauth2/authorization/naver}">
+                        <img th:src="@{/bootstrap/images/loginButton/naver_logo.png}" width="50px" height="50px">
+                    </a>
+                </div>
+                <!-- 회원 가입 -->
+                <div class="center-box" style="margin-bottom: 2.5em;">
+                    <p style="margin: 1em 0 0 0; color: rgb(68, 68, 68);">아직 회원이 아니신가요?</p>
+                    <span class="vertical-line" style="padding-right: 5px;">
+                        <a th:href="@{/members/add}">일반 회원 가입</a>
+                    </span>
+                    <span style="padding-left: 5px;">
+                        <a th:href="@{/members/store/add}">사업자 회원 가입</a>
+                    </span>
                 </div>
             </div>
+        </div>
     </th:block>
 </th:block>
 </html>
