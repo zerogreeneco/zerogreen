@@ -2,6 +2,7 @@ package zerogreen.eco.security.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import zerogreen.eco.entity.userentity.Member;
@@ -12,6 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Getter
+@Slf4j
 public class OAuthAttributes {
     private Map<String, Object> attributes;
     private String nameAttributeKey;
@@ -47,15 +49,16 @@ public class OAuthAttributes {
 
     // of()에서 넘어온 값을 변환
     private static OAuthAttributes ofKakao(String usernameAttributesName, Map<String, Object> attributes, String registrationID) {
-        Map<String, Object> response = (Map<String, Object>) attributes.get("id");
+
+        Map<String, Object> nickname = (Map<String, Object>) attributes.get("properties");
+        Map<String, Object> username = (Map<String, Object>) attributes.get("kakao_account");
 
         return OAuthAttributes.builder()
-                .username((String) response.get("email"))
-                .nickname(String.valueOf(response.get("nickname")))
-                .attributes(response)
+                .username(String.valueOf(username.get("email")))
+                .nickname(String.valueOf(nickname.get("nickname")))
+                .attributes(attributes)
                 .nameAttributeKey(usernameAttributesName)
                 .socialType(registrationID)
-                .mobile((String) response.get("mobile"))
                 .build();
     }
 
