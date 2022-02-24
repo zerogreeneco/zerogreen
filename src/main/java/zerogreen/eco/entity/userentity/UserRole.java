@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum UserRole {
 
-    USER("ROLE_USER"), UN_STORE("ROLE_UN_STORE"), STORE("ROLE_STORE"), ADMIN("ROLE_ADMIN");
+    USER("ROLE_USER"), AUTH_USER("ROLE_USER"),UN_STORE("ROLE_UN_STORE"), STORE("ROLE_STORE"), ADMIN("ROLE_ADMIN");
 
     private final String key;
 

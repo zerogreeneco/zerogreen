@@ -34,10 +34,12 @@ public class Member extends BasicUser {
         this.nickname = nickname;
     }
 
-    // 카카오 회원가입
-    public Member(String username, String phoneNumber, String password, UserRole userRole,
-                  String nickname, String socialType) {
-        super(username, phoneNumber, password, userRole);
+    // OAUTH 회원가입
+    @Builder(builderMethodName = "OauthRegister", buildMethodName = "oauthRegister")
+    public Member(String username, String nickname, String phoneNumber, String password,
+                  UserRole userRole, Boolean authState, VegetarianGrade vegetarianGrade, String socialType) {
+        super(username, phoneNumber, password, userRole, authState);
+        this.vegetarianGrade = vegetarianGrade;
         this.nickname = nickname;
         this.socialType = socialType;
     }
@@ -66,8 +68,9 @@ public class Member extends BasicUser {
     }
 
     // oauth update
-    public Member update(String nickname) {
+    public Member update(String nickname, String socialType) {
         this.nickname = nickname;
+        this.socialType = socialType;
         return this;
     }
 }
