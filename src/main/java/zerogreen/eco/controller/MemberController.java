@@ -128,6 +128,8 @@ public class MemberController {
     public String myInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
                          Model model) {
 
+        log.info("PRINCIPALPALALALALA={}",principalDetails);
+
         //회원별 남긴 리뷰 수 (memberMyInfo)
         model.addAttribute("reviewCount", detailReviewService.countReviewByUser(principalDetails.getId()));
         //회원별 좋아요 수 (memberMyInfo)

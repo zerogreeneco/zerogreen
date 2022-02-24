@@ -28,14 +28,28 @@ public class OAuthAttributes {
         this.username = username;
     }
 
+    // OAuth2User에서 반환되는 사용자 정보는 Map 형태. of()에서 값을 받으면 registrationId로 어떤 서비스인지 구분한 뒤 of~를 통해서 값을 변환
     public static OAuthAttributes of(String registrationId, String usernameAttributesName, Map<String, Object> attributes) {
 
         if ("naver".equals(registrationId)) {
             return ofNaver("id", attributes);
+        } else if ("kakao".equals(registrationId)) {
+            return ofKakao("id", attributes);
         }
 
-
         return ofGoogle(usernameAttributesName, attributes);
+    }
+
+    // of()에서 넘어온 값을 변환
+    private static OAuthAttributes ofKakao(String usernameAttributesName, Map<String, Object> attributes) {
+        Map<String, Object> response = (Map<String, Object>) attributes.get("id");
+
+        return OAuthAttributes.builder()
+                .username((String) response.get("email"))
+                .nickname(String.valueOf(response.get("nickname")))
+                .attributes(response)
+                .nameAttributeKey(usernameAttributesName)
+                .build();
     }
 
     private static OAuthAttributes ofNaver(String usernameAttributesName, Map<String, Object> attributes) {
@@ -58,6 +72,7 @@ public class OAuthAttributes {
                 .build();
     }
 
+    // Member 엔티티를 생성(처음 가입할 때 한번만 생성)
     public Member toEntity() {
         return Member.builder()
                 .username(username)

@@ -3,7 +3,9 @@ package zerogreen.eco.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.user.MemberRepository;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.security.dto.SessionUser;
+import zerogreen.eco.security.oauth.LoginUser;
 import zerogreen.eco.service.community.BoardImageService;
 import zerogreen.eco.service.community.CommunityBoardService;
 import zerogreen.eco.service.community.CommunityReplyService;
@@ -26,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -38,13 +42,7 @@ public class IndexController {
 
     @GetMapping("")
     public String approvedStore(Model model, UserRole userRole, HttpSession session,
-                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
-
-        Enumeration<String> attributeNames = session.getAttributeNames();
-        while (attributeNames.hasMoreElements()) {
-            String s = attributeNames.nextElement();
-            log.info("SESSIONSESSION={}",s);
-        }
+                                @AuthenticationPrincipal PrincipalDetails principalDetails, Authentication authentication) {
 
         if (principalDetails != null && principalDetails.getBasicUser().getUserRole().equals(UserRole.USER)) {
             session.setAttribute("veganGrade", principalDetails.getVegetarianGrade());
