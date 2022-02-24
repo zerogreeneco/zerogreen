@@ -2,6 +2,8 @@ package zerogreen.eco.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -21,7 +23,9 @@ import zerogreen.eco.service.user.MemberService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -49,7 +53,6 @@ public class MemberController {
     public String memberInfoForm(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                  MemberUpdateDto memberUpdateDto, PasswordUpdateDto passwordUpdateDto, Model model) {
 
-//        log.info("MEMBERID={}", memberId);
         MemberUpdateDto updateDto = memberService.toMemberUpdateDto(principalDetails.getUsername(), memberUpdateDto);
         log.info("UPDATEDTO={}", updateDto);
 
@@ -60,53 +63,57 @@ public class MemberController {
     }
 
     /*
-    * 회원 정보 수정
-    * */
+     * 회원 정보 수정
+     * */
     @PatchMapping("/account")
     @ResponseBody
-    public String memberInfoUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                    @Validated @ModelAttribute("member") MemberUpdateDto memberUpdateResponse, BindingResult bindingResult,
-                                   HttpSession session) {
+    public ResponseEntity<Map<String, String>> memberInfoUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                   @Validated @ModelAttribute("member") MemberUpdateDto memberUpdateResponse,
+                                                                BindingResult bindingResult, HttpSession session) {
+
+        Map<String, String> resultMap = new HashMap<>();
 
         if (bindingResult.hasErrors()) {
-            return "member/updateMember";
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
         }
         session.removeAttribute("veganGrade");
         memberService.memberUpdate(principalDetails.getId(), memberUpdateResponse);
         session.setAttribute("veganGrade", memberUpdateResponse.getVegetarianGrade());
 
+        resultMap.put("result", "success");
         log.info("회원 정보 수정 성공!!!!!");
 
-        return "member/updateMember";
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     /*
-    * 비밀번호 변경
-    * */
-    @PostMapping("/account/pwdChange")
+     * 비밀번호 변경
+     * */
+    @PatchMapping("/account/pwdChange")
     @ResponseBody
-    public String passwordChange(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                 @Validated @ModelAttribute("password") PasswordUpdateDto passwordDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "member/updateMember";
-        }
-
-        log.info("password={}", passwordDto.getPassword());
-        log.info("newpassword={}", passwordDto.getNewPassword());
+    public ResponseEntity<Map<String, String>> passwordChange(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                                              @Validated @ModelAttribute("password") PasswordUpdateDto passwordDto, BindingResult bindingResult,
+                                                              HttpSession session) {
+        Map<String, String> resultMap = new HashMap<>();
 
         if (passwordEncoder.matches(passwordDto.getPassword(), principalDetails.getPassword())) {
             basicUserService.passwordChange(principalDetails.getId(), passwordDto);
+            resultMap.put("result", "success");
+            session.invalidate(); // 비밀번호 변경 후 강제 로그아웃 후 다시 로그인
             log.info("비밀번호 변경 성공!!!!!");
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } else {
+            resultMap.put("result", "fail");
             log.info("비밀번호 변경 실패....ㅠㅠ");
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
         }
-        return "member/updateMember";
     }
 
     @DeleteMapping("/account/deleteMember")
     @ResponseBody
-    public String deleteMember(@Validated @ModelAttribute("password") PasswordUpdateDto passwordUpdateDto,
-                               BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session) {
+    public ResponseEntity<Map<String, String>> deleteMember(@Validated @ModelAttribute("password") PasswordUpdateDto passwordUpdateDto,
+                                                            BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session) {
+        Map<String, String> resultMap = new HashMap<>();
 
         // dto로 넘어 온 데이터와 로그인 회원의 인코딩된 비밀번호 일치여부 확인
         boolean matches = passwordEncoder.matches(passwordUpdateDto.getPassword(), principalDetails.getPassword());
@@ -119,16 +126,18 @@ public class MemberController {
 
         if (matches) {
             basicUserService.memberDelete(principalDetails.getId());
+            resultMap.put("result", "success");
             session.invalidate();
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } else if (!matches) {
+            resultMap.put("result", "fail");
         }
-            return "redirect:/";
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     @GetMapping("/memberMyInfo")
     public String myInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
                          Model model) {
-
-        log.info("PRINCIPALPALALALALA={}",principalDetails);
 
         //회원별 남긴 리뷰 수 (memberMyInfo)
         model.addAttribute("reviewCount", detailReviewService.countReviewByUser(principalDetails.getId()));
@@ -137,12 +146,12 @@ public class MemberController {
         //회원 닉네임 (memberMyInfo)
         model.addAttribute("profile", memberService.findById(principalDetails.getId()).get());
         //회원별 리뷰 남긴 가게 리스트(memberMyInfo)
-        List<DetailReviewDto> userReview =  detailReviewService.getReviewByUser(principalDetails.getId());
-        model.addAttribute("listOfReview",userReview);
+        List<DetailReviewDto> userReview = detailReviewService.getReviewByUser(principalDetails.getId());
+        model.addAttribute("listOfReview", userReview);
         Collections.reverse(userReview);
         //회원별 찜한 가게 리스트 (memberMyInfo)
-        List<LikesDto> likes =  likesService.getLikesByUser(principalDetails.getId());
-        model.addAttribute("listOfLikes",likes);
+        List<LikesDto> likes = likesService.getLikesByUser(principalDetails.getId());
+        model.addAttribute("listOfLikes", likes);
         Collections.reverse(likes);
 
         return "member/memberMyInfo";
