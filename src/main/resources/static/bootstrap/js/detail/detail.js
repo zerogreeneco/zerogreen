@@ -4,7 +4,22 @@ $(document).ready(function(e){
     let liking = $(".liking");
     let cnt = $(".like-cnt");
 
+    //스토어 이미지 슬라이드
+    $("#image-right-top").click(function() {
+        $(".image-slider-top").animate({marginLeft: "-200px"},
+        function() {
+            $(".image-slider-top .card:first").appendTo(".image-slider-top");
+            $(".image-slider-top").css({marginLeft: 0 });
+        });
+    });
+    $("#image-left-top").click(function() {
+        $(".image-slider-top .card:last").prependTo(".image-slider-top");
+        $(".image-slider-top").css({ "marginLeft": "-200px"});
+        $(".image-slider-top").animate({ marginLeft: 0 });
+    });
 
+
+    //좋아요 추가+취소
     $(".liking").on("click", function(){
         $.ajax({
            url: contextPath+'/detailLikes/'+sno,
