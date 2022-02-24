@@ -18,8 +18,15 @@
         <div class="detail-content">
 
             <!-- 1열 -->
-            <div class="detail-top temp2">
-                <div class="top">가게 상세 이미지 들어갈 곳</div>
+            <div class="detail-top">
+                <div class="top">
+                    <div class="sImg-list" th:each="sImg: ${storeImageList}">
+                        <img class="inline " th:src="@{/page/detail/image/} + ${sImg.storeMember.storeName} + ${sImg.storeFileName}"
+                             th:value="${sImg.fileName}"
+                             width="150px" height="150px">
+                    </div>
+
+                </div>
             </div>
 
             <!-- 2열 -->
