@@ -94,6 +94,7 @@ ul.category-list li a {
     -webkit-box-orient: vertical;
     width: 30em;
     overflow: hidden;
+    height: 80px;
 }
 
 @media screen and (max-width: 650px) {
