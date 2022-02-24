@@ -12,20 +12,28 @@
                 integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
         <script th:src="@{/bootstrap/js/detail/detailReview.js}"></script>
-        <script th:src="@{/bootstrap/js/detail/likes.js}"></script>
+        <script th:src="@{/bootstrap/js/detail/detail.js}"></script>
 
         <!-- 본문 시작 -->
         <div class="detail-content">
 
             <!-- 1열 -->
             <div class="detail-top">
-                <div class="top">
-                    <div class="sImg-list" th:each="sImg: ${storeImageList}">
-                        <img class="inline " th:src="@{/page/detail/image/} + ${sImg.storeMember.storeName} + ${sImg.storeFileName}"
-                             th:value="${sImg.fileName}"
-                             width="150px" height="150px">
+                <div class="div21" style="position: relative;" th:if="${#lists.size(storeImageList) >= 1}">
+                    <span id="image-left-top" class="arrow-left-top arrow"
+                          th:if="${#lists.size(storeImageList) >= 5}">&#139;</span>
+                    <span id="image-right-top" class="arrow-right-top arrow"
+                          th:if="${#lists.size(storeImageList) >= 5}">&#155;</span>
+                    <div class="slider-container">
+                        <div class="image-slider-top slider">
+                            <div class="card sImg-list" th:each="sImg: ${storeImageList}">
+                                <img class="inline " th:src="@{/page/detail/image/} + ${sImg.storeMember.storeName} + ${sImg.storeFileName}"
+                                     th:value="${sImg.fileName}"
+                                     width="200px" height="200px">
+                            </div>
+                        </div>
                     </div>
-
+                    <!-- end slider-container -->
                 </div>
             </div>
 
@@ -82,7 +90,7 @@
             <div class="detail-thr">
                 <!-- 3열 좌측 -->
                 <div class="thr-thr inline">
-                    <div class="thr thr-left">
+                    <div class="thr thr-left inline">
                         <div th:each="menu: ${menuList}">
                             <span>
                                 <img th:src="@{'/bootstrap/images/profile/' +${menu.vegetarianGrade}+'.png'}"
@@ -96,7 +104,7 @@
                 </div>
                 <!-- 3열 우측 -->
                 <div class="thr-thr inline">
-                    <div class="thr thr-right" th:object="${getStore}">
+                    <div class="thr thr-right inline" th:object="${getStore}">
                         <span th:if="*{storeInfo.storePhoneNumber} != null" >전화번호 : </span><span th:text="*{storeInfo.storePhoneNumber}"></span><br>
                         <span th:if="*{storeInfo.openTime} != null">영업시간 : [[*{storeInfo.openTime}]] - [[*{storeInfo.closeTime}]]</span><br>
                         <span th:if="*{storeInfo.socialAddress1} != null">소&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;셜 : [[${getStore.storeInfo.socialAddress1}]]</span><br>
@@ -118,7 +126,7 @@
             </div>
 
             <!-- 리뷰작성칸 -->
-            <div class="rv" sec:authorize="isAuthenticated()">
+            <div class="rv" sec:authorize="hasRole('ROLE_USER')">
 
                 <!-- preview -->
                     <div id="preview">
@@ -155,8 +163,8 @@
                 <div id="reviewList" class="reviewList">
                     <!-- 리뷰 이미지 리스트 -->
                     <div class="rv-images" style="position: relative;" th:if="${reviewImageList != null}">
-                        <span id="image-left" class="arrow-left">&#139;</span>
-                        <span id="image-right"  class="arrow-right">&#155;</span>
+                        <span id="image-left" class="arrow-left arrow">&#139;</span>
+                        <span id="image-right" class="arrow-right arrow">&#155;</span>
                         <div class="slider-container">
                             <div class="image-slider slider">
                                 <div class="card rv-img-list" th:each="imageList: ${reviewImageList}">
@@ -229,7 +237,7 @@
 
                                 <div class="sReview-smallBox">
                                     <div class="inline">
-                                        <img class="arrow" th:attr="src = @{/bootstrap/images/etc/arrow.png}">
+                                        <img class="downArrow" th:attr="src = @{/bootstrap/images/etc/arrow.png}">
                                     </div>
                                     <span class="sReview-profile">
                                         <img th:src="@{'/bootstrap/images/profile/STORE.png'}"
@@ -272,8 +280,8 @@
             <!-- image modal -->
             <div class="modal image-model" style="display:none;">
                 <span class="close">&times;</span>
-                <span id="modal-left" class="modal-arrow-left">&#139;</span>
-                <span id="modal-right"  class="modal-arrow-right">&#155;</span>
+                <span id="modal-left" class="modal-arrow-left arrow">&#139;</span>
+                <span id="modal-right"  class="modal-arrow-right arrow">&#155;</span>
                 <div class="slider-container">
                     <div class="modal-slider slider">
                         <div class="card modalEach">
