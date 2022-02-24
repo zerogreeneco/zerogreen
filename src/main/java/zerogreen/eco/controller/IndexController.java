@@ -44,9 +44,10 @@ public class IndexController {
     public String approvedStore(Model model, UserRole userRole, HttpSession session,
                                 @AuthenticationPrincipal PrincipalDetails principalDetails, Authentication authentication) {
 
-//        if (principalDetails != null && principalDetails.getBasicUser().getUserRole().equals(UserRole.USER)) {
-//            session.setAttribute("veganGrade", principalDetails.getVegetarianGrade());
-//        }
+        // 로그인시, 일반 회원이 비건 등급 session에 담기
+        if (principalDetails != null && principalDetails.getBasicUser().getUserRole().equals(UserRole.USER)) {
+            session.setAttribute("veganGrade", principalDetails.getVegetarianGrade());
+        }
 
         if (principalDetails != null) {
             session.setAttribute("memberId", principalDetails.getBasicUser().getId());

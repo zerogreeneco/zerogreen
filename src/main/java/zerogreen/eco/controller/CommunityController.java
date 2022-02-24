@@ -102,9 +102,8 @@ public class CommunityController {
                         BindingResult bindingResult,
                         @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
 
-        List<BoardImage> storeImages = fileService.boardImageFiles(dto.getImageFiles());
-
-        Long boardId = boardService.boardRegister(dto, (Member) principalDetails.getBasicUser(), storeImages);
+        Long boardId = boardService.boardRegister(dto, (Member) principalDetails.getBasicUser(),
+                fileService.boardImageFiles(dto.getImageFiles()));
 
         return "redirect:/community/read/" + boardId;
     }
@@ -141,7 +140,6 @@ public class CommunityController {
                                                            HttpServletRequest request) {
         HashMap<String, String> resultMap = new HashMap<>();
         String filePath = request.getParameter("filePath");
-        log.info("<<<<<<<<<<<<<<<<FILEPATH={}", filePath);
 
         // 이미지 PK와 경로를 클라이언트에서 넘겨받아서 DB와 로컬 저장소 모두 삭제
         boardImageService.deleteImage(imageId, filePath);

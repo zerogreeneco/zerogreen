@@ -2,29 +2,8 @@
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
         <link th:href="@{/bootstrap/css/community/communityDetailView.css}" rel="stylesheet"/>
-        <script th:inline="javascript">
-            function deleteImage(event) {
-                let thisBtn = $(event);
-                let imageId = thisBtn.parent().find(".image-id").val();
-                let filePath = thisBtn.parent().find(".file-path").val();
+        <script th:inline="javascript" th:src="@{/bootstrap/js/community/communityWrite.js}"></script>
 
-                $.ajax({
-                    url: "/zerogreen/community/" + imageId + "/imageDelete",
-                    method: "post",
-                    dataType: "json",
-                    data: {
-                        imageId: imageId,
-                        filePath: filePath
-                    }
-                })
-                    .done(function (data) {
-                        if (data.key === "success") {
-                            thisBtn.parent().find('img').remove();
-                            thisBtn.remove();
-                        }
-                    });
-            }
-        </script>
         <form class="write-form" method="post" th:object="${writeForm}" th:action enctype="multipart/form-data">
             <div>
                 <select th:field="*{category}">
@@ -33,7 +12,7 @@
                 </select>
                 <textarea class="rg-input" th:field="*{text}"></textarea>
                 <input type="file" multiple="multiple" th:field="*{imageFiles}">
-                <div class="select-img"><img src="" /></div>
+                <div id="select-img"><img id="rg-img" src="" /></div>
             </div>
             <div th:each="imageFile : ${images}" class="image-wrapper">
                 <input type="hidden" class="image-id" th:value="${imageFile.id}">
@@ -41,12 +20,12 @@
                 <img th:src="@{/community/images/{imageFile}(imageFile=${imageFile.storeFileName})}"
                      th:value="${imageFile.uploadFileName}"
                      width="700px" height="auto">
-                <input type="button" value="삭제" onclick="deleteImage(this)">
+                <input type="button" value="삭제" onclick="deleteImageDB(this)">
             </div>
 
             <div id="button-section">
                 <button id="write-btn" type="submit">수정</button>
-                <button id="cancle-btn" type="button">취소</button>
+                <button id="cancle-btn" type="button" onclick="goBack()">취소</button>
             </div>
 
         </form>
