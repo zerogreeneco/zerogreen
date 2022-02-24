@@ -7,9 +7,9 @@
         <script th:inline="javascript" th:src="@{/bootstrap/js/community/community.js}"></script>
 
         <div th:object="${detailView}" class="cm-main-wrapper">
-            <!-- 상세보기 제목 -->
             <input type="hidden" th:field="*{id}">
             <input type="hidden" th:field="*{memberId}" id="userId">
+
             <!-- 카테고리 -->
             <div th:field="*{category}">
                 <a class="cm-category" th:href="@{/community(category=${detailView.category.name()}) }"
@@ -44,15 +44,15 @@
                 </span>
             </span>
             <div style="float: right">
-                <a th:href="@{/chatting/{boardId}(boardId = *{memberId})}" onclick="registration()">채팅하기</a>
-                <a th:href="@{'/community/' + ${detailView.id} + '/modify'}">수정</a>
-                <a id="delete-board">삭제</a>
+                <a th:href="@{/chatting/{boardId}(boardId = *{memberId})}" onclick="registration()" th:if="*{memberId} != ${session.memberId}">채팅하기</a>
+                <a th:href="@{'/community/' + ${detailView.id} + '/modify'}" th:if="*{memberId} == ${session.memberId}">수정</a>
+                <a id="delete-board" th:if="*{memberId} == ${session.memberId}">삭제</a>
             </div>
         </div>
         <!-- 상세보기 내용 -->
         <hr/>
         <div th:object="${detailView}" class="cm-main-wrapper">
-            <div th:field="*{text}" th:text="*{text}"></div>
+            <div th:field="*{text}" th:text="*{text}" style="line-height: 200%;"></div>
         </div>
         <!-- 이미지 -->
         <div th:each="imageFile : ${images}" class="image-wrapper">

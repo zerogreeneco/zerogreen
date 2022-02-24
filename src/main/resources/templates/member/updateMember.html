@@ -68,12 +68,12 @@
                             <input id="newPassword" type="password" th:field="*{newPassword}"
                                    class="form-control input-box">
                             <div th:errors="*{newPassword}">
-                                전화 오류
+                                비밀번호 수정 불가
                             </div>
                         </div>
                         <div>
                             <label for="re-newPassword" class="join-label">새로운 비밀번호 확인</label>
-                            <input id="re-newPassword" type="text" class="form-control input-box">
+                            <input id="re-newPassword" type="password" class="form-control input-box">
                         </div>
                     </form>
                     <!-- 비밀번호 변경, 회원탈퇴 button -->
