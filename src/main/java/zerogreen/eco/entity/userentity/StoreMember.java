@@ -82,12 +82,12 @@ public class StoreMember extends BasicUser{
     // DTO -> 엔티티 (테스트 saveV2에서 쓰는 생성자)
     public StoreMember(String username, String phoneNumber, String password, UserRole userRole, String storeName,
                        String storeRegNum, StoreType storeType, String storeAddress,
-                       String storeDetailAddress,String storePhoneNumber, String postalCode) {
+                       String storeDetailAddress, String storePhoneNumber, String postalCode) {
         super(username, phoneNumber, password, userRole);
         this.storeName = storeName;
         this.storeRegNum = storeRegNum;
         this.storeType = storeType;
-        this.storeInfo = new StoreInfo(postalCode, storeAddress, storeDetailAddress,storePhoneNumber);
+        this.storeInfo = new StoreInfo(postalCode, storeAddress, storeDetailAddress, storePhoneNumber);
 //        new StoreInfo(postalCode, storeAddress, storeDetailAddress, storePhoneNumber);
     }
 
@@ -102,7 +102,7 @@ public class StoreMember extends BasicUser{
 
     // 가게 정보 등록
     public StoreMember(String storeAddress, String storePhoneNumber, String storeDescription,
-                        String openTime, String closeTime) {
+                       String openTime, String closeTime) {
         storeInfo = new StoreInfo(storeAddress, storePhoneNumber, storeDescription, openTime, closeTime);
     }
 

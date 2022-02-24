@@ -18,8 +18,6 @@ public interface StoreMemberService {
     //이친구뭐예용
     void storeInfoSave(StoreMember storeMember);
 
-    void imageSave(Long id, List<StoreImageFile> storeImageFile);
-
     List<NonApprovalStoreDto> findByApprovalStore(UserRole userRole);
     //스토어 db 불러오기
     StoreDto getStore(Long sno);
@@ -32,6 +30,7 @@ public interface StoreMemberService {
     //StoreUpdate
     StoreDto storeInfo(Long id, StoreDto storeDto);
     void updateStore(Long id, StoreDto storeDto);
+    void imageSave(Long id, List<StoreImageFile> storeImageFile);
 
     int countByStoreRegNum(String storeRegNum);
 
