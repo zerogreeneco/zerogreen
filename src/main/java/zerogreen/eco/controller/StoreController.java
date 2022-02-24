@@ -44,7 +44,7 @@ public class StoreController {
         return vegetarianGrades;
     }
 
-//    내정보
+    //내정보 메인
     @GetMapping("/myInfo")
     public String storeMyInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
                               Model model){
@@ -55,6 +55,7 @@ public class StoreController {
         return "store/myInfo";
     }
 
+    //가게 정보 수정
     @GetMapping("/update")
     public String updateStoreInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                   StoreDto storeDto, Model model){
@@ -73,14 +74,14 @@ public class StoreController {
                                   @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException{
 
         if (bindingResult.hasErrors()) {
-            log.info("errorCode={}", bindingResult.getAllErrors());
 
             return "store/updateInfo";
         }
-        List<StoreImageFile> storeImageFiles = fileService.storeImageFiles(storeDto.getUploadFiles(), storeDto.getStoreName());
-        storeMemberService.imageSave(principalDetails.getId(), storeImageFiles);
 
-        storeMemberService.updateStore(principalDetails.getId(), storeDto);
+        //이미지 로컬 저장
+        List<StoreImageFile> storeImageFiles = fileService.storeImageFiles(storeDto.getUploadFiles(), storeDto.getStoreName());
+        //이미지 DB 저장, 회원정보 수정
+        storeMemberService.updateStore(principalDetails.getId(), storeDto, storeImageFiles);
 
         return "redirect:/stores/myInfo";
     }
@@ -126,5 +127,12 @@ public class StoreController {
         model.addAttribute("tableList", tableList);
 
         return "store/updateInfo :: #list-table";
+    }
+
+    //회원 정보 수정
+    @GetMapping("/account")
+    public String updateAccount(){
+
+        return "store/updateStoreMember";
     }
 }

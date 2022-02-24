@@ -95,25 +95,6 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         findMember.setStoreInfo(findMember.getStoreInfo());
     }
 
-    /*
-     * 이미지 DB 저장
-     * */
-    @Transactional
-    @Override
-    public void imageSave(Long id, List<StoreImageFile> storeImageFile) {
-        log.info("IDID={}", id);
-        StoreMember findMember = storeMemberRepository.findById(id).orElseThrow();
-        log.info("findMember={}", findMember.getUsername());
-
-        for (StoreImageFile image : storeImageFile) {
-            storeImageFileRepository.save(new StoreImageFile(image.getFileName(),
-                    image.getStoreFileName(), image.getThumbnailName(), image.getFilePath(), findMember));
-        }
-
-        log.info("파일 저장 OK");
-    }
-
-
     //상세페이지
     @Override
     public StoreDto getStore(Long sno) {
@@ -165,7 +146,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
 
     @Transactional
     @Override
-    public void updateStore(Long id, StoreDto storeDto) {
+    public void updateStore(Long id, StoreDto storeDto, List<StoreImageFile> storeImageFile){
         StoreMember storeMember = storeMemberRepository.findById(id).orElseThrow();
         //더티 체킹
         storeMember.getStoreInfo().setStorePhoneNumber(storeDto.getStorePhoneNumber());
@@ -174,6 +155,17 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         storeMember.getStoreInfo().setStoreDescription(storeDto.getStoreDescription());
         storeMember.getStoreInfo().setSocialAddress1(storeDto.getSocialAddress1());
         storeMember.getStoreInfo().setSocialAddress2(storeDto.getSocialAddress2());
+
+        // 트랜젝션 전에 지연 SQL 저장소 -> DB로 전송
+        storeMemberRepository.flush();
+
+        //이미지 DB 저장
+        if (storeImageFile.size() != 0) {
+            for (StoreImageFile image : storeImageFile) {
+                storeImageFileRepository.save(new StoreImageFile(image.getFileName(),
+                        image.getStoreFileName(), image.getThumbnailName(), image.getFilePath(), storeMember));
+            }
+        }
     }
 
     @Override

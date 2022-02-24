@@ -29,8 +29,7 @@ public interface StoreMemberService {
 
     //StoreUpdate
     StoreDto storeInfo(Long id, StoreDto storeDto);
-    void updateStore(Long id, StoreDto storeDto);
-    void imageSave(Long id, List<StoreImageFile> storeImageFile);
+    void updateStore(Long id, StoreDto storeDto, List<StoreImageFile> storeImageFile);
 
     int countByStoreRegNum(String storeRegNum);
 

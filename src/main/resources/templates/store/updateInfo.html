@@ -4,7 +4,7 @@
     <th:block th:fragment="content">
 
         <!-- 페이지 css/ js 추가 -->
-        <script th:inline="javascript" th:src="@{/bootstrap/js/storeInfo.js}"></script>
+        <script th:inline="javascript" th:src="@{/bootstrap/js/store/storeInfo.js}"></script>
         <link rel="stylesheet" th:href="@{/bootstrap/css/register.css}">
         <link rel="stylesheet" th:href="@{/bootstrap/css/member/store.css}">
 
@@ -64,7 +64,7 @@
                                     <span class="cm-text-count">0 / 300</span></label>
                                 <textarea class="form-control update-box description" id="storeDescription"
                                           th:field="*{storeDescription}" onkeyup="limitTextInput(this)"></textarea>
-                                <br><span id="textCheck"/>
+                                <p id="textCheck"/>
                             </div>
 
                             <!-- 소셜 주소 -->
@@ -73,7 +73,8 @@
                                 <input type="text" class="form-control update-box"
                                        th:field="*{socialAddress1}">
                                 <div th:if="*{socialAddress2}==null">
-                                    <img class="add" id="socialAdd" th:src="@{/bootstrap/images/add.png}">
+                                    <img class="add" id="socialAdd" th:src="@{/bootstrap/images/add.png}"
+                                         onclick="socialAdd()">
                                     <input type="text" class="form-control update-box"
                                            th:field="*{socialAddress2}" hidden>
                                 </div>
@@ -100,12 +101,12 @@
                                         <img class="grade"
                                              th:src="@{'/bootstrap/images/profile/'+${vegan.name()}+'.png'}">
                                     </label>
-                                    <br><span id="gradeCheck"/>
+                                    <p id="gradeCheck"/>
                                 </div>
                             </div>
-                            <span class="addBtn" id="menuAdd" th:if="${storeInfo.storeType.name() == 'VEGAN_FOOD'}">메뉴 추가</span>
-                            <span class="addBtn menuAdd" th:if="${storeInfo.storeType.name() == 'GENERAL_FOOD'}">메뉴 추가</span>
-                            <span class="addBtn menuAdd" th:if="${storeInfo.storeType.name() == 'ECO_SHOP'}">상품 추가</span>
+                            <span class="addBtn" th:if="${storeInfo.storeType.name() == 'VEGAN_FOOD'}" onclick="menuAdd()">메뉴 추가</span>
+                            <span class="addBtn" th:if="${storeInfo.storeType.name() == 'GENERAL_FOOD'}" onclick="tableAdd()">메뉴 추가</span>
+                            <span class="addBtn" th:if="${storeInfo.storeType.name() == 'ECO_SHOP'}" onclick="tableAdd()">상품 추가</span>
 
                             <!-- 메뉴 목록 -->
                             <div>
@@ -142,17 +143,17 @@
                                 <div class="table" th:if="${storeInfo.storeType.name() != 'VEGAN_FOOD'}">
                                     <table id="list-table">
                                         <tr>
-                                            <td style="width: 40%;">이름</td>
-                                            <td style="width: 19%; border-left: 1px solid lightgray;">가격</td>
-                                            <td style="width: 13%; border-left: 1px solid lightgray;">삭제</td>
+                                            <td style="width: 60%;">이름</td>
+                                            <td style="width: 25%; border-left: 1px solid lightgray;">가격</td>
+                                            <td style="width: 15%; border-left: 1px solid lightgray;">삭제</td>
                                         </tr>
                                         <tr th:each="tableList : ${tableList}">
                                             <input type="hidden" class="tableId" th:value="${tableList.id}">
-                                            <td style="width: 40%;">[[${tableList.menuName}]]</td>
-                                            <td style="width: 19%; border-left: 1px solid lightgray;">
+                                            <td style="width: 60%;">[[${tableList.menuName}]]</td>
+                                            <td style="width: 25%; border-left: 1px solid lightgray;">
                                                 [[${tableList.menuPrice}]]
                                             </td>
-                                            <td style="width: 13%; border-left: 1px solid lightgray;">
+                                            <td style="width: 15%; border-left: 1px solid lightgray;">
                                                 <img class="truncate_icon"
                                                      th:src="@{/bootstrap/images/list/close.png}"
                                                      onclick="tableDel(this)"/>
@@ -164,18 +165,21 @@
 
                             <!-- 첨부 파일 -->
                             <div>
-                                <label class="join-label">첨부파일</label>
+                                <label class="join-label">가게 사진</label>
                                 <input type="file" multiple="multiple" class="update-box" th:field="*{uploadFiles}">
                             </div>
                             <div th:if="${#fields.hasGlobalErrors()}">
-<!--                                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">-->
-<!--                                    글로벌 오류 메시지</p>-->
-                                <span class="field-error"></span>
+                                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"
+                                onclick="imgCheck()">
+                                    글로벌 오류 메시지</p>
+                                <p id="imgCheck"/>
                             </div>
-                        </div>
+                          <hr>
+                          <div>사진 목록</div>
+                      </div>
 
                         <div>
-                            <button id="modifyBtn" class="regi-btn" type="submit">수정하기</button>
+                            <button id="modifyBtn" class="regi-btn" type="submit" >수정하기</button>
                             </button>
                         </div>
                     </form>
