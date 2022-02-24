@@ -2,54 +2,7 @@
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
         <link th:href="@{/bootstrap/css/community/communityDetailView.css}" rel="stylesheet"/>
-        <script>
-            let selFiles = [];
-
-            $(function () {
-                $("#imageFiles").on('change', handleImageFileSelect);
-            });
-
-            function fileUploadAction() {
-                console.log("fileUploadAction");
-                $("#imageFiles").trigger('click');
-            }
-
-            function handleImageFileSelect(e) {
-                selFiles = [];
-                $("#select-img").empty();
-
-                let files = e.target.files;
-                let filesArr = Array.prototype.slice.call(files);
-
-                let index = 0;
-                filesArr.forEach(function (file) {
-                    if (!file.type.match("image.*")) {
-                        alert("이미지만 업로드 가능합니다.");
-                        return
-                    }
-
-                    selFiles.push(file);
-
-                    let reader = new FileReader();
-                    reader.onload = function (e) {
-                        let html = "<a href='javascript:void(0);' onclick=\"deleteImage("+index+")\" id=\"img_id_"+index+"\"><img src='"+e.target.result+"' data-file='"+file.name+"' width='150px' height='auto'></a>";
-                        $("#select-img").append(html);
-                        index++;
-                    };
-                    reader.readAsDataURL(file);
-                });
-            }
-
-            function deleteImage(idx) {
-                console.log("INDEX : " + idx);
-                selFiles.splice(idx, 1);
-
-                let img_id = "img_id_" + idx;
-                $(img_id).remove();
-
-                console.log(selFiles);
-            }
-        </script>
+        <script th:inline="javascript" th:src="@{/bootstrap/js/community/communityWrite.js}"></script>
         <form class="write-form" method="post" th:object="${writeForm}" th:action="@{/community/write}" enctype="multipart/form-data">
             <div id="rg-main-wrapper">
                 <div>
@@ -67,7 +20,7 @@
 
             <div id="button-section">
                 <button id="write-btn" type="submit">글 작성</button>
-                <button id="cancle-btn" type="button">취소</button>
+                <button id="cancle-btn" type="button" onclick="goBack()">취소</button>
             </div>
         </form>
     </th:block>
