@@ -26,6 +26,8 @@ import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.security.auth.PrincipalDetails;
+import zerogreen.eco.security.dto.SessionUser;
+import zerogreen.eco.security.oauth.LoginUser;
 import zerogreen.eco.service.community.BoardImageService;
 import zerogreen.eco.service.community.CommunityBoardService;
 import zerogreen.eco.service.community.CommunityReplyService;
