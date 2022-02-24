@@ -29,13 +29,13 @@ public class StoreDto {
     private Long menuId;
     private String menuName;
     private int menuPrice;
+    private List<StoreMenu> menuList;
 
     private BasicUser basicUser;
 
-    private StoreMember storeMember;
     private String storeRegNum;
-    @Nullable
-    private VegetarianGrade vegetarianGrades;
+    private List<StoreImageFile> imageFiles;
+
 
     //여기서부터..
     private Long sno;
@@ -44,12 +44,21 @@ public class StoreDto {
     private StoreType storeType;
     private StoreInfo storeInfo;
 
-    private List<StoreImageFile> imageFiles;
-    private List<MultipartFile> uploadFiles;
-    private List<StoreMenu> menuList;
-
     private Long count;
     private Long like;
+
+    @Nullable
+    private VegetarianGrade vegetarianGrades;
+
+    private List<MultipartFile> uploadFiles;
+
+    private Long imageId;
+    private String fileName;
+    private String storeFileName;
+    private String filePath;
+    private StoreMember storeMember;
+    private String thumbnailName;
+
 
     public StoreDto(){}
 
@@ -64,8 +73,17 @@ public class StoreDto {
         this.storeType = storeType;
     }
 
+    //image list (Detail)
+    public StoreDto(StoreImageFile storeImageFile) {
+        this.imageId = storeImageFile.getId();
+        this.fileName = storeImageFile.getFileName();
+        this.storeFileName = storeImageFile.getStoreFileName();
+        this.filePath = storeImageFile.getFilePath();
+        this.storeMember = storeImageFile.getStoreMember();
+        this.thumbnailName = "thumb_" + storeImageFile.getThumbnailName();
+    }
 
-    //Detail에 Store데이터 가져오기
+    //Store db (Detail)
     @Builder
     public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo,
                     Long count) {
@@ -76,7 +94,6 @@ public class StoreDto {
         this.storeInfo = storeInfo;
         this.count = count;
     }
-
 
     //List DTO
     public StoreDto(Long id,String storeName, String storePhoneNumber,

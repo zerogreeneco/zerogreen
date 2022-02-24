@@ -23,6 +23,8 @@ import zerogreen.eco.security.auth.PrincipalUser;
 import zerogreen.eco.service.detail.DetailReviewService;
 import zerogreen.eco.service.detail.LikesService;
 import zerogreen.eco.service.detail.ReviewImageService;
+import zerogreen.eco.service.file.FileService;
+import zerogreen.eco.service.store.StoreImageService;
 import zerogreen.eco.service.store.StoreMenuService;
 import zerogreen.eco.service.user.StoreMemberService;
 
@@ -45,6 +47,8 @@ public class DetailController {
     private final ReviewImageService reviewImageService;
     private final DetailReviewService detailReviewService;
     private final StoreMenuService storeMenuService;
+    private final StoreImageService storeImageService;
+    private final FileService fileService;
 
 
     //상세페이지
@@ -86,6 +90,11 @@ public class DetailController {
         List<StoreMenuDto> menuList = storeMenuService.getStoreMenu(sno);
         model.addAttribute("menuList", menuList);
 
+        //이미지 리스트
+        List<StoreDto> storeImageList = storeImageService.getImageByStore(sno);
+        model.addAttribute("storeImageList", storeImageList);
+
+
         //가게별 멤버리뷰 카운팅
         Long cnt2 = detailReviewService.cntMemberReview(sno);
         if (cnt2 != null) {
@@ -109,7 +118,6 @@ public class DetailController {
         List<ReviewImage> reviewImages = reviewImageService.reviewImageFiles(reviewDto.getImageFiles());
         detailReviewService.saveImageReview(reviewDto.getReviewText(), sno, principalDetails.getBasicUser(), reviewImages);
 
-//        List<DetailReviewDto> saveImageResult = detailReviewService.findByStore(sno, reviewDto.getRno());
         List<DetailReviewDto> saveImageResult = detailReviewService.findByStore(sno);
         Collections.reverse(saveImageResult);
         model.addAttribute("memberReview", saveImageResult);
@@ -118,11 +126,19 @@ public class DetailController {
     }
 
 
-    //이미지 불러오기
+    //리뷰 이미지 불러오기
     @ResponseBody
     @GetMapping("/page/detail/images/{filename}")
     private Resource getReviewImages(@PathVariable("filename") String filename) throws MalformedURLException {
         return new UrlResource("file:" + reviewImageService.getFullPath(filename));
+    }
+
+    //스토어 이미지 불러오기
+    @ResponseBody
+    @GetMapping("/page/detail/image/{storeName}{storeFileName}")
+    private Resource getStoreImages(@PathVariable("storeFileName") String storeFileName,
+                                    @PathVariable("storeName") String storeName) throws MalformedURLException {
+        return new UrlResource("file:" + fileService.getFullPathImage(storeFileName, storeName));
     }
 
 
