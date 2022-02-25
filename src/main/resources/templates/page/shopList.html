@@ -4,6 +4,7 @@
 
         <!-- 페이지 css/ js 추가 -->
         <link th:href="@{/bootstrap/css/page/list.css}" rel="stylesheet"/>
+        <script th:src="@{/bootstrap/js/store/storeList.js}"></script>
 
         <!-- 본문 시작 -->
         <div>
@@ -47,17 +48,5 @@
                 </div>
             </div>
         </div>
-
-        <script th:inline="javascript">
-            //검색
-            $('.search_icon').click(function (e) {
-                $('#shopSearchForm').submit();
-            });
-
-            //검색어 비우기
-            $('.truncate_icon').click(function () {
-                $('#search-input').val('');
-            });
-        </script>
     </th:block>
 </th:block>

@@ -64,6 +64,24 @@ input[type="radio"]:checked ~img{
     margin-left: -90px;
 }
 
+/*이미지 리스트*/
+.img-list{
+    width:500px;
+    position: relative;
+    margin:0 0 30px -90px;
+}
+.img-box{
+    margin: 0 25px;
+    overflow: hidden;
+}
+.img-slider{
+    display: inline-flex;
+}
+.store-img{
+    display: inline-block;
+    margin-left: 3px;
+}
+
 /*버튼*/
 .add{
     height: 25px;
@@ -72,7 +90,7 @@ input[type="radio"]:checked ~img{
 .addBtn{
     display: inline-block;
     padding: 8px 15px;
-    margin: 25px 0;
+    margin: 0 0 20px 0;
     border-radius: 15px;
     background-color: lightgray;
     color: #FFF;
@@ -84,10 +102,9 @@ input[type="radio"]:checked ~img{
     cursor: pointer;
 }
 .arrow {
-    top: 210%;
+    top: 35%;
     font-size: 4em;
     position: absolute;
-    z-index: 999;
     font-family: 'Gothic A1', sans-serif;
     color: lightgray;
     cursor: pointer;

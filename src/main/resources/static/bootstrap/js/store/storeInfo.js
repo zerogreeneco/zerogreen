@@ -33,6 +33,20 @@ $(document).ready(function () {
         $(".closeTime").append("<option value="
             + ((hour >= 10) ? hour : ('0' + hour)) + min + ">" + ((hour >= 10) ? hour : ("0" + hour)) + min + "</option>");
     }
+
+    $("#img-right").click(function() {
+        $(".img-slider").animate({marginLeft: "-150px"
+        }, function() {
+            $(".img-slider .store-img:first").appendTo(".img-slider");
+            $(".img-slider").css({marginLeft: 0});
+        });
+    });
+    $("#img-left").click(function() {
+        $(".img-slider .store-img:last").prependTo(".img-slider");
+        $(".img-slider").css({ "marginLeft": "-150px"});
+        $(".img-slider").animate({ marginLeft: 0 });
+    });
+
 }); //end Update
 
 // 글자수 제한

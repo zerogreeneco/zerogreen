@@ -15,4 +15,14 @@ $(document).ready(function() {
         $("label").eq(2).css('background', '#16a085');
         $("label").eq(2).css('color', '#fff');
     }
+
+    //검색
+    $('.search_icon').click(function (e) {
+        $('#shopSearchForm').submit();
+    });
+
+    //검색어 비우기
+    $('.truncate_icon').click(function () {
+        $('#search-input').val('');
+    });
 });

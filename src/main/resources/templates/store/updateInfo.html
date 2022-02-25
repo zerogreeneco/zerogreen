@@ -4,7 +4,7 @@
     <th:block th:fragment="content">
 
         <!-- 페이지 css/ js 추가 -->
-        <script th:inline="javascript" th:src="@{/bootstrap/js/store/storeInfo.js}"></script>
+        <script th:src="@{/bootstrap/js/store/storeInfo.js}"></script>
         <link rel="stylesheet" th:href="@{/bootstrap/css/register.css}">
         <link rel="stylesheet" th:href="@{/bootstrap/css/store/store.css}">
 
@@ -175,14 +175,16 @@
                                 <input type="file" multiple="multiple" class="update-box" th:field="*{uploadFiles}">
                             </div>
                             <hr>
-                            <div>
-                                <button id="img-left" class="arrow arrow-left">&#139;</button>
-                                <button id="img-right" class="arrow arrow-right">&#155;</button>
-                                <div class="img-slider table">
-                                    <sapn class="store-img" th:each="sImg: ${storeImageList}">
-                                        <img th:src="@{/stores/update/image/} + ${sImg.storeMember.storeName} +${sImg.thumbnailName}"
-                                             th:value="${sImg.thumbnailName}">
-                                    </sapn>
+                            <div class="img-list" th:if="${storeImageList.size() > 0}">
+                                <span id="img-left" class="arrow arrow-left">&#139;</span>
+                                <span id="img-right" class="arrow arrow-right">&#155;</span>
+                                <div class="img-box">
+                                    <div class="img-slider">
+                                        <div class="store-img" th:each="sImg: ${storeImageList}">
+                                            <img th:src="@{/stores/update/image/} + ${sImg.storeMember.storeName} +${sImg.thumbnailName}"
+                                                 th:value="${sImg.thumbnailName}" width="150px" height="150px">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
