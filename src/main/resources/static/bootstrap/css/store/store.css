@@ -83,3 +83,21 @@ input[type="radio"]:checked ~img{
     opacity: 0.6;
     cursor: pointer;
 }
+.arrow {
+    top: 210%;
+    font-size: 4em;
+    position: absolute;
+    z-index: 999;
+    font-family: 'Gothic A1', sans-serif;
+    color: lightgray;
+    cursor: pointer;
+    padding: 0px !important;
+    background: none !important;
+}
+.arrow-left {
+    left: 0;
+}
+.arrow-right {
+    right: 0;
+}
+

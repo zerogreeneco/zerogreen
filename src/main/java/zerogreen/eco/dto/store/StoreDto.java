@@ -80,7 +80,7 @@ public class StoreDto {
         this.storeFileName = storeImageFile.getStoreFileName();
         this.filePath = storeImageFile.getFilePath();
         this.storeMember = storeImageFile.getStoreMember();
-        this.thumbnailName = "thumb_" + storeImageFile.getThumbnailName();
+        this.thumbnailName = storeImageFile.getThumbnailName();
     }
 
     //Store db (Detail)
