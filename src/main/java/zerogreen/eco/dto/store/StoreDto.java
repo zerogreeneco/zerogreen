@@ -63,6 +63,16 @@ public class StoreDto {
 
     public StoreDto(){}
 
+    //image list (Detail)
+    public StoreDto(StoreImageFile storeImageFile) {
+        this.imageId = storeImageFile.getId();
+        this.fileName = storeImageFile.getFileName();
+        this.storeFileName = storeImageFile.getStoreFileName();
+        this.filePath = storeImageFile.getFilePath();
+        this.storeMember = storeImageFile.getStoreMember();
+        this.thumbnailName = storeImageFile.getThumbnailName();
+    }
+
     //Store db (Detail)
     @Builder
     public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo,

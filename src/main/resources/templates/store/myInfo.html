@@ -4,12 +4,7 @@
     <th:block th:fragment="content">
 
         <!-- 페이지 css/ js 추가 -->
-        <link id="contextPathHolder" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
         <link th:href="@{/bootstrap/css/member/memberMyInfo.css}" rel="stylesheet"/>
-
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
         <script th:src="@{/bootstrap/js/member/memberMyInfo.js}"></script>
 
         <div style="margin: 0 auto;" sec:authorize="isAuthenticated()">
@@ -25,13 +20,13 @@
 
                     <!-- 정보 수정 버튼 -->
                     <div class="profile-div">
-                        <span class="chatting profile-btn inline" th:onclick="|javascript:goStore(${info.sno})|">내 가게</span>
+                        <span class="chatting profile-btn inline" th:onclick="|location.href='@{/page/detail/{sno}(sno=${info.sno})}'|">내 가게</span>
                     </div>
                     <div class="profile-div">
-                        <span class="editMyInfo profile-btn inline">내 정보</span>
+                        <span class="editMyInfo profile-btn inline" th:onclick="|location.href='@{/stores/account}'|">내 회원 정보 수정</span>
                     </div>
                     <div class="profile-div">
-                        <span class="chatting profile-btn inline" th:onclick="|javascript:goUpdate()|">내 가게 정보 수정</span>
+                        <span class="chatting profile-btn inline"th:onclick="|location.href='@{/stores/update}'|">내 가게 정보 수정</span>
                     </div>
                 </div>
 
@@ -41,11 +36,11 @@
                     <div class="counting">
                         <div class="div-cnt inline">
                             <span>0</span><br>
-                            <span>내 가게를 찜한 고객</span>
+                            <span>내 가게 찜</span>
                         </div>
                         <div class="div-cnt inline">
                             <span>0</span><br>
-                            <span>고객들이 쓴 리뷰</span>
+                            <span>내 가게 리뷰</span>
                         </div>
                     </div>
 
@@ -89,34 +84,6 @@
                 <!-- end of right section -->
             </div>
         </div>
-
         <!-- end page -->
-
-
-        <script th:inline="javascript">
-            function goAccount(id) {
-                alert('goAccount');
-                var url = [[@{/stores/account
-            }]]
-                ;
-                location.href = url;
-            }
-
-            function goUpdate() {
-                var url = [[@{/stores/update
-            }]]
-                ;
-                location.href = url;
-            }
-
-            function goStore(sno) {
-                var url = [[@{/page/detail
-            }]]
-                +"/" + sno;
-                location.href = url;
-            }
-
-        </script>
-
     </th:block>
 </th:block>

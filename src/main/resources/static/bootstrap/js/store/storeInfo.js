@@ -33,13 +33,27 @@ $(document).ready(function () {
         $(".closeTime").append("<option value="
             + ((hour >= 10) ? hour : ('0' + hour)) + min + ">" + ((hour >= 10) ? hour : ("0" + hour)) + min + "</option>");
     }
+
+    $("#img-right").click(function() {
+        $(".img-slider").animate({marginLeft: "-150px"
+        }, function() {
+            $(".img-slider .store-img:first").appendTo(".img-slider");
+            $(".img-slider").css({marginLeft: 0});
+        });
+    });
+    $("#img-left").click(function() {
+        $(".img-slider .store-img:last").prependTo(".img-slider");
+        $(".img-slider").css({ "marginLeft": "-150px"});
+        $(".img-slider").animate({ marginLeft: 0 });
+    });
+
 }); //end Update
 
 // 글자수 제한
 function limitTextInput(event) {
     let countText = $(event).prev().children(".cm-text-count");
     let check=$("#textCheck");
-    countText.html($(event).val().length + " / ㄴ300");
+    countText.html($(event).val().length + " / 300");
 
     if ($(event).val().length > 300) {
         $(event).val($(event).val().substring(0, 300));
@@ -50,13 +64,13 @@ function limitTextInput(event) {
 }
 
 // Social 주소 추가
-$("#socialAdd").click(function () {
+function socialAdd() {
     $("#socialAddress2").removeAttr("hidden");
     $("#socialAdd").attr("hidden", true);
-});
+}
 
 // 테이블 Grade 추가
-$("#menuAdd").click(function () {
+function menuAdd() {
     let name = $("#menuName").val();
     let price = $("#menuPrice").val();
     let grade = $(":input:radio[name=vegetarianGrade]:checked").val();
@@ -82,11 +96,12 @@ $("#menuAdd").click(function () {
             $("#menuName").val("");
             $("#menuPrice").val("");
             $(":input:radio[name=vegetarianGrade]:checked").prop('checked', false);
+            check.html("");
         });
-}); //menuAdd ajax end
+} //menuAdd ajax end
 
 //테이블 추가
-$(".menuAdd").click(function () {
+function tableAdd() {
     let name = $("#menuName").val();
     let price = $("#menuPrice").val();
     $.ajax({
@@ -103,13 +118,13 @@ $(".menuAdd").click(function () {
             $("#menuName").val("");
             $("#menuPrice").val("");
         });
-}); //menuAdd ajax end
+} //menuAdd ajax end
 
 // 테이블 삭제
 function tableDel(event) {
     let tableDel = $(event);
     let id = tableDel.parent().parent().find(".tableId").val();
-    alert(id);
+    alert("삭제하시겠습니까?");
     $.ajax({
         url: "/zerogreen/stores/update/table/delete",
         method: "delete",
@@ -120,4 +135,18 @@ function tableDel(event) {
         .done(function (fragment) {
             $("#list-table").replaceWith(fragment);
         });
+}
+
+//확장자 확인
+function imgCheck(fileName){
+    let input = fileName.name;
+    let check = $("#imgCheck");
+
+    if (input.match(/(.png|.jpg|.jpeg|.gif|.bmp|.PNG|.JPG|.JPEG|.GIF|.BMP)$/)){
+        return true;
+    }
+    else{
+        check.html("이미지 파일만 첨부할 수 있어요");
+        check.css("color","#dc3545");
+    }
 }
