@@ -144,7 +144,7 @@ public class MemberController {
         //회원별 좋아요 수 (memberMyInfo)
         model.addAttribute("likesCount", likesService.countLikesByUser(principalDetails.getId()));
         //회원 닉네임 (memberMyInfo)
-        model.addAttribute("profile", memberService.findById(principalDetails.getId()).get());
+//        model.addAttribute("profile", memberService.findById(principalDetails.getId()).get());
         //회원별 리뷰 남긴 가게 리스트(memberMyInfo)
         List<DetailReviewDto> userReview = detailReviewService.getReviewByUser(principalDetails.getId());
         model.addAttribute("listOfReview", userReview);

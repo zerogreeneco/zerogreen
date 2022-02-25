@@ -69,6 +69,7 @@ function deleteImageDB(event) {
         });
 }
 
+// 이전 페이지로 이동
 function goBack() {
     window.history.back();
 }

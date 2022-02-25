@@ -1,7 +1,8 @@
 <!DOCTYPE HTML>
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
-        <link rel="stylesheet" th:href="@{bootstrap/css/register.css}" />
+        <link rel="stylesheet" th:href="@{/bootstrap/css/register.css}" />
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <script>
             function sample6_execDaumPostcode() {
                 new daum.Postcode({
@@ -96,7 +97,7 @@
                     <h2 class="title"><span>회원가입</span></h2>
                 </div>
 
-                <form th:action th:object="${store}" method="post" enctype="multipart/form-data">
+                <form th:action th:object="${store}" method="post" enctype="multipart/form-data" id="reg-form">
                     <div class="center-box">
                         <div id="personal-info">
                             <!-- 이메일 주소(아이디) -->
@@ -109,11 +110,13 @@
                                 <div th:errors="*{username}" class="field-error">
                                     아이디 오류
                                 </div>
+                                <div class="email-msg"></div>
                             </div>
                             <!-- 이메일 인증 -->
                             <div style="display:none;" class="auth-box">
                                 <input type="text" class="authKey form-control login-box">
                                 <button type="button" id="authConfirm" class="sendMail">인증 확인</button>
+                                <div class="auth-msg"></div>
                             </div>
                             <!-- 비밀번호 (재확인 창 추가 필요) -->
                             <div>
@@ -168,6 +171,7 @@
                                 <div th:errors="*{storeRegNum}" class="field-error">
                                     사업자 등록번호 오류
                                 </div>
+                                <div class="regNum-error"></div>
                             </div>
                             <!-- 가게 연락처 -->
                             <div>
@@ -206,5 +210,4 @@
         </div>
     </th:block>
 </th:block>
-<script th:src="@{/bootstrap/js/join.js}"></script>
 </html>

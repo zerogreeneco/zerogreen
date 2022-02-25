@@ -20,10 +20,12 @@
                                 <button type="button" class="sendMail" id="send-mail">인증</button>
                             </div>
                             <div th:errors="*{username}" class="field-error">아이디 오류</div>
+                            <div class="email-msg"></div>
                         </div>
                         <div style="display:none;" class="auth-box">
                             <input type="text" class="authKey form-control login-box">
                             <button type="button" id="authConfirm" class="sendMail">인증 확인</button>
+                            <div class="auth-msg"></div>
                         </div>
 
                         <!--비밀번호-->

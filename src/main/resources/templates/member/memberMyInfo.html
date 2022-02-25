@@ -16,16 +16,16 @@
         <div id="leftSide">
             <div class="profile-div inline">
                 <div class="profile-image">
-                    <img th:src="@{'/bootstrap/images/profile/' +${profile.vegetarianGrade}+'.png'}"
+                    <img th:src="@{'/bootstrap/images/profile/' +${session.veganGrade}+'.png'}"
                          width="70px" height="70px">
                 </div>
 
-                <span class="profile-name">[[${profile.nickname}]]</span>
+                <span class="profile-name">[[${session.loginUserNickname}]]</span>
             </div>
             <div class="profile-div">
                 <!-- 내정보 버튼 둘 중에 하나 쓸거임 -->
                 <span class="editMyInfo profile-btn inline"
-                      th:onclick="|javascript:goAccount('${profile.id}')|" >내정보</span>
+                      th:onclick="|javascript:goAccount('${session.memberId}')|" >내정보</span>
 <!--                <button type="button" class="editMyInfo profile-btn">내정보</button>-->
             </div>
 
