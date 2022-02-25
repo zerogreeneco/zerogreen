@@ -38,15 +38,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // 구글은 'sub'이라는 기본 코드를 제공하지만, 네이버, 카카오 등은 제공 X
         String userNameAttributeName = userRequest
                 .getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-        log.info("OAUTHUSER={}",oAuth2User);
-        log.info("OAUTHUSER_REGID={}",registrationId);
-        log.info("OAUTHUSER_GET={}",oAuth2User.getAttributes());
-        log.info("OAUTHUSER_USERNAMEATTRIBUTE={}",userNameAttributeName);
 
         // OAuthAttributes : OAuth2UserService를 통해 가져온 OAuth2User와 attribute를 담을 클래스
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        log.info("aaaaaaaaaaaaaaa={}",attributes.getAttributes());
         // OAuthAttributes에서 가져온 username으로 DB에서 해당 회원을 찾아서
         // 소셜 서비스에서 가져온 정보로 새로 저장하거나 기존에 존재하는 회원이면 update
         Member auth2Member = saveOrUpdate(attributes, registrationId);
@@ -56,14 +51,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // 엔티티에 직렬화 코드를 넣으면 연관된 엔티티에도 영향을 주기 때문에 성능 이슈와 부수 효과가 발생 가능
         httpSession.setAttribute("member", new SessionUser(auth2Member));
         httpSession.setAttribute("veganGrade", auth2Member.getVegetarianGrade());
-        log.info("socialType={}", registrationId);
 
         return new PrincipalDetails(auth2Member, attributes.getAttributes());
     }
 
     @Transactional
     public Member saveOrUpdate(OAuthAttributes attributes, String socialType) {
-        log.info("SAVE SOCIAL={}", socialType);
+
         Member member = memberRepository.findByUsername(attributes.getUsername())
                 .map(entity -> entity.update(attributes.getNickname(), socialType))
                 .orElse(attributes.toEntity());

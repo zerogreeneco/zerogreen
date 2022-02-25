@@ -42,7 +42,7 @@ public class StoreMember extends BasicUser{
     private RegisterFile registerFile;
 
     @OneToMany(mappedBy = "storeMember", cascade = ALL)
-    private List<StoreImageFile> imageFiles = new ArrayList<>();
+    private List<StoreImageFile> imageFile = new ArrayList<>();
 
     @OneToMany(mappedBy = "detailReview", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
     private List<ReviewImage> imageList = new ArrayList<>();

@@ -29,12 +29,10 @@ public class StoreDto {
     private Long menuId;
     private String menuName;
     private int menuPrice;
-    private List<StoreMenu> menuList;
 
     private BasicUser basicUser;
 
     private String storeRegNum;
-    private List<StoreImageFile> imageFiles;
 
 
     //여기서부터..
@@ -52,6 +50,9 @@ public class StoreDto {
 
     private List<MultipartFile> uploadFiles;
 
+    private List<StoreImageFile> imageFile;
+    private List<StoreMenu> menuList;
+
     private Long imageId;
     private String fileName;
     private String storeFileName;
@@ -61,17 +62,6 @@ public class StoreDto {
 
 
     public StoreDto(){}
-
-    //이친구...뭐죠..?
-    public StoreDto(Long id) {
-        this.id = id;
-    }
-
-    //index에 승인받은 가게리스트
-    public StoreDto(String storeName, StoreType storeType){
-        this.storeName = storeName;
-        this.storeType = storeType;
-    }
 
     //image list (Detail)
     public StoreDto(StoreImageFile storeImageFile) {
@@ -86,13 +76,14 @@ public class StoreDto {
     //Store db (Detail)
     @Builder
     public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo,
-                    Long count) {
-
+                    Long count, List<StoreImageFile> imageFile, List<StoreMenu> menuList) {
         this.sno = sno;
         this.storeName = storeName;
         this.storeType = storeType;
         this.storeInfo = storeInfo;
         this.count = count;
+        this.imageFile = imageFile;
+        this.menuList = menuList;
     }
 
     //List DTO
@@ -103,19 +94,6 @@ public class StoreDto {
         this.storePhoneNumber = storePhoneNumber;
         this.openTime = openTime;
         this.closeTime = closeTime;
-    }
-
-    public StoreDto(Long id, UserRole userRole, StoreType storeType, String storeName, String storePhoneNumber,
-                    String openTime, String closeTime, List<StoreImageFile> imageFiles, List<StoreMenu> menuList) {
-        this.id = id;
-        this.userRole = userRole;
-        this.storeType = storeType;
-        this.storeName = storeName;
-        this.storePhoneNumber = storePhoneNumber;
-        this.openTime = openTime;
-        this.closeTime = closeTime;
-        this.imageFiles = imageFiles;
-        this.menuList = menuList;
     }
 
     //StoreUpdate
@@ -130,5 +108,33 @@ public class StoreDto {
         this.socialAddress1 = socialAddress1;
         this.socialAddress2 = socialAddress2;
     }
+
+    //이하 누구세요
+
+    //이친구...뭐죠..?
+    public StoreDto(Long id) {
+        this.id = id;
+    }
+
+    //index에 승인받은 가게리스트
+    public StoreDto(String storeName, StoreType storeType){
+        this.storeName = storeName;
+        this.storeType = storeType;
+    }
+
+    public StoreDto(Long id, UserRole userRole, StoreType storeType, String storeName, String storePhoneNumber,
+                    String openTime, String closeTime, List<StoreImageFile> imageFile, List<StoreMenu> menuList) {
+        this.id = id;
+        this.userRole = userRole;
+        this.storeType = storeType;
+        this.storeName = storeName;
+        this.storePhoneNumber = storePhoneNumber;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+        this.imageFile = imageFile;
+        this.menuList = menuList;
+    }
+
+
 }
 

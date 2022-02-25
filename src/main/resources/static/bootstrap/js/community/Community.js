@@ -1,3 +1,4 @@
+// 커뮤니티 상세보기 JS
 $(function () {
 
     let boardId = $("#id").val();
@@ -227,4 +228,103 @@ function deleteReply(replyId) {
             alert("댓글이 삭제되었습니다.");
             $("#review-table").replaceWith(fragment);
         });
+}
+
+// 커뮤니티 메인 JS
+$(function () {
+    let page = 1;
+
+    // 더보기
+    $("#more-list").click(function () {
+        ++page;
+        let keyword = getParameterByName("keyword");
+        let category = getParameterByName("category");
+        let searchType = getParameterByName("searchType");
+        console.log(searchType);
+        console.log(category);
+        $.ajax({
+            url: "/zerogreen/community",
+            method: "post",
+            data: {
+                page: page,
+                category: category,
+                keyword: keyword,
+                searchType: searchType
+            }
+        })
+            .done(function (fragment) {
+                $("#more-wrapper").append(fragment);
+            });
+    });
+
+    // 좋아요
+    $(".main-like-btn").click(function (e) {
+
+        let likeBtn = $(this);
+        let boardId = likeBtn.closest("#list-wrapper").children(".list-board-id").val();
+
+        $.ajax({
+            url: "/zerogreen/community/like/" + boardId,
+            method: "post",
+            dataType: "json",
+            data: {
+                boardId: boardId
+            }
+        })
+            .done(function (data) {
+                if (data.count === 1) {
+                    likeBtn.closest(".like-count").find(".like-img").attr("src", "/zerogreen/bootstrap/images/like/disLike.png")
+                    likeBtn.closest(".like-count").children(".test-count").text(data.totalCount);
+                } else if (data.count === 0) {
+                    likeBtn.closest(".like-count").find(".like-img").attr("src", "/zerogreen/bootstrap/images/like/like.png")
+                    likeBtn.closest(".like-count").children(".test-count").text(data.totalCount);
+                }
+            });
+    }); // like-btn end.
+
+    // 페이지 상단으로 이동
+    $("#top-btn").click(function () {
+        $('html, body').animate({scrollTop: 0}, '400');
+    });
+
+    // 카테고리 태그 색상 변경
+    if (window.location.href == "http://localhost:8080/zerogreen/community") {
+        $(".category-list li:first").css('background', '#16a085');
+        $(".category-list a:first").css('color', '#fff');
+    }
+    if (window.location.href.indexOf("QNA") > -1) {
+        $(".category-list li").eq(1).css('background', '#16a085');
+        $(".category-list a").eq(1).css('color', '#fff');
+    }
+    if (window.location.href.indexOf("VEGAN") > -1) {
+        $(".category-list li").eq(2).css('background', '#16a085');
+        $(".category-list a").eq(2).css('color', '#fff');
+    }
+    if (window.location.href.indexOf("NEWS") > -1) {
+        $(".category-list li").eq(3).css('background', '#16a085');
+        $(".category-list a").eq(3).css('color', '#fff');
+    }
+    if (window.location.href.indexOf("PLOGGING") > -1) {
+        $(".category-list li").eq(4).css('background', '#16a085');
+        $(".category-list a").eq(4).css('color', '#fff');
+    }
+    if (window.location.href.indexOf("PLOVING") > -1) {
+        $(".category-list li").eq(5).css('background', '#16a085');
+        $(".category-list a").eq(5).css('color', '#fff');
+    }
+
+    // 게시물이 없을 경우
+    if ($("div").hasClass("list-wrapper")) {
+        $(".list-none").css('display', 'none');
+        $("#more-list").css('display', 'block');
+    } else {
+        $(".list-none").css('display', 'block');
+    }
+});
+
+// parameter 값 불러오기
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    let regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }

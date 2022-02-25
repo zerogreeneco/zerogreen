@@ -61,32 +61,6 @@ public class StoreMemberServiceImpl implements StoreMemberService {
                 .getId();
     }
 
-    //test data
-    @Transactional
-    @Override
-    public Long saveV2(StoreMember storeMember, RegisterFile registerFile) {
-        String encPassword = passwordEncoder.encode(storeMember.getPassword());
-        return storeMemberRepository.save(new StoreMember(storeMember.getUsername(), storeMember.getPhoneNumber(),
-                        encPassword, UserRole.STORE, storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(), storeMember.getStoreInfo().getPostalCode(),
-                        storeMember.getStoreInfo().getStoreAddress(), storeMember.getStoreInfo().getStoreDetailAddress(), storeMember.getStoreInfo().getStorePhoneNumber(), registerFile))
-                .getId();
-    }
-
-    //test data V2,
-    @Transactional
-    @Override
-    public Long saveV3(StoreMember storeMember) {
-        String encPassword = passwordEncoder.encode(storeMember.getPassword());
-        RegisterFile registerFile1 = new RegisterFile("testFile", "testFile", "testFile");
-        return storeMemberRepository.save(new StoreMember(storeMember.getUsername(), storeMember.getPhoneNumber(),
-                        encPassword, UserRole.STORE, storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(), storeMember.getStoreInfo().getPostalCode(),
-                        storeMember.getStoreInfo().getStoreAddress(), storeMember.getStoreInfo().getStoreDetailAddress(),storeMember.getStoreInfo().getStorePhoneNumber(),
-                        storeMember.getStoreInfo().getStoreDescription(), storeMember.getStoreInfo().getSocialAddress1() ,storeMember.getStoreInfo(). getSocialAddress2(),
-                        storeMember.getStoreInfo().getOpenTime(), storeMember.getStoreInfo().getCloseTime(), registerFile1))
-                .getId();
-    }
-
-
     @Transactional
     @Override
     public void storeInfoSave(StoreMember storeMember) {
@@ -105,9 +79,10 @@ public class StoreMemberServiceImpl implements StoreMemberService {
                 .storeType(storeMember.getStoreType())
                 .storeInfo(storeMember.getStoreInfo())
                 .count(likesRepository.counting(storeMember.getId()))
+                .imageFile(storeMember.getImageFile())
+                .menuList(storeMember.getMenuList())
                 .build();
     }
-
 
     @Override
     public List<NonApprovalStoreDto> findByApprovalStore(UserRole userRole) {
@@ -172,5 +147,32 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     public int countByStoreRegNum(String storeRegNum) {
         return storeMemberRepository.countByStoreRegNum(storeRegNum);
     }
+
+
+    //test data
+    @Transactional
+    @Override
+    public Long saveV2(StoreMember storeMember, RegisterFile registerFile) {
+        String encPassword = passwordEncoder.encode(storeMember.getPassword());
+        return storeMemberRepository.save(new StoreMember(storeMember.getUsername(), storeMember.getPhoneNumber(),
+                        encPassword, UserRole.STORE, storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(), storeMember.getStoreInfo().getPostalCode(),
+                        storeMember.getStoreInfo().getStoreAddress(), storeMember.getStoreInfo().getStoreDetailAddress(), storeMember.getStoreInfo().getStorePhoneNumber(), registerFile))
+                .getId();
+    }
+
+    //test data V2,
+    @Transactional
+    @Override
+    public Long saveV3(StoreMember storeMember) {
+        String encPassword = passwordEncoder.encode(storeMember.getPassword());
+        RegisterFile registerFile1 = new RegisterFile("testFile", "testFile", "testFile");
+        return storeMemberRepository.save(new StoreMember(storeMember.getUsername(), storeMember.getPhoneNumber(),
+                        encPassword, UserRole.STORE, storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(), storeMember.getStoreInfo().getPostalCode(),
+                        storeMember.getStoreInfo().getStoreAddress(), storeMember.getStoreInfo().getStoreDetailAddress(),storeMember.getStoreInfo().getStorePhoneNumber(),
+                        storeMember.getStoreInfo().getStoreDescription(), storeMember.getStoreInfo().getSocialAddress1() ,storeMember.getStoreInfo(). getSocialAddress2(),
+                        storeMember.getStoreInfo().getOpenTime(), storeMember.getStoreInfo().getCloseTime(), registerFile1))
+                .getId();
+    }
+
 
 }

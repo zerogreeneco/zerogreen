@@ -25,25 +25,32 @@ $(function (event) {
 
     // 비밀번호 변경
     $("#pwd-change").click(function () {
-        const password = $("#password").val();
-        const newPassword = $("#newPassword").val();
-        const reNewPassword = $("#re-newPassword").val();
+        const password = $("#password");
+        const newPassword = $("#newPassword");
+        const reNewPassword = $("#re-newPassword");
 
-        if (password === "" || newPassword === "") {
+        if (password.val() === "" || newPassword.val() === "") {
             alert("비밀번호를 입력해주세요.");
-        } else if (password === newPassword) {
+            return false;
+        } else if (password.val() === newPassword.val()) {
             alert("현재 비밀번호로 변경할 수 없습니다.");
+            return false;
+        } else if (!passwordRegCheck(newPassword.val())) {
+            alert("숫자/대,소문자/특수기호를 포함한 8~12자리");
+            return false;
         }
 
-        if (newPassword !== reNewPassword) {
+        if (newPassword.val() !== reNewPassword.val()) {
             alert("변경하려는 비밀번호가 일치하지 않습니다.\n변경할 비밀번호를 다시 확인해주세요.");
+            reNewPassword.val("");
+            reNewPassword.focus();
         } else {
             $.ajax({
                 url: "/zerogreen/members/account/pwdChange",
                 type: "patch",
                 data: {
-                    password: password,
-                    newPassword: newPassword
+                    password: password.val(),
+                    newPassword: newPassword.val()
                 },
                 dataType: "json"
             })
@@ -79,3 +86,8 @@ $(function (event) {
         });
     });
 });
+
+function passwordRegCheck(password) {
+    let regExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,12}/;
+    return regExp.test(password);
+}

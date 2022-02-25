@@ -186,39 +186,24 @@ public class TestDataInit {
 
             DetailReview detailReview1 = new DetailReview("mReview1 by test",findMember1,findEcoStore1);
             detailReviewService.saveReviewTest(detailReview1);
-            DetailReview detailReview2 = new DetailReview("mReview2 by test",findMember1,findEcoStore1);
+            DetailReview detailReview2 = new DetailReview("mReview3 by test2",findMember2,findEcoStore1);
             detailReviewService.saveReviewTest(detailReview2);
-            DetailReview detailReview3 = new DetailReview("mReview3 by test2",findMember2,findEcoStore1);
+
+            DetailReview detailReview3 = new DetailReview("mReview1 by test",findMember1,findEcoStore2);
             detailReviewService.saveReviewTest(detailReview3);
-            DetailReview detailReview4 = new DetailReview("mReview4 by test2",findMember2,findEcoStore1);
+            DetailReview detailReview4 = new DetailReview("mReview3 by test2",findMember2,findEcoStore2);
             detailReviewService.saveReviewTest(detailReview4);
 
-            DetailReview detailReview5 = new DetailReview("mReview1 by test",findMember1,findEcoStore2);
+            DetailReview detailReview5 = new DetailReview("mReview1 by test",findMember1,foodTest1);
             detailReviewService.saveReviewTest(detailReview5);
-            DetailReview detailReview6 = new DetailReview("mReview2 by test",findMember1,findEcoStore2);
+            DetailReview detailReview6 = new DetailReview("mReview3 by test2",findMember2,foodTest1);
             detailReviewService.saveReviewTest(detailReview6);
-            DetailReview detailReview7 = new DetailReview("mReview3 by test2",findMember2,findEcoStore2);
+
+            DetailReview detailReview7 = new DetailReview("mReview1 by test",findMember1,generalTest1);
             detailReviewService.saveReviewTest(detailReview7);
-            DetailReview detailReview8 = new DetailReview("mReview4 by test2",findMember2,findEcoStore2);
+            DetailReview detailReview8 = new DetailReview("mReview3 by test2",findMember2,generalTest1);
             detailReviewService.saveReviewTest(detailReview8);
 
-            DetailReview detailReview9 = new DetailReview("mReview1 by test",findMember1,foodTest1);
-            detailReviewService.saveReviewTest(detailReview9);
-            DetailReview detailReview10 = new DetailReview("mReview2 by test",findMember1,foodTest1);
-            detailReviewService.saveReviewTest(detailReview10);
-            DetailReview detailReview11 = new DetailReview("mReview3 by test2",findMember2,foodTest1);
-            detailReviewService.saveReviewTest(detailReview11);
-            DetailReview detailReview12 = new DetailReview("mReview4 by test2",findMember2,foodTest1);
-            detailReviewService.saveReviewTest(detailReview12);
-
-            DetailReview detailReview13 = new DetailReview("mReview1 by test",findMember1,generalTest1);
-            detailReviewService.saveReviewTest(detailReview13);
-            DetailReview detailReview14 = new DetailReview("mReview2 by test",findMember1,generalTest1);
-            detailReviewService.saveReviewTest(detailReview14);
-            DetailReview detailReview15 = new DetailReview("mReview3 by test2",findMember2,generalTest1);
-            detailReviewService.saveReviewTest(detailReview15);
-            DetailReview detailReview16 = new DetailReview("mReview4 by test2",findMember2,generalTest1);
-            detailReviewService.saveReviewTest(detailReview16);
 
             // 커뮤니티 리스트 추가
             communityBoardRepository.save(new CommunityBoard("TEST TEXT", findMember1, Category.PLOGGING));
@@ -237,30 +222,19 @@ public class TestDataInit {
             //Detail 자식리뷰 추가
             Long parentsReview1 = detailReviewRepository.findById(1L).get().getId();
             Long parentsReview2 = detailReviewRepository.findById(2L).get().getId();
-            Long parentsReview3 = detailReviewRepository.findById(3L).get().getId();
-            Long parentsReview4 = detailReviewRepository.findById(4L).get().getId();
-            Long parentsReview9 = detailReviewRepository.findById(9L).get().getId();
-            Long parentsReview10 = detailReviewRepository.findById(10L).get().getId();
-            Long parentsReview11 = detailReviewRepository.findById(11L).get().getId();
-            Long parentsReview12 = detailReviewRepository.findById(12L).get().getId();
+            Long parentsReview3 = detailReviewRepository.findById(5L).get().getId();
+            Long parentsReview4 = detailReviewRepository.findById(6L).get().getId();
 
-            DetailReview detailReview17 = new DetailReview("childReview1 by Store",findEcoStore1,findEcoStore1);
-            detailReviewService.saveNestedReviewTest(detailReview17, parentsReview1);
-            DetailReview detailReview18 = new DetailReview("childReview2 by Store",findEcoStore1,findEcoStore1);
-            detailReviewService.saveNestedReviewTest(detailReview18, parentsReview2);
-            DetailReview detailReview19 = new DetailReview("childReview3 by Store",findEcoStore1,findEcoStore1);
-            detailReviewService.saveNestedReviewTest(detailReview19, parentsReview3);
-            DetailReview detailReview20 = new DetailReview("childReview4 by Store",findEcoStore1,findEcoStore1);
-            detailReviewService.saveNestedReviewTest(detailReview20, parentsReview4);
 
-            DetailReview detailReview21 = new DetailReview("childReview1 by Store",foodTest1,foodTest1);
-            detailReviewService.saveNestedReviewTest(detailReview21, parentsReview9);
-            DetailReview detailReview22 = new DetailReview("childReview2 by Store",foodTest1,foodTest1);
-            detailReviewService.saveNestedReviewTest(detailReview22, parentsReview10);
-            DetailReview detailReview23 = new DetailReview("childReview3 by Store",foodTest1,foodTest1);
-            detailReviewService.saveNestedReviewTest(detailReview23, parentsReview11);
-            DetailReview detailReview24 = new DetailReview("childReview4 by Store",foodTest1,foodTest1);
-            detailReviewService.saveNestedReviewTest(detailReview24, parentsReview12);
+            DetailReview detailReview9 = new DetailReview("childReview1 by Store",findEcoStore1,findEcoStore1);
+            detailReviewService.saveNestedReviewTest(detailReview9, parentsReview1);
+            DetailReview detailReview10 = new DetailReview("childReview3 by Store",findEcoStore1,findEcoStore1);
+            detailReviewService.saveNestedReviewTest(detailReview10, parentsReview2);
+
+            DetailReview detailReview11 = new DetailReview("childReview1 by Store",foodTest1,foodTest1);
+            detailReviewService.saveNestedReviewTest(detailReview11, parentsReview3);
+            DetailReview detailReview12 = new DetailReview("childReview3 by Store",foodTest1,foodTest1);
+            detailReviewService.saveNestedReviewTest(detailReview12, parentsReview4);
 
 
             em.flush();

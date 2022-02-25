@@ -86,15 +86,6 @@ public class DetailController {
             Collections.reverse(reviewImages);
         }
 
-        //메뉴 리스트
-        List<StoreMenuDto> menuList = storeMenuService.getStoreMenu(sno);
-        model.addAttribute("menuList", menuList);
-
-        //이미지 리스트
-        List<StoreDto> storeImageList = storeImageService.getImageByStore(sno);
-        model.addAttribute("storeImageList", storeImageList);
-
-
         //가게별 멤버리뷰 카운팅
         Long cnt2 = detailReviewService.cntMemberReview(sno);
         if (cnt2 != null) {

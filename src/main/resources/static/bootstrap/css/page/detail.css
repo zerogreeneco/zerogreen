@@ -9,22 +9,48 @@
     background: #c7c7c7;
 }
 
-.detail-top {
-    //height: 250px;
-}
-
-.top, .thr {
+/* common css */
+.inline {
     display: inline-block;
+    line-height: 22px;
 }
 
-.store-name {
-    font-size: 1.8em;
-    text-align: center;
-    margin: 15px 0 15px 0;
+.sec-flex, .detail-thr {
+    display: inline-flex;
+    justify-content: center;
+    width: 100%;
 }
 
-.js-storeName {
-    margin-top: 8px;
+.arrow:hover {
+    cursor: pointer;
+}
+
+/* 1열 */
+.detail-top {
+    display: flex;
+    justify-content: center;
+}
+
+.div21 {
+    width: 60em;
+}
+
+.arrow-left-top {
+    left: 0;
+    top: 17%;
+    font-size: 6em;
+    position: absolute;
+    z-index: 999;
+    color: #3498db;
+}
+
+.arrow-right-top {
+    right: 0;
+    top: 17%;
+    font-size: 6em;
+    position: absolute;
+    z-index: 999;
+    color: #3498db;
 }
 
 /* 2열 */
@@ -42,6 +68,16 @@
 
 .sec-right {
     margin-left: 20px;
+}
+
+.store-name {
+    font-size: 1.8em;
+    text-align: center;
+    margin: 15px 0 15px 0;
+}
+
+.js-storeName {
+    margin-top: 8px;
 }
 
 .dislike, .like-img {
@@ -102,7 +138,7 @@
 /* 3.5열 */
 .thr-bottom {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 /* 4열 지도 */
@@ -117,6 +153,10 @@
 
 
 /* 리뷰 */
+.rv {
+    height: auto;
+    text-align: center;
+}
 
 /*리뷰 공통*/
 .rv-area {
@@ -190,7 +230,6 @@ textarea:focus {
     font-size: 0.9em;
 }
 
-
 /* 리뷰이미지리스트(슬라이더) */
 .rv-images {
     //background: #5187e0;
@@ -206,7 +245,7 @@ textarea:focus {
     overflow: hidden;
 }
 
-.image-slider {
+.image-slider, .image-slider-top {
     display: inline-flex;
 }
 
@@ -227,7 +266,6 @@ textarea:focus {
     z-index: 999;
     color: #3498db;
 }
-
 
 /*멤버 리뷰*/
 .reviewProfile {
@@ -312,7 +350,7 @@ textarea:focus {
     color: #949494;
 }
 
-.arrow {
+.downArrow {
     width: 20px;
     height: 20px;
     margin-left: 20px;
@@ -320,25 +358,6 @@ textarea:focus {
 
 .width60 {
     width: 60.6em;
-}
-
-/*어디 소속인지 아직 정리못함*/
-.rv {
-    height: auto;
-    text-align: center;
-}
-
-
-/* mixed css */
-.inline {
-    display: inline-block;
-    line-height: 22px;
-}
-
-.sec-flex, .detail-thr {
-    display: inline-flex;
-    justify-content: center;
-    width: 100%;
 }
 
 /* 탑 버튼 */
