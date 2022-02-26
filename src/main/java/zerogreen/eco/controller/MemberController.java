@@ -2,6 +2,8 @@ package zerogreen.eco.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,10 +20,12 @@ import zerogreen.eco.dto.member.PasswordUpdateDto;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.detail.DetailReviewService;
 import zerogreen.eco.service.detail.LikesService;
+import zerogreen.eco.service.file.FileService;
 import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.MemberService;
 
 import javax.servlet.http.HttpSession;
+import java.net.MalformedURLException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +42,7 @@ public class MemberController {
     private final PasswordEncoder passwordEncoder;
     private final LikesService likesService;
     private final DetailReviewService detailReviewService;
+    private final FileService fileService;
 
     @ModelAttribute("member")
     public MemberUpdateDto memberUpdateDto() {
@@ -143,8 +148,6 @@ public class MemberController {
         model.addAttribute("reviewCount", detailReviewService.countReviewByUser(principalDetails.getId()));
         //회원별 좋아요 수 (memberMyInfo)
         model.addAttribute("likesCount", likesService.countLikesByUser(principalDetails.getId()));
-        //회원 닉네임 (memberMyInfo)
-//        model.addAttribute("profile", memberService.findById(principalDetails.getId()).get());
         //회원별 리뷰 남긴 가게 리스트(memberMyInfo)
         List<DetailReviewDto> userReview = detailReviewService.getReviewByUser(principalDetails.getId());
         model.addAttribute("listOfReview", userReview);
@@ -157,5 +160,12 @@ public class MemberController {
         return "member/memberMyInfo";
     }
 
+    //카드리스트 스토어 이미지 불러오기
+    @ResponseBody
+    @GetMapping("/memberMyInfo/image/{storeName}{thumbnailName}")
+    private Resource getStoreImages(@PathVariable("thumbnailName") String thumbnailName,
+                                    @PathVariable("storeName") String storeName) throws MalformedURLException {
+        return new UrlResource("file:" + fileService.getFullPathImage(thumbnailName, storeName));
+    }
 
 }
