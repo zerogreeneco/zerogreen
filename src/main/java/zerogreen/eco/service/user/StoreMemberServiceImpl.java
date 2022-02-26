@@ -72,7 +72,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     //상세페이지
     @Override
     public StoreDto getStore(Long sno) {
-        StoreMember storeMember = storeMemberRepository.getById(sno);
+        StoreMember storeMember = storeMemberRepository.findById(sno).orElseThrow();
         return StoreDto.builder()
                 .sno(storeMember.getId())
                 .storeName(storeMember.getStoreName())
