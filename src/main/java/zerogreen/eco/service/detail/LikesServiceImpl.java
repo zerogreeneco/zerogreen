@@ -12,6 +12,7 @@ import zerogreen.eco.repository.detail.LikesRepository;
 import zerogreen.eco.repository.user.BasicUserRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,7 +68,5 @@ public class LikesServiceImpl implements LikesService {
 
         return result.stream().map(LikesDto::new).collect(Collectors.toList());
     }
-
-
 }
 
