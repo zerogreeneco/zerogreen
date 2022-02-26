@@ -11,7 +11,4 @@ public interface StoreImageFileRepository extends JpaRepository<StoreImageFile, 
 
     @Query("select si from StoreImageFile si where si.storeMember.id =:sno")
     List<StoreImageFile> getImageByStore(@Param("sno") Long sno);
-
-
-
 }

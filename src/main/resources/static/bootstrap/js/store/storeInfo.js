@@ -75,6 +75,7 @@ function menuAdd() {
     let price = $("#menuPrice").val();
     let grade = $(":input:radio[name=vegetarianGrade]:checked").val();
     let check = $("#gradeCheck");
+    alert(name+price+grade+"등록?");
 
     if(grade == null){
         check.html("해당 메뉴의 비건 등급을 입력해 주세요");
@@ -104,6 +105,8 @@ function menuAdd() {
 function tableAdd() {
     let name = $("#menuName").val();
     let price = $("#menuPrice").val();
+    alert(name+price+"등록?");
+
     $.ajax({
         url: "/zerogreen/stores/update/table",
         method: "post",
@@ -120,11 +123,28 @@ function tableAdd() {
         });
 } //menuAdd ajax end
 
+// 테이블 Grade 삭제
+function gradeDel(event) {
+    let tableDel = $(event);
+    let id = tableDel.parent().parent().find(".tableId").val();
+    alert(id+"삭제하시겠습니까?");
+    $.ajax({
+        url: "/zerogreen/stores/update/grade/delete",
+        method: "delete",
+        data: {
+            id: id
+        }
+    })
+        .done(function (fragment) {
+            $("#grade-table").replaceWith(fragment);
+        });
+}
+
 // 테이블 삭제
 function tableDel(event) {
     let tableDel = $(event);
     let id = tableDel.parent().parent().find(".tableId").val();
-    alert("삭제하시겠습니까?");
+    alert(id+"삭제하시겠습니까?");
     $.ajax({
         url: "/zerogreen/stores/update/table/delete",
         method: "delete",
@@ -134,6 +154,32 @@ function tableDel(event) {
     })
         .done(function (fragment) {
             $("#list-table").replaceWith(fragment);
+        });
+}
+
+
+// 이미지 삭제
+function imgDel(event) {
+    let imgDel = $(event);
+    let id = imgDel.parent().find(".imgId").val();
+    let filePath = imgDel.parent().find(".filePath").val();
+    let thumb = imgDel.parent().find(".thumb").val();
+    alert("삭제하시겠습니까?");
+    $.ajax({
+        url: "/zerogreen/stores/update/img/delete",
+        method: "delete",
+        dataType:"json",
+        data: {
+            id: id,
+            filePath:filePath,
+            thumb:thumb
+        }
+    })
+        .done(function (data) {
+            if (data.key === "success") {
+                imgDel.parent().find('img').remove();
+                imgDel.remove();
+            }
         });
 }
 
