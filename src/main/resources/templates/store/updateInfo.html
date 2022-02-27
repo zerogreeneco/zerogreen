@@ -173,6 +173,9 @@
                             <div>
                                 <label class="join-label">가게 사진</label>
                                 <input type="file" multiple="multiple" class="update-box" th:field="*{uploadFiles}">
+                                <div id="selectedImg"><img src=""/></div>
+                                <p id="imgCheck"/>
+
                             </div>
                             <hr>
                             <div class="img-list" th:if="${storeImageList.size() > 0}">
@@ -184,12 +187,13 @@
                                             <input type="hidden" class="imgId" th:value="${sImg.imageId}">
                                             <input type="hidden" class="filePath" th:value="${sImg.filePath}">
                                             <input type="hidden" class="thumb" th:value="${sImg.thumbPath}">
-
-                                            <img th:src="@{/stores/update/image/} + ${sImg.storeMember.storeName} +${sImg.thumbnailName}"
-                                                 th:value="${sImg.thumbnailName}" width="150px" height="150px">
-                                            <img class="truncate_icon"
-                                                 th:src="@{/bootstrap/images/list/close.png}"
-                                                 onclick="imgDel(this)"/>
+                                            <div class="hover">
+                                                <img th:src="@{/stores/update/image/} + ${sImg.storeMember.storeName} +${sImg.thumbnailName}"
+                                                     th:value="${sImg.thumbnailName}" width="150px" height="150px">
+                                                <img class="truncate_icon"
+                                                     th:src="@{/bootstrap/images/list/close.png}"
+                                                     onclick="imgDel(this)"/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
