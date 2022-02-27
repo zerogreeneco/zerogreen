@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -128,5 +129,19 @@ public class ReviewImageServiceImpl implements ReviewImageService {
         }
     }
 
+    // delete thumbnail images
+    @Override
+    public void deleteReviewThumbImage(String thumbnail) {
+        File file = new File(thumbnail);
+
+        try {
+            if (file.exists()) {
+                file.delete();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new IllegalStateException("파일 삭제에 실패했습니다.");
+        }
+    }
 
 }

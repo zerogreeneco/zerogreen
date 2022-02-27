@@ -97,12 +97,6 @@ public class DetailReviewServiceImpl implements DetailReviewService {
         return detailReviewRepository.getReviewByUser(id);
     }
 
-    //가게별 멤버 리뷰 수 카운팅 (detail)
-    @Override
-    public Long cntMemberReview(Long sno) {
-        return detailReviewRepository.counting(sno);
-    }
-
     //Test
     @Override
     @Transactional

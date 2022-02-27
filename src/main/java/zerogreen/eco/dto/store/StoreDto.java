@@ -41,8 +41,10 @@ public class StoreDto {
     private StoreType storeType;
     private StoreInfo storeInfo;
 
-    private Long count;
+    private Long likesCount;
     private Long like;
+
+    private Long reviewCount;
 
     @Nullable
     private VegetarianGrade vegetarianGrades;
@@ -65,12 +67,13 @@ public class StoreDto {
     //Store db (Detail)
     @Builder
     public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo,
-                    Long count, List<StoreImageFile> imageFile, List<StoreMenu> menuList) {
+                    Long likesCount, Long reviewCount, List<StoreImageFile> imageFile, List<StoreMenu> menuList) {
         this.sno = sno;
         this.storeName = storeName;
         this.storeType = storeType;
         this.storeInfo = storeInfo;
-        this.count = count;
+        this.likesCount = likesCount;
+        this.reviewCount = reviewCount;
         this.imageFile = imageFile;
         this.menuList = menuList;
     }
