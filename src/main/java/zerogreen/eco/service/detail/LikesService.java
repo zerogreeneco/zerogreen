@@ -19,4 +19,4 @@ public interface LikesService {
     //회원별 찜한 가게 리스트 (memberMyInfo)
     List<LikesDto> getLikesByUser(Long id);
 
-    }
+}

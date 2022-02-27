@@ -75,9 +75,9 @@ public class StoreController {
 
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
         model.addAttribute("tableList", tableList);
-
-            List<StoreDto> storeImageList = storeImageService.getImageByStore(principalDetails.getId());
-            model.addAttribute("storeImageList", storeImageList);
+      
+        List<StoreDto> storeImageList = storeImageService.getImageByStore(principalDetails.getId());
+        model.addAttribute("storeImageList", storeImageList);
 
         return "store/updateInfo";
     }

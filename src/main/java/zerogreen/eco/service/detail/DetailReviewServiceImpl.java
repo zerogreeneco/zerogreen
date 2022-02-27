@@ -26,7 +26,7 @@ public class DetailReviewServiceImpl implements DetailReviewService {
     private final DetailReviewRepository detailReviewRepository;
 
 
-//멤버리뷰 DB저장 (이미지 포함)
+    //멤버리뷰 DB저장 (이미지 포함)
     @Override
     @Transactional
     public Long saveImageReview(String reviewText, Long sno, BasicUser basicUser, List<ReviewImage> reviewImages) {
@@ -47,14 +47,14 @@ public class DetailReviewServiceImpl implements DetailReviewService {
         return saveReview.getId();
     }
 
-    //리스팅
+    //리스팅 (detail)
     @Override
     public List<DetailReviewDto> findByStore(Long sno) {
         List<DetailReview> reviewList = detailReviewRepository.findByStore(sno);
         return reviewList.stream().map(DetailReviewDto::new).collect(Collectors.toList());
     }
 
-    //대댓글
+    //대댓글 (detail)
     @Override
     @Transactional
     public void saveNestedReview(String reviewText, Long sno, BasicUser basicUser, Long rno) {
@@ -68,7 +68,7 @@ public class DetailReviewServiceImpl implements DetailReviewService {
         parentReview.addNestedReview(childReview);
     }
 
-    //리뷰 수정
+    //리뷰 수정 (detail)
     @Override
     public void modifyReview(DetailReviewDto detailReviewDto) {
         Optional<DetailReview> result = detailReviewRepository.findById(detailReviewDto.getRno());
@@ -79,7 +79,7 @@ public class DetailReviewServiceImpl implements DetailReviewService {
         }
     }
 
-    //리뷰 삭제
+    //리뷰 삭제 (detail)
     @Override
     public void remove(Long rno) {
         detailReviewRepository.deleteById(rno);
@@ -94,8 +94,7 @@ public class DetailReviewServiceImpl implements DetailReviewService {
     //회원별 리뷰남긴 가게 리스트 (memberMyInfo)
     @Override
     public List<DetailReviewDto> getReviewByUser(Long id) {
-        List<DetailReview> result = detailReviewRepository.getReviewByUser(id);
-        return result.stream().map(DetailReviewDto::new).collect(Collectors.toList());
+        return detailReviewRepository.getReviewByUser(id);
     }
 
     //가게별 멤버 리뷰 수 카운팅 (detail)

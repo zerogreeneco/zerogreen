@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.detail.ReviewImageDto;
 import zerogreen.eco.dto.store.StoreDto;
-import zerogreen.eco.dto.store.StoreMenuDto;
 import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.security.auth.PrincipalDetails;
@@ -25,7 +24,6 @@ import zerogreen.eco.service.detail.LikesService;
 import zerogreen.eco.service.detail.ReviewImageService;
 import zerogreen.eco.service.file.FileService;
 import zerogreen.eco.service.store.StoreImageService;
-import zerogreen.eco.service.store.StoreMenuService;
 import zerogreen.eco.service.user.StoreMemberService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +44,6 @@ public class DetailController {
     private final LikesService likesService;
     private final ReviewImageService reviewImageService;
     private final DetailReviewService detailReviewService;
-    private final StoreMenuService storeMenuService;
     private final StoreImageService storeImageService;
     private final FileService fileService;
 
@@ -123,6 +120,7 @@ public class DetailController {
     private Resource getReviewImages(@PathVariable("filename") String filename) throws MalformedURLException {
         return new UrlResource("file:" + reviewImageService.getFullPath(filename));
     }
+
 
     //스토어 이미지 불러오기
     @ResponseBody

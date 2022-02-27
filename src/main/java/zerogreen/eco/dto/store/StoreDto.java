@@ -34,7 +34,6 @@ public class StoreDto {
 
     private String storeRegNum;
 
-
     //여기서부터..
     private Long sno;
     private String storeName;
@@ -62,16 +61,6 @@ public class StoreDto {
 
 
     public StoreDto(){}
-
-    //image list (Detail)
-    public StoreDto(StoreImageFile storeImageFile) {
-        this.imageId = storeImageFile.getId();
-        this.fileName = storeImageFile.getFileName();
-        this.storeFileName = storeImageFile.getStoreFileName();
-        this.filePath = storeImageFile.getFilePath();
-        this.storeMember = storeImageFile.getStoreMember();
-        this.thumbnailName = storeImageFile.getThumbnailName();
-    }
 
     //Store db (Detail)
     @Builder
@@ -108,6 +97,17 @@ public class StoreDto {
         this.socialAddress1 = socialAddress1;
         this.socialAddress2 = socialAddress2;
     }
+
+    //image list
+    public StoreDto(StoreImageFile storeImageFile) {
+        this.imageId = storeImageFile.getId();
+        this.fileName = storeImageFile.getFileName();
+        this.storeFileName = storeImageFile.getStoreFileName();
+        this.filePath = storeImageFile.getFilePath();
+        this.storeMember = storeImageFile.getStoreMember();
+        this.thumbnailName = storeImageFile.getThumbnailName();
+    }
+
 
     //이하 누구세요
 

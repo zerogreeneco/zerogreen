@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
+import zerogreen.eco.entity.userentity.Member;
+import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.user.MemberRepository;
 import zerogreen.eco.security.auth.PrincipalDetails;
@@ -44,13 +46,19 @@ public class IndexController {
     public String approvedStore(Model model, UserRole userRole, HttpSession session,
                                 @AuthenticationPrincipal PrincipalDetails principalDetails, Authentication authentication) {
 
-        // 로그인시, 일반 회원이 비건 등급 session에 담기
-        if (principalDetails != null && principalDetails.getBasicUser().getUserRole().equals(UserRole.USER)) {
-            session.setAttribute("veganGrade", principalDetails.getVegetarianGrade());
-        }
-
+        // 로그인시, session에 담길 데이터
         if (principalDetails != null) {
             session.setAttribute("memberId", principalDetails.getBasicUser().getId());
+
+            if (principalDetails.getBasicUser().getUserRole().equals(UserRole.USER)) {
+                session.setAttribute("veganGrade", principalDetails.getVegetarianGrade());
+            }
+
+            if (principalDetails.getBasicUser() instanceof Member) {
+                session.setAttribute("loginUserNickname", ((Member) principalDetails.getBasicUser()).getNickname());
+            } else if (principalDetails.getBasicUser() instanceof StoreMember) {
+                session.setAttribute("loginUserNickname", ((StoreMember) principalDetails.getBasicUser()).getStoreName());
+            }
         }
 
         List<NonApprovalStoreDto> result = storeMemberService.findByApprovalStore(userRole);

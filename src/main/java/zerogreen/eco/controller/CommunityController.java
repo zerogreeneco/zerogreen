@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.community.CommunityReplyDto;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
+import zerogreen.eco.dto.community.ImageFileDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.dto.search.SearchCondition;
 import zerogreen.eco.dto.search.SearchType;
@@ -51,7 +52,6 @@ import java.util.stream.Collectors;
 public class CommunityController {
 
     private final CommunityBoardService boardService;
-    private final MemberService memberService;
     private final FileService fileService;
     private final CommunityReplyService replyService;
     private final BoardImageService boardImageService;
@@ -60,11 +60,6 @@ public class CommunityController {
     public Category[] categories() {
         Category[] categories = Category.values();
         return categories;
-    }
-
-    @GetMapping("/test")
-    public String testForm() {
-        return "community/homeTest";
     }
 
     /* 커뮤티니 메인 화면 및 카테고리 페이징 */
@@ -159,19 +154,16 @@ public class CommunityController {
         if (principalDetails != null) {
             model.addAttribute("likeCount", boardService.countLike(boardId, principalDetails.getBasicUser().getId()));
             session.setAttribute("loginUser", principalDetails.getBasicUser().getUsername());
-
-            if (principalDetails.getBasicUser() instanceof Member) {
-                session.setAttribute("loginUserNickname", ((Member) principalDetails.getBasicUser()).getNickname());
-            } else if (principalDetails.getBasicUser() instanceof StoreMember) {
-                session.setAttribute("loginUserNickname", ((StoreMember) principalDetails.getBasicUser()).getStoreName());
-            }
         }
 
         model.addAttribute("detailView", boardService.findDetailView(boardId, request, response));
         model.addAttribute("replyList", replyService.findReplyByBoardId(boardId));
-        if (boardImageService.findByBoardId(boardId).size() > 0) {
-            model.addAttribute("images", boardImageService.findByBoardId(boardId));
+
+        List<ImageFileDto> imageList = boardImageService.findByBoardId(boardId);
+        if (imageList.size() > 0) {
+            model.addAttribute("images", imageList);
         }
+
         return "community/communityDetailView";
     }
 
@@ -295,7 +287,7 @@ public class CommunityController {
 
     // Paging List
     private void communityPagingList(RequestPageSortDto requestPageDto, Model model, SearchType searchType, String keyword, Category category) {
-        Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
+        Pageable pageable = requestPageDto.getPageableSort(Sort.by("createdDate").descending());
 
         model.addAttribute("searchType", searchType);
         model.addAttribute("keyword", keyword);
