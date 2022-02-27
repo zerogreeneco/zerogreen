@@ -1,7 +1,6 @@
 package zerogreen.eco.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,12 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import zerogreen.eco.security.auth.PrincipalDetailsService;
 import zerogreen.eco.security.handler.CustomAuthenticationFailureHandler;
-import zerogreen.eco.security.oauth.service.CustomOAuth2UserService;
+import zerogreen.eco.security.auth.oauth.service.CustomOAuth2UserService;
 
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터 체인에 등록

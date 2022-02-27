@@ -11,7 +11,7 @@
                             th:text="${categories.categoryName}"></option>
                 </select>
                 <textarea class="rg-input" th:field="*{text}"></textarea>
-                <input type="file" multiple="multiple" th:field="*{imageFiles}">
+                <input type="file" multiple="multiple" th:field="*{imageFiles}" accept="image/jpg,image/png,image/jpeg,image/gif">
                 <div id="select-img"><img id="rg-img" src="" /></div>
             </div>
             <div th:each="imageFile : ${images}" class="image-wrapper">
@@ -19,7 +19,7 @@
                 <input type="hidden" class="file-path" th:value="${imageFile.filePath}">
                 <img th:src="@{/community/images/{imageFile}(imageFile=${imageFile.storeFileName})}"
                      th:value="${imageFile.uploadFileName}"
-                     width="700px" height="auto">
+                     width="532px" height="auto">
                 <input type="button" value="삭제" onclick="deleteImageDB(this)">
             </div>
 

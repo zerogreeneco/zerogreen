@@ -70,7 +70,7 @@ $(function () {
         let nickname = $("#nickname");
 
         if (nickname.val() === "" || nickname.val() === "undefined") {
-            alert("닉네임을 입려해주세요.");
+            alert("닉네임을 입력해주세요.");
         } else {
             $.ajax({
                 url: "/zerogreen/members/nickname",
@@ -94,6 +94,15 @@ $(function () {
                 });
         }
     });
+
+    $("#attachFile").click(function () {
+
+        console.log(attachFile);
+    });
+    let attachFile = $("#attachFile").val();
+    if (attachFile !== null) {
+        console.log(attachFile);
+    }
 
     // 연락처 중복 확인
     $("#phoneNumber-check").off().on("click", function () {

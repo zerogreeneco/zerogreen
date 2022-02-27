@@ -78,6 +78,5 @@ public class MailServiceImpl implements MailService {
         log.info("TempPassword={}", tempPassword);
 
         javaMailSender.send(message);
-
     }
 }

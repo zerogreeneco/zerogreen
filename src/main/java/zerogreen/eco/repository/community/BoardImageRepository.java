@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface BoardImageRepository extends JpaRepository<BoardImage, Long> {
 
-    @Query("SELECT image " +
-            "FROM BoardImage image WHERE image.board.id=:boardId ")
+    // 게시글별 이미지 리스트
+    @Query("SELECT image FROM BoardImage image WHERE image.board.id=:boardId ")
     List<BoardImage> findByBoard(@Param("boardId") Long boardId);
 
 }

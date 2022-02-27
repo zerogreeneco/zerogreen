@@ -1,9 +1,7 @@
 $(function (){
-   $("#login-btn").click(function (){
-       var id = $("#username").val();
-       var pwd = $("#password").val();
-
-
-   });
-
+    $(document).keydown(function(objEvent){
+        if (objEvent.keyCode == 13 ){
+            $("#btnSubmit").click();
+        }
+    });
 });

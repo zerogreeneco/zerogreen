@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface BoardReplyRepository extends JpaRepository<BoardReply, Long> {
 
+    // 게시글별 댓글 리스트 (depth = 1 : 부모 댓글)
     @Query("SELECT br FROM BoardReply br " +
-//            " JOIN FETCH br.board b " +
             " JOIN FETCH br.replier r " +
             " WHERE br.depth = 1 AND br.board.id=:boardId ")
     List<BoardReply> findBoardRepliesByBoardId(@Param("boardId") Long boardId);

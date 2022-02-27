@@ -209,7 +209,7 @@ public class TestDataInit {
             communityBoardRepository.save(new CommunityBoard("TEST TEXT", findMember1, Category.PLOGGING));
             communityBoardRepository.save(new CommunityBoard("TEST TEXT2", findMember1, Category.PLOGGING));
             communityBoardRepository.save(new CommunityBoard("TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, END", findMember1, Category.NEWS));
-            for (int i = 4; i < 1000; i++) {
+            for (int i = 0; i < 1000; i++) {
                 communityBoardRepository.save(new CommunityBoard("TEST TEXT"+i, findMember1, Category.PLOGGING));
                 communityBoardRepository.save(new CommunityBoard("테스트입니다"+i, findMember2, Category.NEWS));
             }

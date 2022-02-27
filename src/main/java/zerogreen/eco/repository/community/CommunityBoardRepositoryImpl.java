@@ -26,9 +26,6 @@ import static zerogreen.eco.entity.userentity.QMember.member;
 
 public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCustom {
 
-    /*
-     * 필수 -> queryFactory를 사용하기 위해서!!!!!!!!!!!!!!!!!
-     * */
     private final JPAQueryFactory queryFactory;
 
     public CommunityBoardRepositoryImpl(EntityManager em) {
