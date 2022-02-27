@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import zerogreen.eco.dto.store.StoreDto;
+import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.repository.file.StoreImageFileRepository;
 
 import java.io.File;
@@ -22,6 +23,13 @@ public class StoreImageServiceImpl implements StoreImageService{
     public List<StoreDto> getImageByStore(Long sno) {
         return storeImageFileRepository.getImageByStore(sno).stream().map(StoreDto::new).collect(Collectors.toList());
     }
+  
+//    @Override
+//    public StoreDto getThumbnail(Long sno) {
+//        StoreImageFile storeImageFile = storeImageFileRepository.getThumbnail(sno);
+//        log.info("imageimageimageimage" + storeImageFile);
+//        return new StoreDto(storeImageFile);
+//    }
 
     @Override
     public void deleteImg(Long id, String filePath, String thumbFile) {

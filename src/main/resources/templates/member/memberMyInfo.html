@@ -23,16 +23,13 @@
                 <span class="profile-name">[[${session.loginUserNickname}]]</span>
             </div>
             <div class="profile-div">
-                <!-- 내정보 버튼 둘 중에 하나 쓸거임 -->
                 <span class="editMyInfo profile-btn inline"
                       th:onclick="|javascript:goAccount('${session.memberId}')|" >내정보</span>
-<!--                <button type="button" class="editMyInfo profile-btn">내정보</button>-->
             </div>
 
             <div class="profile-div">
                 <span class="chatting profile-btn inline"
                       th:onclick="|location.href='@{/chat}'|">내채팅</span>
-<!--                <button type="button" class="chatting profile-btn">내채팅</button>-->
             </div>
         </div>
 
@@ -68,7 +65,9 @@
                                  th:onclick="|javascript: goStore('${liking.storeMember.id}')|">
 
                                 <div class="card-header">
-                                    <img src="https://via.placeholder.com/300"/>
+                                    <img th:src="@{/members/memberMyInfo/image/} + ${liking.storeMember.storeName} + ${liking.thumbnailName}"
+                                         th:onerror="this.src='https://via.placeholder.com/300'"
+                                         th:value="${liking.thumbnailName}"/>
                                 </div>
 
                                 <div class="shopList-box">
@@ -104,7 +103,9 @@
                                  th:onclick="|javascript: goStore('${review.sno}')|">
 
                                 <div class="card-header">
-                                    <img src="https://via.placeholder.com/300"/>
+                                    <img th:src="@{/members/memberMyInfo/image/} + ${review.storeName} + ${review.storeThumbnail}"
+                                         th:onerror="this.src='https://via.placeholder.com/300'"
+                                         th:value="${review.storeThumbnail}"/>
                                 </div>
 
                                 <div class="shopList-box">
