@@ -138,7 +138,7 @@ public class StoreController {
                          Model model, HttpServletRequest request){
 
         Long id = Long.valueOf(request.getParameter("id"));
-        log.info("KGH",id);
+        log.info("KGH"+id);
         storeMenuService.deleteMenu(id);
 
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
@@ -171,16 +171,16 @@ public class StoreController {
     }
 
     //이미지 삭제
-    @DeleteMapping("update/img/delete")
     @ResponseBody
+    @DeleteMapping("update/img/delete")
     public ResponseEntity<Map<String, String>> imgDelete(HttpServletRequest request){
 
         HashMap<String, String> resultMap = new HashMap<>();
         Long id = Long.valueOf(request.getParameter("id"));
         String filePath = request.getParameter("filePath");
-        String thumb = request.getParameter("thumb");
+        String thumbPath = request.getParameter("thumb");
 
-        storeImageService.deleteImg(id, filePath, thumb);
+        storeImageService.deleteImg(id, filePath, thumbPath);
 
         resultMap.put("key","success");
 

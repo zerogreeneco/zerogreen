@@ -8,5 +8,5 @@ public interface StoreImageService {
     //Image List (Detail)
     List<StoreDto> getImageByStore(Long sno);
 
-    void deleteImg(Long id, String filePath, String thumbnail);
+    void deleteImg(Long id, String filePath, String thumPath);
 }

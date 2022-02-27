@@ -138,7 +138,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         if (storeImageFile.size() != 0) {
             for (StoreImageFile image : storeImageFile) {
                 storeImageFileRepository.save(new StoreImageFile(image.getFileName(),
-                        image.getStoreFileName(), image.getThumbnailName(), image.getFilePath(), storeMember));
+                        image.getStoreFileName(), image.getThumbnailName(), image.getFilePath(), image.getThumbPath(), storeMember));
             }
         }
     }

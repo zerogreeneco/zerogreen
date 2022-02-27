@@ -56,9 +56,10 @@ public class StoreDto {
     private Long imageId;
     private String fileName;
     private String storeFileName;
-    private String filePath;
-    private StoreMember storeMember;
     private String thumbnailName;
+    private String filePath;
+    private String thumbPath;
+    private StoreMember storeMember;
 
 
     public StoreDto(){}
@@ -71,6 +72,7 @@ public class StoreDto {
         this.filePath = storeImageFile.getFilePath();
         this.storeMember = storeImageFile.getStoreMember();
         this.thumbnailName = storeImageFile.getThumbnailName();
+        this.thumbPath = storeImageFile.getThumbPath();
     }
 
     //Store db (Detail)
