@@ -43,8 +43,8 @@ public class LikesRepositoryImpl implements LikesRepositoryCustom{
 
                 ))
                 .from(likes, likes)
-                .leftJoin(likes.storeMember, storeMember).on(storeMember.id.eq(likes.storeMember.id))
-                .leftJoin(likes.basicUser, basicUser).on(basicUser.id.eq(likes.basicUser.id))
+                .innerJoin(likes.storeMember, storeMember).on(storeMember.id.eq(likes.storeMember.id))
+                .innerJoin(likes.basicUser, basicUser).on(basicUser.id.eq(likes.basicUser.id))
                 .where(likes.basicUser.id.eq(id))
                 .fetch();
         return content;

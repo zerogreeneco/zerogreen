@@ -47,8 +47,8 @@ public class DetailReviewRepositoryImpl implements DetailReviewRepositoryCustom{
 
                         ))
                 .from(detailReview, detailReview)
-                .leftJoin(detailReview.storeMember, storeMember).on(storeMember.id.eq(detailReview.storeMember.id))
-                .leftJoin(detailReview.reviewer, basicUser).on(basicUser.id.eq(detailReview.reviewer.id))
+                .innerJoin(detailReview.storeMember, storeMember).on(storeMember.id.eq(detailReview.storeMember.id))
+                .innerJoin(detailReview.reviewer, basicUser).on(basicUser.id.eq(detailReview.reviewer.id))
                 .where(detailReview.reviewer.id.eq(id))
                 .fetch();
         return content;

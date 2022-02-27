@@ -169,8 +169,8 @@
                         <div class="slider-container">
                             <div class="image-slider slider">
                                 <div class="card rv-img-list" th:each="imageList: ${reviewImageList}">
-                                    <img class="inline rv-imageOnly" th:src="@{/page/detail/images/{imageList}(imageList=*{imageList.reviewFileName})}"
-                                         th:value="${imageList.uploadFileName}"
+                                    <img class="inline rv-imageOnly" th:src="@{/page/detail/images/{imageList}(imageList=*{imageList.thumbnailName})}"
+                                         th:value="${imageList.thumbnailName}"
                                          width="120px" height="120px">
                                 </div>
                             </div>
@@ -194,8 +194,8 @@
                                 <div class="div11 inline"></div>
                                 <div class="rv-img inline" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
                                     <img class="inline mImage mImage-fr"
-                                         th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
-                                         th:value="${mImage.uploadFileName}"
+                                         th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.thumbnailName})}"
+                                         th:value="${mImage.thumbnailName}"
                                          width="120px" height="120px" >
                                 </div>
 

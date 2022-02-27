@@ -71,7 +71,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         findMember.setStoreInfo(findMember.getStoreInfo());
     }
 
-    //상세페이지
+    //상세페이지 ** 아래 주석포함 작업중 **
     @Override
     public StoreDto getStore(Long sno) {
         StoreMember storeMember = storeMemberRepository.findById(sno).orElseThrow();
@@ -80,12 +80,17 @@ public class StoreMemberServiceImpl implements StoreMemberService {
                 .storeName(storeMember.getStoreName())
                 .storeType(storeMember.getStoreType())
                 .storeInfo(storeMember.getStoreInfo())
-                .likesCount(likesRepository.counting(storeMember.getId()))
-                .reviewCount(detailReviewRepository.counting(sno))
                 .imageFile(storeMember.getImageFile())
                 .menuList(storeMember.getMenuList())
+                .likesCount(likesRepository.counting(storeMember.getId()))
+                .reviewCount(detailReviewRepository.counting(sno))
                 .build();
     }
+
+//    @Override
+//    public StoreDto getStore(Long sno) {
+//        return storeMemberRepository.getStoreById(sno);
+//    }
 
     @Override
     public List<NonApprovalStoreDto> findByApprovalStore(UserRole userRole) {

@@ -2,6 +2,7 @@ package zerogreen.eco.service.file;
 
 import org.springframework.web.multipart.MultipartFile;
 import zerogreen.eco.entity.community.BoardImage;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 
@@ -20,5 +21,8 @@ public interface FileService {
     List<StoreImageFile> storeImageFiles(List<MultipartFile> multipartFiles, String storeName) throws IOException;
     List<BoardImage> boardImageFiles(List<MultipartFile> multipartFiles) throws IOException;
 
+    //리뷰 이미지
+    ReviewImage saveReviewImage(MultipartFile multipartFile) throws IOException;
+    List<ReviewImage> reviewImageFiles(List<MultipartFile> multipartFiles) throws IOException;
 
 }

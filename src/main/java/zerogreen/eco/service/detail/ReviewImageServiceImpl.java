@@ -27,84 +27,6 @@ public class ReviewImageServiceImpl implements ReviewImageService {
 
     private final ReviewImageRepository reviewImageRepository;
 
-    //완성 후 중복코드 삭제예정
-
-    @Value("${file.dir}")
-    private String fileDir;
-
-    @Value("C:/imageUpload/")
-    private String imageFileDir;
-
-    private final String[] EXTENSION = {"image/gif", "image/jpeg", "image/png", "image/bmp", "application/pdf"};
-
-    @Override
-    public String getFullPath(String filename) {
-        return fileDir + filename;
-    }
-
-    /*
-     * 서버에 저장될 이름 생성
-     * */
-    private String createStoreFilename(String originalFilename) {
-        String ext = extractExt(originalFilename);
-        //uuid
-        String uuid = UUID.randomUUID().toString();
-        // uuid.확장자 형태로 저장
-        return uuid + "." + ext;
-    }
-
-    /*
-     * 확장자만 따로 뽑기
-     * */
-    private String extractExt(String originalFilename) {
-        int pos = originalFilename.lastIndexOf(".");
-        return originalFilename.substring(pos + 1);
-    }
-
-
-    //이미지 업로드
-    @Override
-    public ReviewImage saveReviewImage(MultipartFile multipartFile) throws IOException {
-        if (multipartFile.isEmpty()) {
-            return null;
-        }
-        String originalFilename = multipartFile.getOriginalFilename();
-        String reviewFileName = createStoreFilename(originalFilename);
-        String thumbnailName = "thumb_" + reviewFileName;
-        File saveFile = new File(getFullPath(reviewFileName));
-        multipartFile.transferTo(saveFile);
-
-        File thumbnailFile = new File(getFullPath("thumb_" + reviewFileName));
-
-        BufferedImage readImage = ImageIO.read(saveFile);
-
-        double ratio = 3.0;
-        int width = (int) (readImage.getWidth() / ratio);
-        int height = (int) (readImage.getHeight() / ratio);
-
-        BufferedImage thumbImage = new BufferedImage(120, 120, BufferedImage.TYPE_3BYTE_BGR);
-        Graphics2D graphics = thumbImage.createGraphics();
-
-        graphics.drawImage(readImage, 0, 0, 120, 120, null);
-        ImageIO.write(thumbImage, "png", thumbnailFile);
-
-
-        return new ReviewImage(originalFilename, reviewFileName, getFullPath(reviewFileName), thumbnailName);
-
-    }
-
-    //얘는 뭐하는거지.. 파일 저장..?
-    @Override
-    public List<ReviewImage> reviewImageFiles(List<MultipartFile> multipartFiles) throws IOException {
-        List<ReviewImage> reviewImages = new ArrayList<>();
-        for (MultipartFile multipartFile : multipartFiles) {
-            if (!multipartFile.isEmpty()) {
-                reviewImages.add(saveReviewImage(multipartFile));
-            }
-        }
-        return reviewImages;
-    }
-
     //List of Images only..
     @Override
     public List<ReviewImageDto> findByStore(Long sno) {
@@ -113,15 +35,16 @@ public class ReviewImageServiceImpl implements ReviewImageService {
 
     // delete images
     @Override
-    public void deleteReviewImage(Long id, String filePath) {
+    public void deleteReviewImage(Long id, String filePath, String thumbnail) {
         File file = new File(filePath);
+        File file2 = new File(thumbnail);
 
         try {
             if (file.exists()) {
                 boolean delete = file.delete();
-//                if (delete) {
-//                    reviewImageRepository.deleteById(id);
-//                }
+                if (delete) {
+                    file2.delete();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,19 +52,5 @@ public class ReviewImageServiceImpl implements ReviewImageService {
         }
     }
 
-    // delete thumbnail images
-    @Override
-    public void deleteReviewThumbImage(String thumbnail) {
-        File file = new File(thumbnail);
-
-        try {
-            if (file.exists()) {
-                file.delete();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new IllegalStateException("파일 삭제에 실패했습니다.");
-        }
-    }
 
 }

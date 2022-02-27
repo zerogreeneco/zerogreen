@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.community.QCommunityLike;
+import zerogreen.eco.entity.detail.QDetailReview;
 import zerogreen.eco.entity.detail.QLikes;
 import zerogreen.eco.entity.file.QStoreImageFile;
 import zerogreen.eco.entity.file.StoreImageFile;
@@ -18,7 +19,7 @@ import zerogreen.eco.entity.userentity.UserRole;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.querydsl.core.types.ExpressionUtils.count;
+import static com.querydsl.core.types.ExpressionUtils.*;
 import static zerogreen.eco.entity.file.QStoreImageFile.storeImageFile;
 import static zerogreen.eco.entity.userentity.QBasicUser.basicUser;
 import static zerogreen.eco.entity.userentity.QStoreMember.storeMember;
@@ -50,29 +51,37 @@ public class StoreMemberRepositoryImpl implements StoreMemberRepositoryCustom {
         return content;
     }
 
-    //get Store DB in page Detail
-/*
-    @Override
-    public StoreDto getStoreById(Long sno) {
-        QLikes subLike = new QLikes("subLike");
-        return queryFactory
-                .select(Projections.constructor(StoreDto.class,
-                        storeMember.id,
-                        storeMember.storeName,
-                        storeMember.storeType,
-                        storeMember.storeInfo,
-                        storeMember.count,
-                        ExpressionUtils.as(
-                                JPAExpressions
-                                        .select(count(subLike.id))
-                                        .from(subLike, subLike)
-                                        .where(subLike.storeMember.id.eq(sno)),"likeCount")
-                ))
-                .from(storeMember, storeMember)
-                .where(storeMember.id.eq(sno))
-                .fetchFirst();
-    }
-*/
+    //Store DB (Detail)
+//    @Override
+//    public StoreDto getStoreById(Long sno) {
+//        QLikes subLike = new QLikes("subLike");
+//        QDetailReview subReview = new QDetailReview("subReview");
+//        return queryFactory
+//                .select(Projections.constructor(StoreDto.class,
+//                        storeMember.id,
+//                        storeMember.storeName,
+//                        storeMember.storeType,
+//                        storeMember.storeInfo,
+//                        storeMember.imageFile,
+//                        storeMember.menuList,
+//                        ExpressionUtils.as(
+//                                JPAExpressions
+//                                        .select(count(subLike.id))
+//                                        .from(subLike, subLike)
+//                                        .where(subLike.storeMember.id.eq(sno)),"likesCount"),
+//                        ExpressionUtils.as(
+//                                JPAExpressions
+//                                        .select(count(subReview.id))
+//                                        .from(subReview, subReview)
+//                                        .where(subReview.storeMember.id.eq(sno)),"reviewCount")
+//
+//                ))
+//                .from(storeMember, storeMember)
+//                .innerJoin(storeMember.imageFile)
+//                .innerJoin(storeMember.menuList)
+//                .where(storeMember.id.eq(sno))
+//                .fetchFirst();
+//    }
 
 
 }

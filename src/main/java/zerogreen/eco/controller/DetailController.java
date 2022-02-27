@@ -100,7 +100,7 @@ public class DetailController {
                             @Validated @ModelAttribute("review") DetailReviewDto reviewDto, BindingResult bindingResult,
                             @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
 
-        List<ReviewImage> reviewImages = reviewImageService.reviewImageFiles(reviewDto.getImageFiles());
+        List<ReviewImage> reviewImages = fileService.reviewImageFiles(reviewDto.getImageFiles());
         detailReviewService.saveImageReview(reviewDto.getReviewText(), sno, principalDetails.getBasicUser(), reviewImages);
 
         List<DetailReviewDto> saveImageResult = detailReviewService.findByStore(sno);
@@ -115,7 +115,7 @@ public class DetailController {
     @ResponseBody
     @GetMapping("/page/detail/images/{filename}")
     private Resource getReviewImages(@PathVariable("filename") String filename) throws MalformedURLException {
-        return new UrlResource("file:" + reviewImageService.getFullPath(filename));
+        return new UrlResource("file:" + fileService.getFullPath(filename));
     }
 
 
@@ -136,11 +136,8 @@ public class DetailController {
         HashMap<String, String> resultMap = new HashMap<>();
         String filePath = reviewImageDto.getFilePath();
         String thumbnailName = "C:/upload/" + reviewImageDto.getThumbnailName();
-        log.info("zzzzzfilePath "+filePath);
-        log.info("zzzzzthumbnailName "+thumbnailName);
 
-        reviewImageService.deleteReviewImage(id, filePath);
-        reviewImageService.deleteReviewThumbImage(thumbnailName);
+        reviewImageService.deleteReviewImage(id, filePath, thumbnailName);
         resultMap.put("key", "success");
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);

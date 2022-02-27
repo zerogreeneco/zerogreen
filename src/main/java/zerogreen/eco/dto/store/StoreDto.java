@@ -66,7 +66,7 @@ public class StoreDto {
 
     public StoreDto(){}
 
-    //image list (Detail)
+    //image list
     public StoreDto(StoreImageFile storeImageFile) {
         this.imageId = storeImageFile.getId();
         this.fileName = storeImageFile.getFileName();
@@ -80,15 +80,15 @@ public class StoreDto {
     //Store db (Detail)
     @Builder
     public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo,
-                    Long likesCount, Long reviewCount, List<StoreImageFile> imageFile, List<StoreMenu> menuList) {
+                    List<StoreImageFile> imageFile, List<StoreMenu> menuList, Long likesCount, Long reviewCount) {
         this.sno = sno;
         this.storeName = storeName;
         this.storeType = storeType;
         this.storeInfo = storeInfo;
-        this.likesCount = likesCount;
-        this.reviewCount = reviewCount;
         this.imageFile = imageFile;
         this.menuList = menuList;
+        this.likesCount = likesCount;
+        this.reviewCount = reviewCount;
     }
 
     //List DTO
