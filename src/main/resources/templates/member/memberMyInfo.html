@@ -103,7 +103,9 @@
                                  th:onclick="|javascript: goStore('${review.sno}')|">
 
                                 <div class="card-header">
-                                    <img src="https://via.placeholder.com/300"/>
+                                    <img th:src="@{/members/memberMyInfo/image/} + ${review.storeName} + ${review.storeThumbnail}"
+                                         th:onerror="this.src='https://via.placeholder.com/300'"
+                                         th:value="${review.storeThumbnail}"/>
                                 </div>
 
                                 <div class="shopList-box">

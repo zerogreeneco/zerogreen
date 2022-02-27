@@ -26,6 +26,8 @@ public class DetailReviewDto {
     @NotBlank
     private String reviewText;
 
+    private Long parentReview;
+
     private Long id;
     private String username;
     private String nickname;
@@ -34,21 +36,21 @@ public class DetailReviewDto {
     private Long sno;
     private String storeName;
 
-    private Long parentReview;
-
-    private String thumbnail;
+    private String storeThumbnail;
 
     private List<ReviewImage> imageList;
     private List<MultipartFile> imageFiles;
+    private String reviewThumbnail;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdTime;
     private List<DetailReviewDto> nestedReviewList = new ArrayList<>();
 
 
+    //필요한거니까 지우지말자..
     public DetailReviewDto() {}
 
-    // 댓글 리스트
+    // 댓글 리스트 (Detail)
     public DetailReviewDto(DetailReview detailReview) {
 
         // 멤버 타입에 따라서 nickname 분기
@@ -74,6 +76,18 @@ public class DetailReviewDto {
         this.nestedReviewList = collect;
         this.storeName = detailReview.getStoreMember().getStoreName();
         this.imageList = detailReview.getImageList();
+    }
+
+    //리뷰 리스팅 (memberMyInfo)
+    public DetailReviewDto(Long rno, String reviewText, Long sno, String storeName, Long id,
+                           LocalDateTime createdTime, String storeThumbnail) {
+        this.rno = rno;
+        this.reviewText = reviewText;
+        this.sno = sno;
+        this.storeName = storeName;
+        this.id = id;
+        this.createdTime = createdTime;
+        this.storeThumbnail = storeThumbnail;
     }
     
 }
