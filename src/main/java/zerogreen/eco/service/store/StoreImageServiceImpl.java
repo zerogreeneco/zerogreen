@@ -32,12 +32,14 @@ public class StoreImageServiceImpl implements StoreImageService{
 //    }
 
     @Override
-    public void deleteImg(Long id, String filePath, String thumb) {
+    public void deleteImg(Long id, String filePath, String thumbFile) {
         File file = new File(filePath);
+        File thumb = new File(thumbFile);
         try{
             if(file.exists()){
                 boolean delete = file.delete();
                 if(delete){
+                    thumb.delete();
                     storeImageFileRepository.deleteById(id);
                 }
             }

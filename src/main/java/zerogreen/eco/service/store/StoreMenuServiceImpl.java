@@ -45,6 +45,7 @@ public class StoreMenuServiceImpl implements StoreMenuService {
 
     @Override
     public void deleteMenu(Long id) {
+        log.info("KGH"+id);
         storeMenuRepository.deleteById(id);
     }
 
