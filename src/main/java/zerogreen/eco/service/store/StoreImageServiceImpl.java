@@ -18,7 +18,7 @@ public class StoreImageServiceImpl implements StoreImageService{
 
     private final StoreImageFileRepository storeImageFileRepository;
 
-    //Image List (Detail)
+    //Image List
     @Override
     public List<StoreDto> getImageByStore(Long sno) {
         return storeImageFileRepository.getImageByStore(sno).stream().map(StoreDto::new).collect(Collectors.toList());
