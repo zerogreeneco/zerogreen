@@ -72,7 +72,6 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals(boardId + "_community")) {
-                    log.info("COOKIE EXIST={}", cookie.getValue());
                     viewCookie = cookie;
                 }
             }
@@ -124,7 +123,6 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     public void insertLike(Long boardId, BasicUser basicUser) {
 
         CommunityBoard communityBoard = boardRepository.findById(boardId).orElseThrow();
-
         communityLikeRepository.save(new CommunityLike(communityBoard, basicUser));
     }
 
@@ -145,16 +143,19 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
         return communityLikeRepository.countByBoard(boardId);
     }
 
+    /* 검색 조건 페이징 */
     @Override
     public Slice<CommunityResponseDto> findAllCommunityBoard(Pageable pageable, SearchCondition condition) {
         return boardRepository.findAllCommunityList(pageable, condition);
     }
 
+    /* 페이징 */
     @Override
     public Slice<CommunityResponseDto> findAllCommunityBoard(Pageable pageable) {
         return boardRepository.findAllCommunityList(pageable);
     }
 
+    /* 카테고리 */
     @Override
     public Slice<CommunityResponseDto> findByCategory(Pageable pageable, Category category) {
         return boardRepository.findByCategory(pageable, category);

@@ -128,9 +128,6 @@
                                             <td style="width: 13%; border-left: 1px solid lightgray;">삭제</td>
                                         </tr>
                                         <tr th:each="tableList : ${tableList}">
-                                            <td>
-                                                <input class="tableId" th:value="${tableList.id}">
-                                            </td>
                                             <td style="width: 40%;">[[${tableList.menuName}]]</td>
                                             <td style="width: 19%; border-left: 1px solid lightgray;">
                                                 [[${tableList.menuPrice}]]
@@ -139,6 +136,7 @@
                                                 [[${tableList.vegetarianGrade}]]
                                             </td>
                                             <td style="width: 13%; border-left: 1px solid lightgray;">
+                                                <input type="hidden" class="tableId" th:value="${tableList.id}">
                                                 <img class="truncate_icon"
                                                      th:src="@{/bootstrap/images/list/close.png}"
                                                      onclick="gradeDel(this)"/>
@@ -156,14 +154,12 @@
                                             <td style="width: 15%; border-left: 1px solid lightgray;">삭제</td>
                                         </tr>
                                         <tr th:each="tableList : ${tableList}">
-                                            <td>
-                                                <input class="tableId" th:value="${tableList.id}">
-                                            </td>
                                             <td style="width: 60%;">[[${tableList.menuName}]]</td>
                                             <td style="width: 25%; border-left: 1px solid lightgray;">
                                                 [[${tableList.menuPrice}]]
                                             </td>
                                             <td style="width: 15%; border-left: 1px solid lightgray;">
+                                                <input type="hidden" class="tableId" th:value="${tableList.id}">
                                                 <img class="truncate_icon"
                                                      th:src="@{/bootstrap/images/list/close.png}"
                                                      onclick="tableDel(this)"/>
@@ -187,7 +183,7 @@
                                         <div class="store-img" th:each="sImg: ${storeImageList}">
                                             <input type="hidden" class="imgId" th:value="${sImg.imageId}">
                                             <input type="hidden" class="filePath" th:value="${sImg.filePath}">
-                                            <input type="hidden" class="thumb" th:value="${sImg.thumbnailName}">
+                                            <input type="hidden" class="thumb" th:value="${sImg.thumbPath}">
 
                                             <img th:src="@{/stores/update/image/} + ${sImg.storeMember.storeName} +${sImg.thumbnailName}"
                                                  th:value="${sImg.thumbnailName}" width="150px" height="150px">

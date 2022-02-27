@@ -28,7 +28,7 @@ public class StoreMenu extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private VegetarianGrade vegetarianGrade;
 
-    @ManyToOne(fetch = LAZY, cascade=CascadeType.ALL)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private StoreMember storeMember;
 

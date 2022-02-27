@@ -54,7 +54,7 @@
                     <button id="btn-logout" class="btn-login" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
                         <img class="profile" th:src="@{'/bootstrap/images/profile/' +${session.veganGrade}+'.png'}"
                              th:onclick="|location.href='@{/members/memberMyInfo}'|"
-                             sec:authorize="hasRole('ROLE_USER')"/>
+                             sec:authorize="hasAnyRole({'ROLE_USER','ROLE_AUTH_USER'})"/>
                         <img class="profile" th:src="@{/bootstrap/images/profile/STORE.png}"
                              th:onclick="|location.href='@{/stores/myInfo}'|"
                              sec:authorize="hasRole('ROLE_STORE')"/>

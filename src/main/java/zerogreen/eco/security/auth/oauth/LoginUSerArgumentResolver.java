@@ -1,4 +1,4 @@
-package zerogreen.eco.security.oauth;
+package zerogreen.eco.security.auth.oauth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;

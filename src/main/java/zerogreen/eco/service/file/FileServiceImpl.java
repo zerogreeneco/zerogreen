@@ -90,7 +90,7 @@ public class FileServiceImpl implements FileService{
         multipartFile.transferTo(saveFile);
 
 
-        File thumbnailFile = new File(getFullPathImage("thumb_"+storeFilename, storeName));
+        File thumbnailFile = new File(getFullPathImage(thumbnailName, storeName));
 
         BufferedImage readImage = ImageIO.read(saveFile);
         BufferedImage thumbImage = new BufferedImage(300, 300, BufferedImage.TYPE_3BYTE_BGR);
@@ -99,7 +99,7 @@ public class FileServiceImpl implements FileService{
         graphics2D.drawImage(readImage, 0, 0, 300, 300, null);
         ImageIO.write(thumbImage, "png", thumbnailFile);
 
-        return new StoreImageFile(originalFilename, storeFilename, thumbnailName, getFullPathImage(storeFilename, storeName));
+        return new StoreImageFile(originalFilename, storeFilename, thumbnailName, getFullPathImage(storeFilename, storeName), getFullPathImage(thumbnailName, storeName));
     }
 
     /*

@@ -12,7 +12,7 @@
                 <img th:src="@{/bootstrap/images/arrowup.png}" style="width: 35px;"/>
             </button>
         </div>
-        <div sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+        <div sec:authorize="hasAnyRole('ROLE_USER','ROLE_AUTH_USER','ROLE_ADMIN')">
             <button id="write-btn" type="button" th:onclick="|location.href='@{/community/write}'|">
                 <img th:src="@{/bootstrap/images/edit.png}" style="width: 35px;"/>
             </button>
