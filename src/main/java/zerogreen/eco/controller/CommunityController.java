@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.community.CommunityReplyDto;
 import zerogreen.eco.dto.community.CommunityRequestDto;
-import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.dto.community.ImageFileDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.dto.search.SearchCondition;
@@ -25,15 +23,12 @@ import zerogreen.eco.dto.search.SearchType;
 import zerogreen.eco.entity.community.BoardImage;
 import zerogreen.eco.entity.community.Category;
 import zerogreen.eco.entity.userentity.Member;
-import zerogreen.eco.entity.userentity.StoreMember;
+import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.security.auth.PrincipalDetails;
-import zerogreen.eco.security.dto.SessionUser;
-import zerogreen.eco.security.oauth.LoginUser;
 import zerogreen.eco.service.community.BoardImageService;
 import zerogreen.eco.service.community.CommunityBoardService;
 import zerogreen.eco.service.community.CommunityReplyService;
 import zerogreen.eco.service.file.FileService;
-import zerogreen.eco.service.user.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +38,6 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -87,9 +81,14 @@ public class CommunityController {
 
     /* 커뮤니티 글 작성 */
     @GetMapping("/write")
-    public String writeForm(@ModelAttribute("writeForm") CommunityRequestDto dto) {
+    public String writeForm(@ModelAttribute("writeForm") CommunityRequestDto dto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        return "community/communityRegisterForm";
+        UserRole userRole = principalDetails.getBasicUser().getUserRole();
+        if (!(userRole.equals(UserRole.STORE) || userRole.equals(UserRole.UN_STORE))) {
+            return "community/communityRegisterForm";
+        } else {
+            return "redirect:/community";
+        }
     }
 
     @PostMapping("/write")
@@ -129,7 +128,7 @@ public class CommunityController {
     }
 
     // 이미지 삭제
-    @PostMapping("/{imageId}/imageDelete")
+    @DeleteMapping("/{imageId}/imageDelete")
     @ResponseBody
     public ResponseEntity<Map<String, String>> imageDelete(@PathVariable("imageId") Long imageId,
                                                            HttpServletRequest request) {
@@ -181,7 +180,6 @@ public class CommunityController {
      * */
     @PostMapping("/{boardId}/delete")
     public String boardDelete(@PathVariable("boardId") Long boardId) {
-        log.info("DELETE BOARDID={}", boardId);
         boardService.boardDelete(boardId);
         return "redirect:/community";
     }
@@ -193,8 +191,6 @@ public class CommunityController {
                                                               @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         Map<String, Integer> resultMap = new HashMap<>();
-
-        log.info("LIKE CONTROL OK");
 
         // 해당 회원이 좋아요를 누른 적이 있는지 확인 -> 있으면 1, 없으면 0
         int countLike = boardService.countLike(boardId, principalDetails.getId());

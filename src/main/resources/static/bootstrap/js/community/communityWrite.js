@@ -46,7 +46,7 @@ function deleteImage(idx) {
     console.log(selFiles);
 }
 
-// 게시글 수정
+// DB 이미지 삭제
 function deleteImageDB(event) {
     let thisBtn = $(event);
     let imageId = thisBtn.parent().find(".image-id").val();
@@ -54,7 +54,7 @@ function deleteImageDB(event) {
 
     $.ajax({
         url: "/zerogreen/community/" + imageId + "/imageDelete",
-        method: "post",
+        method: "delete",
         dataType: "json",
         data: {
             imageId: imageId,

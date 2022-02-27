@@ -1,4 +1,4 @@
-package zerogreen.eco.security.oauth.service;
+package zerogreen.eco.security.auth.oauth.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

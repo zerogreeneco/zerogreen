@@ -36,7 +36,6 @@ public class CommunityResponseDto {
     public CommunityResponseDto(Long id, String text, String nickname, VegetarianGrade vegetarianGrade,
                                 Long memberId, Category category, LocalDateTime modifiedDate,
                                 int count, Long like, Long replyCount, String thumbnail) {
-
         this.id = id;
         this.text = text;
         this.nickname = nickname;

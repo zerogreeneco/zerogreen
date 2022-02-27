@@ -22,6 +22,9 @@ public class CommunityReplyServiceImpl implements CommunityReplyService{
     private final BoardReplyRepository boardReplyRepository;
     private final CommunityBoardRepository communityBoardRepository;
 
+    /*
+    * 댓글 저장
+    * */
     @Override
     @Transactional
     public void replySave(String text, Long boardId, BasicUser basicUser) {
@@ -30,6 +33,9 @@ public class CommunityReplyServiceImpl implements CommunityReplyService{
         boardReplyRepository.save(new BoardReply(text, basicUser, communityBoard)); // 생성자 없음
     }
 
+    /*
+    * 대댓글 저장
+    * */
     @Override
     @Transactional
     public void nestedReplySave(String text, Long boardId, BasicUser basicUser, Long replyId) {
@@ -43,6 +49,9 @@ public class CommunityReplyServiceImpl implements CommunityReplyService{
         parentReply.addNestedReply(childReply);
     }
 
+    /*
+    * 댓글 수정
+    * */
     @Override
     @Transactional
     public void modifyReply(Long replyId, String text) {
@@ -51,15 +60,21 @@ public class CommunityReplyServiceImpl implements CommunityReplyService{
         boardReply.changeText(text);
     }
 
+    /*
+    * 댓글 삭제
+    * */
     @Override
     @Transactional
     public void deleteReply(Long replyId) {
         boardReplyRepository.deleteById(replyId);
     }
 
+    /*
+    * 댓글 리스트
+    * */
     @Override
     public List<CommunityReplyDto> findReplyByBoardId(Long boardId) {
-        log.info("SERVICE REPLY LIST>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        return boardReplyRepository.findBoardRepliesByBoardId(boardId).stream().map(CommunityReplyDto::new).collect(Collectors.toList());
+        return boardReplyRepository.findBoardRepliesByBoardId(boardId)
+                .stream().map(CommunityReplyDto::new).collect(Collectors.toList());
     }
 }

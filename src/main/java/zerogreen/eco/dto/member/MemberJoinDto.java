@@ -34,6 +34,4 @@ public class MemberJoinDto {
         return new Member(memberJoinDto.username, memberJoinDto.nickname,
                 memberJoinDto.phoneNumber, memberJoinDto.password, UserRole.USER, false, memberJoinDto.vegetarianGrade);
     }
-
-
 }
