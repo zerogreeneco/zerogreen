@@ -60,6 +60,8 @@ public class StoreDto {
     private String thumbnailName;
 
 
+    public StoreDto(){}
+
     //Store db (Detail)
     @Builder
     public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo,
@@ -108,7 +110,6 @@ public class StoreDto {
 
 
     //이하 누구세요
-    public StoreDto(){}
 
     //이친구...뭐죠..?
     public StoreDto(Long id) {
