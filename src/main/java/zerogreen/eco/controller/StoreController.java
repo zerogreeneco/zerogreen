@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +26,9 @@ import zerogreen.eco.service.user.StoreMemberService;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -71,9 +75,9 @@ public class StoreController {
 
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
         model.addAttribute("tableList", tableList);
-
-//        List<StoreDto> storeImageList = storeImageService.getImageByStore(principalDetails.getId());
-//        model.addAttribute("storeImageList", storeImageList);
+      
+        List<StoreDto> storeImageList = storeImageService.getImageByStore(principalDetails.getId());
+        model.addAttribute("storeImageList", storeImageList);
 
         return "store/updateInfo";
     }
@@ -129,11 +133,27 @@ public class StoreController {
     }
 
     //메뉴 삭제
-    @DeleteMapping("update/table/delete")
-    public String delete(@AuthenticationPrincipal PrincipalDetails principalDetails,
+    @DeleteMapping("update/grade/delete")
+    public String gradeDelete(@AuthenticationPrincipal PrincipalDetails principalDetails,
                          Model model, HttpServletRequest request){
 
         Long id = Long.valueOf(request.getParameter("id"));
+        log.info("KGH",id);
+        storeMenuService.deleteMenu(id);
+
+        List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
+        model.addAttribute("tableList", tableList);
+
+        return "store/updateInfo :: #grade-table";
+    }
+
+    //상품 삭제
+    @DeleteMapping("update/table/delete")
+    public String tableDelete(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                         Model model, HttpServletRequest request){
+
+        Long id = Long.valueOf(request.getParameter("id"));
+        log.info("KGH",id);
         storeMenuService.deleteMenu(id);
 
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
@@ -149,6 +169,24 @@ public class StoreController {
                                     @PathVariable("storeName") String storeName) throws MalformedURLException {
         return new UrlResource("file:" + fileService.getFullPathImage(storeFileName, storeName));
     }
+
+    //이미지 삭제
+    @DeleteMapping("update/img/delete")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> imgDelete(HttpServletRequest request){
+
+        HashMap<String, String> resultMap = new HashMap<>();
+        Long id = Long.valueOf(request.getParameter("id"));
+        String filePath = request.getParameter("filePath");
+        String thumb = request.getParameter("thumb");
+
+        storeImageService.deleteImg(id, filePath, thumb);
+
+        resultMap.put("key","success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
 
     //회원 정보 수정
     @GetMapping("/account")

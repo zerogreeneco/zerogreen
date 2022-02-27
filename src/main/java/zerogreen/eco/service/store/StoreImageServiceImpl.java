@@ -7,6 +7,10 @@ import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.repository.file.StoreImageFileRepository;
 
+import java.io.File;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -14,6 +18,12 @@ public class StoreImageServiceImpl implements StoreImageService{
 
     private final StoreImageFileRepository storeImageFileRepository;
 
+    //Image List (Detail)
+    @Override
+    public List<StoreDto> getImageByStore(Long sno) {
+        return storeImageFileRepository.getImageByStore(sno).stream().map(StoreDto::new).collect(Collectors.toList());
+    }
+  
 //    @Override
 //    public StoreDto getThumbnail(Long sno) {
 //        StoreImageFile storeImageFile = storeImageFileRepository.getThumbnail(sno);
@@ -21,4 +31,19 @@ public class StoreImageServiceImpl implements StoreImageService{
 //        return new StoreDto(storeImageFile);
 //    }
 
+    @Override
+    public void deleteImg(Long id, String filePath, String thumb) {
+        File file = new File(filePath);
+        try{
+            if(file.exists()){
+                boolean delete = file.delete();
+                if(delete){
+                    storeImageFileRepository.deleteById(id);
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            throw  new IllegalStateException("파일 삭제 실패");
+        }
+    }
 }
