@@ -65,7 +65,7 @@
                             </div>
                         </div>
                         <!--좋아요 수-->
-                            <span class="like-cnt">[[${getStore.count}]]</span>
+                            <span class="like-cnt">[[${getStore.likesCount}]]</span>
                     </div>
 
                     <!-- 리뷰정보 -->
@@ -73,7 +73,7 @@
                         <div class="inline">
                             <img class="speechBalloon" th:attr="src = @{/bootstrap/images/etc/bubble.png}">
                         </div>
-                        <span class="review-cnt">[[${cnt2}]]</span>
+                        <span class="review-cnt">[[${getStore.reviewCount}]]</span>
                     </div>
                 </div>
 
@@ -133,7 +133,8 @@
                     </div>
 
                 <!-- 리뷰작성 textarea -->
-                <form method="POST" th:object="${review}" enctype="multipart/form-data">
+                <form method="POST" th:object="${review}" enctype="multipart/form-data"
+                th:action="@{'/page/detail/addReview/'}+${getStore.sno}">
                     <span class="js-storeId" style="display:none;">[[${getStore.sno}]]</span>
 
                     <div class="rv-area" >
@@ -168,8 +169,8 @@
                         <div class="slider-container">
                             <div class="image-slider slider">
                                 <div class="card rv-img-list" th:each="imageList: ${reviewImageList}">
-                                    <img class="inline rv-imageOnly" th:src="@{/page/detail/images/{imageList}(imageList=*{imageList.reviewFileName})}"
-                                         th:value="${imageList.uploadFileName}"
+                                    <img class="inline rv-imageOnly" th:src="@{/page/detail/images/{imageList}(imageList=*{imageList.thumbnailName})}"
+                                         th:value="${imageList.thumbnailName}"
                                          width="120px" height="120px">
                                 </div>
                             </div>
@@ -193,13 +194,14 @@
                                 <div class="div11 inline"></div>
                                 <div class="rv-img inline" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
                                     <img class="inline mImage mImage-fr"
-                                         th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.reviewFileName})}"
-                                         th:value="${mImage.uploadFileName}"
+                                         th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.thumbnailName})}"
+                                         th:value="${mImage.thumbnailName}"
                                          width="120px" height="120px" >
                                 </div>
 
                                 <div class="inline imgInfo" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
                                     <input class="imgPath" th:value="${mImage.filePath}" type="hidden">
+                                    <input class="imgThumbPath" th:value="${mImage.thumbnailName}" type="hidden">
                                     <input class="rnoRno" th:value="${mImage.detailReview.id}" type="hidden">
                                     <input class="imgId" th:value="${mImage.id}" type="hidden">
                                     <span class="size" th:text="${idx.size}" style="display:none;"></span>

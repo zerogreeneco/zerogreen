@@ -16,6 +16,7 @@ import zerogreen.eco.entity.userentity.StoreInfo;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.entity.userentity.UserRole;
+import zerogreen.eco.repository.detail.DetailReviewRepository;
 import zerogreen.eco.repository.detail.LikesRepository;
 import zerogreen.eco.repository.file.StoreImageFileRepository;
 import zerogreen.eco.repository.store.StoreMenuRepository;
@@ -32,6 +33,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     private final StoreImageFileRepository storeImageFileRepository;
     private final StoreMenuRepository storeMenuRepository;
     private final LikesRepository likesRepository;
+    private final DetailReviewRepository detailReviewRepository;
     @Lazy
     private final PasswordEncoder passwordEncoder;
 
@@ -69,7 +71,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         findMember.setStoreInfo(findMember.getStoreInfo());
     }
 
-    //상세페이지
+    //상세페이지 ** 아래 주석포함 작업중 **
     @Override
     public StoreDto getStore(Long sno) {
         StoreMember storeMember = storeMemberRepository.findById(sno).orElseThrow();
@@ -78,11 +80,17 @@ public class StoreMemberServiceImpl implements StoreMemberService {
                 .storeName(storeMember.getStoreName())
                 .storeType(storeMember.getStoreType())
                 .storeInfo(storeMember.getStoreInfo())
-                .count(likesRepository.counting(storeMember.getId()))
                 .imageFile(storeMember.getImageFile())
                 .menuList(storeMember.getMenuList())
+                .likesCount(likesRepository.counting(storeMember.getId()))
+                .reviewCount(detailReviewRepository.counting(sno))
                 .build();
     }
+
+//    @Override
+//    public StoreDto getStore(Long sno) {
+//        return storeMemberRepository.getStoreById(sno);
+//    }
 
     @Override
     public List<NonApprovalStoreDto> findByApprovalStore(UserRole userRole) {

@@ -24,6 +24,7 @@ public class DetailReviewRepositoryImpl implements DetailReviewRepositoryCustom{
 
     QStoreImageFile subImage = new QStoreImageFile("subImage");
 
+    //회원별 리뷰 남긴 가게 리스트(memberMyInfo)
     @Override
     public List<DetailReviewDto> getReviewByUser(Long id) {
         List<DetailReviewDto> content = queryFactory
@@ -44,10 +45,10 @@ public class DetailReviewRepositoryImpl implements DetailReviewRepositoryCustom{
                                                         .from(subImage, subImage)
                                                         .where(subImage.storeMember.id.eq(storeMember.id)))), "thumbImage")
 
-                ))
+                        ))
                 .from(detailReview, detailReview)
-                .leftJoin(detailReview.storeMember, storeMember).on(storeMember.id.eq(detailReview.storeMember.id))
-                .leftJoin(detailReview.reviewer, basicUser).on(basicUser.id.eq(detailReview.reviewer.id))
+                .innerJoin(detailReview.storeMember, storeMember).on(storeMember.id.eq(detailReview.storeMember.id))
+                .innerJoin(detailReview.reviewer, basicUser).on(basicUser.id.eq(detailReview.reviewer.id))
                 .where(detailReview.reviewer.id.eq(id))
                 .fetch();
         return content;

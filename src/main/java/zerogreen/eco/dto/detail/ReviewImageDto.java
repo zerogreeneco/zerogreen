@@ -22,7 +22,7 @@ public class ReviewImageDto {
     private DetailReview detailReview;
     private StoreMember storeMember;
     private List<MultipartFile> reviewImages;
-    private String thumbnailImage;
+    private String thumbnailName;
 
 
     //스토어 전체 리뷰 이미지 리스트 뿌리기
@@ -33,7 +33,7 @@ public class ReviewImageDto {
         this.detailReview = reviewImage.getDetailReview();
         this.storeMember = reviewImage.getStoreMember();
         this.filePath = reviewImage.getFilePath();
-        this.thumbnailImage = "thumb_" + reviewImage.getReviewFileName();
+        this.thumbnailName = reviewImage.getThumbnailName();
     }
 
 }

@@ -415,6 +415,7 @@ function deleteImage(event) {
 
         for (let i = 0; i < parentChildren.length; i++) {
             let filePath = parentChildren.eq(i).children(".imgPath").val();
+            let thumbnailName = parentChildren.eq(i).children(".imgThumbPath").val();
 
             (function(i) {
 
@@ -425,7 +426,8 @@ function deleteImage(event) {
                     dataType: "json",
                     async: false,
                     data: JSON.stringify({
-                        filePath: filePath
+                        filePath: filePath,
+                        thumbnailName: thumbnailName
                     })
                 })
                 .done(function (data) {

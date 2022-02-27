@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import zerogreen.eco.entity.community.BoardImage;
+import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
 
@@ -190,4 +191,48 @@ public class FileServiceImpl implements FileService{
 
         return outputImage;
     }
+
+    //리뷰이미지
+    @Override
+    public ReviewImage saveReviewImage(MultipartFile multipartFile) throws IOException {
+        if (multipartFile.isEmpty()) {
+            return null;
+        }
+        String originalFilename = multipartFile.getOriginalFilename();
+        String reviewFileName = createStoreFilename(originalFilename);
+        String thumbnailName = "thumb_" + reviewFileName;
+        File saveFile = new File(getFullPath(reviewFileName));
+        multipartFile.transferTo(saveFile);
+
+        File thumbnailFile = new File(getFullPath("thumb_" + reviewFileName));
+
+        BufferedImage readImage = ImageIO.read(saveFile);
+
+        double ratio = 3.0;
+        int width = (int) (readImage.getWidth() / ratio);
+        int height = (int) (readImage.getHeight() / ratio);
+
+        BufferedImage thumbImage = new BufferedImage(120, 120, BufferedImage.TYPE_3BYTE_BGR);
+        Graphics2D graphics = thumbImage.createGraphics();
+
+        graphics.drawImage(readImage, 0, 0, 120, 120, null);
+        ImageIO.write(thumbImage, "png", thumbnailFile);
+
+
+        return new ReviewImage(originalFilename, reviewFileName, getFullPath(reviewFileName), thumbnailName);
+
+    }
+
+    //리뷰이미지
+    @Override
+    public List<ReviewImage> reviewImageFiles(List<MultipartFile> multipartFiles) throws IOException {
+        List<ReviewImage> reviewImages = new ArrayList<>();
+        for (MultipartFile multipartFile : multipartFiles) {
+            if (!multipartFile.isEmpty()) {
+                reviewImages.add(saveReviewImage(multipartFile));
+            }
+        }
+        return reviewImages;
+    }
+
 }

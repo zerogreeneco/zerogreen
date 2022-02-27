@@ -51,14 +51,15 @@ public class DetailController {
     //상세페이지
     @GetMapping("/page/detail/{sno}")
     public String detail(@PathVariable("sno") Long sno, Model model,
-                         @ModelAttribute("review") DetailReviewDto reviewDto,
+                         @Validated @ModelAttribute("review") DetailReviewDto reviewDto, BindingResult bindingResult,
                          @PrincipalUser BasicUser basicUser,
                          @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException{
 
         //스토어 데이터 + 회원/비회원
         StoreDto storeDto = storeMemberService.getStore(sno);
         log.info("?????Controller " + sno);
-        log.info("<<<<< " + storeDto.getCount());
+        log.info("<<<<< " + storeDto.getLikesCount());
+        log.info("<<<<< " + storeDto.getReviewCount());
 
         if (principalDetails == null) {
             model.addAttribute("getStore",storeDto);
@@ -70,6 +71,12 @@ public class DetailController {
             //가게별 개별 라이크
             model.addAttribute("cntLike", likesService.cntMemberLike(sno, principalDetails.getId()));
         }
+//
+//        //review 유효성검사
+//        if (bindingResult.hasErrors()) {
+//            log.info("REVIEW ERROR={}", bindingResult.hasErrors());
+//            return "page/detail";
+//        }
 
         //리뷰 텍스트 리스트
         List<DetailReviewDto> result = detailReviewService.findByStore(sno);
@@ -83,27 +90,17 @@ public class DetailController {
             Collections.reverse(reviewImages);
         }
 
-        //가게별 멤버리뷰 카운팅
-        Long cnt2 = detailReviewService.cntMemberReview(sno);
-        if (cnt2 != null) {
-            model.addAttribute("cnt2", cnt2);
-        }
-
         return "page/detail";
     }
 
 
     // 이미지 포함 리뷰 db
-    @PostMapping("/page/detail/{sno}")
+    @PostMapping("/page/detail/addReview/{sno}")
     public String addReview(@PathVariable("sno") Long sno, Model model,
                             @Validated @ModelAttribute("review") DetailReviewDto reviewDto, BindingResult bindingResult,
                             @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
 
-        if (bindingResult.hasErrors()) {
-            log.info("REVIEW ERROR={}", bindingResult.getAllErrors());
-        }
-
-        List<ReviewImage> reviewImages = reviewImageService.reviewImageFiles(reviewDto.getImageFiles());
+        List<ReviewImage> reviewImages = fileService.reviewImageFiles(reviewDto.getImageFiles());
         detailReviewService.saveImageReview(reviewDto.getReviewText(), sno, principalDetails.getBasicUser(), reviewImages);
 
         List<DetailReviewDto> saveImageResult = detailReviewService.findByStore(sno);
@@ -118,7 +115,7 @@ public class DetailController {
     @ResponseBody
     @GetMapping("/page/detail/images/{filename}")
     private Resource getReviewImages(@PathVariable("filename") String filename) throws MalformedURLException {
-        return new UrlResource("file:" + reviewImageService.getFullPath(filename));
+        return new UrlResource("file:" + fileService.getFullPath(filename));
     }
 
 
@@ -138,9 +135,9 @@ public class DetailController {
                                                            @RequestBody ReviewImageDto reviewImageDto) {
         HashMap<String, String> resultMap = new HashMap<>();
         String filePath = reviewImageDto.getFilePath();
-        log.info("zzzzzzzzzz1"+filePath);
+        String thumbnailName = "C:/upload/" + reviewImageDto.getThumbnailName();
 
-        reviewImageService.deleteReviewImage(id, filePath);
+        reviewImageService.deleteReviewImage(id, filePath, thumbnailName);
         resultMap.put("key", "success");
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
