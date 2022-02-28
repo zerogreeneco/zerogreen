@@ -203,7 +203,7 @@ function nestedReplySend(event) {
             boardId: boardId,
             replyId: replyId,
             text: text
-        },
+        }
     })
         .done(function (fragment) {
             $("#review-table").replaceWith(fragment);

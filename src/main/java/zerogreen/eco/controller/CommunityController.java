@@ -278,7 +278,7 @@ public class CommunityController {
 
         model.addAttribute("replyList", replyService.findReplyByBoardId(boardId));
 
-        return "/community/communityDetailView :: #review-table";
+        return "community/communityDetailView :: #review-table";
     }
 
     // Paging List

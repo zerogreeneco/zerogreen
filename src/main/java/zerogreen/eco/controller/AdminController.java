@@ -27,9 +27,13 @@ import zerogreen.eco.service.file.FileService;
 import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.StoreMemberService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -40,13 +44,11 @@ public class AdminController {
     private final BasicUserService basicUserService;
     private final FileService fileService;
     private final RegisterFileRepository registerFileRepository;
-    private final StoreMemberService storeMemberService;
-
 
     @GetMapping("/approvalStore")
     public Page<NonApprovalStoreDto> approvalStore(Model model, RequestPageSortDto requestPageDto) {
 
-        Pageable pageable = requestPageDto.getPageableSort(Sort.by("memberId").descending());
+        Pageable pageable = requestPageDto.getPageableSort(Sort.by("createdDate").descending());
 
         Page<NonApprovalStoreDto> nonApprovalStore = basicUserService.findByNonApprovalStore(pageable);
 
@@ -69,9 +71,6 @@ public class AdminController {
 
         UrlResource urlResource = new UrlResource("file:" + fileService.getFullPath(storeFileName));
 
-        log.info("UPLOADFILENAME={}", uploadFileName);
-        log.info("UrlResource={}", urlResource);
-
         String encodeUploadFilename = UriUtils.encode(uploadFileName, StandardCharsets.UTF_8); // 한글로 된 파일이름이 꺠질 수 있기 때문에
         // CONTENT_DISPOSITION : HttpBody에 들어오는 컨텐츠의 성향을 알려주는 속성
         // attachment; filename="파일명"은 body에 오는 값을 다운로드 받아라는 의미
@@ -82,21 +81,45 @@ public class AdminController {
                 .body(urlResource);
     }
 
+//    /*
+//     * UNSTORE -> STORE 권한 변경
+//     * */
+//    @PostMapping("/approve")
+//    @ResponseBody
+//    public ResponseEntity<Map<String, String>> changeUserRole(@RequestParam(value = "memberId[]", defaultValue = "0") List<Long> memberId) {
+//        Map<String, String> resultMap = new HashMap<>();
+//        if (memberId.contains(0L)) {
+//            resultMap.put("result", "fail");
+//            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+//        }
+//        log.info("APPROVAL MEMBERID LIST={}", memberId);
+//        log.info("APPROVAL MEMBERID LIST={}", memberId.size());
+//        basicUserService.changeStoreUserRole(memberId);
+//        resultMap.put("result", "success");
+//        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+//    }
+
     /*
      * UNSTORE -> STORE 권한 변경
      * */
     @PostMapping("/approve")
-    @ResponseBody
-    public ResponseEntity<String> changeUserRole(@RequestParam(value = "memberId", defaultValue = "0") List<Long> memberId, Model model) {
+    public String changeUserRole(@RequestParam(value = "memberId[]", defaultValue = "0") List<Long> memberId, Model model, RequestPageSortDto requestPageDto) {
 
         if (memberId.contains(0L)) {
             model.addAttribute("msg", "회원가입을 승인할 회원을 체크해주세요.");
-            return new ResponseEntity<>("fail", HttpStatus.OK);
+            return "admin/approvalStore";
         }
 
         basicUserService.changeStoreUserRole(memberId);
         model.addAttribute("msg", "승인이 완료되었습니다. ");
-        return new ResponseEntity<>("success", HttpStatus.OK);
+        Pageable pageable = requestPageDto.getPageableSort(Sort.by("createdDate").descending());
+
+        Page<NonApprovalStoreDto> nonApprovalStore = basicUserService.findByNonApprovalStore(pageable);
+
+        PagingDto result = new PagingDto(nonApprovalStore);
+
+        model.addAttribute("result", result);
+        return "admin/approvalStore :: #approval-list";
     }
 
     @GetMapping("/search")

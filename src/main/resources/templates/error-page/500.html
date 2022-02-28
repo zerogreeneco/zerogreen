@@ -7,7 +7,9 @@
 <body>
 <div class="error-wrapper" style="text-align: center">
     <img th:src="@{/bootstrap/images/error/500.jpg}" width="50%" height="50%">
-    <a th:href="@{/}">홈으로</a>
+    <h3>죄송합니다. 서버 내부 오류가 발생했습니다.</h3>
+    <h3>잠시 후 다시 접속해주세요.</h3>
+    <button th:onclick="|location.href=7'@{/}'|">메인 페이지로 이동</button>
 </div>
 </body>
 </html>
