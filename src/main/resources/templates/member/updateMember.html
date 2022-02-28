@@ -3,7 +3,6 @@
           xmlns:sec="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
         <link rel="stylesheet" th:href="@{/bootstrap/css/register.css}">
-        <link rel="stylesheet" th:href="@{/bootstrap/css/member/updateMember.css}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
         <script th:inline="javascript" th:src="@{/bootstrap/js/member/updateMember.js}"></script>
@@ -79,18 +78,18 @@
                     <!-- 비밀번호 변경, 회원탈퇴 button -->
                     <div>
                         <button id="pwd-change" class="modify-btn" type="submit">비밀번호 변경</button>
-                        <a id="delete-btn" href="#deleteModal" rel="modal:open">회원탈퇴를 하시겠습니까?</a>
+                        <a id="delete-btn" class="text-btn" href="#deleteModal" rel="modal:open">회원탈퇴를 하시겠습니까?</a>
                     </div>
                 </div>
             </div>
         </div>
         <!-- 회원탈퇴 모달창 -->
-        <div id="deleteModal" class="modal">
+        <div id="deleteModal" class="modal deleteModal">
             <div th:object="${password}" class="modal-section">
                 <h3 style="text-align: center;">회원 탈퇴하기</h3>
                 <label for="password" class="pw-label">비밀번호</label>
                 <input type="password" id="delete_id" class="form-control pw-box" th:field="*{password}">
-                <button type="submit" id="delete_id_btn">회원탈퇴</button>
+                <button type="submit" id="delete_id_btn" class="delete-btn">회원탈퇴</button>
             </div>
         </div>
 
