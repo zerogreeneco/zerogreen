@@ -2,209 +2,75 @@
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml"
           xmlns:sec="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
-    <link rel="stylesheet" th:href="@{/bootstrap/css/register.css}">
-    <style>
-        .field-error {
-            border-color: #dc3545;
-            color: #dc3545;
-            font-family: 'Noto Sans KR', sans-serif;
-        }
+        <link rel="stylesheet" th:href="@{/bootstrap/css/register.css}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+        <script th:inline="javascript" th:src="@{/bootstrap/js/member/updateMember.js}"></script>
+        <div class="container" sec:authorize="isAuthenticated()">
+            <div class="center-box">
+                <h2 class="title">회원 정보 수정</h2>
 
-        .modify-btn {
-            width: 302px;
-            height: 40px;
-            margin-top: 20px;
-            font-family: 'Noto Sans KR', sans-serif;
-            color: white;
-            font-size: 1rem;
-            background: #f1c40f;
-        }
+                <!--회원 정보수정 input-->
+                <div sec:authorize="hasAnyRole('ROLE_STORE','ROLE_UN_STORE')">
 
-        #delete-btn {
-            text-decoration: underline;
-            color: lightgrey;
-            margin-top: 40px;
-            display: inline-block;
-            font-family: 'Noto Sans KR', sans-serif;
-            font-size: 0.8rem;
-        }
+                    <form action="" th:action="@{/stores/account}" method="post">
+                        <div>
+                            <label class="join-label">회원 ID</label>
+                            <input type="text" class="form-control input-box" disabled>
+                        </div>
+                        <div>
+                            <label class="join-label">전화번호</label>
+                            <input type="text" class="form-control login-box">
+                            <button type="button" class="sendMail">중복 확인</button>
+                            <!--                        <div th:errors="*{phoneNumber}">-->
+                            <!--                            전화 오류-->
+                            <!--                        </div>-->
+                        </div>
+                    </form>
+                    <!-- 정보수정 button -->
+                    <div>
+                        <button type="submit" class="modify-btn" id="acntChange">정보 수정</button>
+                    </div>
 
-        #delete_id_btn {
-            width: 302px;
-            height: 40px;
-            font-family: 'Noto Sans KR', sans-serif;
-            color: white;
-            font-size: 1rem;
-            background: #e6382c;
-        }
+                    <hr class="my-4">
 
-        hr {
-            margin: 40px 0;
-        }
-
-        #deleteModal {
-            width: 400px !important;
-        }
-
-        .pw-label {
-            display: block;
-            width: 300px;
-            margin: 10px;
-            text-align: left;
-            font-size: 1em !important;
-            font-family: 'Noto Sans KR', sans-serif;
-        }
-
-        .pw-box {
-            width: 260px;
-            height: 40px;
-            border: solid 1px #eee;
-            line-height: 3em;
-            padding: 0 20px;
-            margin-bottom: 10px;
-            font-family: 'Noto Sans KR', sans-serif;
-            font-size: 11pt;
-        }
-
-        .modal-section {
-            width: 300px;
-            margin: 30px 20px;
-        }
-    </style>
-    <script th:inline="javascript">
-        $(function (event) {
-            $("#info-submit").click(function () {
-
-                const nickname = $("#nickname").val();
-                const phoneNum = $("#phoneNumber").val();
-                const vegetarianGrade = $("#vegetarianGrade").val();
-
-                $.ajax({
-                    url: "/zerogreen/members/account",
-                    type: 'patch',
-                    dataType: 'json',
-                    data: {
-                        nickname: nickname,
-                        phoneNumber: phoneNum,
-                        vegetarianGrade: vegetarianGrade
-                    }
-                });
-                alert("회원정보를 수정했습니다.")
-            }); // 회원 정보 변경
-
-
-            $("#pwd-change").click(function () {
-                const password = $("#password").val();
-                const newPassword = $("#newPassword").val();
-
-                console.log(password);
-                console.log(newPassword);
-
-                $.ajax({
-                    url: "/zerogreen/members/account/pwdChange",
-                    type: "post",
-                    data: {
-                        password: password,
-                        newPassword: newPassword
-                    },
-                    dataType: "json"
-                });
-            }); // 비밀번호 변경
-
-            $("#delete_id_btn").click(function () {
-                const password = $("#delete_id").val();
-
-                $.ajax({
-                   url: "/zerogreen/members/account/deleteMember",
-                   type: "delete",
-                   dataType: "json",
-                   data: {
-                       password: password
-                   }
-                });
-                location.replace("/zerogreen");
-            }); // 회원 탈퇴
-        });
-    </script>
-수정창
-<!--    <div class="container" sec:authorize="isAuthenticated()">-->
-<!--        <div class="center-box">-->
-<!--            <h2 class="title">회원 정보 수정</h2>-->
-
-<!--            &lt;!&ndash;회원 정보수정 input&ndash;&gt;-->
-<!--            <div sec:authorize="hasRole('ROLE_USER')">-->
-<!--                <form id="memberUpdate" action="" th:action="@{/members/account}" method="post" th:object="${member}">-->
-<!--                    <input type="hidden">-->
-<!--                    <div>-->
-<!--                        <label for="username" class="join-label">회원 ID</label>-->
-<!--                        <input type="text" id="username" th:field="*{username}" class="form-control input-box" disabled>-->
-<!--                    </div>-->
-<!--                    <div>-->
-<!--                        <label for="nickname" class="join-label">닉네임</label>-->
-<!--                        <input id="nickname" type="text" th:field="*{nickname}" class="form-control input-box" >-->
-<!--                        <div th:errors="*{nickname}">-->
-<!--                            닉네임 오류-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div>-->
-<!--                        <label for="phoneNumber" class="join-label">전화번호</label>-->
-<!--                        <input id="phoneNumber" type="text" th:field="*{phoneNumber}" class="form-control input-box">-->
-<!--                        <div th:errors="*{phoneNumber}">-->
-<!--                            전화 오류-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div>-->
-<!--                        <label for="vegetarianGrade" class="join-label">베지테리언 등급</label>-->
-<!--                        <select th:field="*{vegetarianGrade}" id="vegetarianGrade" class="input-box vege-box">-->
-<!--                            <option th:each="vegan : ${allPartVegan}" th:value="${vegan.name()}" th:text="${vegan.vegetarian}"></option>-->
-<!--                        </select>-->
-<!--                    </div>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--            &lt;!&ndash; 정보수정 button &ndash;&gt;-->
-<!--            <div>-->
-<!--                <button id="info-submit" class="modify-btn" type="submit">정보 수정</button>-->
-<!--            </div>-->
-
-<!--            <hr class="my-4">-->
-
-<!--            &lt;!&ndash; 비밀번호 수정 input &ndash;&gt;-->
-<!--            <form id="passwordChange" method="post" th:action="@{/members/account/pwdChange}" th:object="${password}">-->
-<!--                <div>-->
-<!--                    <label for="password" class="join-label">현재 비밀번호</label>-->
-<!--                    <input id="password" type="password" th:field="*{password}" class="form-control input-box">-->
-<!--                    <div th:errors="*{password}">-->
-<!--                        비밀번호가 일치하지 않습니다.-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div>-->
-<!--                    <label for="newPassword" class="join-label">새로운 비밀번호</label>-->
-<!--                    <input id="newPassword" type="password" th:field="*{newPassword}" class="form-control input-box">-->
-<!--                    <div th:errors="*{newPassword}">-->
-<!--                        전화 오류-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div>-->
-<!--                    <label for="name"  class="join-label">새로운 비밀번호 확인</label>-->
-<!--                    <input id="name" type="text" class="form-control input-box">-->
-<!--                </div>-->
-<!--            </form>-->
-<!--            &lt;!&ndash; 비밀번호 변경, 회원탈퇴 button &ndash;&gt;-->
-<!--            <div>-->
-<!--                <button id="pwd-change" class="modify-btn" type="submit">비밀번호 변경</button>-->
-<!--                <a id="delete-btn" href="#deleteModal" rel="modal:open">회원탈퇴를 하시겠습니까?</a>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-    <!-- 회원탈퇴 모달창 -->
-<!--    <div id="deleteModal" class="modal">-->
-<!--        <div th:object="${password}" class="modal-section">-->
-<!--            <h3 style="text-align: center;">회원 탈퇴하기</h3>-->
-<!--            <label for="password" class="pw-label">비밀번호</label>-->
-<!--            <input type="password" id="delete_id" class="form-control pw-box" th:field="*{password}">-->
-<!--            <button type="submit" id="delete_id_btn">회원탈퇴</button>-->
-<!--        </div>-->
-<!--    </div>-->
-
+                    <!-- 비밀번호 수정 input -->
+                    <form id="passwordChange" method="post" th:action="@{/stores/account/pwdChange}">
+                        <div>
+                            <label class="join-label">현재 비밀번호</label>
+                            <input type="password" class="form-control input-box">
+                            <!--                    <div th:errors="*{password}">-->
+                            <!--                        비밀번호가 일치하지 않습니다.-->
+                            <!--                    </div>-->
+                        </div>
+                        <div>
+                            <label class="join-label">새로운 비밀번호</label>
+                            <input type="password" class="form-control input-box">
+                            <!--                    <div th:errors="*{newPassword}">-->
+                            <!--                        비밀번호 오류-->
+                            <!--                    </div>-->
+                        </div>
+                        <div>
+                            <label class="join-label">새로운 비밀번호 확인</label>
+                            <input type="text" class="form-control input-box">
+                        </div>
+                    </form>
+                    <!-- 비밀번호 변경, 회원탈퇴 button -->
+                    <div>
+                        <button type="submit" class="modify-btn" id="pwdChange">비밀번호 변경</button>
+                        <a class="text-btn" href="#deleteModal" rel="modal:open">회원탈퇴를 하시겠습니까?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 회원탈퇴 모달창 -->
+        <div id="deleteModal" class="modal deleteModal">
+            <div class="modal-section">
+                <h3 style="text-align: center;">회원 탈퇴하기</h3>
+                <label class="pw-label">비밀번호</label>
+                <input type="password" class="form-control pw-box">
+                <button type="submit" class="delete-btn" id="fin-delete-btn">회원탈퇴</button>
+            </div>
+        </div>
     </th:block>
 </th:block>
