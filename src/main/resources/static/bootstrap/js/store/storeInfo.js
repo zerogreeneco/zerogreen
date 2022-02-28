@@ -176,17 +176,34 @@ function imgDel(event) {
             }
         });
 }
+$(function () {
+    $("#uploadFiles").on('change', selectedImageFile);
+});
 
 //확장자 확인
-function imgCheck(fileName){
-    let input = fileName.name;
-    let check = $("#imgCheck");
+function selectedImageFile(e) {
+    selFiles = [];
+    $("#selectedImg").empty();
 
-    if (input.match(/(.png|.jpg|.jpeg|.gif|.bmp|.PNG|.JPG|.JPEG|.GIF|.BMP)$/)){
-        return true;
-    }
-    else{
-        check.html("이미지 파일만 첨부할 수 있어요");
-        check.css("color","#dc3545");
-    }
+    let files = e.target.files;
+    let filesArr = Array.prototype.slice.call(files);
+    let check = $("#imgCheck");
+    let index = 0;
+    filesArr.forEach(function (file) {
+        if (file.type.match("image.*")) {
+
+            selFiles.push(file);
+
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                let html = "<img class='selectedImg' src='"+e.target.result+"' data-file='"+file.name+"' width='100px' height='100px'>";
+                $("#selectedImg").append(html);
+                index++;
+            };
+            reader.readAsDataURL(file);
+        }else{
+            check.html("이미지만 첨부할 수 있어요");
+            check.css("color","#dc3545");
+        }
+    });
 }
