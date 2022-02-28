@@ -36,6 +36,10 @@ function handleImageFileSelect(e) {
     });
 }
 
+function checkExt() {
+    
+}
+
 function deleteImage(idx) {
     console.log("INDEX : " + idx);
     selFiles.splice(idx, 1);

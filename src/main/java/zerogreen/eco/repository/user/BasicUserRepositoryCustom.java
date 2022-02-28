@@ -2,6 +2,7 @@ package zerogreen.eco.repository.user;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import zerogreen.eco.dto.member.MemberAuthDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.entity.userentity.BasicUser;
@@ -16,5 +17,6 @@ public interface BasicUserRepositoryCustom {
 
     Page<NonApprovalStoreDto> searchAndPaging(NonApprovalStoreDto condition, Pageable pageable);
 
+    @Modifying
     void changeUserRole(List<Long> memberId);
 }

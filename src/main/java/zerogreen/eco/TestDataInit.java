@@ -161,9 +161,12 @@ public class TestDataInit {
             memberService.save(member2);
 
             // 가게 회원
-            storeMemberService.save(ecoTest, new RegisterFile("origin1","store1", "path1"));
-            storeMemberService.save(foodTest, new RegisterFile("origin2","store2", "path2"));
-            storeMemberService.save(noVegan, new RegisterFile("origin3","store3", "path3"));
+            for (int i = 0; i < 51; i++) {
+
+                storeMemberService.save(ecoTest, new RegisterFile("origin1","store1", "path1"));
+                storeMemberService.save(foodTest, new RegisterFile("origin2","store2", "path2"));
+                storeMemberService.save(noVegan, new RegisterFile("origin3","store3", "path3"));
+            }
             storeMemberService.saveV2(ecoTest2, new RegisterFile("origin1","store1", "path1"));
             storeMemberService.saveV2(foodTest2, new RegisterFile("origin2","store2", "path2"));
             storeMemberService.saveV2(noVegan2, new RegisterFile("origin3","store3", "path3"));

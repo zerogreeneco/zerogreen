@@ -4,60 +4,97 @@
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
                 integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <style>
+            .am-pageNo {
+                margin: 0 auto;
+            }
 
+            .am-pageNo .am-ul {
+                list-style: none;
+                text-align: center;
+            }
+
+            .am-pageNo button[type=button] {
+                float: right;
+            }
+
+            .am-ul li {
+                display: inline-block;
+                text-align: center;
+            }
+
+            .am-ul li a {
+                float: left;
+                padding: 4px;
+                margin-right: 3px;
+                width: 15px;
+                color: #000;
+                font: bold 12px tahoma;
+                border: 1px solid #eee;
+                text-align: center;
+                text-decoration: none;
+            }
+
+            .am-ul li a:hover, ul li a:focus {
+                color: #fff;
+                border: 1px solid #f1c40f;
+                background-color: #f1c40f;
+            }
+        </style>
         <section>
-            <form method="post" th:action="@{/admin/approve}">
-                <table>
-                    <div th:each="app : ${approval}">
-                        <span th:text="${app.storeName}"></span>
-                        <!--            <span th:text="${app.storeAddress}"></span>-->
+            <div id="approval-list">
+                <form method="post" th:action="@{/admin/approve}">
+                    <table>
+                        <tr>
+                            <th><input id="check-all" type="checkbox" name="memberId-check"></th>
+                            <th>아이디</th>
+                            <th>상호명</th>
+                            <th>가게 연락처</th>
+                            <th>가게 주소</th>
+                            <th>등록번호</th>
+                            <th>파일이름</th>
+                        </tr>
+                        <tr th:each="store : ${result.dtoList}">
+                            <td><input type="checkbox" class="form-check-input"
+                                       th:value="${store.memberId}" name="memberId"></td>
+                            <td th:text="${store.username}"></td>
+                            <td th:text="${store.storeName}"></td>
+                            <td th:text="${store.storePhoneNumber}"></td>
+                            <td th:text="${store.storeAddress}"></td>
+                            <td th:text="${store.storeRegNum}"></td>
+                            <td th:if="${store.fileId}">
+                                <a th:href="|/zerogreen/admin/approvalStore/attach/${store.fileId}|"
+                                   th:text="${store.uploadFileName}"></a>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="am-pageNo">
+                        <button type="button" id="approval-btn">승인</button>
+                        <ul class="am-ul">
+                            <li th:if="${result.prev}">
+                                <a tabindex="-1" th:href="@{/admin/approvalStore(page=${result.start -1})}">
+                                    &lt;&lt;
+                                </a>
+                            </li>
+                            <li th:each="page : ${result.pageList}">
+                                <a th:href="@{/admin/approvalStore(page=${page})}">
+                                    [[${page}]]
+                                </a>
+                            </li>
+                            <li th:if="${result.next}">
+                                <a th:href="@{/admin/approvalStore(page=${result.end + 1})}">
+                                    &gt;&gt;
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <tr th:object="${stores}">
-                        <th></th>
-                        <th>아이디</th>
-                        <th>상호명</th>
-                        <th>가게 연락처</th>
-                        <th>가게 주소</th>
-                        <th>등록번호</th>
-                        <th>파일이름</th>
-                    </tr>
-                    <tr th:each="store : ${result.dtoList}">
-                        <td><input type="checkbox" class="form-check-input"
-                                   th:value="${store.memberId}" name="memberId"></td>
-                        <td th:text="${store.username}"></td>
-                        <td th:text="${store.storeName}"></td>
-                        <td th:text="${store.storePhoneNumber}"></td>
-                        <td th:text="${store.storeAddress}"></td>
-                        <td th:text="${store.storeRegNum}"></td>
-                        <td th:if="${store.fileId}"><a th:href="|/zerogreen/admin/approvalStore/attach/${store.fileId}|"
-                                                       th:text="${store.uploadFileName}"></a></td>
-                    </tr>
-                    <input type="hidden" id="hiddenValue">
-                </table>
-                <div><p th:text="${msg}"></p></div>
-                <button type="submit" id="approval-btn">승인</button>
-                <ul>
-                    <li th:if="${result.prev}">
-                        <a tabindex="-1" th:href="@{/admin/approvalStore(page=${result.start -1})}">
-                            prev
-                        </a>
-                    </li>
-                    <li th:each="page : ${result.pageList}">
-                        <a th:href="@{/admin/approvalStore(page=${page})}">
-                            [[${page}]]
-                        </a>
-                    </li>
-                    <li th:if="${result.next}">
-                        <a th:href="@{/admin/approvalStore(page=${result.end + 1})}">
-                            next
-                        </a>
-                    </li>
-                </ul>
-            </form>
+                </form>
+            </div>
         </section>
         <script th:inline="javascript">
             $(function () {
-                $("#approval-btn").click(function () {
+                // AJAX 호출 후 이벤트 발생하지 않는 현상 해결
+                $(document).on("click", "#approval-btn", function (e) {
                     let obj = $("[name=memberId]");
                     let memberArray = [];
 
@@ -71,22 +108,33 @@
                     $.ajax({
                         url: "/zerogreen/admin/approve",
                         type: "post",
+                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                        // dataType: "json",
                         data: {
                             memberId: memberArray
-                        },
-                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                        dataType: "json",
-                        success: function (result) {
-                            if (result === "fail") {
-                                alert("실패");
-                            } else if (result === "success") {
-                                alert("성공");
-                            }
-                        },
-                    });
+                        }
+                    })
+                        // .done(function (data) {
+                        //     if (data.result === "success") {
+                        //         alert("성공");
+                        //     } else if (data.result === "fail") {
+                        //         alert("실패");
+                        //     }
+                        // });
+                        .done(function (fragment) {
+                            $("#approval-list").replaceWith(fragment);
+                        });
                 });
 
+                $(document).on("click", "#check-all", function () {
+                    if ($("#check-all").is(":checked")) {
+                        $("input[name=memberId]").prop("checked", true);
+                    } else {
+                        $("input[name=memberId]").prop("checked", false);
+                    }
+                });
             });
+
 
         </script>
     </th:block>
