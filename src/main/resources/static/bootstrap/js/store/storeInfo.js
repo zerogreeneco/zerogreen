@@ -180,7 +180,7 @@ $(function () {
     $("#uploadFiles").on('change', selectedImageFile);
 });
 
-//확장자 확인
+//확장자, 크기 확인
 function selectedImageFile(e) {
     selFiles = [];
     $("#selectedImg").empty();
@@ -189,21 +189,26 @@ function selectedImageFile(e) {
     let filesArr = Array.prototype.slice.call(files);
     let check = $("#imgCheck");
     let index = 0;
+
     filesArr.forEach(function (file) {
-        if (file.type.match("image.*")) {
-
+        if (!file.type.match("image.*")) {
+            check.html("이미지만 첨부할 수 있어요");
+            check.css("color","#dc3545");
+            return;
+        }else if (file.size>1048576) {
+            check.html("1MB 이하 파일만 첨부할 수 있어요");
+            check.css("color","#dc3545");
+            return;
+        }else{
             selFiles.push(file);
-
             let reader = new FileReader();
+
             reader.onload = function (e) {
                 let html = "<img class='selectedImg' src='"+e.target.result+"' data-file='"+file.name+"' width='100px' height='100px'>";
                 $("#selectedImg").append(html);
                 index++;
             };
             reader.readAsDataURL(file);
-        }else{
-            check.html("이미지만 첨부할 수 있어요");
-            check.css("color","#dc3545");
-        }
+       }
     });
 }

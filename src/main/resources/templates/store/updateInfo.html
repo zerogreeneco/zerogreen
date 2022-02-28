@@ -187,13 +187,11 @@
                                             <input type="hidden" class="imgId" th:value="${sImg.imageId}">
                                             <input type="hidden" class="filePath" th:value="${sImg.filePath}">
                                             <input type="hidden" class="thumb" th:value="${sImg.thumbPath}">
-                                            <div class="hover">
-                                                <img th:src="@{/stores/update/image/} + ${sImg.storeMember.storeName} +${sImg.thumbnailName}"
-                                                     th:value="${sImg.thumbnailName}" width="150px" height="150px">
-                                                <img class="truncate_icon"
-                                                     th:src="@{/bootstrap/images/list/close.png}"
-                                                     onclick="imgDel(this)"/>
-                                            </div>
+                                            <img th:src="@{/stores/update/image/} + ${sImg.storeMember.storeName} +${sImg.thumbnailName}"
+                                                 th:value="${sImg.thumbnailName}" width="150px" height="150px">
+                                            <img class="truncate_icon"
+                                                 th:src="@{/bootstrap/images/list/close.png}"
+                                                 onclick="imgDel(this)"/>
                                         </div>
                                     </div>
                                 </div>

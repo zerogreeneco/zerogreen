@@ -89,14 +89,16 @@ public class FileServiceImpl implements FileService{
         File saveFile = new File(getFullPathImage(storeFilename, storeName));
         multipartFile.transferTo(saveFile);
 
-
         File thumbnailFile = new File(getFullPathImage(thumbnailName, storeName));
 
         BufferedImage readImage = ImageIO.read(saveFile);
-        BufferedImage thumbImage = new BufferedImage(300, 300, BufferedImage.TYPE_3BYTE_BGR);
+        //burrefredImage 생성
+        int size = readImage.getWidth()/readImage.getWidth()*300 ;
+        BufferedImage thumbImage = new BufferedImage(size, size, BufferedImage.TYPE_3BYTE_BGR);
+        //그래픽 생성
         Graphics2D graphics2D = thumbImage.createGraphics();
-
         graphics2D.drawImage(readImage, 0, 0, 300, 300, null);
+        //썸네일 생성
         ImageIO.write(thumbImage, "png", thumbnailFile);
 
         return new StoreImageFile(originalFilename, storeFilename, thumbnailName, getFullPathImage(storeFilename, storeName), getFullPathImage(thumbnailName, storeName));
