@@ -77,9 +77,14 @@ hr {
     font-size: 0.8em;
 }
 
+#delete-board {
+    cursor: pointer;
+}
+
 .update-btn {
     font-size: 0.9em;
     float: right;
+    margin-left: 4px;
 }
 
 .reaction-icon {
@@ -149,12 +154,11 @@ hr {
 .modify-test {
     border: 1px solid #898c91;
     border-radius: 5px;
-    width: 600px;
-    height: 32px;
+    width: 100%;
+    height: 25px;
     font-size: 14px;
     overflow: hidden;
     resize: none;
-    margin-bottom: 10px;
 }
 
 /* 대댓글 */
@@ -167,8 +171,9 @@ hr {
 }
 
 .nested-reply-input {
+    float: left;
     resize: none;
-    width: 85%;
+    width: 84%;
     height: 30px;
     padding: 5px 0;
     border: none;
@@ -176,8 +181,14 @@ hr {
     overflow: hidden;
 }
 
+.nest-list {
+    padding-bottom: 20px;
+    border-bottom: 1px solid lightgray;
+}
+
 .nested-list {
     margin-left: 20px;
+    padding: 10px 0;
     border-bottom: 1px solid lightgray;
 }
 
