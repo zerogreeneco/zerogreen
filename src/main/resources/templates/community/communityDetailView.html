@@ -90,38 +90,39 @@
             <div id="review-table" class="cm-main-wrapper">
                 <div th:each="replyList : ${replyList}">
                     <div class="comment-wrapper">
-                        <input type="hidden" th:value="${replyList.replyId}" class="replyId">
-                        <span>
+                        <div class="nest-list">
+                            <input type="hidden" th:value="${replyList.replyId}" class="replyId">
+                            <span>
                             <img th:src="@{'/bootstrap/images/profile/' +${replyList.vegetarianGrade}+'.png'}"
                                  width="15px" height="15px">
-                        </span>
-                        <span th:text="${replyList.nickname}"></span>
-                        <span style="font-size: 0.8em; float:right; color:#969696; margin-right: 4px;"
-                              th:text="${#temporals.format(replyList.createdTime, 'yy-MM-dd HH:mm')}"></span>
-                        <div id="text-count-wrapper">
-                            <span class='cm-text-count' style="display: none;">0 / 100</span>
-                        </div>
-                        <p class="rp-text" th:text="${replyList.text}"></p>
-                        <a type="button" class="modify-test-btn" style="display: none;"
-                           onclick="modifyReply(this)">수정
-                        </a>
-                        <div>
-                            <a class="nested-reply-btn" style="margin-right:4px;" onclick="nestedReplyInput(this)">답글</a>
-                            <a th:if="${replyList.username} == ${session.loginUser}"
-                               th:onclick="'javascript:deleteReply(' + ${replyList.replyId} + ');'">삭제</a>
-                            <a th:if="${replyList.username} == ${session.loginUser}" class="rp-modify-btn"
-                               onclick="replaceTag(this)">수정</a>
-                        </div>
-                        <div></div>
-                        <div class="nested-reply-wrapper" style="display: none;">
-                            <textarea class="nested-reply-input" onkeyup="limitTextInput(this)"></textarea>
-                            <div style="float:right; width: 15%;">
-                                <span class="cm-text-count" style="margin-bottom: 10px;">0 / 100</span>
-                                <a onclick="nestedReplySend(this)">등록</a>
-                                <a>취소</a>
+                            </span>
+                            <span th:text="${replyList.nickname}"></span>
+                            <span style="font-size: 0.8em; float:right; color:#969696; margin-right: 4px;"
+                                  th:text="${#temporals.format(replyList.createdTime, 'yy-MM-dd HH:mm')}"></span>
+                            <div id="text-count-wrapper">
+                                <span class='cm-text-count' style="display: none;">0 / 100</span>
+                            </div>
+                            <p class="rp-text" th:text="${replyList.text}"></p>
+                            <a type="button" class="modify-test-btn" style="display: none;"
+                               onclick="modifyReply(this)">수정
+                            </a>
+                            <div>
+                                <a class="nested-reply-btn" onclick="nestedReplyInput(this)">답글</a>
+                                <a th:if="${replyList.username} == ${session.loginUser}"
+                                   th:onclick="'javascript:deleteReply(' + ${replyList.replyId} + ');'">삭제</a>
+                                <a th:if="${replyList.username} == ${session.loginUser}" class="rp-modify-btn"
+                                   onclick="replaceTag(this)">수정</a>
+                            </div>
+                            <div class="nested-reply-wrapper" style="display: none;">
+                                <textarea class="nested-reply-input" onkeyup="limitTextInput(this)"></textarea>
+                                <div style="display: inline-block; width: 15%;">
+                                    <span class="cm-text-count" style="display: block; margin-bottom: 10px;">0 / 100</span>
+                                    <a onclick="nestedReplySend(this)">등록</a>
+                                    <a>취소</a>
+                                </div>
                             </div>
                         </div>
-                        <hr/>
+
                         <!-- 대댓글 리스트 -->
                         <div class="nested-list" th:each="nestedList : ${replyList.nestedReplyList}">
                             <input type="hidden" th:value="${nestedList.replyId}" class="replyId">
@@ -130,19 +131,18 @@
                                  width="15px" height="15px">
                             </span>
                             <span th:text="${nestedList.nickname}"></span>
-                            <span style="font-size: 0.8em; padding-left: 10px;"
-                                  th:text="${#temporals.format(nestedList.createdTime, 'yyyy-MM-dd HH:mm')}"></span>
+                            <span style="font-size: 0.8em; float: right; color: #969696; margin-right: 4px;"
+                                  th:text="${#temporals.format(nestedList.createdTime, 'yy-MM-dd HH:mm')}"></span>
                             <p class="rp-text" th:text="${nestedList.text}"></p>
                             <a type="button" class="modify-test-btn" style="display: none;"
-                               onclick="modifyReply(this)">수정!
+                               onclick="modifyReply(this)">수정
                             </a>
-                            <div>
+                            <div style="display: inline; margin-right: 2px;">
                                 <a th:if="${nestedList.username} == ${session.loginUser}"
                                    th:onclick="'javascript:deleteReply(' + ${nestedList.replyId} + ');'">삭제</a>
                                 <a th:if="${nestedList.username} == ${session.loginUser}" class="rp-modify-btn"
                                    onclick="replaceTag(this)">수정</a>
                             </div>
-                            <hr/>
                         </div>
                     </div>
                 </div>
