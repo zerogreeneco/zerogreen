@@ -2,12 +2,22 @@
 .cm-main-wrapper {
     width: 700px;
     margin: 0 auto;
-    margin-bottom: 30px;
 }
 
-@media screen and (max-width: 755px;) {
-    .cm-main-wrapper { width: 500px !important; }
-    hr { width: 500px !important; }
+#cm-review-wrapper {
+    width: 700px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 790px) {
+    .cm-main-wrapper, #cm-review-wrapper, .image-wrapper, hr {
+        width: 500px !important;
+    }
+}
+@media screen and (max-width: 580px) {
+    .cm-main-wrapper, #cm-review-wrapper, .image-wrapper, hr {
+        width: 380px !important;
+    }
 }
 
 .cm-category {
@@ -24,6 +34,11 @@ hr {
     width: 700px;
 }
 
+.right-side {
+    float: right;
+    margin-right: 5px;
+}
+
 /* 제목 */
 .cm-main-wrapper #category {
     border: 1px solid #fff;
@@ -38,22 +53,55 @@ hr {
     margin-bottom: 20px;
 }
 
+#writer-profile {
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    border: 1px solid lightgray;
+    margin-left: 5px;
+}
+
+#writer-info {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 5px;
+}
+
 #nickname {
-    font-weight: bold;
-    font-size: 1.2em;
+    font-weight: 900;
+    font-size: 1em;
+}
+
+#date {
+    color: #969696;
+    font-size: 0.8em;
+}
+
+#delete-board {
+    cursor: pointer;
+}
+
+.update-btn {
+    font-size: 0.9em;
+    float: right;
+    margin-left: 4px;
+}
+
+.reaction-icon {
+    font-size: 0.8em;
 }
 
 /* 리뷰 작성란 */
 .review-send {
-    border: 1px solid #898c91;
+    border: 1px solid lightgray;
     border-radius: 5px;
-    height: 165px;
-    padding: 20px;
-    margin-bottom: 20px;
+    height: 70px;
+    padding: 15px 20px;
+    margin-top: 100px;
 }
 
 .review-send #cm-input-name {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .review-send #review-send-btn {
@@ -64,15 +112,12 @@ hr {
 
 #cm-review-wrapper .review-text {
     resize: none;
-    min-height: 5rem;
-    width: 650px;
-    border-radius: 5px;
+    width: -webkit-fill-available;
+    height: 20px;
+    padding: 5px 0;
     border: none;
     font-size: 14px;
-    padding: 10px;
     overflow: hidden;
-    outline-color: #fff;
-    margin-bottom: 20px;
 }
 
 #text-count {
@@ -81,10 +126,8 @@ hr {
 }
 
 .cm-text-count {
-    float: right;
+    text-align: right;
     font-size: 0.8em;
-    margin-bottom: 0;
-    margin-top: 10px;
 }
 
 
@@ -93,42 +136,60 @@ hr {
     float: right;
     cursor: pointer;
     text-decoration: none;
-    padding: 8px;
-    margin-bottom: 7px;
+    font-size: 0.8em;
+    padding-left: 4px;
+    margin-bottom: 10px;
 }
 
 .comment-wrapper {
-    padding: 20px;
+    padding: 20px 0;
 }
 
 .rp-text {
-    word-wrap: break-word;
+    margin-top: 10px;
+    margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .modify-test {
     border: 1px solid #898c91;
     border-radius: 5px;
-    width: 600px;
-    height: 32px;
+    width: 100%;
+    height: 25px;
     font-size: 14px;
     overflow: hidden;
     resize: none;
-    margin-bottom: 10px;
 }
 
 /* 대댓글 */
-.nested-reply-input {
-    border: 1px solid #898c91;
+.nested-reply-wrapper {
+    border: 1px solid lightgray;
     border-radius: 5px;
-    width: 660px;
-    height: 45px;
+    height: 35px;
+    padding: 10px 15px;
+    margin-top: 30px;
+}
+
+.nested-reply-input {
+    float: left;
     resize: none;
+    width: 84%;
+    height: 30px;
+    padding: 5px 0;
+    border: none;
+    font-size: 14px;
     overflow: hidden;
-    padding: 10px;
+}
+
+.nest-list {
+    padding-bottom: 20px;
+    border-bottom: 1px solid lightgray;
 }
 
 .nested-list {
-    padding-left: 50px;
+    margin-left: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid lightgray;
 }
 
 /* 좋아요*/
@@ -137,9 +198,10 @@ like-btn {
 }
 
 .like-img {
-    width: 17px;
-    height: 17px;
-    margin-right: 5px;
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
+    margin-left: 5px;
 }
 
 

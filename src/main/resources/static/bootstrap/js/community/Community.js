@@ -114,7 +114,6 @@ function getReplyData(boardId, table) {
             html += "<a onclick='nestedReplySend(this)'>답글 달기</a>";
             html += "<a>취소</a>";
             html += "</div>";
-            html += "<hr/>";
             html += "</div>"
         })
         table.html(html);
