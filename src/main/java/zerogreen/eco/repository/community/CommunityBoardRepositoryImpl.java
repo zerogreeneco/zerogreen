@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.util.StringUtils;
+import zerogreen.eco.dto.community.CommunityReplyDto;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.dto.search.SearchCondition;
@@ -48,7 +49,8 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable, SearchCondition condition) {
 
         List<CommunityResponseDto> content =
-                dtoProjections(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id), subImage.board.id.eq(communityBoard.id))
+                dtoProjections(subLike.board.id.eq(
+                        communityBoard.id), subReply.board.id.eq(communityBoard.id), subImage.board.id.eq(communityBoard.id))
                 .where(
                         isSearch(condition.getSearchType(), condition.getContent())
                 )
@@ -68,7 +70,8 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     public Slice<CommunityResponseDto> findAllCommunityList(Pageable pageable) {
 
         List<CommunityResponseDto> content =
-                dtoProjections(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id), subImage.board.id.eq(communityBoard.id))
+                dtoProjections(subLike.board.id.eq(
+                        communityBoard.id), subReply.board.id.eq(communityBoard.id), subImage.board.id.eq(communityBoard.id))
                 .orderBy(communityBoard.createdDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -88,7 +91,8 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
     public Slice<CommunityResponseDto> findByCategory(Pageable pageable, Category category) {
 
         List<CommunityResponseDto> content =
-                dtoProjections(subLike.board.id.eq(communityBoard.id), subReply.board.id.eq(communityBoard.id), subImage.board.id.eq(communityBoard.id))
+                dtoProjections(subLike.board.id.eq(
+                        communityBoard.id), subReply.board.id.eq(communityBoard.id), subImage.board.id.eq(communityBoard.id))
                 .where(communityBoard.category.eq(category))
                 .orderBy(communityBoard.createdDate.desc())
                 .offset(pageable.getOffset())
@@ -113,6 +117,24 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                 .where(communityBoard.id.eq(id))
                 .fetchFirst();
     }
+
+//    public CommunityReplyDto replyTest(Long boardId) {
+//        return queryFactory
+//                .select(Projections.constructor(CommunityReplyDto.class),
+//                        subReply.id,
+//                        communityBoard.id,
+//                        subReply.parentReply.id,
+//                        subReply.replyContent,
+//                        member.nickname,
+//                        member._super.username,
+//                        subReply.createdDate
+//                        )
+//                .from(subReply, subReply)
+//                .join(communityBoard, communityBoard)
+//                .join(member, member)
+//                .where(subReply.board.id.eq(boardId))
+//                .orderBy(subReply.parentReply.id.coalesce(subReply.board.id).as(0L))
+//    }
 
     /*
     * 공통 SELECT절

@@ -145,6 +145,8 @@ function replaceTag(event) {
     rpText.replaceWith("<textarea class='modify-test' name='text' onkeyup='limitTextInput(this)'>" + text + "</textarea>");
     parent.find(".modify-test-btn:first").show();
     parent.find(".cm-text-count").show();
+    thisBtn.parent().find(".rp-cancel-btn").hide();
+    thisBtn.parent().find(".nested-reply-btn").hide();
     thisBtn.hide();
 
 }
@@ -182,6 +184,8 @@ function modifyReply(event) {
                 modifyBtn.hide();
                 modifyBtn.prevAll("#text-count-wrapper").children().hide()
                 modifyBtn.next().children(".rp-modify-btn").show();
+                modifyBtn.parent().children(".reply-btn-wrapper").children(".rp-cancel-btn").show();
+                modifyBtn.parent().children(".reply-btn-wrapper").children(".nested-reply-btn").show();
             } else {
                 alert("실패");
             }
@@ -193,7 +197,7 @@ function nestedReplySend(event) {
     let boardId = $("#id").val();
     let replyBtn = $(event);
     let replyId = replyBtn.parents(".comment-wrapper").find(".replyId").val();
-    let text = replyBtn.parent().children(".nested-reply-input").val();
+    let text = replyBtn.parent().parent().children(".nested-reply-input").val();
 
     $.ajax({
         url: "/zerogreen/community/" + boardId + "/" + replyId + "/nestedReply",

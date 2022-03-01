@@ -5,9 +5,11 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.util.StringUtils;
+import zerogreen.eco.dto.search.SearchType;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.QBasicUser;
@@ -41,8 +43,8 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
     }
 
     /*
-    * 비승인 가게 회원 조회 (승인용)
-    * */
+     * 비승인 가게 회원 조회 (승인용)
+     * */
     @Override
     public Page<NonApprovalStoreDto> findByUnApprovalStore(Pageable pageable) {
 
@@ -71,9 +73,41 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
     }
 
+    @Override
+    public Page<NonApprovalStoreDto> findByUnApprovalStoreSearch(Pageable pageable, String searchType, String searchText) {
+        List<NonApprovalStoreDto> content = queryFactory
+                .select(Projections.constructor(NonApprovalStoreDto.class,
+                        asStoreMember._super.id
+                        , asStoreMember._super.username
+                        , asStoreMember.storeName
+                        , asStoreMember.storeInfo.storePhoneNumber
+                        , asStoreMember.storeInfo.storeAddress
+                        , asStoreMember.storeRegNum
+                        , registerFile.id
+                        , registerFile.uploadFileName
+                ))
+                .from(asStoreMember)
+                .innerJoin(asStoreMember.registerFile, registerFile)
+                .where(
+                        asStoreMember._super.userRole.eq(UserRole.UN_STORE),
+                        isSearch(searchType, searchText)
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        Long count = queryFactory
+                .select(basicUser.id.count())
+                .from(basicUser, basicUser)
+                .where(basicUser.userRole.eq(UserRole.UN_STORE))
+                .fetchFirst();
+
+        return new PageImpl<>(content, pageable, count);
+    }
+
     /*
-    * 비승인 가게 회원 USER_ROLE 변경 (승인용)
-    * */
+     * 비승인 가게 회원 USER_ROLE 변경 (승인용)
+     * */
     @Override
     public void changeUserRole(List<Long> memberId) {
         queryFactory
@@ -84,8 +118,8 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
     }
 
     /*
-    * 검색 조건 및 페이징
-    * */
+     * 검색 조건 및 페이징
+     * */
     @Override
     public Page<NonApprovalStoreDto> searchAndPaging(NonApprovalStoreDto condition, Pageable pageable) {
         List<NonApprovalStoreDto> content = queryFactory
@@ -122,5 +156,17 @@ public class BasicUserRepositoryImpl implements BasicUserRepositoryCustom {
 
     private BooleanExpression usernameContains(String username) {
         return StringUtils.hasText(username) ? asBasicUser.username.contains(username) : null;
+    }
+
+    private BooleanExpression isSearch(String searchType, String searchText) {
+        if (searchType.equals("storeId")) {
+            return usernameContains(searchText);
+        } else if (searchType.equals("storeName")) {
+            return storeNameContains(searchText);
+        } else if (searchType.equals("regNum")) {
+            return storeRegNumContains(searchText);
+        } else {
+            return null;
+        }
     }
 }

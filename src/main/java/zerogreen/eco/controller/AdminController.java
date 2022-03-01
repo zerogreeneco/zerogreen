@@ -59,6 +59,9 @@ public class AdminController {
         return nonApprovalStore;
     }
 
+//    @PostMapping("/appovalStore")
+//    public Page<Noi>
+
     /*
      * 첨부 파일 다운로드
      * */
