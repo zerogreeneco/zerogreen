@@ -1,11 +1,14 @@
 .password-wrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
-    height: 800px;
 }
 
 .password-find {
     display: inline-block;
-    width: 500px;
+    width: 400px;
 }
 
 .fm-input {
@@ -15,11 +18,12 @@
 .fm-tab-wrapper {
     list-style-type: none;
     display: table;
-    width: 500px;
+    width: 400px;
     margin-bottom: 5px;
     padding-left: 0;
     table-layout: fixed;
-    background: #16a085;
+    background: #d4d4d4;
+    border-radius: 8px 8px 0 0;
 }
 
 .fm-tab-wrapper .fm-tab {
@@ -27,7 +31,6 @@
     vertical-align: middle;
     text-align: center;
     height: 40px;
-    border: 1px solid #fff;
 }
 
 .fm-tab a {
@@ -35,18 +38,30 @@
     color: #fff;
 }
 
+#id-tab {
+    background: #2ecc71;
+    border-radius: 8px 0 0 0;
+}
+
+#pw-tab {
+    background: #2ecc71;
+    border-radius: 0 8px 0 0;
+}
+
 .password-find input[type=text] {
-    width: 280px;
+    width: 250px;
     height: 38px;
+    border-radius: 5px;
 }
 
 .password-find button {
-    width: 280px;
-    height: 38px;
+    width: 292px;
+    height: 40px;
     line-height: 30px;
+    background: #f1c40f;
+    font-size: 1em !important;
 }
 
 .password-find h1 {
     margin-bottom: 20px;
-    float: left;
 }

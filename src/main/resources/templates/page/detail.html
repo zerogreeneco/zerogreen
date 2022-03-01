@@ -190,6 +190,7 @@
                             <span class="rv-nickname">[[${mReview.nickname}]]</span>
                             <span class="rv-date inline">[[${#temporals.format(mReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
                             <br>
+                            <div>
                             <div th:if="${reviewImageList != null}" class="inline div12">
                                 <div class="div11 inline"></div>
                                 <div class="rv-img inline" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
@@ -214,7 +215,7 @@
                                 <span>띄어쓰기 포함 최대 500자까지 입력이 가능합니다. </span>
                                 <span class="text-count">0 / 500</span>
                             </div>
-
+                            </div>
                             <div class="btn-Box">
                                 <span class="srv-toAdd inline mrv-btn" th:if="${rvMember == mReview.sno}">답글</span>
                                 <span class="mrv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.id}">수정</span>
