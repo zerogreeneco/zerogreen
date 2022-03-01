@@ -24,6 +24,7 @@ public class CommunityReplyDto {
     private Long replyId;
     private Long boardId;
     private Long parentReplyId;
+    private int depth;
     private String text;
     private String nickname;
     private String username;
@@ -51,9 +52,9 @@ public class CommunityReplyDto {
         this.text = boardReply.getReplyContent();
         this.username = boardReply.getReplier().getUsername();
         this.createdTime = boardReply.getModifiedDate();
+        this.depth = boardReply.getDepth();
         this.nestedReplyList =
                 boardReply.getNestedReplyList().stream()
                         .map(CommunityReplyDto::new).collect(Collectors.toList());
-
     }
 }

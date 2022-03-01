@@ -90,7 +90,8 @@
             <div id="review-table" class="cm-main-wrapper">
                 <div th:each="replyList : ${replyList}">
                     <div class="comment-wrapper">
-                        <div class="nest-list">
+                        <div class="nest-list" th:if="${replyList.depth} == 1">
+                            <span>[[${replyList.depth}]]</span>
                             <input type="hidden" th:value="${replyList.replyId}" class="replyId">
                             <span>
                             <img th:src="@{'/bootstrap/images/profile/' +${replyList.vegetarianGrade}+'.png'}"
@@ -106,9 +107,9 @@
                             <a type="button" class="modify-test-btn" style="display: none;"
                                onclick="modifyReply(this)">수정
                             </a>
-                            <div>
+                            <div class="reply-btn-wrapper">
                                 <a class="nested-reply-btn" onclick="nestedReplyInput(this)">답글</a>
-                                <a th:if="${replyList.username} == ${session.loginUser}"
+                                <a class="rp-cancel-btn" th:if="${replyList.username} == ${session.loginUser}"
                                    th:onclick="'javascript:deleteReply(' + ${replyList.replyId} + ');'">삭제</a>
                                 <a th:if="${replyList.username} == ${session.loginUser}" class="rp-modify-btn"
                                    onclick="replaceTag(this)">수정</a>
@@ -121,10 +122,35 @@
                                     <a>취소</a>
                                 </div>
                             </div>
+
+                            <div class="nested-list" th:if="${replyList.depth} == 2">
+                                <span>[[${replyList.depth}]]</span>
+                                <input type="hidden" th:value="${replyList.replyId}" class="replyId">
+                                <span>
+                            <img th:src="@{'/bootstrap/images/profile/' +${replyList.vegetarianGrade}+'.png'}"
+                                 width="15px" height="15px">
+                            </span>
+                                <span th:text="${replyList.nickname}"></span>
+                                <span style="font-size: 0.8em; float: right; color: #969696; margin-right: 4px;"
+                                      th:text="${#temporals.format(replyList.createdTime, 'yy-MM-dd HH:mm')}"></span>
+                                <p class="rp-text" th:text="${replyList.text}"></p>
+                                <a type="button" class="modify-test-btn" style="display: none;"
+                                   onclick="modifyReply(this)">수정
+                                </a>
+                                <div style="display: inline; margin-right: 2px;">
+                                    <a th:if="${replyList.username} == ${session.loginUser}"
+                                       th:onclick="'javascript:deleteReply(' + ${replyList.replyId} + ');'">삭제</a>
+                                    <a th:if="${replyList.username} == ${session.loginUser}" class="rp-modify-btn"
+                                       onclick="replaceTag(this)">수정</a>
+                                </div>
+                            </div>
                         </div>
 
+
+
                         <!-- 대댓글 리스트 -->
-                        <div class="nested-list" th:each="nestedList : ${replyList.nestedReplyList}">
+<!--/*                       <div class="nested-list" th:each="nestedList : ${replyList.nestedReplyList}">
+                            <span>[[${replyList.depth}]]</span>
                             <input type="hidden" th:value="${nestedList.replyId}" class="replyId">
                             <span>
                             <img th:src="@{'/bootstrap/images/profile/' +${nestedList.vegetarianGrade}+'.png'}"
@@ -143,7 +169,7 @@
                                 <a th:if="${nestedList.username} == ${session.loginUser}" class="rp-modify-btn"
                                    onclick="replaceTag(this)">수정</a>
                             </div>
-                        </div>
+                        </div>*/-->
                     </div>
                 </div>
             </div>

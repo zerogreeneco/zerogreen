@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
-
+        <link th:href="@{/bootstrap/css/page/list.css}" rel="stylesheet"/>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
                 integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <style>
@@ -42,6 +42,22 @@
             }
         </style>
         <section>
+            <!--검색-->
+            <div class="form-area">
+                <form th:method="get" th:action>
+                    <select class="dropdown" name="searchType">
+                        <option value="storeId" >아이디</option>
+                        <option value="storeName" >가게명</option>
+                        <option value="regNum" >사업자 등록번호</option>
+                    </select>
+                    <div class="search-bar">
+                        <input id="search-input" name="keyword">
+                        <img class="truncate_icon" th:src="@{/bootstrap/images/list/close.png}"/>
+                    </div>
+                    <button class="btn_search" type="button">
+                        <img class="search_icon" th:src="@{/bootstrap/images/list/search.png}">
+                    </button>
+                </form>
             <div id="approval-list">
                 <form method="post" th:action="@{/admin/approve}">
                     <table>
@@ -126,6 +142,9 @@
                         });
                 });
 
+
+
+                // 체크박스 전체 선택/해제
                 $(document).on("click", "#check-all", function () {
                     if ($("#check-all").is(":checked")) {
                         $("input[name=memberId]").prop("checked", true);

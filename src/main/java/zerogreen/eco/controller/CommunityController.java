@@ -276,7 +276,11 @@ public class CommunityController {
         String text = request.getParameter("text");
         replyService.nestedReplySave(text, boardId, principalDetails.getBasicUser(), replyId);
 
-        model.addAttribute("replyList", replyService.findReplyByBoardId(boardId));
+        List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
+        for (CommunityReplyDto communityReplyDto : replyByBoardId) {
+            log.info("REPLY LIST!!!!!!!!={}", communityReplyDto);
+        }
+        model.addAttribute("replyList", replyByBoardId);
 
         return "community/communityDetailView :: #review-table";
     }
