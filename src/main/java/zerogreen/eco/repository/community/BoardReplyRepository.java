@@ -19,6 +19,6 @@ public interface BoardReplyRepository extends JpaRepository<BoardReply, Long> {
             " JOIN FETCH reply.board board " +
             " JOIN FETCH reply.replier replier " +
             " WHERE reply.board.id=:boardId " +
-            " ORDER BY COALESCE(reply.parentReply.id, reply.board.id), reply.depth, reply.createdDate asc ")
+            " ORDER BY COALESCE(reply.parentReply.id, reply.id), reply.depth, reply.createdDate asc ")
     List<BoardReply> findBoardRepliesByBoardId(@Param("boardId") Long boardId);
 }
