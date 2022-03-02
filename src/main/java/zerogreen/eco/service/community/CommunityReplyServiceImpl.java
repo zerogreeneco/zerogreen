@@ -42,11 +42,9 @@ public class CommunityReplyServiceImpl implements CommunityReplyService{
         CommunityBoard communityBoard = communityBoardRepository.findById(boardId).orElseThrow();
 
         BoardReply parentReply = boardReplyRepository.findById(replyId).orElseThrow();
-
         BoardReply childReply = new BoardReply(text, basicUser, communityBoard);
+
         boardReplyRepository.save(childReply);
-        log.info("PARENT={}", parentReply);
-        log.info("CHILD={}", childReply);
         parentReply.addNestedReply(childReply);
     }
 

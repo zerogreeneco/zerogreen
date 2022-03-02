@@ -35,8 +35,8 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     private final CommunityLikeRepository communityLikeRepository;
 
     /*
-    * 게시글 저장
-    * */
+     * 게시글 저장
+     * */
     @Override
     @Transactional
     public Long boardRegister(CommunityRequestDto dto, Member writer, List<BoardImage> imageList) {
@@ -45,6 +45,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
                 .text(dto.getText())
                 .category(dto.getCategory())
                 .member(writer)
+                .isChat(dto.isChat())
                 .build());
         // 트랜젝션 전에 지연 SQL 저장소 -> DB로 전송 (이미지 파일 저장을 위해서)
         boardRepository.flush();
@@ -53,16 +54,15 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
         if (imageList.size() != 0) {
             for (BoardImage boardImage : imageList) {
                 boardImageRepository.save(new BoardImage(
-                        boardImage.getUploadFileName(), boardImage.getStoreFileName(), boardImage.getFilePath(), saveBoard, "thumb_"+boardImage.getStoreFileName()));
+                        boardImage.getUploadFileName(), boardImage.getStoreFileName(), boardImage.getFilePath(), saveBoard, "thumb_" + boardImage.getStoreFileName()));
             }
         }
-
         return saveBoard.getId();
     }
 
     /*
-    * 상세 보기 (조회수 중복 방지)
-    * */
+     * 상세 보기 (조회수 중복 방지)
+     * */
     @Override
     public CommunityResponseDto findDetailView(Long boardId, HttpServletRequest request, HttpServletResponse response) {
 
