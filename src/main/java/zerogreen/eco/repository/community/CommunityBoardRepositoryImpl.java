@@ -150,6 +150,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                         member.id,
                         communityBoard.category,
                         communityBoard.modifiedDate,
+                        communityBoard.isChat,
                         communityBoard.count,
                         ExpressionUtils.as(
                                 JPAExpressions

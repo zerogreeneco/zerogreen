@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import zerogreen.eco.converter.BooleanToYNConverter;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.Member;
@@ -30,6 +31,9 @@ public class CommunityBoard extends BaseTimeEntity {
 
     private int count;
 
+    @Convert(converter = BooleanToYNConverter.class)
+    private boolean isChat;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Member member;
@@ -47,10 +51,11 @@ public class CommunityBoard extends BaseTimeEntity {
     private List<BoardImage> imageList = new ArrayList<>();
 
     @Builder
-    public CommunityBoard(String text, Member member, Category category) {
+    public CommunityBoard(String text, Member member, Category category, boolean isChat) {
         this.text = text;
         this.member = member;
         this.category = category;
+        this.isChat = isChat;
     }
 
     // 수정용 Setter
