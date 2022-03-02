@@ -27,26 +27,10 @@ public class ChatRoomController {
     private final ChatRoomJoinService chatRoomJoinService;
     private final ChatRoomService chatRoomService;
 
-//    @GetMapping("/chat")
-//    public String chatHome(SessionUser sessionUser, Model model){
-//        model.addAttribute("nickname",sessionUser.getName());
-//        BasicUser user = usersService.findByName(sessionUser.getName());
-//        List<ChatRoomJoin> chatRoomJoins = chatRoomJoinService.findByUser(user);
-//        List<ChatRoomForm> chatRooms = chatRoomService.setting(chatRoomJoins,user);
-//        model.addAttribute("chatRooms",chatRooms);
-//        if(user == null){
-//            model.addAttribute("userName","");
-//            model.addAttribute("userId",0);
-//        }
-//        else{
-//            model.addAttribute("userName",user.getName());
-//            model.addAttribute("userId",user.getId());
-//        }
-//        return "chat/main";
-//    }
+
     @GetMapping("/chat")
     public String chatHome(@AuthenticationPrincipal PrincipalDetails sessionUser, Model model){
-        model.addAttribute("nickname",sessionUser.getUsername());
+        model.addAttribute("myId",sessionUser.getUsername());
         BasicUser user = usersService.findByName(sessionUser.getUsername());
         log.info("sessionUser.getName()"+sessionUser.getUsername());
         log.info("user"+user);
@@ -61,7 +45,7 @@ public class ChatRoomController {
             model.addAttribute("userName",user.getUsername());
             model.addAttribute("userId",user.getId());
         }
-        return "chat/main";
+        return "chat/chatMain";
     }
 
     @PostMapping("/chat/newChat")
@@ -90,7 +74,7 @@ public class ChatRoomController {
         List<ChatRoomJoin> list = chatRoomJoinService.findByChatRoom(chatRoom);
         model.addAttribute( "messages",messages);
         log.info(messages+"yjyjyjyjyjyjyjyjyjjy");
-        model.addAttribute("nickname",sessionUser.getUsername());
+        model.addAttribute("myId",sessionUser.getUsername());
         model.addAttribute("chatRoomId",chatRoomId);
         int cnt = 0;
         for(ChatRoomJoin join : list){
