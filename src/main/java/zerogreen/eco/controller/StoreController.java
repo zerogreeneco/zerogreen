@@ -12,12 +12,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.dto.store.StoreMenuDto;
 import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.security.auth.PrincipalDetails;
+import zerogreen.eco.service.detail.DetailReviewService;
 import zerogreen.eco.service.file.FileService;
 import zerogreen.eco.service.store.StoreImageService;
 import zerogreen.eco.service.store.StoreMenuService;
@@ -26,6 +29,7 @@ import zerogreen.eco.service.user.StoreMemberService;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +42,9 @@ public class StoreController {
 
     private final StoreMemberService storeMemberService;
     private final StoreMenuService storeMenuService;
-    private final FileService fileService;
     private final StoreImageService storeImageService;
+    private final DetailReviewService detailReviewService;
+    private final FileService fileService;
 
 
     @ModelAttribute("storeTypes")
@@ -57,10 +62,14 @@ public class StoreController {
     //내정보 메인
     @GetMapping("/myInfo")
     public String storeMyInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                              Model model){
+                              Model model) {
 
         StoreDto info = storeMemberService.getStore(principalDetails.getId());
-        model.addAttribute("info",info);
+        model.addAttribute("info", info);
+
+        List<DetailReviewDto> result = detailReviewService.findByStore(principalDetails.getId());
+        model.addAttribute("review", result);
+        Collections.reverse(result);
 
         return "store/myInfo";
     }
@@ -68,14 +77,14 @@ public class StoreController {
     //가게 정보 수정 페이지
     @GetMapping("/update")
     public String updateStoreInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                  StoreDto storeDto, Model model){
+                                  StoreDto storeDto, Model model) {
 
         StoreDto info = storeMemberService.storeInfo(principalDetails.getBasicUser().getId(), storeDto);
         model.addAttribute("storeInfo", info);
 
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
         model.addAttribute("tableList", tableList);
-      
+
         List<StoreDto> storeImageList = storeImageService.getImageByStore(principalDetails.getId());
         model.addAttribute("storeImageList", storeImageList);
 
@@ -85,12 +94,32 @@ public class StoreController {
     //가게 정보 수정
     @PostMapping("/update")
     public String updateStoreInfo(@Validated @ModelAttribute("storeInfo") StoreDto storeDto, BindingResult bindingResult,
-                                  @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException{
+                                  @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) throws IOException {
 
         if (bindingResult.hasErrors()) {
+            List<StoreDto> storeImageList = storeImageService.getImageByStore(principalDetails.getId());
+            model.addAttribute("storeImageList", storeImageList);
+            List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
+            model.addAttribute("tableList", tableList);
 
             return "store/updateInfo";
         }
+
+        List<MultipartFile> attachedFiles = storeDto.getUploadFiles();
+
+        for (MultipartFile uploadFile : attachedFiles) {
+            if (!uploadFile.getContentType().startsWith("image")) {
+                List<StoreDto> storeImageList = storeImageService.getImageByStore(principalDetails.getId());
+                model.addAttribute("storeImageList", storeImageList);
+                List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
+                model.addAttribute("tableList", tableList);
+
+                bindingResult.reject("notImageFile", null);
+
+                return "store/updateInfo";
+            }
+        }
+
 
         //이미지 로컬 저장
         List<StoreImageFile> storeImageFiles = fileService.storeImageFiles(storeDto.getUploadFiles(), storeDto.getStoreName());
@@ -103,7 +132,7 @@ public class StoreController {
     //비건 등급 포함 테이블 등록
     @PostMapping("/update/gradeTable")
     public String updateGradeList(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                 Model model, HttpServletRequest request) {
+                                  Model model, HttpServletRequest request) {
         String name = request.getParameter("name");
         int price = Integer.parseInt(request.getParameter("price"));
         VegetarianGrade vegetarianGrade = VegetarianGrade.valueOf(request.getParameter("grade"));
@@ -135,10 +164,9 @@ public class StoreController {
     //메뉴 삭제
     @DeleteMapping("update/grade/delete")
     public String gradeDelete(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                         Model model, HttpServletRequest request){
+                              Model model, HttpServletRequest request) {
 
         Long id = Long.valueOf(request.getParameter("id"));
-        log.info("KGH",id);
         storeMenuService.deleteMenu(id);
 
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
@@ -150,10 +178,9 @@ public class StoreController {
     //상품 삭제
     @DeleteMapping("update/table/delete")
     public String tableDelete(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                         Model model, HttpServletRequest request){
+                              Model model, HttpServletRequest request) {
 
         Long id = Long.valueOf(request.getParameter("id"));
-        log.info("KGH",id);
         storeMenuService.deleteMenu(id);
 
         List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
@@ -173,7 +200,7 @@ public class StoreController {
     //이미지 삭제
     @DeleteMapping("update/img/delete")
     @ResponseBody
-    public ResponseEntity<Map<String, String>> imgDelete(HttpServletRequest request){
+    public ResponseEntity<Map<String, String>> imgDelete(HttpServletRequest request) {
 
         HashMap<String, String> resultMap = new HashMap<>();
         Long id = Long.valueOf(request.getParameter("id"));
@@ -182,7 +209,7 @@ public class StoreController {
 
         storeImageService.deleteImg(id, filePath, thumb);
 
-        resultMap.put("key","success");
+        resultMap.put("key", "success");
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
@@ -190,7 +217,7 @@ public class StoreController {
 
     //회원 정보 수정
     @GetMapping("/account")
-    public String updateAccount(){
+    public String updateAccount() {
 
         return "store/updateStoreMember";
     }
