@@ -33,14 +33,16 @@ public class CommunityResponseDto {
     private VegetarianGrade vegetarianGrade;
     private String thumbnail;
     private Long replyCount;
+    private boolean chatCheck;
 
-    public CommunityResponseDto(Long id, String text, String nickname,String username, VegetarianGrade vegetarianGrade,
+    public CommunityResponseDto(Long id, String text, String nickname,String username, boolean chatCheck, VegetarianGrade vegetarianGrade,
                                 Long memberId, Category category, LocalDateTime modifiedDate,
                                 int count, Long like, Long replyCount, String thumbnail) {
         this.id = id;
         this.text = text;
         this.nickname = nickname;
         this.username = username;
+        this.chatCheck = chatCheck;
         this.vegetarianGrade = vegetarianGrade;
         this.memberId = memberId;
         this.category = category;
@@ -50,5 +52,4 @@ public class CommunityResponseDto {
         this.replyCount = replyCount;
         this.thumbnail = thumbnail;
     }
-
 }

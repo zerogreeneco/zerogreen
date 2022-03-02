@@ -21,11 +21,12 @@ public class CommunityRequestDto {
     @NotNull
     private Category category;
     private Member writer;
+    private boolean chatCheck;
     private List<MultipartFile> imageFiles;
 
-    public CommunityRequestDto(String text, Category category) {
+    public CommunityRequestDto(String text, Category category, boolean chatCheck) {
         this.text = text;
         this.category = category;
+        this.chatCheck = chatCheck;
     }
-
 }

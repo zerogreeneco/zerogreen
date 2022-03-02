@@ -10,6 +10,8 @@
                         <option th:each="categories : ${category}" th:value="${categories.name()}"
                                 th:text="${categories.categoryName}"></option>
                     </select>
+<!--/*                    <input type="checkbox" th:field="*{chatCheck}" id="chatCheck">*/-->
+<!--                    <label for="chatCheck">말걸기 허용</label>-->
                 </div>
                 <div>
                     <textarea th:field="*{text}" class="rg-input"></textarea>

@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.community.CommunityReplyDto;
 import zerogreen.eco.dto.community.CommunityRequestDto;
+import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.dto.community.ImageFileDto;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.dto.search.SearchCondition;
@@ -82,7 +83,6 @@ public class CommunityController {
     /* 커뮤니티 글 작성 */
     @GetMapping("/write")
     public String writeForm(@ModelAttribute("writeForm") CommunityRequestDto dto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-
         UserRole userRole = principalDetails.getBasicUser().getUserRole();
         if (!(userRole.equals(UserRole.STORE) || userRole.equals(UserRole.UN_STORE))) {
             return "community/communityRegisterForm";
@@ -95,10 +95,10 @@ public class CommunityController {
     public String write(@Validated @ModelAttribute("writeForm") CommunityRequestDto dto,
                         BindingResult bindingResult,
                         @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
-
         Long boardId = boardService.boardRegister(dto, (Member) principalDetails.getBasicUser(),
                 fileService.boardImageFiles(dto.getImageFiles()));
 
+        log.info(dto+"yjyjyjyjyjyjyjyjyjyjyjyjyj");
         return "redirect:/community/read/" + boardId;
     }
 
@@ -117,7 +117,7 @@ public class CommunityController {
     @PostMapping("/{boardId}/modify")
     public String modifyBoard(@PathVariable("boardId") Long boardId,
                               @ModelAttribute("writeForm") CommunityRequestDto requestDto) throws IOException {
-        boardService.boardModify(boardId, requestDto.getCategory(), requestDto.getText());
+        boardService.boardModify(boardId, requestDto.getCategory(), requestDto.getText(), requestDto.isChatCheck());
         List<BoardImage> storeImages = fileService.boardImageFiles(requestDto.getImageFiles());
         for (BoardImage storeImage : storeImages) {
             boardImageService.modifyImage(boardId, storeImage.getStoreFileName(),
@@ -157,7 +157,6 @@ public class CommunityController {
         model.addAttribute("myId",principalDetails.getUsername());
 
         model.addAttribute("detailView", boardService.findDetailView(boardId, request, response));
-        log.info("yjyjyjyjyjyjyjyj"+boardService.findDetailView(boardId, request, response));
         model.addAttribute("replyList", replyService.findReplyByBoardId(boardId));
 
         List<ImageFileDto> imageList = boardImageService.findByBoardId(boardId);

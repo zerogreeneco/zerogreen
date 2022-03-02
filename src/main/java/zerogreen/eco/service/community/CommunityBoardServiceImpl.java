@@ -44,6 +44,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
         CommunityBoard saveBoard = boardRepository.save(CommunityBoard.builder()
                 .text(dto.getText())
                 .category(dto.getCategory())
+                .chatCheck(dto.isChatCheck())
                 .member(writer)
                 .build());
         // 트랜젝션 전에 지연 SQL 저장소 -> DB로 전송 (이미지 파일 저장을 위해서)
@@ -93,9 +94,9 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     /* 게시글 수정 */
     @Override
     @Transactional
-    public void boardModify(Long boardId, Category category, String text) {
+    public void boardModify(Long boardId, Category category, String text, boolean chatCheck) {
         CommunityBoard communityBoard = boardRepository.findById(boardId).orElseThrow();
-        communityBoard.changeBoard(category, text);
+        communityBoard.changeBoard(category, text, chatCheck);
     }
 
     /* 게시글 삭제 */

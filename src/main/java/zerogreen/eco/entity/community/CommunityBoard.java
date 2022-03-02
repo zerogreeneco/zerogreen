@@ -30,6 +30,8 @@ public class CommunityBoard extends BaseTimeEntity {
 
     private int count;
 
+    private boolean chatCheck = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Member member;
@@ -47,15 +49,17 @@ public class CommunityBoard extends BaseTimeEntity {
     private List<BoardImage> imageList = new ArrayList<>();
 
     @Builder
-    public CommunityBoard(String text, Member member, Category category) {
+    public CommunityBoard(String text, Member member, Category category, boolean chatCheck) {
         this.text = text;
         this.member = member;
         this.category = category;
+        this.chatCheck = chatCheck;
     }
 
     // 수정용 Setter
-    public void changeBoard(Category category, String text) {
+    public void changeBoard(Category category, String text, boolean chatCheck) {
         this.category = category;
         this.text = text;
+        this.chatCheck = chatCheck;
     }
 }
