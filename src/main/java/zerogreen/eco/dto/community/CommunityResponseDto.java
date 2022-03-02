@@ -28,6 +28,7 @@ public class CommunityResponseDto {
     private int count;
     private Long like;
     private String nickname;
+    private String username;
     private Long memberId;
     private VegetarianGrade vegetarianGrade;
     private String thumbnail;
@@ -40,6 +41,7 @@ public class CommunityResponseDto {
         this.id = id;
         this.text = text;
         this.nickname = nickname;
+        this.username = username;
         this.vegetarianGrade = vegetarianGrade;
         this.memberId = memberId;
         this.category = category;

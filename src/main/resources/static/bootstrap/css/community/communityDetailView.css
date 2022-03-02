@@ -85,6 +85,7 @@ hr {
     font-size: 0.9em;
     float: right;
     margin-left: 4px;
+    cursor: pointer;
 }
 
 .reaction-icon {

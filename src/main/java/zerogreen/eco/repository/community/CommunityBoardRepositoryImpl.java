@@ -145,6 +145,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                         communityBoard.id,
                         communityBoard.text,
                         member.nickname,
+                        member.username,
                         member.vegetarianGrade,
                         member.id,
                         communityBoard.category,
