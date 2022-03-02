@@ -159,7 +159,7 @@ public class CommunityController {
             model.addAttribute("likeCount", boardService.countLike(boardId, principalDetails.getBasicUser().getId()));
             session.setAttribute("loginUser", principalDetails.getBasicUser().getUsername());
         }
-        model.addAttribute("myId",principalDetails.getUsername());
+//        model.addAttribute("myId",principalDetails.getUsername());
 
         model.addAttribute("detailView", boardService.findDetailView(boardId, request, response));
         List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
