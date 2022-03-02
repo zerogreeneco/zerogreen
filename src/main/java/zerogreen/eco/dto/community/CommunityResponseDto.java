@@ -35,7 +35,7 @@ public class CommunityResponseDto {
     private Long replyCount;
     private boolean isChat;
 
-    public CommunityResponseDto(Long id, String text, String nickname, VegetarianGrade vegetarianGrade,
+    public CommunityResponseDto(Long id, String text, String nickname, String username,VegetarianGrade vegetarianGrade,
                                 Long memberId, Category category, LocalDateTime modifiedDate, boolean isChat,
                                 int count, Long like, Long replyCount, String thumbnail) {
         this.id = id;
