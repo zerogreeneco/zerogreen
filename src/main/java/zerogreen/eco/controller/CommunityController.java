@@ -227,7 +227,11 @@ public class CommunityController {
 
         replyService.replySave(replyDto.getText(), boardId, principalDetails.getBasicUser());
 
-        model.addAttribute("replyList", replyService.findReplyByBoardId(boardId));
+        List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
+        for (CommunityReplyDto communityReplyDto : replyByBoardId) {
+            log.info("REPLLLL<<<<<={}",communityReplyDto);
+        }
+        model.addAttribute("replyList", replyByBoardId);
 
         return "community/communityDetailView :: #review-table";
     }
