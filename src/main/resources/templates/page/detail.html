@@ -149,6 +149,7 @@
                     <div class="rv-area">
                         <label class="img-input rvrv-btn" for="img-input">사진선택</label><br>
                         <input class="img-input" id="img-input" th:field="*{imageFiles}" name="reviewImages" type="file"
+                               accept="image/jpg,image/png,image/jpeg"
                                multiple="multiple" style="display:none;"/>
                         <label class="rvrv-btn" for="rv-btn">리뷰등록</label>
                         <button type="submit" id="rv-btn" style="display:none;">리뷰등록</button>
@@ -190,32 +191,35 @@
                             <span class="rv-nickname">[[${mReview.nickname}]]</span>
                             <span class="rv-date inline">[[${#temporals.format(mReview.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
                             <br>
-                            <div>
-                            <div th:if="${reviewImageList != null}" class="inline div12">
-                                <div class="div11 inline"></div>
-                                <div class="rv-img inline" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
-                                    <img class="inline mImage mImage-fr"
-                                         th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.thumbnailName})}"
-                                         th:value="${mImage.thumbnailName}"
-                                         width="120px" height="120px" >
-                                </div>
+                            <div class="div13">
+                                <div th:if="${reviewImageList != null}" class="inline div12">
+                                    <div class="div11 inline"></div>
+                                    <div class="rv-img inline" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
+                                        <img class="inline mImage mImage-fr"
+                                             th:src="@{/page/detail/images/{mImage}(mImage=*{mImage.thumbnailName})}"
+                                             th:value="${mImage.thumbnailName}"
+                                             width="120px" height="120px" >
+                                    </div>
 
-                                <div class="inline imgInfo" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
-                                    <input class="imgPath" th:value="${mImage.filePath}" type="hidden">
-                                    <input class="imgThumbPath" th:value="${mImage.thumbnailName}" type="hidden">
-                                    <input class="rnoRno" th:value="${mImage.detailReview.id}" type="hidden">
-                                    <input class="imgId" th:value="${mImage.id}" type="hidden">
-                                    <span class="size" th:text="${idx.size}" style="display:none;"></span>
-                                    <span class="idx" th:text="${idx.index}" style="display:none;"></span>
+                                    <div class="inline imgInfo" th:each="mImage, idx: ${reviewImageList}" th:if="${mImage.detailReview.id == mReview.rno}">
+                                        <input class="imgPath" th:value="${mImage.filePath}" type="hidden">
+                                        <input class="imgThumbPath" th:value="${mImage.thumbnailName}" type="hidden">
+                                        <input class="rnoRno" th:value="${mImage.detailReview.id}" type="hidden">
+                                        <input class="imgId" th:value="${mImage.id}" type="hidden">
+                                        <span class="size" th:text="${idx.size}" style="display:none;"></span>
+                                        <span class="idx" th:text="${idx.index}" style="display:none;"></span>
+                                    </div>
+                                </div>
+                                <!-- div12 end-->
+
+                                <textarea class="mrv-textarea" name="reviewText" onkeyup="limitTextInput(this)" readonly>[[${mReview.reviewText}]]</textarea>
+                                <div class="text-count-div hidden-text-count" style="display:none;">
+                                    <span>띄어쓰기 포함 최대 500자까지 입력이 가능합니다. </span>
+                                    <span class="text-count">0 / 500</span>
                                 </div>
                             </div>
+                            <!-- div13 end -->
 
-                            <textarea class="mrv-textarea" name="reviewText" onkeyup="limitTextInput(this)" readonly>[[${mReview.reviewText}]]</textarea>
-                            <div class="text-count-div hidden-text-count" style="display:none;">
-                                <span>띄어쓰기 포함 최대 500자까지 입력이 가능합니다. </span>
-                                <span class="text-count">0 / 500</span>
-                            </div>
-                            </div>
                             <div class="btn-Box">
                                 <span class="srv-toAdd inline mrv-btn" th:if="${rvMember == mReview.sno}">답글</span>
                                 <span class="mrv-modify inline mrv-btn" th:if="${rvMember} == ${mReview.id}">수정</span>
