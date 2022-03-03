@@ -94,8 +94,7 @@ public class FileServiceImpl implements FileService{
 
         BufferedImage readImage = ImageIO.read(saveFile);
         //burrefredImage 생성
-        int size = readImage.getWidth()/readImage.getWidth()*300 ;
-        BufferedImage thumbImage = new BufferedImage(size, size, BufferedImage.TYPE_3BYTE_BGR);
+        BufferedImage thumbImage = new BufferedImage(300, 300, BufferedImage.TYPE_3BYTE_BGR);
         //그래픽 생성
         Graphics2D graphics2D = thumbImage.createGraphics();
         graphics2D.drawImage(readImage, 0, 0, 300, 300, null);
