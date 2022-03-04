@@ -177,29 +177,38 @@ function imgDel(event) {
         });
 }
 $(function () {
-    $("#uploadFiles").on('change', selectedImageFile);
+    $(".input-box").on('change', selectedImageFile);
 });
 
-//확장자, 크기 확인
+//크기, 확장자 확인
 function selectedImageFile(e) {
     selFiles = [];
     $("#selectedImg").empty();
 
     let files = e.target.files;
     let filesArr = Array.prototype.slice.call(files);
-    let check = $("#imgCheck");
+    let totalSize = 0;
     let index = 0;
 
+    let check = $("#imgCheck");
+
+    filesArr.forEach(function (file){
+        totalSize = totalSize + file.size;
+    });
+
     filesArr.forEach(function (file) {
+
         if (!file.type.match("image.*")) {
-            check.html("이미지만 첨부할 수 있어요");
+            check.html("사진을 첨부해주세요");
             check.css("color","#dc3545");
+
             return;
-        }else if (file.size>1048576) {
-            check.html("1MB 이하 파일만 첨부할 수 있어요");
-            check.css("color","#dc3545");
-            return;
-        }else{
+        }else if(totalSize > 10485760){
+                check.html("최대 10MB까지 첨부할 수 있습니다");
+                check.css("color","#dc3545");
+
+                return;
+        } else{
             selFiles.push(file);
             let reader = new FileReader();
 

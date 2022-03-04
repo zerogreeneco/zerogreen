@@ -22,7 +22,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FileServiceImpl implements FileService{
+public class FileServiceImpl implements FileService {
 
     @Value("${file.dir}")
     private String fileDir;
@@ -37,16 +37,17 @@ public class FileServiceImpl implements FileService{
 
     @Override
     public String getFullPathImage(String filename, String storeName) {
-        return imageFileDir + storeName  + filename;
+        return imageFileDir + storeName + filename;
     }
 
     /*
-    * 다수의 파일 저장 (이미지)
-    * */
+     * 다수의 파일 저장 (이미지)
+     * */
     @Override
     public List<StoreImageFile> storeImageFiles(List<MultipartFile> multipartFiles, String storeName) throws IOException {
 
         List<StoreImageFile> storeImageFileResult = new ArrayList<>();
+
         for (MultipartFile multipartFile : multipartFiles) {
             if (!multipartFile.isEmpty()) {
                 storeImageFileResult.add(saveImageFile(multipartFile, storeName));
@@ -56,8 +57,8 @@ public class FileServiceImpl implements FileService{
     }
 
     /*
-    * 단일 파일 저장(사업자 등록증)
-    * */
+     * 단일 파일 저장(사업자 등록증)
+     * */
     @Override
     public RegisterFile saveFile(MultipartFile multipartFile) throws IOException {
 
@@ -75,8 +76,8 @@ public class FileServiceImpl implements FileService{
     }
 
     /*
-    * 단일 파일 저장 (이미지)
-    * */
+     * 단일 파일 저장 (이미지)
+     * */
     @Override
     public StoreImageFile saveImageFile(MultipartFile multipartFile, String storeName) throws IOException {
         if (multipartFile.isEmpty()) {
@@ -94,8 +95,7 @@ public class FileServiceImpl implements FileService{
 
         BufferedImage readImage = ImageIO.read(saveFile);
         //burrefredImage 생성
-        int size = readImage.getWidth()/readImage.getWidth()*300 ;
-        BufferedImage thumbImage = new BufferedImage(size, size, BufferedImage.TYPE_3BYTE_BGR);
+        BufferedImage thumbImage = new BufferedImage(300, 300, BufferedImage.TYPE_3BYTE_BGR);
         //그래픽 생성
         Graphics2D graphics2D = thumbImage.createGraphics();
         graphics2D.drawImage(readImage, 0, 0, 300, 300, null);
@@ -106,8 +106,8 @@ public class FileServiceImpl implements FileService{
     }
 
     /*
-    * 서버에 저장될 이름 생성
-    * */
+     * 서버에 저장될 이름 생성
+     * */
     private String createStoreFilename(String originalFilename) {
         String ext = extractExt(originalFilename);
         //uuid
@@ -117,16 +117,16 @@ public class FileServiceImpl implements FileService{
     }
 
     /*
-    * 확장자만 따로 뽑기
-    * */
+     * 확장자만 따로 뽑기
+     * */
     private String extractExt(String originalFilename) {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
     }
 
     /*
-    * 커뮤니티 이미지 업로드
-    * */
+     * 커뮤니티 이미지 업로드
+     * */
     @Override
     public BoardImage saveBoardImageFile(MultipartFile multipartFile) throws IOException {
         if (multipartFile.isEmpty()) {

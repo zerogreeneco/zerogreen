@@ -20,13 +20,14 @@
 
                     <!-- 정보 수정 버튼 -->
                     <div class="profile-div">
-                        <span class="chatting profile-btn inline" th:onclick="|location.href='@{/page/detail/{sno}(sno=${info.sno})}'|">내 가게</span>
+                        <span class="chatting profile-btn inline"
+                              th:onclick="|location.href='@{/page/detail/{sno}(sno=${info.sno})}'|">내 가게</span>
                     </div>
                     <div class="profile-div">
                         <span class="editMyInfo profile-btn inline" th:onclick="|location.href='@{/stores/account}'|">내 회원 정보 수정</span>
                     </div>
                     <div class="profile-div">
-                        <span class="chatting profile-btn inline"th:onclick="|location.href='@{/stores/update}'|">내 가게 정보 수정</span>
+                        <span class="chatting profile-btn inline" th:onclick="|location.href='@{/stores/update}'|">내 가게 정보 수정</span>
                     </div>
                 </div>
 
@@ -34,42 +35,40 @@
                 <div id="rightSide">
                     <!--우측 상단 찜한가게+내 리뷰-->
                     <div class="counting">
-                        <div class="div-cnt inline">
-                            <span>0</span><br>
+                        <div class="div-cnt inline cursor"
+                             th:onclick="|location.href='@{/page/detail/{sno}(sno=${info.sno})}'|">
+                            <span>[[${info.likesCount}]]</span><br>
                             <span>내 가게 찜</span>
                         </div>
-                        <div class="div-cnt inline">
-                            <span>0</span><br>
+                        <div class="div-cnt inline cursor"
+                             th:onclick="|location.href='@{/page/detail/{sno}(sno=${info.sno})}'|">
+                            <span>[[${info.reviewCount}]]</span><br>
                             <span>내 가게 리뷰</span>
                         </div>
                     </div>
 
                     <!-- 고객 리뷰 리스트 슬라이더 -->
                     <div class="textList">
-                        <span>고객들이 쓴 리뷰</span>
-                        <!--                    <span>아직 리뷰가 없습니다.</span>-->
+                        <span>내 가게 리뷰</span>
                     </div>
 
-                    <div class="listing">
+                    <div class="listing" th:if="${review.size()>0}">
                         <div style="position: relative;">
                             <span id="review-left" class="arrow-left">&#139;</span>
                             <span id="review-right" class="arrow-right">&#155;</span>
 
                             <div class="slider-container">
                                 <div class="review-slider slider">
-                                    <div class="card">
-
+                                    <div class="card cursor" th:each="review:${review}"
+                                         th:onclick="|location.href='@{/page/detail/{sno}(sno=${info.sno})}'|">
                                         <div class="card-header">
                                             <img src="https://via.placeholder.com/300"/>
                                         </div>
 
-                                        <div class="shopList-box">
-                                            <div class="card-body">
-                                                <span class="shop-name reviewText">댓글이지롱</span>
-                                                <span class="shop-name">yyyy-MM-dd HH:mm</span>
-                                            </div>
+                                        <div class="card-body">
+                                            <span class="shop-name reviewText">[[${review.reviewText}]]</span>
+                                            <span class="shop-name">[[${#temporals.format(review.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
                                         </div>
-
                                     </div>
                                     <!-- end th:each-->
                                 </div>
@@ -78,6 +77,11 @@
                         </div>
 
                     </div>
+                    <div class="listing" th:if="${review.size()==0}">
+                        <span id="sorry-emoji">😅</span>
+                        <span id="sorry-text">아직 작성된 댓글이 없어요</span>
+                    </div>
+
                     <!-- end myReviews -->
 
                 </div>

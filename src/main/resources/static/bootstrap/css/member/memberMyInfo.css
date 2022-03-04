@@ -180,6 +180,10 @@
   height: 16px;
 }
 
+.cursor{
+    cursor: pointer;
+}
+
 @media screen and (max-width: 736px) {
     #shop-section {
         width: 100% !important;
@@ -202,7 +206,8 @@
 
     .card {
         position: relative;
-        left: -25px; top: 0;
+        left: -25px;
+        top: 0;
         width: 200px;
         margin: 10px 5px 10px 5px !important;
     }
@@ -218,4 +223,4 @@
         margin-top: 50px !important;
         margin-left: -20px !important;
     }
-
+}
