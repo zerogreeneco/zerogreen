@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import zerogreen.eco.entity.community.BoardReply;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.StoreMember;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @ToString
+@Slf4j
 public class CommunityReplyDto {
 
     private Long replyId;
@@ -41,6 +43,8 @@ public class CommunityReplyDto {
         if (boardReply.getReplier() instanceof Member) {
             this.nickname = ((Member)boardReply.getReplier()).getNickname();
             this.vegetarianGrade = ((Member) boardReply.getReplier()).getVegetarianGrade();
+            log.info("DTO NICKNAME={}", this.nickname);
+            log.info("DTO VEGAN={}", this.vegetarianGrade);
         } else if (boardReply.getReplier() instanceof StoreMember) {
             this.nickname = ((StoreMember) boardReply.getReplier()).getStoreName();
         } else if (boardReply.getReplier().getUserRole().equals(UserRole.ADMIN)) {

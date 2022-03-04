@@ -159,6 +159,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public List<BoardImage> boardImageFiles(List<MultipartFile> multipartFiles) throws IOException {
         List<BoardImage> boardImages = new ArrayList<>();
+
         for (MultipartFile multipartFile : multipartFiles) {
             if (!multipartFile.isEmpty()) {
                 boardImages.add(saveBoardImageFile(multipartFile));

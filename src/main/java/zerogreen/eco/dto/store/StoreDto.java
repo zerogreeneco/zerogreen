@@ -16,9 +16,7 @@ import java.util.List;
 public class StoreDto {
 
     private Long id;
-    private String username;
     private UserRole userRole;
-    private String storeAddress;
     @NotBlank(message = "가게 연락처를 입력해 주세요")
     private String storePhoneNumber;
     private String openTime;
@@ -30,12 +28,6 @@ public class StoreDto {
     private String menuName;
     private int menuPrice;
 
-    private BasicUser basicUser;
-
-    private String storeRegNum;
-
-
-    //여기서부터..
     private Long sno;
     private String storeName;
 
@@ -114,19 +106,7 @@ public class StoreDto {
         this.socialAddress2 = socialAddress2;
     }
 
-    //이하 누구세요
-
-    //이친구...뭐죠..?
-    public StoreDto(Long id) {
-        this.id = id;
-    }
-
-    //index에 승인받은 가게리스트
-    public StoreDto(String storeName, StoreType storeType){
-        this.storeName = storeName;
-        this.storeType = storeType;
-    }
-
+/*
     public StoreDto(Long id, UserRole userRole, StoreType storeType, String storeName, String storePhoneNumber,
                     String openTime, String closeTime, List<StoreImageFile> imageFile, List<StoreMenu> menuList) {
         this.id = id;
@@ -139,7 +119,7 @@ public class StoreDto {
         this.imageFile = imageFile;
         this.menuList = menuList;
     }
-
+*/
 
 }
 

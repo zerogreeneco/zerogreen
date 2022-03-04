@@ -30,6 +30,7 @@ import zerogreen.eco.service.community.CommunityBoardService;
 import zerogreen.eco.service.community.CommunityReplyService;
 import zerogreen.eco.service.file.FileService;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -81,7 +82,8 @@ public class CommunityController {
 
     /* 커뮤니티 글 작성 */
     @GetMapping("/write")
-    public String writeForm(@ModelAttribute("writeForm") CommunityRequestDto dto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public String writeForm(@Validated @ModelAttribute("writeForm") CommunityRequestDto dto, BindingResult bindingResult,
+                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         UserRole userRole = principalDetails.getBasicUser().getUserRole();
         if (!(userRole.equals(UserRole.STORE) || userRole.equals(UserRole.UN_STORE))) {
@@ -95,6 +97,8 @@ public class CommunityController {
     public String write(@Validated @ModelAttribute("writeForm") CommunityRequestDto dto,
                         BindingResult bindingResult,
                         @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+
+        log.info("write dto={}",dto);
 
         Long boardId = boardService.boardRegister(dto, (Member) principalDetails.getBasicUser(),
                 fileService.boardImageFiles(dto.getImageFiles()));
@@ -149,14 +153,20 @@ public class CommunityController {
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
                              HttpServletRequest request, HttpServletResponse response,
                              HttpSession session) {
+        log.info("게시글 상세보기>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
         if (principalDetails != null) {
             model.addAttribute("likeCount", boardService.countLike(boardId, principalDetails.getBasicUser().getId()));
             session.setAttribute("loginUser", principalDetails.getBasicUser().getUsername());
         }
+//        model.addAttribute("myId",principalDetails.getUsername());
 
         model.addAttribute("detailView", boardService.findDetailView(boardId, request, response));
-        model.addAttribute("replyList", replyService.findReplyByBoardId(boardId));
+        List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
+        model.addAttribute("replyList", replyByBoardId);
+        for (CommunityReplyDto communityReplyDto : replyByBoardId) {
+            log.info("DETAIL REPLY={}", communityReplyDto);
+        }
 
         List<ImageFileDto> imageList = boardImageService.findByBoardId(boardId);
         if (imageList.size() > 0) {
@@ -239,7 +249,8 @@ public class CommunityController {
      * */
     @PostMapping("/{boardId}/replyModify/{replyId}")
     @ResponseBody
-    public ResponseEntity<Map<String, String>> modifyReply(@PathVariable("boardId") Long boardId, @PathVariable("replyId") Long replyId,
+    public ResponseEntity<Map<String, String>> modifyReply(@PathVariable("boardId") Long boardId,
+                                                           @PathVariable("replyId") Long replyId,
                                                            HttpServletRequest request) {
         Map<String, String> resultMap = new HashMap<>();
         String text = request.getParameter("text");
@@ -275,12 +286,13 @@ public class CommunityController {
     @PostMapping("/{boardId}/{replyId}/nestedReply")
     public String nestedReplySend(@PathVariable("boardId") Long boardId, @PathVariable("replyId") Long replyId,
                                   @ModelAttribute("nestedReplyForm") CommunityReplyDto replyDto,
-                                  Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request) {
+                                  Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request, HttpServletResponse response) {
 
         String text = request.getParameter("text");
         replyService.nestedReplySave(text, boardId, principalDetails.getBasicUser(), replyId);
 
         List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
+
         for (CommunityReplyDto communityReplyDto : replyByBoardId) {
             log.info("REPLY LIST!!!!!!!!={}", communityReplyDto);
         }
