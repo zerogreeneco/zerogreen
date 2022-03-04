@@ -172,11 +172,16 @@
                             <!-- 첨부 파일 -->
                             <div>
                                 <label class="join-label">가게 사진</label>
-                                <input type="file" multiple="multiple" class="update-box" th:field="*{uploadFiles}">
+B                                <input type="file" multiple="multiple" class="input-box" th:field="*{uploadFiles}"
+                                       accept="image/jpg,image/png,image/jpeg,image/gif">
                                 <div id="selectedImg"><img src=""/></div>
-                                <p id="imgCheck"/>
-
                             </div>
+
+                            <div th:if="${#fields.hasGlobalErrors()}">
+                                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+                            </div>
+                            <p id="imgCheck"/>
+
                             <hr>
                             <div class="img-list" th:if="${storeImageList.size() > 0}">
                                 <span id="img-left" class="arrow arrow-left">&#139;</span>
@@ -202,7 +207,6 @@
                             <button id="modifyBtn" class="regi-btn" type="submit">수정하기</button>
                         </div>
                     </form>
-
                 </div>
             </div>
             <div style="margin: 2em 0 !important;" sec:authorize="hasRole('ROLE_UN_STORE')">

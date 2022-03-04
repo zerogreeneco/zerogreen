@@ -113,13 +113,11 @@ public class StoreController {
                 model.addAttribute("storeImageList", storeImageList);
                 List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
                 model.addAttribute("tableList", tableList);
-
-                bindingResult.reject("notImageFile", null);
+                bindingResult.reject("notImageFile", "ERROR!!");
 
                 return "store/updateInfo";
             }
         }
-
 
         //이미지 로컬 저장
         List<StoreImageFile> storeImageFiles = fileService.storeImageFiles(storeDto.getUploadFiles(), storeDto.getStoreName());
