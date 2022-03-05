@@ -172,13 +172,14 @@
                             <!-- 첨부 파일 -->
                             <div>
                                 <label class="join-label">가게 사진</label>
-B                                <input type="file" multiple="multiple" class="input-box" th:field="*{uploadFiles}"
+                                <input type="file" multiple="multiple" class="input-box" th:field="*{uploadFiles}"
                                        accept="image/jpg,image/png,image/jpeg,image/gif">
                                 <div id="selectedImg"><img src=""/></div>
                             </div>
 
                             <div th:if="${#fields.hasGlobalErrors()}">
-                                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+                                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류
+                                    메시지</p>
                             </div>
                             <p id="imgCheck"/>
 

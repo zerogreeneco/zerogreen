@@ -192,6 +192,8 @@ function selectedImageFile(e) {
 
     let check = $("#imgCheck");
 
+    let agent = navigator.userAgent.toLowerCase();
+
     filesArr.forEach(function (file){
         totalSize = totalSize + file.size;
     });
@@ -204,8 +206,10 @@ function selectedImageFile(e) {
 
             return;
         }else if(totalSize > 10485760){
+                console.log("초과");
                 check.html("최대 10MB까지 첨부할 수 있습니다");
                 check.css("color","#dc3545");
+                $(".input-box").val("");
 
                 return;
         } else{
