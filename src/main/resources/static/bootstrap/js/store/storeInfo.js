@@ -206,6 +206,7 @@ function selectedImageFile(e) {
         }else if(totalSize > 10485760){
                 check.html("최대 10MB까지 첨부할 수 있습니다");
                 check.css("color","#dc3545");
+                $(".input-box").val("");
 
                 return;
         } else{
