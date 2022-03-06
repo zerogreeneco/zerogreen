@@ -40,7 +40,7 @@
                                 <span class="shop-name">[[${list.storeName}]]</span>
                                 <span><img class="icon" th:src="@{/bootstrap/images/list/call.png}"> [[${list.storePhoneNumber}]]</span>
                                 <span th:if="${list.openTime}==null"><img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> 매장 확인 필요</span>
-                                <span th:if="${list.openTime}!=null"><img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> [[${list.openTime}]] ~ [[${list.closeTime}]]</span>
+                                <span th:unless="${list.openTime}==null"><img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> [[${list.openTime}]] ~ [[${list.closeTime}]]</span>
                                 <span><img class="icon" th:src="@{/bootstrap/images/list/box.png}"> 대나무 헬리콥터</span>
                             </div>
                         </div>

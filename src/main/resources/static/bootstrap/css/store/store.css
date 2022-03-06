@@ -32,13 +32,13 @@ Store Update
 
 /*메뉴*/
 .menu{
-    width: 195px;
+    width: 165px;
     height: 40px;
     margin-bottom: 10px;
     font-family: 'Noto Sans KR', sans-serif;
 }
 .price{
-    width: 69px;
+    width: 50px;
     height: 40px;
     margin-bottom: 10px;
     font-family: 'Noto Sans KR', sans-serif;

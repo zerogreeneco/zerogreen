@@ -79,7 +79,7 @@
                                     <input type="text" class="form-control update-box"
                                            th:field="*{socialAddress2}" hidden>
                                 </div>
-                                <div th:if="*{socialAddress2}!=null">
+                                <div th:unless="*{socialAddress2}==null">
                                     <input type="text" class="form-control update-box"
                                            th:field="*{socialAddress2}">
                                 </div>
@@ -87,15 +87,16 @@
 
                             <!-- 메뉴 / 상품 -->
                             <!-- VEGAN FOOD -->
-                            <label class="join-label" th:if="${storeInfo.storeType.name() != 'ECO_SHOP'}">메뉴</label>
-                            <label class="join-label" th:if="${storeInfo.storeType.name() == 'ECO_SHOP'}">상품</label>
-                            <input type="text" class="form-control menu" id="menuName" placeholder="이름">
-                            <input type="number" step="10" class="form-control price" id="menuPrice" placeholder="가격">
-
-
+                            <div>
+                                <label class="join-label" th:unless="${storeInfo.storeType.name() == 'ECO_SHOP'}">메뉴</label>
+                                <label class="join-label" th:if="${storeInfo.storeType.name() == 'ECO_SHOP'}">상품</label>
+                                <input type="text" class="form-control menu" id="menuName" placeholder="이름">
+                                <input type="text" class="form-control price" id="menuPrice"
+                                       onkeyup="inputPriceFormat(this)" placeholder="가격">
+                                <p id="inputCheck"/>
+                            </div>
                             <!-- 비건 등급 -->
                             <div th:if="${storeInfo.storeType.name() == 'VEGAN_FOOD'}">
-                                <div>
                                     <label th:each="vegan : ${vegan}">
                                         <input type="radio" style="display: none" name="vegetarianGrade"
                                                th:value="${vegan.name()}">
@@ -103,8 +104,8 @@
                                              th:src="@{'/bootstrap/images/profile/'+${vegan.name()}+'.png'}">
                                     </label>
                                     <p id="gradeCheck"/>
-                                </div>
                             </div>
+
                             <span class="addBtn" th:if="${storeInfo.storeType.name() == 'VEGAN_FOOD'}"
                                   onclick="menuAdd()">메뉴 추가</span>
                             <span class="addBtn" th:if="${storeInfo.storeType.name() == 'GENERAL_FOOD'}"
@@ -114,7 +115,7 @@
 
                             <!-- 메뉴 목록 -->
                             <div>
-                                <label class="join-label" th:if="${storeInfo.storeType.name() != 'ECO_SHOP'}">메뉴
+                                <label class="join-label" th:unless="${storeInfo.storeType.name() == 'ECO_SHOP'}">메뉴
                                     목록</label>
                                 <label class="join-label" th:if="${storeInfo.storeType.name() == 'ECO_SHOP'}">상품
                                     목록</label>
@@ -146,7 +147,7 @@
                                 </div> <!-- end Grade Table -->
 
                                 <!-- Table -->
-                                <div class="table" th:if="${storeInfo.storeType.name() != 'VEGAN_FOOD'}">
+                                <div class="table" th:unless="${storeInfo.storeType.name() == 'VEGAN_FOOD'}">
                                     <table id="list-table">
                                         <tr>
                                             <td style="width: 60%;">이름</td>

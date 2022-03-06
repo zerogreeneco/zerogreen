@@ -26,7 +26,7 @@ public class StoreDto {
 
     private Long menuId;
     private String menuName;
-    private int menuPrice;
+    private String menuPrice;
 
     private Long sno;
     private String storeName;
