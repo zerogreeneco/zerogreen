@@ -1450,6 +1450,7 @@ html {
 	#main-wrapper {
 		background: #fff;
 		padding: 3em 2em;
+		min-height: 70vh;
 	}
 
 	#footer-wrapper {
