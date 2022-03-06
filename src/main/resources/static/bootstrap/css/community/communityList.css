@@ -211,3 +211,11 @@ ul.category-list li a {
     display: none;
     padding: 0 !important;
 }
+
+/* 게시물 없을 때 */
+.list-none {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 0%);
+}
