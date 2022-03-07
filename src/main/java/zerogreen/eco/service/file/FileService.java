@@ -12,6 +12,7 @@ import java.util.List;
 public interface FileService {
 
     String getFullPath(String filename);
+    String getFullPathRegFile(String filename);
     String getFullPathImage(String filename, String storeName);
 
     RegisterFile saveFile(MultipartFile multipartFile) throws IOException;
