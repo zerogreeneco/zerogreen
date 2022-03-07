@@ -29,6 +29,9 @@ public class FileServiceImpl implements FileService {
     @Value("${file.dir}")
     private String fileDir;
 
+    @Value("${file.regFiledir}")
+    private String regFileDir;
+
     @Value("C:/imageUpload/")
     private String imageFileDir;
 
@@ -51,7 +54,28 @@ public class FileServiceImpl implements FileService {
         }
 
         return dir + "/" + filename;
+    }
 
+    // 사업자 등록증
+    @Override
+    public String getFullPathRegFile(String filename) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String date = sdf.format(System.currentTimeMillis());
+
+        File dir = new File(regFileDir + date);
+
+        if (!dir.exists()) {
+            try {
+                dir.mkdirs();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            log.info("이미 존재하는 폴더입니다.");
+        }
+
+        return dir + "/" + filename;
     }
 
     @Override
@@ -88,9 +112,9 @@ public class FileServiceImpl implements FileService {
         String originalFilename = multipartFile.getOriginalFilename();
 
         String storeFilename = createStoreFilename(originalFilename);
-        multipartFile.transferTo(new File(getFullPath(storeFilename)));
+        multipartFile.transferTo(new File(getFullPathRegFile(storeFilename)));
 
-        return new RegisterFile(originalFilename, storeFilename, getFullPath(storeFilename));
+        return new RegisterFile(originalFilename, storeFilename, getFullPathRegFile(storeFilename));
 
     }
 
