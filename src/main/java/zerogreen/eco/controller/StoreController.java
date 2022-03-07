@@ -72,13 +72,18 @@ public class StoreController {
 
         //리뷰
         List<DetailReviewDto> review = detailReviewService.findByStore(principalDetails.getId());
-            model.addAttribute("review", review);
-            Collections.reverse(review);
+        model.addAttribute("review", review);
+        Collections.reverse(review);
 
         //리뷰 이미지
         List<ReviewImageDto> reviewImages = reviewImageService.findByStore(principalDetails.getId());
-            model.addAttribute("reviewImageList", reviewImages);
-            Collections.reverse(reviewImages);
+        model.addAttribute("reviewImageList", reviewImages);
+        Collections.reverse(reviewImages);
+
+//        List<DetailReviewDto> reviews = storeMemberService.getReviewByStore(principalDetails.getId());
+//        model.addAttribute("review", reviews);
+//        log.info("KGH" + reviews);
+//        Collections.reverse(reviews);
 
         return "store/myInfo";
     }
@@ -116,17 +121,20 @@ public class StoreController {
 
         List<MultipartFile> attachedFiles = storeDto.getUploadFiles();
 
-        for (MultipartFile uploadFile : attachedFiles) {
-            if (!uploadFile.getContentType().startsWith("image")) {
-                List<StoreDto> storeImageList = storeImageService.getImageByStore(principalDetails.getId());
-                model.addAttribute("storeImageList", storeImageList);
-                List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
-                model.addAttribute("tableList", tableList);
-                bindingResult.reject("notImageFile", "사진을 첨부해주세요");
+        log.info("KGH"+attachedFiles.get(0).getContentType());
+            for (MultipartFile uploadFile : attachedFiles) {
+                if (!uploadFile.getContentType().startsWith("image")
+                && !uploadFile.getContentType().endsWith("octet-stream")) {
+                    List<StoreDto> storeImageList = storeImageService.getImageByStore(principalDetails.getId());
+                    model.addAttribute("storeImageList", storeImageList);
+                    List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
+                    model.addAttribute("tableList", tableList);
 
-                return "store/updateInfo";
+                    bindingResult.reject("notImageFile", "사진을 첨부해주세요");
+
+                    return "store/updateInfo";
+                }
             }
-        }
 
         //이미지 로컬 저장
         List<StoreImageFile> storeImageFiles = fileService.storeImageFiles(storeDto.getUploadFiles(), storeDto.getStoreName());

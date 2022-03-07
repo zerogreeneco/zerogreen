@@ -73,13 +73,13 @@
                                 <label class="join-label">소셜 주소</label>
                                 <input type="text" class="form-control update-box"
                                        th:field="*{socialAddress1}">
-                                <div th:if="*{socialAddress2}==null">
+                                <div th:if="${#strings.isEmpty(storeInfo.socialAddress2)}">
                                     <img class="add" id="socialAdd" th:src="@{/bootstrap/images/add.png}"
-                                         onclick="socialAdd()">
+                                         onclick="addSocial()">
                                     <input type="text" class="form-control update-box"
                                            th:field="*{socialAddress2}" hidden>
                                 </div>
-                                <div th:unless="*{socialAddress2}==null">
+                                <div th:unless="${#strings.isEmpty(storeInfo.socialAddress2)}">
                                     <input type="text" class="form-control update-box"
                                            th:field="*{socialAddress2}">
                                 </div>
@@ -213,7 +213,7 @@
             <div style="margin: 2em 0 !important;" sec:authorize="hasRole('ROLE_UN_STORE')">
                 <div class="center-box">
                     <span id="sorry-emoji">😅</span>
-                    <span id="sorry-text">관리자 승인 대기 중 입니다.</span>
+                    <span id="sorry-text">관리자 승인 대기 중 입니다</span>
                 </div>
             </div>
         </div>

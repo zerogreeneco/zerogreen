@@ -64,7 +64,7 @@ function limitTextInput(event) {
 }
 
 // Social 주소 추가
-function socialAdd() {
+function addSocial() {
     $("#socialAddress2").removeAttr("hidden");
     $("#socialAdd").attr("hidden", true);
 }
