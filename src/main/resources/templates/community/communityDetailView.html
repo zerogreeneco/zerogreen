@@ -9,7 +9,6 @@
         <div th:object="${detailView}" class="cm-main-wrapper">
             <input type="hidden" th:field="*{id}">
             <input type="hidden" th:field="*{memberId}" id="userId">
-            <div>[[*{isChat}]]</div>
             <!-- 카테고리 -->
             <div th:field="*{category}">
                 <a class="cm-category" th:href="@{/community(category=${detailView.category.name()}) }"
@@ -30,7 +29,8 @@
                 <!-- 채팅 수정 삭제 -->
                 <div style="margin-bottom: 3px;">
                     <a class="noto-font update-btn" th:href="@{/chatting/{boardId}(boardId = *{memberId})}"
-                       onclick="registration()" th:if="*{memberId} != ${session.memberId} and *{isChat} == true">채팅하기</a>
+                       sec:authorize="isAuthenticated()" onclick="registration()"
+                       th:if="*{memberId} != ${session.memberId} and *{isChat} == true">채팅하기</a>
                     <a class="noto-font update-btn" th:href="@{'/community/' + ${detailView.id} + '/modify'}"
                        th:if="*{memberId} == ${session.memberId}">수정</a>
 

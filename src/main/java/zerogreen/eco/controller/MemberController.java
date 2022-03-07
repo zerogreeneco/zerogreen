@@ -17,6 +17,8 @@ import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.detail.LikesDto;
 import zerogreen.eco.dto.member.MemberUpdateDto;
 import zerogreen.eco.dto.member.PasswordUpdateDto;
+import zerogreen.eco.entity.userentity.Member;
+import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.detail.DetailReviewService;
 import zerogreen.eco.service.detail.LikesService;
@@ -73,9 +75,8 @@ public class MemberController {
     @PatchMapping("/account")
     @ResponseBody
     public ResponseEntity<Map<String, String>> memberInfoUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                   @Validated @ModelAttribute("member") MemberUpdateDto memberUpdateResponse,
+                                                                @Validated @ModelAttribute("member") MemberUpdateDto memberUpdateResponse,
                                                                 BindingResult bindingResult, HttpSession session) {
-
         Map<String, String> resultMap = new HashMap<>();
 
         if (bindingResult.hasErrors()) {
@@ -84,6 +85,9 @@ public class MemberController {
         session.removeAttribute("veganGrade");
         memberService.memberUpdate(principalDetails.getId(), memberUpdateResponse);
         session.setAttribute("veganGrade", memberUpdateResponse.getVegetarianGrade());
+
+        session.removeAttribute("loginUserNickname");
+        session.setAttribute("loginUserNickname", memberUpdateResponse.getNickname());
 
         resultMap.put("result", "success");
         log.info("회원 정보 수정 성공!!!!!");

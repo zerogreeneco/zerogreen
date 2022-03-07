@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 import zerogreen.eco.converter.BooleanToYNConverter;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
 import zerogreen.eco.entity.userentity.BasicUser;
@@ -45,6 +46,7 @@ public class CommunityBoard extends BaseTimeEntity {
     private List<CommunityLike> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "board", cascade = REMOVE)
+    @BatchSize(size = 100)
     private List<BoardReply> boardReplies = new ArrayList<>();
 
     @OneToMany(mappedBy = "board", cascade = {PERSIST, REMOVE}, orphanRemoval = true)

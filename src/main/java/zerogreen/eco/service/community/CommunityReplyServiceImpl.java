@@ -8,6 +8,7 @@ import zerogreen.eco.dto.community.CommunityReplyDto;
 import zerogreen.eco.entity.community.BoardReply;
 import zerogreen.eco.entity.community.CommunityBoard;
 import zerogreen.eco.entity.userentity.BasicUser;
+import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.repository.community.BoardReplyRepository;
 import zerogreen.eco.repository.community.CommunityBoardRepository;
 
@@ -29,8 +30,7 @@ public class CommunityReplyServiceImpl implements CommunityReplyService{
     @Transactional
     public void replySave(String text, Long boardId, BasicUser basicUser) {
         CommunityBoard communityBoard = communityBoardRepository.findById(boardId).orElseThrow();
-
-        boardReplyRepository.save(new BoardReply(text, basicUser, communityBoard)); // 생성자 없음
+        boardReplyRepository.save(new BoardReply(text, basicUser, communityBoard));
     }
 
     /*
@@ -40,12 +40,17 @@ public class CommunityReplyServiceImpl implements CommunityReplyService{
     @Transactional
     public void nestedReplySave(String text, Long boardId, BasicUser basicUser, Long replyId) {
         CommunityBoard communityBoard = communityBoardRepository.findById(boardId).orElseThrow();
-
+        log.info("FIND BOARD>>>>>>");
         BoardReply parentReply = boardReplyRepository.findById(replyId).orElseThrow();
+        log.info("FIND PARENT");
         BoardReply childReply = new BoardReply(text, basicUser, communityBoard);
-
+        log.info("CHILD INSTANCE");
         boardReplyRepository.save(childReply);
+        log.info("CHILD SAVE");
         parentReply.addNestedReply(childReply);
+        log.info("CHILD ID={}",childReply.getId());
+        log.info("NEST REPLY SERVICE END>>>>>>>>>");
+        boardReplyRepository.flush();
     }
 
     /*
@@ -73,7 +78,7 @@ public class CommunityReplyServiceImpl implements CommunityReplyService{
     * */
     @Override
     public List<CommunityReplyDto> findReplyByBoardId(Long boardId) {
-        return boardReplyRepository.findBoardRepliesByBoardId(boardId)
+         return boardReplyRepository.findBoardRepliesByBoardId(boardId)
                 .stream().map(CommunityReplyDto::new).collect(Collectors.toList());
     }
 }
