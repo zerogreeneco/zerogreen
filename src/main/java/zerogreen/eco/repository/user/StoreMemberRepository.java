@@ -26,4 +26,12 @@ public interface StoreMemberRepository extends JpaRepository<StoreMember, Long>,
             "where bu.userRole ='STORE' ")
     List<StoreMember> findByApprovedStore(UserRole userRole);
 
+    //반만성공
+    @Query("select sm " +
+            "from StoreMember sm " +
+            "left outer join sm.menuList menu on menu.storeMember.id =:sno "+
+            "left outer join sm.imageFile image on image.storeMember.id =:sno "+
+            "where sm.id =:sno")
+    StoreMember getStore2(@Param("sno") Long sno);
+
 }

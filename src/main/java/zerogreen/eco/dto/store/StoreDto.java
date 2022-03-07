@@ -9,7 +9,10 @@ import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.*;
 
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Getter
 @Setter
@@ -45,7 +48,10 @@ public class StoreDto {
     private List<MultipartFile> uploadFiles;
 
     private List<StoreImageFile> imageFile;
+    private List<StoreDto> imageList = new ArrayList<>();
+
     private List<StoreMenu> menuList;
+    private List<StoreMenuDto> storeMenuList = new ArrayList<>();
 
     private Long imageId;
     private String fileName;
@@ -69,7 +75,29 @@ public class StoreDto {
         this.thumbPath = storeImageFile.getThumbPath();
     }
 
-    //Store db (Detail)
+    //Store db (Detail) qdsl ** 작업중 **
+    public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo, List<StoreMenu> menuList,
+                    Long likesCount, Long reviewCount) {
+        this.sno = sno;
+        this.storeName = storeName;
+        this.storeType = storeType;
+        this.storeInfo = storeInfo;
+        this.storeMenuList = menuList.stream().map(StoreMenuDto::new).collect(Collectors.toList());
+        this.likesCount = likesCount;
+        this.reviewCount = reviewCount;
+    }
+
+    //Store db (Detail) orm ** 작업중 **
+    public StoreDto(StoreMember storeMember) {
+        this.sno = storeMember.getId();
+        this.storeName = storeMember.getStoreName();
+        this.storeType = storeMember.getStoreType();
+        this.storeInfo = storeMember.getStoreInfo();
+        this.storeMenuList = storeMember.getMenuList().stream().map(StoreMenuDto::new).collect(Collectors.toList());
+        this.imageList = storeMember.getImageFile().stream().map(StoreDto::new).collect(Collectors.toList());
+    }
+
+    //Store db (Detail) 기존 ** 작업중 **
     @Builder
     public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo,
                     List<StoreImageFile> imageFile, List<StoreMenu> menuList, Long likesCount, Long reviewCount) {

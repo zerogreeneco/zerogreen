@@ -58,8 +58,10 @@ public class DetailController {
         //스토어 데이터 + 회원/비회원
         StoreDto storeDto = storeMemberService.getStore(sno);
         log.info("?????Controller " + sno);
+        log.info("<<<<< " + storeDto.getSno());
         log.info("<<<<< " + storeDto.getLikesCount());
         log.info("<<<<< " + storeDto.getReviewCount());
+        log.info("<<<<< " + storeDto.getMenuName());
 
         if (principalDetails == null) {
             model.addAttribute("getStore",storeDto);

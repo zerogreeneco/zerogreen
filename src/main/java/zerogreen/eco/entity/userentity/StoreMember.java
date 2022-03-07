@@ -42,8 +42,9 @@ public class StoreMember extends BasicUser{
     private List<StoreImageFile> imageFile = new ArrayList<>();
 
     @OneToMany(mappedBy = "detailReview", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
-    private List<ReviewImage> imageList = new ArrayList<>();
+    private List<ReviewImage> reviewImageList = new ArrayList<>();
 
+    private Long reviewCount;
 
     // 회원 가입 (saveV2까지)
     @Builder(builderMethodName = "regBuilder")

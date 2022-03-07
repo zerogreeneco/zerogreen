@@ -167,14 +167,14 @@ $(document).ready(function(e){
    $('textarea').keyup();
 
 
-    //리뷰 이미지 등록시 textarea 마진 재설정
+    //리뷰 이미지 등록시 textarea 마진 + div13 height 재설정
    $('.mrv-textarea').on('change',function (e) {
        let img = $(this).parent().find('.div12').find('.rv-img').val();
        let div13 = $(this).parent('.div13');
 
         if (img != null) {
             $(this).css('marginLeft','130px');
-            $(this).css('height','8em');
+            div13.css('height','8em');
         }
    });
    $('.mrv-textarea').change();
