@@ -15,7 +15,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,7 +34,24 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String getFullPath(String filename) {
-        return fileDir + filename;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String date = sdf.format(System.currentTimeMillis());
+
+        File dir = new File(fileDir + date);
+
+        if (!dir.exists()) {
+            try {
+                dir.mkdir();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            log.info("이미 존재하는 폴더입니다.");
+        }
+
+        return dir + "/" + filename;
+
     }
 
     @Override
@@ -105,37 +124,6 @@ public class FileServiceImpl implements FileService {
         return new StoreImageFile(originalFilename, storeFilename, thumbnailName, getFullPathImage(storeFilename, storeName), getFullPathImage(thumbnailName, storeName));
     }
 
-    private void makeThumbnail(String thumbnailName, File saveFile, int width, int height) throws IOException {
-        File thumbnailFile = new File(getFullPath(thumbnailName));
-
-        BufferedImage readImage = ImageIO.read(saveFile);
-
-        BufferedImage thumbImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
-        Graphics2D graphics = thumbImage.createGraphics();
-
-        graphics.drawImage(readImage, 0, 0, width, height, null);
-        ImageIO.write(thumbImage, "png", thumbnailFile);
-    }
-
-    /*
-     * 서버에 저장될 이름 생성
-     * */
-    private String createStoreFilename(String originalFilename) {
-        String ext = extractExt(originalFilename);
-        //uuid
-        String uuid = UUID.randomUUID().toString();
-        // uuid.확장자 형태로 저장
-        return uuid + "." + ext;
-    }
-
-    /*
-     * 확장자만 따로 뽑기
-     * */
-    private String extractExt(String originalFilename) {
-        int pos = originalFilename.lastIndexOf(".");
-        return originalFilename.substring(pos + 1);
-    }
-
     /*
      * 커뮤니티 이미지 업로드
      * */
@@ -194,7 +182,7 @@ public class FileServiceImpl implements FileService {
         File saveFile = new File(getFullPath(reviewFileName));
         multipartFile.transferTo(saveFile);
 
-        makeThumbnail("thumb_" + reviewFileName, saveFile, 120, 120);
+        makeThumbnail(thumbnailName, saveFile, 120, 120);
 
         return new ReviewImage(originalFilename, reviewFileName, getFullPath(reviewFileName), thumbnailName);
 
@@ -212,5 +200,38 @@ public class FileServiceImpl implements FileService {
         return reviewImages;
     }
 
+    /*
+     * 서버에 저장될 이름 생성
+     * */
+    private String createStoreFilename(String originalFilename) {
+        String ext = extractExt(originalFilename);
+        //uuid
+        String uuid = UUID.randomUUID().toString();
+        // uuid.확장자 형태로 저장
+        return uuid + "." + ext;
+    }
+
+    /*
+     * 확장자
+     * */
+    private String extractExt(String originalFilename) {
+        int pos = originalFilename.lastIndexOf(".");
+        return originalFilename.substring(pos + 1);
+    }
+
+    /*
+    * 썸네일 생성
+    * */
+    private void makeThumbnail(String thumbnailName, File saveFile, int width, int height) throws IOException {
+        File thumbnailFile = new File(getFullPath(thumbnailName));
+
+        BufferedImage readImage = ImageIO.read(saveFile);
+
+        BufferedImage thumbImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+        Graphics2D graphics = thumbImage.createGraphics();
+
+        graphics.drawImage(readImage, 0, 0, width, height, null);
+        ImageIO.write(thumbImage, "png", thumbnailFile);
+    }
 
 }
