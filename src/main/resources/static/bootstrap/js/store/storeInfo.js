@@ -64,21 +64,42 @@ function limitTextInput(event) {
 }
 
 // Social 주소 추가
-function socialAdd() {
+function addSocial() {
     $("#socialAddress2").removeAttr("hidden");
     $("#socialAdd").attr("hidden", true);
 }
+
+// Price 회계단위 추가
+function inputPriceFormat(event){
+    event.value = comma(uncomma(event.value));
+}
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+}
+
 
 // 테이블 Grade 추가
 function menuAdd() {
     let name = $("#menuName").val();
     let price = $("#menuPrice").val();
     let grade = $(":input:radio[name=vegetarianGrade]:checked").val();
-    let check = $("#gradeCheck");
+    let inputCheck = $("#inputCheck");
+    let gradeCheck = $("#gradeCheck");
 
-    if(grade == null){
-        check.html("해당 메뉴의 비건 등급을 입력해 주세요");
-        check.css("color","#dc3545");
+    if(name == "" || price == ""){
+        inputCheck.html("메뉴의 이름과 가격을 입력해 주세요");
+        inputCheck.css("color","#dc3545");
+
+        return null;
+    } else if(grade == null) {
+        gradeCheck.html("해당 메뉴의 비건 등급을 입력해 주세요");
+        gradeCheck.css("color", "#dc3545");
     }
 
     $.ajax({
@@ -96,7 +117,8 @@ function menuAdd() {
             $("#menuName").val("");
             $("#menuPrice").val("");
             $(":input:radio[name=vegetarianGrade]:checked").prop('checked', false);
-            check.html("");
+            inputCheck.html("");
+            gradeCheck.html("");
         });
 } //menuAdd ajax end
 
@@ -104,7 +126,16 @@ function menuAdd() {
 function tableAdd() {
     let name = $("#menuName").val();
     let price = $("#menuPrice").val();
-    $.ajax({
+    let inputCheck = $("#inputCheck");
+
+    if(name == "" || price == "") {
+        inputCheck.html("메뉴의 이름과 가격을 입력해 주세요");
+        inputCheck.css("color", "#dc3545");
+
+        return null;
+    }
+
+        $.ajax({
         url: "/zerogreen/stores/update/table",
         method: "post",
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -117,6 +148,7 @@ function tableAdd() {
             $("#list-table").replaceWith(fragment);
             $("#menuName").val("");
             $("#menuPrice").val("");
+            inputCheck.html("");
         });
 } //menuAdd ajax end
 

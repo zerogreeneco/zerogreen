@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface StoreMenuService {
 
-    void updateStoreMenu(Long id, String menuName, int menuPrice, VegetarianGrade vegetarianGrade);
-    void updateStoreMenu(Long id, String menuName, int menuPrice);
+    void updateStoreMenu(Long id, String menuName, String menuPrice, VegetarianGrade vegetarianGrade);
+    void updateStoreMenu(Long id, String menuName, String menuPrice);
 
     List<StoreMenuDto> getStoreMenu(Long id);
 

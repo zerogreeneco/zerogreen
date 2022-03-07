@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import zerogreen.eco.dto.detail.DetailReviewDto;
+import zerogreen.eco.dto.detail.ReviewImageDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.dto.store.StoreMenuDto;
 import zerogreen.eco.entity.file.StoreImageFile;
@@ -21,6 +22,7 @@ import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.detail.DetailReviewService;
+import zerogreen.eco.service.detail.ReviewImageService;
 import zerogreen.eco.service.file.FileService;
 import zerogreen.eco.service.store.StoreImageService;
 import zerogreen.eco.service.store.StoreMenuService;
@@ -44,6 +46,7 @@ public class StoreController {
     private final StoreMenuService storeMenuService;
     private final StoreImageService storeImageService;
     private final DetailReviewService detailReviewService;
+    private final ReviewImageService reviewImageService;
     private final FileService fileService;
 
 
@@ -67,9 +70,20 @@ public class StoreController {
         StoreDto info = storeMemberService.getStore(principalDetails.getId());
         model.addAttribute("info", info);
 
-        List<DetailReviewDto> result = detailReviewService.findByStore(principalDetails.getId());
-        model.addAttribute("review", result);
-        Collections.reverse(result);
+        //리뷰
+        List<DetailReviewDto> review = detailReviewService.findByStore(principalDetails.getId());
+        model.addAttribute("review", review);
+        Collections.reverse(review);
+
+        //리뷰 이미지
+        List<ReviewImageDto> reviewImages = reviewImageService.findByStore(principalDetails.getId());
+        model.addAttribute("reviewImageList", reviewImages);
+        Collections.reverse(reviewImages);
+
+//        List<DetailReviewDto> reviews = storeMemberService.getReviewByStore(principalDetails.getId());
+//        model.addAttribute("review", reviews);
+//        log.info("KGH" + reviews);
+//        Collections.reverse(reviews);
 
         return "store/myInfo";
     }
@@ -107,17 +121,20 @@ public class StoreController {
 
         List<MultipartFile> attachedFiles = storeDto.getUploadFiles();
 
-        for (MultipartFile uploadFile : attachedFiles) {
-            if (!uploadFile.getContentType().startsWith("image")) {
-                List<StoreDto> storeImageList = storeImageService.getImageByStore(principalDetails.getId());
-                model.addAttribute("storeImageList", storeImageList);
-                List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
-                model.addAttribute("tableList", tableList);
-                bindingResult.reject("notImageFile", "ERROR!!");
+        log.info("KGH"+attachedFiles.get(0).getContentType());
+            for (MultipartFile uploadFile : attachedFiles) {
+                if (!uploadFile.getContentType().startsWith("image")
+                && !uploadFile.getContentType().endsWith("octet-stream")) {
+                    List<StoreDto> storeImageList = storeImageService.getImageByStore(principalDetails.getId());
+                    model.addAttribute("storeImageList", storeImageList);
+                    List<StoreMenuDto> tableList = storeMenuService.getStoreMenu(principalDetails.getId());
+                    model.addAttribute("tableList", tableList);
 
-                return "store/updateInfo";
+                    bindingResult.reject("notImageFile", "사진을 첨부해주세요");
+
+                    return "store/updateInfo";
+                }
             }
-        }
 
         //이미지 로컬 저장
         List<StoreImageFile> storeImageFiles = fileService.storeImageFiles(storeDto.getUploadFiles(), storeDto.getStoreName());
@@ -132,7 +149,7 @@ public class StoreController {
     public String updateGradeList(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                   Model model, HttpServletRequest request) {
         String name = request.getParameter("name");
-        int price = Integer.parseInt(request.getParameter("price"));
+        String price = request.getParameter("price");
         VegetarianGrade vegetarianGrade = VegetarianGrade.valueOf(request.getParameter("grade"));
 
         storeMenuService.updateStoreMenu(principalDetails.getId(), name, price, vegetarianGrade);
@@ -149,7 +166,7 @@ public class StoreController {
                                  Model model, HttpServletRequest request) {
 
         String name = request.getParameter("name");
-        int price = Integer.parseInt(request.getParameter("price"));
+        String price = request.getParameter("price");
 
         storeMenuService.updateStoreMenu(principalDetails.getId(), name, price);
 

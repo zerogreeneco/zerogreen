@@ -249,13 +249,13 @@ public class TestDataInit {
 
 
             //StoreMenu
-            StoreMenu storeMenu1 = new StoreMenu("menu1-1",1000,VegetarianGrade.LACTO, foodTest1);
+            StoreMenu storeMenu1 = new StoreMenu("menu1-1","1,000",VegetarianGrade.LACTO, foodTest1);
             storeMenuService.saveStoreMenuTest(storeMenu1);
-            StoreMenu storeMenu11 = new StoreMenu("menu1-2 Luv",1000,VegetarianGrade.PLEXITARIAN, foodTest1);
+            StoreMenu storeMenu11 = new StoreMenu("menu1-2 Luv","1,000",VegetarianGrade.PLEXITARIAN, foodTest1);
             storeMenuService.saveStoreMenuTest(storeMenu11);
-            StoreMenu storeMenu2 = new StoreMenu("menu2-1",5000,VegetarianGrade.PLEXITARIAN, generalTest1);
+            StoreMenu storeMenu2 = new StoreMenu("menu2-1","5,000",VegetarianGrade.PLEXITARIAN, generalTest1);
             storeMenuService.saveStoreMenuTest(storeMenu2);
-            StoreMenu storeMenu22 = new StoreMenu("menu2-2 XOXO",5000,VegetarianGrade.PLEXITARIAN, generalTest1);
+            StoreMenu storeMenu22 = new StoreMenu("menu2-2 XOXO","5,000",VegetarianGrade.PLEXITARIAN, generalTest1);
             storeMenuService.saveStoreMenuTest(storeMenu22);
 
             em.flush();
