@@ -256,6 +256,9 @@ $(function () {
         })
             .done(function (fragment) {
                 $("#more-wrapper").append(fragment);
+            })
+            .fail(function (error) {
+                alert(error);
             });
     });
 

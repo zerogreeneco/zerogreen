@@ -105,6 +105,18 @@ public class FileServiceImpl implements FileService {
         return new StoreImageFile(originalFilename, storeFilename, thumbnailName, getFullPathImage(storeFilename, storeName), getFullPathImage(thumbnailName, storeName));
     }
 
+    private void makeThumbnail(String thumbnailName, File saveFile, int width, int height) throws IOException {
+        File thumbnailFile = new File(getFullPath(thumbnailName));
+
+        BufferedImage readImage = ImageIO.read(saveFile);
+
+        BufferedImage thumbImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+        Graphics2D graphics = thumbImage.createGraphics();
+
+        graphics.drawImage(readImage, 0, 0, width, height, null);
+        ImageIO.write(thumbImage, "png", thumbnailFile);
+    }
+
     /*
      * 서버에 저장될 이름 생성
      * */
@@ -139,19 +151,7 @@ public class FileServiceImpl implements FileService {
         File saveFile = new File(getFullPath(storeFilename));
         multipartFile.transferTo(saveFile);
 
-        File thumbnailFile = new File(getFullPath(thumbnailName));
-
-        BufferedImage readImage = ImageIO.read(saveFile);
-
-        double ratio = 3.0;
-        int width = (int) (readImage.getWidth() / ratio);
-        int height = (int) (readImage.getHeight() / ratio);
-
-        BufferedImage thumbImage = new BufferedImage(146, 146, BufferedImage.TYPE_3BYTE_BGR);
-        Graphics2D graphics = thumbImage.createGraphics();
-
-        graphics.drawImage(readImage, 0, 0, 146, 146, null);
-        ImageIO.write(thumbImage, "png", thumbnailFile);
+        makeThumbnail(thumbnailName, saveFile, 146, 146);
 
         return new BoardImage(originalFilename, storeFilename, getFullPath(storeFilename), thumbnailName);
     }
@@ -167,19 +167,6 @@ public class FileServiceImpl implements FileService {
         }
         return boardImages;
 
-    }
-
-    public void imageResize(String storeName) throws IOException {
-        File file = new File(getFullPath(storeName));
-        InputStream inputStream = new FileInputStream(file);
-        Image image = new ImageIcon(file.toString()).getImage();
-
-        int width = 1280;
-        int height = 720;
-
-        BufferedImage resizedImage = resize(inputStream, width, height);
-
-        ImageIO.write(resizedImage, "jpg", new File(getFullPath("resize_" + storeName)));
     }
 
     private BufferedImage resize(InputStream inputStream, int width, int height) throws IOException {
@@ -207,20 +194,7 @@ public class FileServiceImpl implements FileService {
         File saveFile = new File(getFullPath(reviewFileName));
         multipartFile.transferTo(saveFile);
 
-        File thumbnailFile = new File(getFullPath("thumb_" + reviewFileName));
-
-        BufferedImage readImage = ImageIO.read(saveFile);
-
-        double ratio = 3.0;
-        int width = (int) (readImage.getWidth() / ratio);
-        int height = (int) (readImage.getHeight() / ratio);
-
-        BufferedImage thumbImage = new BufferedImage(120, 120, BufferedImage.TYPE_3BYTE_BGR);
-        Graphics2D graphics = thumbImage.createGraphics();
-
-        graphics.drawImage(readImage, 0, 0, 120, 120, null);
-        ImageIO.write(thumbImage, "png", thumbnailFile);
-
+        makeThumbnail("thumb_" + reviewFileName, saveFile, 120, 120);
 
         return new ReviewImage(originalFilename, reviewFileName, getFullPath(reviewFileName), thumbnailName);
 
@@ -237,5 +211,6 @@ public class FileServiceImpl implements FileService {
         }
         return reviewImages;
     }
+
 
 }

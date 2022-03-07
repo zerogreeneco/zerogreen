@@ -14,7 +14,8 @@
                     </select>
                 </div>
                 <div>
-                    <input type="checkbox" th:field="*{chat}" value="false">
+                    <input type="checkbox" id="chat" th:field="*{chat}" value="false">
+                    <label for="chat">채팅 허용</label>
                 </div>
                 <div>
                     <textarea th:field="*{text}" class="rg-input"></textarea>

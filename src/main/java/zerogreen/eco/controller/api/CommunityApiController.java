@@ -38,11 +38,7 @@ public class CommunityApiController {
         log.info("CATEGORY={}", category);
 
         if (category == null) {
-            Instant start = Instant.now();
             Slice<CommunityResponseDto> allCommunityBoard = boardService.findAllCommunityBoard(pageable);
-            Instant close = Instant.now();
-            Long timeElapsed = Duration.between(start, close).toMillis();
-            log.info("TIME TEST={}", timeElapsed);
             int size = allCommunityBoard.getSize();
             return new ApiReturnDto<>(size, allCommunityBoard);
         } else {
@@ -52,8 +48,8 @@ public class CommunityApiController {
         }
     }
 
-    @RequestMapping(value = "/api/communityReplyList", produces = MediaType.APPLICATION_JSON_VALUE)
-    private ApiReturnDto communityReplyList(@RequestParam(value = "boardId") Long boardId, Model model) {
+    @GetMapping(value = "/communityReplyList", produces = MediaType.APPLICATION_JSON_VALUE)
+    private ApiReturnDto communityReplyList(@RequestParam(value = "boardId") Long boardId) {
         List<CommunityReplyDto> replyList = replyService.findReplyByBoardId(boardId);
         int size = replyList.size();
         return new ApiReturnDto<>(size, replyList);

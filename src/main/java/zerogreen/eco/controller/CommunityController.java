@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import zerogreen.eco.dto.api.ApiReturnDto;
 import zerogreen.eco.dto.community.CommunityReplyDto;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.ImageFileDto;
@@ -98,8 +99,6 @@ public class CommunityController {
                         BindingResult bindingResult,
                         @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
 
-        log.info("write dto={}",dto);
-
         Long boardId = boardService.boardRegister(dto, (Member) principalDetails.getBasicUser(),
                 fileService.boardImageFiles(dto.getImageFiles()));
 
@@ -159,14 +158,10 @@ public class CommunityController {
             model.addAttribute("likeCount", boardService.countLike(boardId, principalDetails.getBasicUser().getId()));
             session.setAttribute("loginUser", principalDetails.getBasicUser().getUsername());
         }
-//        model.addAttribute("myId",principalDetails.getUsername());
 
         model.addAttribute("detailView", boardService.findDetailView(boardId, request, response));
         List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
         model.addAttribute("replyList", replyByBoardId);
-        for (CommunityReplyDto communityReplyDto : replyByBoardId) {
-            log.info("DETAIL REPLY={}", communityReplyDto);
-        }
 
         List<ImageFileDto> imageList = boardImageService.findByBoardId(boardId);
         if (imageList.size() > 0) {
@@ -228,20 +223,37 @@ public class CommunityController {
     /*
      * 댓글
      * */
+//    @PostMapping("/{boardId}/reply")
+//    public String replySend(@PathVariable("boardId") Long boardId, Model model,
+//                            @ModelAttribute("reply") CommunityReplyDto replyDto,
+//                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+//
+//        replyService.replySave(replyDto.getText(), boardId, principalDetails.getBasicUser());
+//        List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
+//        for (CommunityReplyDto communityReplyDto : replyByBoardId) {
+//            System.out.println("REPLY communityReplyDto = " + communityReplyDto.getNickname());
+//        }
+//        model.addAttribute("replyList", replyByBoardId);
+//
+//        return "community/communityDetailView :: #review-table";
+//    }
+
     @PostMapping("/{boardId}/reply")
-    public String replySend(@PathVariable("boardId") Long boardId, Model model,
-                            @ModelAttribute("reply") CommunityReplyDto replyDto,
-                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> replySend(@PathVariable("boardId") Long boardId, Model model,
+                                                         @ModelAttribute("reply") CommunityReplyDto replyDto,
+                                                         @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        Map<String, String> resultMap = new HashMap<>();
 
         replyService.replySave(replyDto.getText(), boardId, principalDetails.getBasicUser());
-
         List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
         for (CommunityReplyDto communityReplyDto : replyByBoardId) {
-            log.info("REPLLLL<<<<<={}",communityReplyDto);
+            System.out.println("REPLY communityReplyDto = " + communityReplyDto.getNickname());
         }
         model.addAttribute("replyList", replyByBoardId);
 
-        return "community/communityDetailView :: #review-table";
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     /*
@@ -254,10 +266,6 @@ public class CommunityController {
                                                            HttpServletRequest request) {
         Map<String, String> resultMap = new HashMap<>();
         String text = request.getParameter("text");
-
-        log.info("BOARDID={}", boardId);
-        log.info("REPLYID={}", replyId);
-        log.info("TEXT={}", text);
 
         replyService.modifyReply(replyId, text);
 
@@ -292,17 +300,25 @@ public class CommunityController {
         replyService.nestedReplySave(text, boardId, principalDetails.getBasicUser(), replyId);
 
         List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
-
         for (CommunityReplyDto communityReplyDto : replyByBoardId) {
-            log.info("REPLY LIST!!!!!!!!={}", communityReplyDto);
+            System.out.println("NEST communityReplyDto = " + communityReplyDto.getNickname());
         }
         model.addAttribute("replyList", replyByBoardId);
 
         return "community/communityDetailView :: #review-table";
     }
 
+    @GetMapping("/api/replyList/{boardId}")
+    @ResponseBody
+    public ApiReturnDto replyList(@PathVariable("boardId") Long boardId) {
+        List<CommunityReplyDto> replyList = replyService.findReplyByBoardId(boardId);
+
+        return new ApiReturnDto<>(replyList);
+    }
+
     // Paging List
     private void communityPagingList(RequestPageSortDto requestPageDto, Model model, SearchType searchType, String keyword, Category category) {
+
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("createdDate").descending());
 
         model.addAttribute("searchType", searchType);

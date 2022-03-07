@@ -29,9 +29,9 @@ class BoardReplyRepositoryTest {
     @Autowired
     private BoardReplyRepository boardReplyRepository;
 
-    @Test
-    public void 댓글_리스트() {
-
+//    @Test
+//    public void 댓글_리스트() {
+//
 //        Member findMember = memberRepository.findById(47L).get();
 //        CommunityBoard findBoard = communityBoardRepository.findById(2003L).get();
 //        for (int i = 0; i < 3; i++) {

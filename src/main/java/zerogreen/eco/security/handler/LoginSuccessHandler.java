@@ -28,6 +28,8 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication)
             throws IOException, ServletException {
 
+        log.info("LOGIN SUCCESS>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 
         List<String> roleList = new ArrayList<>();
@@ -42,9 +44,9 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 
         HttpSession session = request.getSession();
 
+        String redirectUrl = (String) session.getAttribute("redirectUrl");
         if (session != null) {
-            String redirectUrl = (String) session.getAttribute("redirectUrl");
-            if(roleList.contains(String.valueOf(UserRole.USER))) redirectUrl = "/";
+            if(roleList.contains(String.valueOf(UserRole.AUTH_USER))) redirectUrl = "/authAddInfo";
             if (redirectUrl != null) {
                 session.removeAttribute("redirectUrl");
             } else {
@@ -52,6 +54,5 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
             }
             getRedirectStrategy().sendRedirect(request, response, redirectUrl);
         }
-
     }
 }

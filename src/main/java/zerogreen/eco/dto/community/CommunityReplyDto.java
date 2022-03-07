@@ -32,19 +32,18 @@ public class CommunityReplyDto {
     private String username;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdTime;
-    private List<CommunityReplyDto> nestedReplyList = new ArrayList<>();
     private VegetarianGrade vegetarianGrade;
 
-    public CommunityReplyDto() {}
+    public CommunityReplyDto() {
+    }
+
     // 댓글
     public CommunityReplyDto(BoardReply boardReply) {
 
         // 멤버 타입에 따라서 nickname 분기
         if (boardReply.getReplier() instanceof Member) {
-            this.nickname = ((Member)boardReply.getReplier()).getNickname();
+            this.nickname = ((Member) boardReply.getReplier()).getNickname();
             this.vegetarianGrade = ((Member) boardReply.getReplier()).getVegetarianGrade();
-            log.info("DTO NICKNAME={}", this.nickname);
-            log.info("DTO VEGAN={}", this.vegetarianGrade);
         } else if (boardReply.getReplier() instanceof StoreMember) {
             this.nickname = ((StoreMember) boardReply.getReplier()).getStoreName();
         } else if (boardReply.getReplier().getUserRole().equals(UserRole.ADMIN)) {
@@ -57,8 +56,5 @@ public class CommunityReplyDto {
         this.username = boardReply.getReplier().getUsername();
         this.createdTime = boardReply.getModifiedDate();
         this.depth = boardReply.getDepth();
-        this.nestedReplyList =
-                boardReply.getNestedReplyList().stream()
-                        .map(CommunityReplyDto::new).collect(Collectors.toList());
     }
 }
