@@ -44,8 +44,8 @@
             <div class="card" th:each="list : ${list}"
                  th:onclick="|location.href='@{/page/detail/{id}(id=${list.id})}'|">
                 <div class="card-header">
-                    <span id="sorry-emoji">😅</span>
-                    <span id="sorry-text">아직 등록된 사진이 없어요</span>
+                    <span class="sorry-emoji">😅</span>
+                    <span class="sorry-text">아직 등록된 사진이 없어요</span>
                 </div>
                 <div class="shopList-box">
                     <div class="card-body">
