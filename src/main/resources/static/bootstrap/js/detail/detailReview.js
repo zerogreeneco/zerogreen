@@ -213,9 +213,9 @@ $(document).ready(function(e){
         let idx = $(this).index();
         let next = idx + 1;
         let prev = idx - 1;
-        let imgSrc = $(this).find(".rv-imageOnly").attr("src");
-        let nextImg = $(".rv-img-list").eq(next).find(".rv-imageOnly").attr("src");
-        let prevImg = $(".rv-img-list").eq(prev).find(".rv-imageOnly").attr("src");
+        let imgSrc = $(this).find(".rv-imageOnlyOrigin").attr("src");
+        let nextImg = $(".rv-img-list").eq(next).find(".rv-imageOnlyOrigin").attr("src");
+        let prevImg = $(".rv-img-list").eq(prev).find(".rv-imageOnlyOrigin").attr("src");
 
         $(".modal_content").attr("src", imgSrc);
         //console.log("imgSrc  " + imgSrc);
@@ -246,10 +246,10 @@ $(document).ready(function(e){
         let next = idx + 1;
         let prev = idx - 1;
 
-        let imgSrc2 = $(this).children(".mImage").attr("src");
+        let imgSrc2 = $(this).children(".mImageOrigin").attr("src");
         console.log("imgSrc2" + imgSrc2)
-        let nextImg = $(".rv-img").eq(next).find(".mImage").attr("src");
-        let prevImg = $(".rv-img").eq(prev).find(".mImage").attr("src");
+        let nextImg = $(".rv-img").eq(next).find(".mImageOrigin").attr("src");
+        let prevImg = $(".rv-img").eq(prev).find(".mImageOrigin").attr("src");
 
         $(".modal_content").attr("src", imgSrc2);
         $(".modal").show();
