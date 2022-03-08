@@ -167,14 +167,14 @@ label{
     position: relative;
     left: 75%;
 }
-#sorry-emoji {
+.sorry-emoji {
     font-size: 2em;
     display: inline-block;
     margin-bottom: 10px;
     text-align: center;
     margin-top: 50px;
 }
-#sorry-text {
+.sorry-text {
     display: block;
     font-size: 1em;
     color: lightgrey;
