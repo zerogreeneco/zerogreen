@@ -10,7 +10,7 @@
         <div style="margin: 0 auto;" sec:authorize="isAuthenticated()">
             <div sec:authorize="hasRole('ROLE_STORE')">
                 <!--왼쪽 프로필-->
-                <div id="leftSide">
+                <div class="leftSide">
                     <div class="profile-div inline">
                         <div class="profile-image">
                             <img th:src="@{'/bootstrap/images/profile/STORE.png'}" width="70px" height="70px">
@@ -32,7 +32,7 @@
                 </div>
 
                 <!--우측 메뉴들-->
-                <div id="rightSide">
+                <div class="rightSide">
                     <!--우측 상단 찜한가게+내 리뷰-->
                     <div class="counting">
                         <div class="div-cnt inline cursor"
@@ -62,10 +62,16 @@
                                     <div class="card cursor" th:each="review:${review}"
                                          th:onclick="|location.href='@{/page/detail/{sno}(sno=${info.sno})}'|">
                                         <div class="card-header">
-                                            <img src="https://via.placeholder.com/300"/>
-                                        </div>
+                                            <span class="sorry-emoji">😅</span>
+                                            <span class="sorry-text">아직 등록된 사진이 없어요</span>
 
+                                            <!--                                            <img th:src="@{/page/detail/images/{review}(review=*{review.thumbnailName})}"-->
+<!--                                                 th:value="${review.thumbnailName}" width="300px" height="300px"/>-->
+                                        </div>
                                         <div class="card-body">
+                                            <span class="shop-name">
+                                                <img th:src="@{'/bootstrap/images/profile/'+${review.vegetarianGrade}+'.png'}"
+                                                 width="15px" height="15px">[[${review.nickname}]]</span>
                                             <span class="shop-name reviewText">[[${review.reviewText}]]</span>
                                             <span class="shop-name">[[${#temporals.format(review.createdTime, 'yyyy-MM-dd HH:mm')}]]</span>
                                         </div>
@@ -84,6 +90,31 @@
 
                     <!-- end myReviews -->
 
+                </div>
+                <!-- end of right section -->
+            </div>
+            <div sec:authorize="hasRole('ROLE_UN_STORE')">
+                <!--왼쪽 프로필-->
+                <div class="leftSide">
+                    <div class="profile-div inline">
+                        <div class="profile-image">
+                            <img th:src="@{'/bootstrap/images/profile/STORE.png'}" width="70px" height="70px">
+                        </div>
+                        <span class="profile-name">[[${info.storeName}]]</span>
+                    </div>
+
+                    <!-- 정보 수정 버튼 -->
+                    <div class="profile-div">
+                        <span class="editMyInfo profile-btn inline" th:onclick="|location.href='@{/stores/account}'|">내 회원 정보 수정</span>
+                    </div>
+                </div>
+
+                <!--우측 메뉴들-->
+                <div class="rightSide">
+                    <div style="padding-top: 3rem;">
+                        <span class="sorry-emoji">😅</span>
+                        <span class="sorry-text">관리자 승인 대기 중 입니다</span>
+                    </div>
                 </div>
                 <!-- end of right section -->
             </div>

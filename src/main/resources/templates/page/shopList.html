@@ -39,16 +39,12 @@
                             <div class="card-body">
                                 <span class="like"><img class="icon" th:src="@{/bootstrap/images/list/heart.png}"> 1230</span>
                                 <span class="shop-name">[[${list.storeName}]]</span>
-                                <span><img class="icon" th:src="@{/bootstrap/images/list/call.png}">[[${list.storePhoneNumber}]]</span>
+                                <span><img class="icon" th:src="@{/bootstrap/images/list/call.png}"> [[${list.storePhoneNumber}]]</span>
                                 <span th:if="${#strings.isEmpty(list.openTime)}">
-                                    <img class="icon" th:src="@{/bootstrap/images/list/clock.png}">매장 확인 필요</span>
+                            <img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> 매장 확인 필요</span>
                                 <span th:unless="${#strings.isEmpty(list.openTime)}">
-                                    <img class="icon" th:src="@{/bootstrap/images/list/clock.png}">[[${list.openTime}]] ~ [[${list.closeTime}]]</span>
-                                <span th:if="${#strings.isEmpty(list.storeMenu)}">
-                                    <img class="icon" th:src="@{/bootstrap/images/list/clock.png}">매장 확인 필요</span>
-                                <span th:unless="${#strings.isEmpty(list.storeMenu)}">
-                                    <img class="icon" th:src="@{/bootstrap/images/list/box.png}">[[${list.storeMenu}]]</span>
-                            </div>
+                            <img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> [[${list.openTime}]] ~ [[${list.closeTime}]]</span>
+                                <span><img class="icon" th:src="@{/bootstrap/images/list/box.png}"> 대나무 헬리콥터</span>                            </div>
                         </div>
                     </div>
                 </div>
