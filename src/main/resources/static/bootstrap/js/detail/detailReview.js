@@ -167,14 +167,14 @@ $(document).ready(function(e){
    $('textarea').keyup();
 
 
-    //리뷰 이미지 등록시 textarea 마진 재설정
+    //리뷰 이미지 등록시 textarea 마진 + div13 height 재설정
    $('.mrv-textarea').on('change',function (e) {
        let img = $(this).parent().find('.div12').find('.rv-img').val();
        let div13 = $(this).parent('.div13');
 
         if (img != null) {
             $(this).css('marginLeft','130px');
-            $(this).css('height','8em');
+            div13.css('height','8em');
         }
    });
    $('.mrv-textarea').change();
@@ -298,7 +298,7 @@ $(document).ready(function(e){
     });//file change
 
 
-    //프리뷰 삭제
+    //프리뷰 삭제 ** on working **
     $("#preview").on("click", "ul button", function() {
         console.log("clickyyyyyyyyyyyy");
 
@@ -350,7 +350,7 @@ $(document).ready(function(e){
 function checkExtension(fileName, fileSize, fileLength){
 
     let maxLength = 5;
-    let regex = new RegExp("(.*?)\.(jpg|png|jpeg)$");
+    let regex = new RegExp("(.*?)\.(jpg|png|jpeg|JPG|PNG|JPEG)$");
 /*
     let maxSize = 1048576;  //1MB
 
@@ -381,7 +381,7 @@ function preview(arr){
     arr.forEach(function(f){
 
         //div에 이미지 추가
-        let str = '<div style="display: inline-flex; padding: 10px;" class="previewImg"><ul>';
+        let str = '<div style="display: inline-flex; padding: 10px;" class="previewImg"><ul class="preview-ul">';
 
         //이미지 파일 미리보기
         if(f.type.match('image.*')){
@@ -389,8 +389,8 @@ function preview(arr){
 
             reader.onload = function (e) { //파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
 
-                str += '<button type="button" class="previewDel" value="'+f.name+'" style="background: gray">X</button><br>';
-                str += '<img src="'+e.target.result+'" width=100 height=100>';
+//                str += '<button type="button" class="previewDel" value="'+f.name+'" style="background: gray">X</button><br>';
+                str += '<img src="'+e.target.result+'" width=120>';
                 str += '</ul></div>';
 
                 $(str).appendTo('#preview');

@@ -19,14 +19,14 @@
 
             <!-- 1열 -->
             <div class="detail-top">
-                <div class="div21" style="position: relative;" th:if="${#lists.size(getStore.imageFile) >= 1}">
+                <div class="div21" style="position: relative;" th:if="${#lists.size(getStore.imageList) >= 1}">
                     <span id="image-left-top" class="arrow-left-top arrow"
-                          th:if="${#lists.size(getStore.imageFile) >= 5}">&#139;</span>
+                          th:if="${#lists.size(getStore.imageList) >= 5}">&#139;</span>
                     <span id="image-right-top" class="arrow-right-top arrow"
-                          th:if="${#lists.size(getStore.imageFile) >= 5}">&#155;</span>
+                          th:if="${#lists.size(getStore.imageList) >= 5}">&#155;</span>
                     <div class="slider-container">
                         <div class="image-slider-top slider">
-                            <div class="card sImg-list" th:each="sImg: ${getStore.imageFile}">
+                            <div class="card sImg-list" th:each="sImg: ${getStore.imageList}">
                                 <img class="inline " th:src="@{/page/detail/image/} + ${getStore.storeName} + ${sImg.storeFileName}"
                                      th:value="${sImg.fileName}"
                                      width="200px" height="200px">
@@ -64,7 +64,7 @@
                                 <img th:attr="src = @{/bootstrap/images/like/disLike.png}" class="like-img"/>
                             </div>
                         </div>
-                        <!--좋아요 수-->
+                            <!--좋아요 수-->
                             <span class="like-cnt">[[${getStore.likesCount}]]</span>
                     </div>
 
@@ -92,7 +92,7 @@
                 <div class="thr-thr inline">
                     <div class="thr thr-left inline">
                         <div th:each="menu: ${getStore.menuList}">
-                            <span>
+                            <span th:if="${menu.vegetarianGrade} != null">
                                 <img th:src="@{'/bootstrap/images/profile/' +${menu.vegetarianGrade}+'.png'}"
                                  class="veganImg">
                             </span>

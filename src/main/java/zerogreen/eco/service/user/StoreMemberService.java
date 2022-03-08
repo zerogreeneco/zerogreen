@@ -15,11 +15,11 @@ import java.util.List;
 public interface StoreMemberService {
     //스토어 회원가입
     Long save(StoreMember storeMember, RegisterFile registerFile);
-    //이친구뭐예용
-    void storeInfoSave(StoreMember storeMember);
 
     List<NonApprovalStoreDto> findByApprovalStore(UserRole userRole);
     //스토어 db 불러오기
+//    StoreDto getStore2(Long sno);
+//    StoreDto getStore3(Long sno);
     StoreDto getStore(Long sno);
 
     //List 출력

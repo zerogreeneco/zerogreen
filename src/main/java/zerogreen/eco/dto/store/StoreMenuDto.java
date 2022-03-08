@@ -31,4 +31,5 @@ public class StoreMenuDto {
         this.menuPrice = storeMenu.getMenuPrice();
         this.vegetarianGrade = storeMenu.getVegetarianGrade();
     }
+
 }

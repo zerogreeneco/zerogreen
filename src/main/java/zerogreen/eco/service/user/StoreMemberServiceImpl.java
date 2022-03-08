@@ -12,7 +12,6 @@ import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
 import zerogreen.eco.entity.file.StoreImageFile;
-import zerogreen.eco.entity.userentity.StoreInfo;
 import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.entity.userentity.UserRole;
@@ -63,15 +62,19 @@ public class StoreMemberServiceImpl implements StoreMemberService {
                 .getId();
     }
 
-    @Transactional
-    @Override
-    public void storeInfoSave(StoreMember storeMember) {
-        StoreMember findMember = storeMemberRepository.findById(storeMember.getId()).orElseGet(null);
-        StoreInfo storeInfo = findMember.getStoreInfo();
-        findMember.setStoreInfo(findMember.getStoreInfo());
-    }
+    //상세페이지 ** 작업중 **
+    //query dsl
+//    @Override
+//    public StoreDto getStore2(Long sno) {
+//        return storeMemberRepository.getStoreById(sno);
+//    }
 
-    //상세페이지 ** 아래 주석포함 작업중 **
+    //orm
+//    public StoreDto getStore3(Long sno) {
+//        StoreMember storeMember = storeMemberRepository.getStore2(sno);
+//        return new StoreDto(storeMember);
+//    }
+
     @Override
     public StoreDto getStore(Long sno) {
         StoreMember storeMember = storeMemberRepository.findById(sno).orElseThrow();
@@ -86,11 +89,8 @@ public class StoreMemberServiceImpl implements StoreMemberService {
                 .reviewCount(detailReviewRepository.counting(sno))
                 .build();
     }
+    //여기까지**************************
 
-//    @Override
-//    public StoreDto getStore(Long sno) {
-//        return storeMemberRepository.getStoreById(sno);
-//    }
 
     @Override
     public List<NonApprovalStoreDto> findByApprovalStore(UserRole userRole) {
