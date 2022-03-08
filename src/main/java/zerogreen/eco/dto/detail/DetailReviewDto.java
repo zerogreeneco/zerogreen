@@ -37,10 +37,10 @@ public class DetailReviewDto {
     private String storeName;
 
     private String storeThumbnail;
+    private String reviewThumbnail;
 
     private List<ReviewImage> imageList;
     private List<MultipartFile> imageFiles;
-    private String reviewThumbnail;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdTime;
@@ -88,6 +88,16 @@ public class DetailReviewDto {
         this.id = id;
         this.createdTime = createdTime;
         this.storeThumbnail = storeThumbnail;
+    }
+
+    //가게 리뷰 리스트
+    public DetailReviewDto(VegetarianGrade vegetarianGrade, String nickname,  String reviewText,
+                           LocalDateTime createdTime, String reviewThumbnail){
+        this.vegetarianGrade = vegetarianGrade;
+        this.nickname = nickname;
+        this.reviewText = reviewText;
+        this.createdTime = createdTime;
+        this.reviewThumbnail = reviewThumbnail;
     }
     
 }

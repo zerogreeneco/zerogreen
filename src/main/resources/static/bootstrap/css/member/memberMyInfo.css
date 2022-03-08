@@ -125,6 +125,7 @@
     position: absolute;
     z-index: 999;
     color: #3498db;
+    cursor:pointer;
 }
 .arrow-right {
     right: 0;
@@ -133,6 +134,7 @@
     position: absolute;
     z-index: 999;
     color: #3498db;
+    cursor: pointer;
 }
 
 .shopList-box {
