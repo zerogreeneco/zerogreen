@@ -70,14 +70,14 @@
 
         <!-- 상세보기 내용 -->
         <hr>
+
+        <div th:each="imageFile : ${images}" class="image-wrapper">
+            <img class="img-fit" th:src="@{/community/images/{imageFile}(imageFile=*{imageFile.storeFileName})}"
+                 th:value="${imageFile.uploadFileName}">
+        </div>
+
         <div th:object="${detailView}" class="cm-main-wrapper" style="padding: 10px;">
             <span th:field="*{text}" th:text="*{text}" style="line-height: 200%;"></span>
-        </div>
-        <!-- 이미지 -->
-        <div th:each="imageFile : ${images}" class="image-wrapper">
-            <img th:src="@{/community/images/{imageFile}(imageFile=*{imageFile.storeFileName})}"
-                 th:value="${imageFile.uploadFileName}"
-                 width="700px" height="auto">
         </div>
 
         <!-- 상세보기 리뷰 작성 -->

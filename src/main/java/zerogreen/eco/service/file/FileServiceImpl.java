@@ -2,6 +2,7 @@ package zerogreen.eco.service.file;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -248,13 +250,18 @@ public class FileServiceImpl implements FileService {
     * */
     private void makeThumbnail(String thumbnailName, File saveFile, int width, int height) throws IOException {
         File thumbnailFile = new File(getFullPath(thumbnailName));
-
         BufferedImage readImage = ImageIO.read(saveFile);
 
-        BufferedImage thumbImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
-        Graphics2D graphics = thumbImage.createGraphics();
+        int w = readImage.getWidth();
+        int h = readImage.getHeight();
+        int min = Math.min(w, h);
 
-        graphics.drawImage(readImage, 0, 0, width, height, null);
+        BufferedImage tmpImage = Scalr.crop(readImage, (w-min)/2, (h-min)/2, min, min);
+        BufferedImage thumbImage = Scalr.resize(tmpImage, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 178);
+        //BufferedImage thumbImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+
+        //Graphics2D graphics = thumbImage.createGraphics();
+        //graphics.drawImage(readImage, 0, 0, width, height, null);
         ImageIO.write(thumbImage, "png", thumbnailFile);
     }
 

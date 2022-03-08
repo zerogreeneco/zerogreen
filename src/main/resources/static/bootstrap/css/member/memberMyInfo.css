@@ -101,10 +101,20 @@
     font-size: 1.1em;
     margin-left: 40px;
     line-height: 200%;
+    padding-right: 40px;
 }
 
 .listing {
     margin-bottom: 15px;
+}
+
+.no-data {
+    background: lightgray;
+    display: block;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    padding: 10px;
 }
 
 /* 리뷰 리스트 */
