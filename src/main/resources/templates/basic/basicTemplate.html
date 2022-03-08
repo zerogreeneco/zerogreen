@@ -62,10 +62,7 @@
                              sec:authorize="hasAnyRole({'ROLE_USER','ROLE_AUTH_USER'})"/>
                         <img class="profile" th:src="@{/bootstrap/images/profile/STORE.png}"
                              th:onclick="|location.href='@{/stores/myInfo}'|"
-                             sec:authorize="hasRole('ROLE_STORE')"/>
-                        <img class="profile" th:src="@{/bootstrap/images/profile/STORE.png}"
-                             th:onclick="|location.href='@{/stores/account}'|"
-                             sec:authorize="hasRole('ROLE_UN_STORE')"/>
+                             sec:authorize="hasAnyRole({'ROLE_STORE','ROLE_UN_STORE'})"/>
                 </div>
             </header>
         </div>
