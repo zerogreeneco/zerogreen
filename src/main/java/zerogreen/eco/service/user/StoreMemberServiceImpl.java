@@ -64,16 +64,16 @@ public class StoreMemberServiceImpl implements StoreMemberService {
 
     //상세페이지 ** 작업중 **
     //query dsl
-    @Override
-    public StoreDto getStore2(Long sno) {
-        return storeMemberRepository.getStoreById(sno);
-    }
+//    @Override
+//    public StoreDto getStore2(Long sno) {
+//        return storeMemberRepository.getStoreById(sno);
+//    }
 
     //orm
-    public StoreDto getStore3(Long sno) {
-        StoreMember storeMember = storeMemberRepository.getStore2(sno);
-        return new StoreDto(storeMember);
-    }
+//    public StoreDto getStore3(Long sno) {
+//        StoreMember storeMember = storeMemberRepository.getStore2(sno);
+//        return new StoreDto(storeMember);
+//    }
 
     @Override
     public StoreDto getStore(Long sno) {

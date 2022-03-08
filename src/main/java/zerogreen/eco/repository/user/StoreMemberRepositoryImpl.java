@@ -51,30 +51,30 @@ public class StoreMemberRepositoryImpl implements StoreMemberRepositoryCustom {
     }
 
     //Store DB (Detail)
-    @Override
-    public StoreDto getStoreById(Long sno) {
-        QLikes subLike = new QLikes("subLike");
-        QDetailReview subReview = new QDetailReview("subReview");
-            return queryFactory
-                .select(Projections.constructor(StoreDto.class,
-                        storeMember.id,
-                        storeMember.storeName,
-                        storeMember.storeType,
-                        storeMember.storeInfo,
-                        ExpressionUtils.as(
-                                JPAExpressions
-                                        .select(count(subLike.id))
-                                        .from(subLike, subLike)
-                                        .where(subLike.storeMember.id.eq(sno)),"likesCount"),
-                        ExpressionUtils.as(
-                                JPAExpressions
-                                        .select(count(subReview.id))
-                                        .from(subReview, subReview)
-                                        .where(subReview.storeMember.id.eq(sno)),"reviewCnt")
-                        ))
-                .from(storeMember, storeMember)
-                .where(storeMember.id.eq(sno))
-                .fetchFirst();
-    }
+//    @Override
+//    public StoreDto getStoreById(Long sno) {
+//        QLikes subLike = new QLikes("subLike");
+//        QDetailReview subReview = new QDetailReview("subReview");
+//            return queryFactory
+//                .select(Projections.constructor(StoreDto.class,
+//                        storeMember.id,
+//                        storeMember.storeName,
+//                        storeMember.storeType,
+//                        storeMember.storeInfo,
+//                        ExpressionUtils.as(
+//                                JPAExpressions
+//                                        .select(count(subLike.id))
+//                                        .from(subLike, subLike)
+//                                        .where(subLike.storeMember.id.eq(sno)),"likesCount"),
+//                        ExpressionUtils.as(
+//                                JPAExpressions
+//                                        .select(count(subReview.id))
+//                                        .from(subReview, subReview)
+//                                        .where(subReview.storeMember.id.eq(sno)),"reviewCnt")
+//                        ))
+//                .from(storeMember, storeMember)
+//                .where(storeMember.id.eq(sno))
+//                .fetchFirst();
+//    }
 
 }

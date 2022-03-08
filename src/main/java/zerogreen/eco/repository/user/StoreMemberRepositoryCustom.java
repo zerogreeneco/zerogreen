@@ -11,6 +11,6 @@ public interface StoreMemberRepositoryCustom {
     List<NonApprovalStoreDto> findByApprovalStore(UserRole userRole);
 
     //get Store DB in page Detail
-    StoreDto getStoreById(Long sno);
+//    StoreDto getStoreById(Long sno);
 
 }

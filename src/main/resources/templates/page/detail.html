@@ -91,8 +91,8 @@
                 <!-- 3열 좌측 -->
                 <div class="thr-thr inline">
                     <div class="thr thr-left inline">
-                        <div th:each="menu: ${getStore.storeMenuList}">
-                            <span>
+                        <div th:each="menu: ${getStore.menuList}">
+                            <span th:if="${menu.vegetarianGrade} != null">
                                 <img th:src="@{'/bootstrap/images/profile/' +${menu.vegetarianGrade}+'.png'}"
                                  class="veganImg">
                             </span>
