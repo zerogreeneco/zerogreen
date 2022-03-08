@@ -71,19 +71,18 @@ public class StoreController {
         model.addAttribute("info", info);
 
         //리뷰
-        List<DetailReviewDto> review = detailReviewService.findByStore(principalDetails.getId());
-        model.addAttribute("review", review);
-        Collections.reverse(review);
+//        List<DetailReviewDto> review = detailReviewService.findByStore(principalDetails.getId());
+//        model.addAttribute("review", review);
+//        Collections.reverse(review);
 
         //리뷰 이미지
-        List<ReviewImageDto> reviewImages = reviewImageService.findByStore(principalDetails.getId());
-        model.addAttribute("reviewImageList", reviewImages);
-        Collections.reverse(reviewImages);
+//        List<ReviewImageDto> reviewImages = reviewImageService.findByStore(principalDetails.getId());
+//        model.addAttribute("reviewImageList", reviewImages);
+//        Collections.reverse(reviewImages);
 
-//        List<DetailReviewDto> reviews = storeMemberService.getReviewByStore(principalDetails.getId());
-//        model.addAttribute("review", reviews);
-//        log.info("KGH" + reviews);
-//        Collections.reverse(reviews);
+        List<DetailReviewDto> reviews = storeMemberService.getReviewByStore(principalDetails.getId());
+        model.addAttribute("review", reviews);
+        Collections.reverse(reviews);
 
         return "store/myInfo";
     }

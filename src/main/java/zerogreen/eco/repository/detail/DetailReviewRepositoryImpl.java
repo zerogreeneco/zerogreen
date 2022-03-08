@@ -5,6 +5,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import zerogreen.eco.dto.detail.DetailReviewDto;
+import zerogreen.eco.entity.detail.QReviewImage;
 import zerogreen.eco.entity.file.QStoreImageFile;
 
 import javax.persistence.EntityManager;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import static zerogreen.eco.entity.detail.QDetailReview.detailReview;
 import static zerogreen.eco.entity.userentity.QBasicUser.basicUser;
+import static zerogreen.eco.entity.userentity.QMember.member;
 import static zerogreen.eco.entity.userentity.QStoreMember.storeMember;
 
 public class DetailReviewRepositoryImpl implements DetailReviewRepositoryCustom{
@@ -23,6 +25,7 @@ public class DetailReviewRepositoryImpl implements DetailReviewRepositoryCustom{
     }
 
     QStoreImageFile subImage = new QStoreImageFile("subImage");
+    QReviewImage reviewImage = new QReviewImage("reviewImage");
 
     //회원별 리뷰 남긴 가게 리스트(memberMyInfo)
     @Override
@@ -54,4 +57,29 @@ public class DetailReviewRepositoryImpl implements DetailReviewRepositoryCustom{
         return content;
     }
 
+    @Override
+    public List<DetailReviewDto> getReviewByStore(Long id) {
+        List<DetailReviewDto> reviews = queryFactory
+                .select(Projections.constructor(DetailReviewDto.class,
+                        member.vegetarianGrade,
+                        member.nickname,
+                        detailReview.reviewText,
+                        detailReview.createdDate,
+                        ExpressionUtils.as(
+                                JPAExpressions
+                                        .select(reviewImage.thumbnailName)
+                                        .from(reviewImage, reviewImage)
+                                        .where(reviewImage.id.eq(
+                                                JPAExpressions
+                                                        .select(reviewImage.id.min())
+                                                        .from(reviewImage, reviewImage)
+                                                        .where(reviewImage.detailReview.id.eq(detailReview.id)))),"reviewImage")
+                                        ))
+                .from(detailReview, detailReview)
+                .innerJoin(member).on(member.id.eq(detailReview.reviewer.id))
+                .where(detailReview.storeMember.id.eq(id))
+                .fetch();
+
+        return reviews;
+    }
 }

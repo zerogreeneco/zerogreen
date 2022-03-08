@@ -8,6 +8,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
@@ -116,6 +117,15 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         return storeMemberRepository.getFoodTypeList(pageable,storeType);
     }
 
+    //storeMyInfo 리뷰
+
+
+    @Override
+    public List<DetailReviewDto> getReviewByStore(Long id) {
+        return detailReviewRepository.getReviewByStore(id);
+    }
+
+    //가게정보 수정
     @Override
     public StoreDto storeInfo(Long id, StoreDto storeDto) {
         StoreMember storeMember = storeMemberRepository.findById(id).orElseThrow();

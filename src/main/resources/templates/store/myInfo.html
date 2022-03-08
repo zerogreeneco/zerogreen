@@ -61,12 +61,13 @@
                                 <div class="review-slider slider">
                                     <div class="card cursor" th:each="review:${review}"
                                          th:onclick="|location.href='@{/page/detail/{sno}(sno=${info.sno})}'|">
-                                        <div class="card-header">
+                                        <div class="card-header" th:if="${#strings.isEmpty(review.reviewThumbnail)}">
                                             <span class="sorry-emoji">😅</span>
                                             <span class="sorry-text">아직 등록된 사진이 없어요</span>
-
-                                            <!--                                            <img th:src="@{/page/detail/images/{review}(review=*{review.thumbnailName})}"-->
-<!--                                                 th:value="${review.thumbnailName}" width="300px" height="300px"/>-->
+                                        </div>
+                                        <div class="card-header" th:if="${not #strings.isEmpty(review.reviewThumbnail)}">
+                                            <img th:src="@{/page/detail/images/{review}(review=*{review.reviewThumbnail})}"
+                                                 th:value="${review.reviewThumbnail}" width="300px" height="300px"/>
                                         </div>
                                         <div class="card-body">
                                             <span class="shop-name">
