@@ -45,7 +45,7 @@ public class FileServiceImpl implements FileService {
 
         if (!dir.exists()) {
             try {
-                dir.mkdir();
+                dir.mkdirs();
             } catch (Exception e) {
                 e.printStackTrace();
             }
