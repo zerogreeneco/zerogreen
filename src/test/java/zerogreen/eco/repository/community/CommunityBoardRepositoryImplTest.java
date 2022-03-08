@@ -45,7 +45,7 @@ class CommunityBoardRepositoryImplTest {
 
         Member member1 = memberRepository.findById(1L).get();
 
-        CommunityBoard communityBoard = new CommunityBoard("TEXT", member1, Category.PLOGGING);
+        CommunityBoard communityBoard = new CommunityBoard("TEXT", member1, Category.PLOGGING, true );
         
         em.persist(communityBoard);
         em.flush();
@@ -71,7 +71,7 @@ class CommunityBoardRepositoryImplTest {
         Member member1 = memberRepository.findByUsername("test").get();
 
         for (int i = 0; i < 1000; i++) {
-            communityBoardRepository.save(new CommunityBoard("TEST TEXT", member1, Category.PLOGGING));
+            communityBoardRepository.save(new CommunityBoard("TEST TEXT", member1, Category.PLOGGING, true));
         }
 
         em.flush();
