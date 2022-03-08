@@ -13,10 +13,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import zerogreen.eco.security.auth.PrincipalDetailsService;
 import zerogreen.eco.security.handler.CustomAuthenticationFailureHandler;
 import zerogreen.eco.security.auth.oauth.service.CustomOAuth2UserService;
+import zerogreen.eco.security.handler.LoginSuccessHandler;
 
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터 체인에 등록
@@ -28,6 +30,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService;
+
+//    @Bean
+//    public LoginSuccessHandler loginSuccessHandler() {
+//        return new LoginSuccessHandler("/");
+//    }
+
+    @Bean
+    public AuthenticationSuccessHandler loginSuccessHandler() {
+        return new LoginSuccessHandler("/");
+    }
 
     @Bean
     public SpringSecurityDialect springSecurityDialect() {
@@ -43,6 +55,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationFailureHandler CustomFailureHandler() {
         return new CustomAuthenticationFailureHandler();
     }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+
     /*
     * 시큐리티가 대신 로그인 로직을 진행할 때 password를 가로채는데
     * 해당 password를 뭘로 해쉬해서 회원가입 되었은지 알아야
@@ -66,7 +86,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .formLogin()
                     .loginPage("/login")
                     .loginProcessingUrl("/login") // /login 주소가 호출이 되면 시큐리티가 대신 로그인을 진행
-                    .defaultSuccessUrl("/")
+//                    .defaultSuccessUrl("/")
+                    .successHandler(loginSuccessHandler())
                     .failureHandler(CustomFailureHandler())
                     .failureUrl("/login?error")
                     .permitAll()
@@ -94,12 +115,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**", "/js/**","/img/**","/members/bootstrap/**");
 
     }
-
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
 
 }

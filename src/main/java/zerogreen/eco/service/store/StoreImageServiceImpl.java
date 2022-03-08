@@ -23,13 +23,6 @@ public class StoreImageServiceImpl implements StoreImageService{
     public List<StoreDto> getImageByStore(Long sno) {
         return storeImageFileRepository.getImageByStore(sno).stream().map(StoreDto::new).collect(Collectors.toList());
     }
-  
-//    @Override
-//    public StoreDto getThumbnail(Long sno) {
-//        StoreImageFile storeImageFile = storeImageFileRepository.getThumbnail(sno);
-//        log.info("imageimageimageimage" + storeImageFile);
-//        return new StoreDto(storeImageFile);
-//    }
 
     @Override
     public void deleteImg(Long id, String filePath, String thumbFile) {

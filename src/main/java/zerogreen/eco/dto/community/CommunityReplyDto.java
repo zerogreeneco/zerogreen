@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import zerogreen.eco.entity.community.BoardReply;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.StoreMember;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @ToString
+@Slf4j
 public class CommunityReplyDto {
 
     private Long replyId;
@@ -30,16 +32,17 @@ public class CommunityReplyDto {
     private String username;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdTime;
-    private List<CommunityReplyDto> nestedReplyList = new ArrayList<>();
     private VegetarianGrade vegetarianGrade;
 
-    public CommunityReplyDto() {}
+    public CommunityReplyDto() {
+    }
+
     // 댓글
     public CommunityReplyDto(BoardReply boardReply) {
 
         // 멤버 타입에 따라서 nickname 분기
         if (boardReply.getReplier() instanceof Member) {
-            this.nickname = ((Member)boardReply.getReplier()).getNickname();
+            this.nickname = ((Member) boardReply.getReplier()).getNickname();
             this.vegetarianGrade = ((Member) boardReply.getReplier()).getVegetarianGrade();
         } else if (boardReply.getReplier() instanceof StoreMember) {
             this.nickname = ((StoreMember) boardReply.getReplier()).getStoreName();
@@ -53,8 +56,5 @@ public class CommunityReplyDto {
         this.username = boardReply.getReplier().getUsername();
         this.createdTime = boardReply.getModifiedDate();
         this.depth = boardReply.getDepth();
-        this.nestedReplyList =
-                boardReply.getNestedReplyList().stream()
-                        .map(CommunityReplyDto::new).collect(Collectors.toList());
     }
 }

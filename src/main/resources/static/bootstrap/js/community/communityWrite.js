@@ -21,7 +21,8 @@ function handleImageFileSelect(e) {
     filesArr.forEach(function (file) {
         if (!file.type.match("image.*")) {
             alert("이미지만 업로드 가능합니다.");
-            return
+            file.val("");
+            return;
         }
 
         selFiles.push(file);

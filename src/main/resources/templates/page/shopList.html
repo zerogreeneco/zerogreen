@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}">
+<th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
 
         <!-- 페이지 css/ js 추가 -->
@@ -32,17 +32,19 @@
                     <div class="card" th:each="list : ${list}"
                          th:onclick="|location.href='@{/page/detail/{id}(id=${list.id})}'|">
                         <div class="card-header">
-                            <img src="https://via.placeholder.com/300"/>
+                                <span class="sorry-emoji">😅</span>
+                                <span class="sorry-text">아직 등록된 사진이 없어요</span>
                         </div>
                         <div class="shopList-box">
                             <div class="card-body">
                                 <span class="like"><img class="icon" th:src="@{/bootstrap/images/list/heart.png}"> 1230</span>
                                 <span class="shop-name">[[${list.storeName}]]</span>
                                 <span><img class="icon" th:src="@{/bootstrap/images/list/call.png}"> [[${list.storePhoneNumber}]]</span>
-                                <span th:if="${list.openTime}==null"><img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> 매장 확인 필요</span>
-                                <span th:if="${list.openTime}!=null"><img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> [[${list.openTime}]] ~ [[${list.closeTime}]]</span>
-                                <span><img class="icon" th:src="@{/bootstrap/images/list/box.png}"> 대나무 헬리콥터</span>
-                            </div>
+                                <span th:if="${#strings.isEmpty(list.openTime)}">
+                            <img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> 매장 확인 필요</span>
+                                <span th:unless="${#strings.isEmpty(list.openTime)}">
+                            <img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> [[${list.openTime}]] ~ [[${list.closeTime}]]</span>
+                                <span><img class="icon" th:src="@{/bootstrap/images/list/box.png}"> 대나무 헬리콥터</span>                            </div>
                         </div>
                     </div>
                 </div>

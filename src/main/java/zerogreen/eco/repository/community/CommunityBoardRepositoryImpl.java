@@ -151,6 +151,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                         member.id,
                         communityBoard.category,
                         communityBoard.modifiedDate,
+                        communityBoard.isChat,
                         communityBoard.count,
                         ExpressionUtils.as(
                                 JPAExpressions
@@ -166,11 +167,11 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                                 JPAExpressions
                                         .select(subImage.thumbnailName)
                                         .from(subImage, subImage)
-                                        .where(id2.
-                                                and(subImage.id.eq(
+                                        .where(id2.and(subImage.id.eq(
                                                         JPAExpressions
                                                                 .select(subImage.id.min())
-                                                                .from(subImage, subImage)))), "thumbImage")
+                                                                .from(subImage, subImage)
+                                                                .where(subImage.board.id.eq(communityBoard.id))))), "thumbImage")
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member);

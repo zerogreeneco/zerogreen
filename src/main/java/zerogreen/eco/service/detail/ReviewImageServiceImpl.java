@@ -41,10 +41,8 @@ public class ReviewImageServiceImpl implements ReviewImageService {
 
         try {
             if (file.exists()) {
-                boolean delete = file.delete();
-                if (delete) {
-                    file2.delete();
-                }
+                file.delete();
+                file2.delete();
             }
         } catch (Exception e) {
             e.printStackTrace();

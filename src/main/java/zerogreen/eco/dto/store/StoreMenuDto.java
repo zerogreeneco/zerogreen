@@ -13,13 +13,13 @@ public class StoreMenuDto {
 
     private Long id;
     private String menuName;
-    private int menuPrice;
+    private String menuPrice;
     private VegetarianGrade vegetarianGrade;
 
 
     public StoreMenuDto(){}
 
-    public StoreMenuDto(String menuName, int menuPrice, VegetarianGrade vegetarianGrade){
+    public StoreMenuDto(String menuName, String menuPrice, VegetarianGrade vegetarianGrade){
         this.menuName = menuName;
         this.menuPrice = menuPrice;
         this.vegetarianGrade = vegetarianGrade;
@@ -31,4 +31,5 @@ public class StoreMenuDto {
         this.menuPrice = storeMenu.getMenuPrice();
         this.vegetarianGrade = storeMenu.getVegetarianGrade();
     }
+
 }

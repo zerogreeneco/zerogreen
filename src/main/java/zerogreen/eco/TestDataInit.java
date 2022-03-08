@@ -152,17 +152,16 @@ public class TestDataInit {
             // 일반 회원
             Member member = new Member("test", "김그네", "01022223333", "1",
                     UserRole.USER, VegetarianGrade.VEGAN);
-            CommunityRequestDto dto = new CommunityRequestDto("TEST TEXT", Category.PLOGGING, true);
+            CommunityRequestDto dto = new CommunityRequestDto("TEST TEXT", Category.PLOGGING);
             memberService.save(member);
 
             Member member2 = new Member("test2", "오융", "01022224444", "1",
                     UserRole.USER, VegetarianGrade.LACTO);
-            CommunityRequestDto dto2 = new CommunityRequestDto("TEST TEXT2", Category.PLOGGING, true);
+            CommunityRequestDto dto2 = new CommunityRequestDto("TEST TEXT2", Category.PLOGGING);
             memberService.save(member2);
 
             // 가게 회원
-            for (int i = 0; i < 51; i++) {
-
+            for (int i = 0; i < 1; i++) {
                 storeMemberService.save(ecoTest, new RegisterFile("origin1","store1", "path1"));
                 storeMemberService.save(foodTest, new RegisterFile("origin2","store2", "path2"));
                 storeMemberService.save(noVegan, new RegisterFile("origin3","store3", "path3"));
@@ -211,12 +210,17 @@ public class TestDataInit {
             // 커뮤니티 리스트 추가
             communityBoardRepository.save(new CommunityBoard("TEST TEXT", findMember1, Category.PLOGGING, true));
             communityBoardRepository.save(new CommunityBoard("TEST TEXT2", findMember1, Category.PLOGGING, true));
-            communityBoardRepository.save(new CommunityBoard("TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, END", findMember1, Category.NEWS, true));
-            for (int i = 0; i < 1000; i++) {
+            communityBoardRepository.save(new CommunityBoard("TEST TEXT3, " +
+                    "TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, " +
+                    "TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, " +
+                    "TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, " +
+                    "TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, TEST TEXT3, " +
+                    "TEST TEXT3, TEST TEXT3, TEST TEXT3, END", findMember1, Category.NEWS, true));
+            for (int i = 0; i < 10; i++) {
                 communityBoardRepository.save(new CommunityBoard("TEST TEXT"+i, findMember1, Category.PLOGGING, true));
                 communityBoardRepository.save(new CommunityBoard("테스트입니다"+i, findMember2, Category.NEWS, true));
             }
-            communityBoardRepository.save(new CommunityBoard("TEST TEXT", findMember2, Category.NEWS,true));
+            communityBoardRepository.save(new CommunityBoard("TEST TEXT", findMember2, Category.NEWS, false));
 
             em.flush();
             em.clear();
@@ -245,13 +249,13 @@ public class TestDataInit {
 
 
             //StoreMenu
-            StoreMenu storeMenu1 = new StoreMenu("menu1-1",1000,VegetarianGrade.LACTO, foodTest1);
+            StoreMenu storeMenu1 = new StoreMenu("menu1-1","1,000",VegetarianGrade.LACTO, foodTest1);
             storeMenuService.saveStoreMenuTest(storeMenu1);
-            StoreMenu storeMenu11 = new StoreMenu("menu1-2 Luv",1000,VegetarianGrade.PLEXITARIAN, foodTest1);
+            StoreMenu storeMenu11 = new StoreMenu("menu1-2 Luv","1,000",VegetarianGrade.PLEXITARIAN, foodTest1);
             storeMenuService.saveStoreMenuTest(storeMenu11);
-            StoreMenu storeMenu2 = new StoreMenu("menu2-1",5000,VegetarianGrade.PLEXITARIAN, generalTest1);
+            StoreMenu storeMenu2 = new StoreMenu("menu2-1","5,000",VegetarianGrade.PLEXITARIAN, generalTest1);
             storeMenuService.saveStoreMenuTest(storeMenu2);
-            StoreMenu storeMenu22 = new StoreMenu("menu2-2 XOXO",5000,VegetarianGrade.PLEXITARIAN, generalTest1);
+            StoreMenu storeMenu22 = new StoreMenu("menu2-2 XOXO","5,000",VegetarianGrade.PLEXITARIAN, generalTest1);
             storeMenuService.saveStoreMenuTest(storeMenu22);
 
             em.flush();

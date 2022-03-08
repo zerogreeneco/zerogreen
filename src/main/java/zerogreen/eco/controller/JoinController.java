@@ -175,10 +175,6 @@ public class JoinController {
         storeMemberService.save(storeMember, uploadFile);
         redirectAttributes.addAttribute("nickname", storeMember.getStoreName());
 
-        //임시
-        storeMemberService.saveV2(storeMember, uploadFile);
-        redirectAttributes.addAttribute("nickname2", storeMember.getStoreName());
-
         return "redirect:/members/welcome";
 
     }

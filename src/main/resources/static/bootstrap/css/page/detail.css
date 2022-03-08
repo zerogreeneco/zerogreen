@@ -133,6 +133,7 @@
 .veganImg {
     width: 23px;
     height: 23px;
+    vertical-align: bottom;
 }
 
 /* 3.5열 */
@@ -151,6 +152,10 @@
     display: inline-block;
 }
 
+/* 프리뷰 */
+.preview-ul {
+    margin-bottom: 0.5em;
+}
 
 /* 리뷰 */
 .rv {
@@ -191,7 +196,7 @@ textarea:focus {
 }
 
 .rv-delete, .srv-adding, .srv-toAdd {
-    margin: 0 5px 10px 5px;
+    margin: 0 5px 5px 5px;
 }
 
 .rvrv-btn {

@@ -2,6 +2,7 @@ package zerogreen.eco.service.file;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,38 +16,83 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Path;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FileServiceImpl implements FileService{
+public class FileServiceImpl implements FileService {
 
     @Value("${file.dir}")
     private String fileDir;
+
+    @Value("${file.regFiledir}")
+    private String regFileDir;
 
     @Value("C:/imageUpload/")
     private String imageFileDir;
 
     @Override
     public String getFullPath(String filename) {
-        return fileDir + filename;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String date = sdf.format(System.currentTimeMillis());
+
+        File dir = new File(fileDir + date);
+
+        if (!dir.exists()) {
+            try {
+                dir.mkdirs();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            log.info("이미 존재하는 폴더입니다.");
+        }
+
+        return dir + "/" + filename;
+    }
+
+    // 사업자 등록증
+    @Override
+    public String getFullPathRegFile(String filename) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String date = sdf.format(System.currentTimeMillis());
+
+        File dir = new File(regFileDir + date);
+
+        if (!dir.exists()) {
+            try {
+                dir.mkdirs();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            log.info("이미 존재하는 폴더입니다.");
+        }
+
+        return dir + "/" + filename;
     }
 
     @Override
     public String getFullPathImage(String filename, String storeName) {
-        return imageFileDir + storeName  + filename;
+        return imageFileDir + storeName + filename;
     }
 
     /*
-    * 다수의 파일 저장 (이미지)
-    * */
+     * 다수의 파일 저장 (이미지)
+     * */
     @Override
     public List<StoreImageFile> storeImageFiles(List<MultipartFile> multipartFiles, String storeName) throws IOException {
 
         List<StoreImageFile> storeImageFileResult = new ArrayList<>();
+
         for (MultipartFile multipartFile : multipartFiles) {
             if (!multipartFile.isEmpty()) {
                 storeImageFileResult.add(saveImageFile(multipartFile, storeName));
@@ -56,8 +102,8 @@ public class FileServiceImpl implements FileService{
     }
 
     /*
-    * 단일 파일 저장(사업자 등록증)
-    * */
+     * 단일 파일 저장(사업자 등록증)
+     * */
     @Override
     public RegisterFile saveFile(MultipartFile multipartFile) throws IOException {
 
@@ -68,15 +114,15 @@ public class FileServiceImpl implements FileService{
         String originalFilename = multipartFile.getOriginalFilename();
 
         String storeFilename = createStoreFilename(originalFilename);
-        multipartFile.transferTo(new File(getFullPath(storeFilename)));
+        multipartFile.transferTo(new File(getFullPathRegFile(storeFilename)));
 
-        return new RegisterFile(originalFilename, storeFilename, getFullPath(storeFilename));
+        return new RegisterFile(originalFilename, storeFilename, getFullPathRegFile(storeFilename));
 
     }
 
     /*
-    * 단일 파일 저장 (이미지)
-    * */
+     * 단일 파일 저장 (이미지)
+     * */
     @Override
     public StoreImageFile saveImageFile(MultipartFile multipartFile, String storeName) throws IOException {
         if (multipartFile.isEmpty()) {
@@ -94,8 +140,7 @@ public class FileServiceImpl implements FileService{
 
         BufferedImage readImage = ImageIO.read(saveFile);
         //burrefredImage 생성
-        int size = readImage.getWidth()/readImage.getWidth()*300 ;
-        BufferedImage thumbImage = new BufferedImage(size, size, BufferedImage.TYPE_3BYTE_BGR);
+        BufferedImage thumbImage = new BufferedImage(300, 300, BufferedImage.TYPE_3BYTE_BGR);
         //그래픽 생성
         Graphics2D graphics2D = thumbImage.createGraphics();
         graphics2D.drawImage(readImage, 0, 0, 300, 300, null);
@@ -106,27 +151,8 @@ public class FileServiceImpl implements FileService{
     }
 
     /*
-    * 서버에 저장될 이름 생성
-    * */
-    private String createStoreFilename(String originalFilename) {
-        String ext = extractExt(originalFilename);
-        //uuid
-        String uuid = UUID.randomUUID().toString();
-        // uuid.확장자 형태로 저장
-        return uuid + "." + ext;
-    }
-
-    /*
-    * 확장자만 따로 뽑기
-    * */
-    private String extractExt(String originalFilename) {
-        int pos = originalFilename.lastIndexOf(".");
-        return originalFilename.substring(pos + 1);
-    }
-
-    /*
-    * 커뮤니티 이미지 업로드
-    * */
+     * 커뮤니티 이미지 업로드
+     * */
     @Override
     public BoardImage saveBoardImageFile(MultipartFile multipartFile) throws IOException {
         if (multipartFile.isEmpty()) {
@@ -139,19 +165,7 @@ public class FileServiceImpl implements FileService{
         File saveFile = new File(getFullPath(storeFilename));
         multipartFile.transferTo(saveFile);
 
-        File thumbnailFile = new File(getFullPath(thumbnailName));
-
-        BufferedImage readImage = ImageIO.read(saveFile);
-
-        double ratio = 3.0;
-        int width = (int) (readImage.getWidth() / ratio);
-        int height = (int) (readImage.getHeight() / ratio);
-
-        BufferedImage thumbImage = new BufferedImage(146, 146, BufferedImage.TYPE_3BYTE_BGR);
-        Graphics2D graphics = thumbImage.createGraphics();
-
-        graphics.drawImage(readImage, 0, 0, 146, 146, null);
-        ImageIO.write(thumbImage, "png", thumbnailFile);
+        makeThumbnail(thumbnailName, saveFile, 146, 146);
 
         return new BoardImage(originalFilename, storeFilename, getFullPath(storeFilename), thumbnailName);
     }
@@ -159,6 +173,7 @@ public class FileServiceImpl implements FileService{
     @Override
     public List<BoardImage> boardImageFiles(List<MultipartFile> multipartFiles) throws IOException {
         List<BoardImage> boardImages = new ArrayList<>();
+
         for (MultipartFile multipartFile : multipartFiles) {
             if (!multipartFile.isEmpty()) {
                 boardImages.add(saveBoardImageFile(multipartFile));
@@ -166,19 +181,6 @@ public class FileServiceImpl implements FileService{
         }
         return boardImages;
 
-    }
-
-    public void imageResize(String storeName) throws IOException {
-        File file = new File(getFullPath(storeName));
-        InputStream inputStream = new FileInputStream(file);
-        Image image = new ImageIcon(file.toString()).getImage();
-
-        int width = 1280;
-        int height = 720;
-
-        BufferedImage resizedImage = resize(inputStream, width, height);
-
-        ImageIO.write(resizedImage, "jpg", new File(getFullPath("resize_" + storeName)));
     }
 
     private BufferedImage resize(InputStream inputStream, int width, int height) throws IOException {
@@ -206,20 +208,7 @@ public class FileServiceImpl implements FileService{
         File saveFile = new File(getFullPath(reviewFileName));
         multipartFile.transferTo(saveFile);
 
-        File thumbnailFile = new File(getFullPath("thumb_" + reviewFileName));
-
-        BufferedImage readImage = ImageIO.read(saveFile);
-
-        double ratio = 3.0;
-        int width = (int) (readImage.getWidth() / ratio);
-        int height = (int) (readImage.getHeight() / ratio);
-
-        BufferedImage thumbImage = new BufferedImage(120, 120, BufferedImage.TYPE_3BYTE_BGR);
-        Graphics2D graphics = thumbImage.createGraphics();
-
-        graphics.drawImage(readImage, 0, 0, 120, 120, null);
-        ImageIO.write(thumbImage, "png", thumbnailFile);
-
+        makeThumbnail(thumbnailName, saveFile, 120, 120);
 
         return new ReviewImage(originalFilename, reviewFileName, getFullPath(reviewFileName), thumbnailName);
 
@@ -235,6 +224,45 @@ public class FileServiceImpl implements FileService{
             }
         }
         return reviewImages;
+    }
+
+    /*
+     * 서버에 저장될 이름 생성
+     * */
+    private String createStoreFilename(String originalFilename) {
+        String ext = extractExt(originalFilename);
+        //uuid
+        String uuid = UUID.randomUUID().toString();
+        // uuid.확장자 형태로 저장
+        return uuid + "." + ext;
+    }
+
+    /*
+     * 확장자
+     * */
+    private String extractExt(String originalFilename) {
+        int pos = originalFilename.lastIndexOf(".");
+        return originalFilename.substring(pos + 1);
+    }
+
+    /*
+    * 썸네일 생성
+    * */
+    private void makeThumbnail(String thumbnailName, File saveFile, int width, int height) throws IOException {
+        File thumbnailFile = new File(getFullPath(thumbnailName));
+        BufferedImage readImage = ImageIO.read(saveFile);
+
+        int w = readImage.getWidth();
+        int h = readImage.getHeight();
+        int min = Math.min(w, h);
+
+        BufferedImage tmpImage = Scalr.crop(readImage, (w-min)/2, (h-min)/2, min, min);
+        BufferedImage thumbImage = Scalr.resize(tmpImage, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 178);
+        //BufferedImage thumbImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+
+        //Graphics2D graphics = thumbImage.createGraphics();
+        //graphics.drawImage(readImage, 0, 0, width, height, null);
+        ImageIO.write(thumbImage, "png", thumbnailFile);
     }
 
 }

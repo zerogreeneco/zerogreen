@@ -18,7 +18,6 @@ import zerogreen.eco.service.user.StoreMemberService;
 @RequestMapping
 public class ListController {
 
-    private final FileService fileService;
     private final StoreMemberService storeMemberService;
 
     @GetMapping("/shop/list")

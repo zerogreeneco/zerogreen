@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
+import zerogreen.eco.converter.BooleanToYNConverter;
 import zerogreen.eco.entity.baseentity.BaseTimeEntity;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.Member;
@@ -30,7 +32,8 @@ public class CommunityBoard extends BaseTimeEntity {
 
     private int count;
 
-    private boolean chatCheck = false;
+    @Convert(converter = BooleanToYNConverter.class)
+    private boolean isChat;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -43,23 +46,23 @@ public class CommunityBoard extends BaseTimeEntity {
     private List<CommunityLike> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "board", cascade = REMOVE)
+    @BatchSize(size = 100)
     private List<BoardReply> boardReplies = new ArrayList<>();
 
     @OneToMany(mappedBy = "board", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
     private List<BoardImage> imageList = new ArrayList<>();
 
     @Builder
-    public CommunityBoard(String text, Member member, Category category, boolean chatCheck) {
+    public CommunityBoard(String text, Member member, Category category, boolean isChat) {
         this.text = text;
         this.member = member;
         this.category = category;
-        this.chatCheck = chatCheck;
+        this.isChat = isChat;
     }
 
     // 수정용 Setter
-    public void changeBoard(Category category, String text, boolean chatCheck) {
+    public void changeBoard(Category category, String text) {
         this.category = category;
         this.text = text;
-        this.chatCheck = chatCheck;
     }
 }

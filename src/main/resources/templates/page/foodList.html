@@ -26,16 +26,15 @@
 
             <!-- 사업장 종류 -->
             <div class="listNav">
-                <input type="radio" class="form-check-input storeType" id="radio1" name="storeType">
-                <label class="form-check-label" for="radio1"
-                       th:onclick="getFoodList('1')">전체</label>
+                <input type="radio" class="form-check-input storeType" name="storeType">
+                <label class="form-check-label" th:onclick="getFoodList('1')">전체</label>
 
-                <input type="radio" class="form-check-input storeType" id="radio2" name="storeType">
-                <label class="form-check-label" for="radio2" value="VEGAN_FOOD"
+                <input type="radio" class="form-check-input storeType" name="storeType">
+                <label class="form-check-label" value="VEGAN_FOOD"
                        th:onclick="getTypeList('VEGAN_FOOD','1')">비건 음식점</label>
 
-                <input type="radio" class="form-check-input storeType" id="radio3" name="storeType">
-                <label class="form-check-label" for="radio3" value="GENERAL_FOOD"
+                <input type="radio" class="form-check-input storeType" name="storeType">
+                <label class="form-check-label" value="GENERAL_FOOD"
                        th:onclick="getTypeList('GENERAL_FOOD','1')">친환경 포장</label>
 
             </div>
@@ -45,18 +44,19 @@
             <div class="card" th:each="list : ${list}"
                  th:onclick="|location.href='@{/page/detail/{id}(id=${list.id})}'|">
                 <div class="card-header">
-                    <img src="https://via.placeholder.com/300"/>
+                    <span class="sorry-emoji">😅</span>
+                    <span class="sorry-text">아직 등록된 사진이 없어요</span>
                 </div>
                 <div class="shopList-box">
                     <div class="card-body">
                         <span class="like"><img class="icon" th:src="@{/bootstrap/images/list/heart.png}"> 1230</span>
                         <span class="shop-name">[[${list.storeName}]]</span>
-                        <span><img class="icon"
-                                   th:src="@{/bootstrap/images/list/call.png}"> [[${list.storePhoneNumber}]]</span>
-                        <span th:if="${list.openTime}==null"><img class="icon"
-                                                                  th:src="@{/bootstrap/images/list/clock.png}"> 매장 확인 필요</span>
-                        <span th:if="${list.openTime}!=null"><img class="icon"
-                                                                  th:src="@{/bootstrap/images/list/clock.png}"> [[${list.openTime}]] ~ [[${list.closeTime}]]</span>
+                        <span>
+                            <img class="icon" th:src="@{/bootstrap/images/list/call.png}"> [[${list.storePhoneNumber}]]</span>
+                        <span th:if="${#strings.isEmpty(list.openTime)}">
+                            <img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> 매장 확인 필요</span>
+                        <span th:unless="${#strings.isEmpty(list.openTime)}">
+                            <img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> [[${list.openTime}]] ~ [[${list.closeTime}]]</span>
                         <span><img class="icon" th:src="@{/bootstrap/images/list/dish.png}"> 감자뇨끼</span>
                     </div>
                 </div>

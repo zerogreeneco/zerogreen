@@ -24,14 +24,14 @@ public class StoreMenuServiceImpl implements StoreMenuService {
 
     @Transactional
     @Override
-    public void updateStoreMenu(Long id, String menuName, int menuPrice, VegetarianGrade vegetarianGrade) {
+    public void updateStoreMenu(Long id, String menuName, String menuPrice, VegetarianGrade vegetarianGrade) {
         StoreMember storeMember = storeMemberRepository.findById(id).orElseThrow();
 
         storeMenuRepository.save(new StoreMenu(menuName, menuPrice, vegetarianGrade, storeMember));
     }
 
     @Override
-    public void updateStoreMenu(Long id, String menuName, int menuPrice) {
+    public void updateStoreMenu(Long id, String menuName, String menuPrice) {
         StoreMember storeMember = storeMemberRepository.findById(id).orElseThrow();
 
         storeMenuRepository.save(new StoreMenu(menuName, menuPrice, storeMember));

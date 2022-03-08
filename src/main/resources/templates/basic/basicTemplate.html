@@ -6,8 +6,13 @@
 <th:block th:fragment="setContent(content)">
     <head>
         <meta charset="UTF-8">
-        <title>제로그린</title>
+
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+        <meta name="description" content="환경보호를 실천하는 가게 정보를 쉽게 찾아볼 수 없을까? for Green & Zero waste, ZeroGreen">
+        <meta name="keywords" content="제로그린, zerogreen, 비건, 채식, 환경보호, 친환경, SNS, 소셜, 맛집, 카페, 맛집지도, 비건맛집, 비건푸드">
+
+        <title>제로그린</title>
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
                 integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <!--    libs for stomp and sockjs-->
@@ -57,10 +62,7 @@
                              sec:authorize="hasAnyRole({'ROLE_USER','ROLE_AUTH_USER'})"/>
                         <img class="profile" th:src="@{/bootstrap/images/profile/STORE.png}"
                              th:onclick="|location.href='@{/stores/myInfo}'|"
-                             sec:authorize="hasRole('ROLE_STORE')"/>
-                        <img class="profile" th:src="@{/bootstrap/images/profile/STORE.png}"
-                             th:onclick="|location.href='@{/stores/account}'|"
-                             sec:authorize="hasRole('ROLE_UN_STORE')"/>
+                             sec:authorize="hasAnyRole({'ROLE_STORE','ROLE_UN_STORE'})"/>
                 </div>
             </header>
         </div>

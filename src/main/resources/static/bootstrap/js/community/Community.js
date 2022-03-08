@@ -148,7 +148,6 @@ function replaceTag(event) {
     thisBtn.parent().find(".rp-cancel-btn").hide();
     thisBtn.parent().find(".nested-reply-btn").hide();
     thisBtn.hide();
-
 }
 
 function nestedReplyInput(event) {
@@ -257,6 +256,9 @@ $(function () {
         })
             .done(function (fragment) {
                 $("#more-wrapper").append(fragment);
+            })
+            .fail(function (error) {
+                alert(error);
             });
     });
 

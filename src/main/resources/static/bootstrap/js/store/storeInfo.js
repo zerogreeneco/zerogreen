@@ -64,21 +64,42 @@ function limitTextInput(event) {
 }
 
 // Social 주소 추가
-function socialAdd() {
+function addSocial() {
     $("#socialAddress2").removeAttr("hidden");
     $("#socialAdd").attr("hidden", true);
 }
+
+// Price 회계단위 추가
+function inputPriceFormat(event){
+    event.value = comma(uncomma(event.value));
+}
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+}
+
 
 // 테이블 Grade 추가
 function menuAdd() {
     let name = $("#menuName").val();
     let price = $("#menuPrice").val();
     let grade = $(":input:radio[name=vegetarianGrade]:checked").val();
-    let check = $("#gradeCheck");
+    let inputCheck = $("#inputCheck");
+    let gradeCheck = $("#gradeCheck");
 
-    if(grade == null){
-        check.html("해당 메뉴의 비건 등급을 입력해 주세요");
-        check.css("color","#dc3545");
+    if(name == "" || price == ""){
+        inputCheck.html("메뉴의 이름과 가격을 입력해 주세요");
+        inputCheck.css("color","#dc3545");
+
+        return null;
+    } else if(grade == null) {
+        gradeCheck.html("해당 메뉴의 비건 등급을 입력해 주세요");
+        gradeCheck.css("color", "#dc3545");
     }
 
     $.ajax({
@@ -96,7 +117,8 @@ function menuAdd() {
             $("#menuName").val("");
             $("#menuPrice").val("");
             $(":input:radio[name=vegetarianGrade]:checked").prop('checked', false);
-            check.html("");
+            inputCheck.html("");
+            gradeCheck.html("");
         });
 } //menuAdd ajax end
 
@@ -104,7 +126,16 @@ function menuAdd() {
 function tableAdd() {
     let name = $("#menuName").val();
     let price = $("#menuPrice").val();
-    $.ajax({
+    let inputCheck = $("#inputCheck");
+
+    if(name == "" || price == "") {
+        inputCheck.html("메뉴의 이름과 가격을 입력해 주세요");
+        inputCheck.css("color", "#dc3545");
+
+        return null;
+    }
+
+        $.ajax({
         url: "/zerogreen/stores/update/table",
         method: "post",
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -117,6 +148,7 @@ function tableAdd() {
             $("#list-table").replaceWith(fragment);
             $("#menuName").val("");
             $("#menuPrice").val("");
+            inputCheck.html("");
         });
 } //menuAdd ajax end
 
@@ -177,29 +209,39 @@ function imgDel(event) {
         });
 }
 $(function () {
-    $("#uploadFiles").on('change', selectedImageFile);
+    $(".input-box").on('change', selectedImageFile);
 });
 
-//확장자, 크기 확인
+//크기, 확장자 확인
 function selectedImageFile(e) {
     selFiles = [];
     $("#selectedImg").empty();
 
     let files = e.target.files;
     let filesArr = Array.prototype.slice.call(files);
-    let check = $("#imgCheck");
+    let totalSize = 0;
     let index = 0;
 
+    let check = $("#imgCheck");
+
+    filesArr.forEach(function (file){
+        totalSize = totalSize + file.size;
+    });
+
     filesArr.forEach(function (file) {
+
         if (!file.type.match("image.*")) {
-            check.html("이미지만 첨부할 수 있어요");
+            check.html("사진을 첨부해주세요");
             check.css("color","#dc3545");
+
             return;
-        }else if (file.size>1048576) {
-            check.html("1MB 이하 파일만 첨부할 수 있어요");
-            check.css("color","#dc3545");
-            return;
-        }else{
+        }else if(totalSize > 10485760){
+                check.html("최대 10MB까지 첨부할 수 있습니다");
+                check.css("color","#dc3545");
+                $(".input-box").val("");
+
+                return;
+        } else{
             selFiles.push(file);
             let reader = new FileReader();
 

@@ -1,5 +1,6 @@
 package zerogreen.eco.service.user;
 
+import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.member.MemberAuthDto;
 import zerogreen.eco.dto.member.MemberUpdateDto;
 import zerogreen.eco.dto.member.PasswordUpdateDto;

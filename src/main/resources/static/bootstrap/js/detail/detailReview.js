@@ -41,9 +41,9 @@ $(document).ready(function(e){
     //edit member reviews
    $(".mrv-modify").on("click", function(){
         let rno = $(this).parent().parent().children(".rno").text();
-        let editText = $(this).parent().parent().children(".mrv-textarea");
+        let editText = $(this).parent().parent().children().children(".mrv-textarea");
         let deleteBtn = $(this).parent().children(".rv-delete");
-        let textCnt = $(this).parent().parent().children(".hidden-text-count");
+        let textCnt = $(this).parent().parent().children().children(".hidden-text-count");
         count++;
 
        if (count == 1) {
@@ -72,6 +72,7 @@ $(document).ready(function(e){
             .done(function (fragment) {
                 editText.replaceWith("<textarea class='mrv-textarea' name='reviewText' readonly>" + editText.val() + "</textarea>");
                 textCnt.css('display','none');
+                deleteBtn.css('display','show');
             });
             count = 0;
         } //end else if
@@ -110,6 +111,7 @@ $(document).ready(function(e){
             .done(function (fragment) {
                 editText.replaceWith("<textarea class='storeReviewText' name='storeReviewText' readonly>" + editText.val() + "</textarea>");
                 textCnt.css('display','none');
+                deleteBtn.css('display','show');
             });
             count = 0;
         } //end else if
@@ -165,12 +167,14 @@ $(document).ready(function(e){
    $('textarea').keyup();
 
 
-    //리뷰 이미지 등록시 textarea 마진 재설정
+    //리뷰 이미지 등록시 textarea 마진 + div13 height 재설정
    $('.mrv-textarea').on('change',function (e) {
-       let img = $(this).parent().children().children('.rv-img').val();
+       let img = $(this).parent().find('.div12').find('.rv-img').val();
+       let div13 = $(this).parent('.div13');
 
         if (img != null) {
             $(this).css('marginLeft','130px');
+            div13.css('height','8em');
         }
    });
    $('.mrv-textarea').change();
@@ -285,7 +289,7 @@ $(document).ready(function(e){
 
           //업로드 가능 파일인지 체크
           for(i=0; i < files.length; i++){
-            if(!checkExtension(files[i].name,files[i].size)){
+            if(!checkExtension(files[i].name,files[i].size,files.length)){
             return false;
             }
           }
@@ -294,7 +298,7 @@ $(document).ready(function(e){
     });//file change
 
 
-    //프리뷰 삭제
+    //프리뷰 삭제 ** on working **
     $("#preview").on("click", "ul button", function() {
         console.log("clickyyyyyyyyyyyy");
 
@@ -343,20 +347,28 @@ $(document).ready(function(e){
 
 
 //업로드 가능한 파일크기, 파일
-function checkExtension(fileName, fileSize){
+function checkExtension(fileName, fileSize, fileLength){
 
-    let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+    let maxLength = 5;
+    let regex = new RegExp("(.*?)\.(jpg|png|jpeg|JPG|PNG|JPEG)$");
+/*
     let maxSize = 1048576;  //1MB
 
+    //파일 사이즈 검사
     if(fileSize >= maxSize){
         alert('파일 사이즈 초과');
         $("input[type='file']").val("");  //파일 초기화
         return false;
     }
+*/
+    if (fileLength > maxLength) {
+        alert('최대 5개까지 등록 가능합니다.');
+        return false;
+    }
 
-    //이건 되는지 잘 모르겠음
-    if(regex.test(fileName)){
-        alert('업로드 불가능한 파일이 있습니다.');
+    //파일 확장자 유효성 검사
+    if(!regex.test(fileName)){
+        alert('jpg, jpeg, png 파일만 등록 가능합니다.');
         $("input[type='file']").val("");  //파일 초기화
         return false;
     }
@@ -369,7 +381,7 @@ function preview(arr){
     arr.forEach(function(f){
 
         //div에 이미지 추가
-        let str = '<div style="display: inline-flex; padding: 10px;" class="previewImg"><ul>';
+        let str = '<div style="display: inline-flex; padding: 10px;" class="previewImg"><ul class="preview-ul">';
 
         //이미지 파일 미리보기
         if(f.type.match('image.*')){
@@ -377,8 +389,8 @@ function preview(arr){
 
             reader.onload = function (e) { //파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
 
-                str += '<button type="button" class="previewDel" value="'+f.name+'" style="background: gray">X</button><br>';
-                str += '<img src="'+e.target.result+'" width=100 height=100>';
+//                str += '<button type="button" class="previewDel" value="'+f.name+'" style="background: gray">X</button><br>';
+                str += '<img src="'+e.target.result+'" width=120>';
                 str += '</ul></div>';
 
                 $(str).appendTo('#preview');

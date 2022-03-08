@@ -7,11 +7,17 @@
             <div id="rg-main-wrapper">
                 <div>
                     <select th:field="*{category}">
-                        <option th:each="categories : ${category}" th:value="${categories.name()}"
-                                th:text="${categories.categoryName}"></option>
+                        <option th:each="categories : ${category}"
+                                th:value="${categories.name()}"
+                                th:text="${categories.categoryName}">
+                        </option>
                     </select>
 <!--/*                    <input type="checkbox" th:field="*{chatCheck}" id="chatCheck">*/-->
 <!--                    <label for="chatCheck">말걸기 허용</label>-->
+                </div>
+                <div>
+                    <input type="checkbox" id="chat" th:field="*{chat}" value="false">
+                    <label for="chat">채팅 허용</label>
                 </div>
                 <div>
                     <textarea th:field="*{text}" class="rg-input"></textarea>

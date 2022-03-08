@@ -9,16 +9,17 @@ import zerogreen.eco.entity.file.StoreImageFile;
 import zerogreen.eco.entity.userentity.*;
 
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Getter
 @Setter
 public class StoreDto {
 
     private Long id;
-    private String username;
     private UserRole userRole;
-    private String storeAddress;
     @NotBlank(message = "가게 연락처를 입력해 주세요")
     private String storePhoneNumber;
     private String openTime;
@@ -28,14 +29,8 @@ public class StoreDto {
 
     private Long menuId;
     private String menuName;
-    private int menuPrice;
+    private String menuPrice;
 
-    private BasicUser basicUser;
-
-    private String storeRegNum;
-
-
-    //여기서부터..
     private Long sno;
     private String storeName;
 
@@ -53,7 +48,10 @@ public class StoreDto {
     private List<MultipartFile> uploadFiles;
 
     private List<StoreImageFile> imageFile;
+    private List<StoreDto> imageList = new ArrayList<>();
+
     private List<StoreMenu> menuList;
+    private List<StoreMenuDto> storeMenuList = new ArrayList<>();
 
     private Long imageId;
     private String fileName;
@@ -77,7 +75,29 @@ public class StoreDto {
         this.thumbPath = storeImageFile.getThumbPath();
     }
 
-    //Store db (Detail)
+    //Store db (Detail) qdsl ** 작업중 **
+    public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo, List<StoreMenu> menuList,
+                    Long likesCount, Long reviewCount) {
+        this.sno = sno;
+        this.storeName = storeName;
+        this.storeType = storeType;
+        this.storeInfo = storeInfo;
+        this.storeMenuList = menuList.stream().map(StoreMenuDto::new).collect(Collectors.toList());
+        this.likesCount = likesCount;
+        this.reviewCount = reviewCount;
+    }
+
+    //Store db (Detail) orm ** 작업중 **
+    public StoreDto(StoreMember storeMember) {
+        this.sno = storeMember.getId();
+        this.storeName = storeMember.getStoreName();
+        this.storeType = storeMember.getStoreType();
+        this.storeInfo = storeMember.getStoreInfo();
+        this.storeMenuList = storeMember.getMenuList().stream().map(StoreMenuDto::new).collect(Collectors.toList());
+        this.imageList = storeMember.getImageFile().stream().map(StoreDto::new).collect(Collectors.toList());
+    }
+
+    //Store db (Detail) 기존 ** 작업중 **
     @Builder
     public StoreDto(Long sno, String storeName, StoreType storeType, StoreInfo storeInfo,
                     List<StoreImageFile> imageFile, List<StoreMenu> menuList, Long likesCount, Long reviewCount) {
@@ -114,19 +134,7 @@ public class StoreDto {
         this.socialAddress2 = socialAddress2;
     }
 
-    //이하 누구세요
-
-    //이친구...뭐죠..?
-    public StoreDto(Long id) {
-        this.id = id;
-    }
-
-    //index에 승인받은 가게리스트
-    public StoreDto(String storeName, StoreType storeType){
-        this.storeName = storeName;
-        this.storeType = storeType;
-    }
-
+/*
     public StoreDto(Long id, UserRole userRole, StoreType storeType, String storeName, String storePhoneNumber,
                     String openTime, String closeTime, List<StoreImageFile> imageFile, List<StoreMenu> menuList) {
         this.id = id;
@@ -139,7 +147,7 @@ public class StoreDto {
         this.imageFile = imageFile;
         this.menuList = menuList;
     }
-
+*/
 
 }
 
