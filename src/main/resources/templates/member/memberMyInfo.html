@@ -50,8 +50,8 @@
 
             <!-- 찜한가게-->
             <div class="textList">
-                <span>찜 한 가게</span><br>
-                <span th:if="${#lists.size(listOfLikes) <= 0}">좋아하는 가게를 찜 해보세요!</span>
+                <span>찜 한 가게</span>
+                <span class="no-data" th:if="${#lists.size(listOfLikes) <= 0}">좋아하는 가게를 찜 해보세요!</span>
             </div>
 
             <div class="listing">
@@ -89,7 +89,7 @@
             <!--     내 리뷰-->
             <div class="textList">
                 <span>내가 쓴 리뷰</span>
-                <span th:if="${#lists.size(listOfReview) <= 0}">만족스러웠던 가게에 리뷰를 남겨보세요!</span>
+                <span class="no-data" th:if="${#lists.size(listOfReview) <= 0}">만족스러웠던 가게에 리뷰를 남겨보세요!</span>
             </div>
 
             <div class="listing" >

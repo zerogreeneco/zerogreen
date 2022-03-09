@@ -258,3 +258,8 @@ like-btn {
     width: 90px;
     height: 35px;
 }
+
+/* 이미지 출력 */
+.img-fit {
+    width: inherit;
+}
