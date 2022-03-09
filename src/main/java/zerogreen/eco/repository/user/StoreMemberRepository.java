@@ -3,9 +3,7 @@ package zerogreen.eco.repository.user;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.userentity.StoreMember;
-import zerogreen.eco.entity.userentity.StoreMenu;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.list.StoreListRepository;
 
@@ -33,5 +31,4 @@ public interface StoreMemberRepository extends JpaRepository<StoreMember, Long>,
 //            "left outer join sm.imageFile image on image.storeMember.id =:sno "+
 //            "where sm.id =:sno")
 //    StoreMember getStore2(@Param("sno") Long sno);
-
 }

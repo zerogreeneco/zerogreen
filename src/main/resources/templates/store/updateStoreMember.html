@@ -5,32 +5,31 @@
         <link rel="stylesheet" th:href="@{/bootstrap/css/register.css}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-        <script th:inline="javascript" th:src="@{/bootstrap/js/member/updateMember.js}"></script>
+<!--        <script th:inline="javascript" th:src="@{/bootstrap/js/member/updateMember.js}"></script>-->
+<!--        <script th:src="@{/bootstrap/js/store/storeInfo.js}"></script>-->
         <div class="container" sec:authorize="isAuthenticated()">
             <div class="center-box">
-                <h2 class="title">회원 정보 수정</h2>
-
-                <!--회원 정보수정 input-->
                 <div sec:authorize="hasAnyRole('ROLE_STORE','ROLE_UN_STORE')">
 
-                    <form action="" th:action="@{/stores/account}" method="post">
+                    <form method="post" th:action="@{/stores/update/account}" th:object="${member}">
                         <div>
                             <label class="join-label">회원 ID</label>
-                            <input type="text" class="form-control input-box" disabled>
+                            <input type="hidden" th:field="*{userName}">
+                            <input type="text" class="form-control input-box" th:field="*{userName}" disabled>
                         </div>
                         <div>
                             <label class="join-label">전화번호</label>
-                            <input type="text" class="form-control login-box">
+                            <input type="text" class="form-control login-box" th:field="*{phoneNumber}"
+                                   onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">
                             <button type="button" class="sendMail">중복 확인</button>
-                            <!--                        <div th:errors="*{phoneNumber}">-->
-                            <!--                            전화 오류-->
-                            <!--                        </div>-->
+                            <div style="color: #dc3545" th:errors="*{phoneNumber}">
+                                전화 오류
+                            </div>
+                        </div>
+                        <div>
+                            <button type="submit" class="modify-btn" id="acntChange">정보 수정</button>
                         </div>
                     </form>
-                    <!-- 정보수정 button -->
-                    <div>
-                        <button type="submit" class="modify-btn" id="acntChange">정보 수정</button>
-                    </div>
 
                     <hr class="my-4">
 
@@ -61,6 +60,9 @@
                         <a class="text-btn" href="#deleteModal" rel="modal:open">회원탈퇴를 하시겠습니까?</a>
                     </div>
                 </div>
+
+                <!--회원 정보수정 input-->
+                <h2 class="title">회원 정보 수정</h2>
             </div>
         </div>
         <!-- 회원탈퇴 모달창 -->
