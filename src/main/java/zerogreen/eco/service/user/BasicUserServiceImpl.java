@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.member.FindMemberDto;
 import zerogreen.eco.dto.member.PasswordUpdateDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
+import zerogreen.eco.dto.store.StoreUpdateDto;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.user.BasicUserRepository;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -91,6 +91,22 @@ public class BasicUserServiceImpl implements BasicUserService{
     @Override
     public Page<NonApprovalStoreDto> nonApprovalStoreSearch(NonApprovalStoreDto SearchCond, Pageable pageable) {
         return basicUserRepository.searchAndPaging(SearchCond, pageable);
+    }
+
+    /*
+     * 가게 회원 정보 변경
+     */
+    @Override
+    public StoreUpdateDto getStoreMember(Long id, StoreUpdateDto storeUpdateDto) {
+        BasicUser basicUser = basicUserRepository.findById(id).orElseThrow();
+        return new StoreUpdateDto(basicUser.getUsername(), basicUser.getPhoneNumber());
+    }
+
+    @Transactional
+    @Override
+    public void updateStoreMember(Long id, StoreUpdateDto storeUpdateDto) {
+        BasicUser updateStoreMember = basicUserRepository.findById(id).orElseThrow();
+        updateStoreMember.setPhoneNumber(storeUpdateDto.getPhoneNumber());
     }
 
     /*

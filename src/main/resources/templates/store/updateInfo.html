@@ -33,7 +33,7 @@
                         </div>
                     </div>
 
-                    <form method="post" th:action="@{/stores/update}" th:object="${storeInfo}"
+                    <form method="post" th:action="@{/stores/update/info}" th:object="${storeInfo}"
                           enctype="multipart/form-data">
 
                         <input type="hidden" th:field="*{storeName}">

@@ -114,7 +114,7 @@ public class StoreMemberServiceImpl implements StoreMemberService {
 
     @Override
     public Slice<StoreDto> getFoodTypeList(Pageable pageable, StoreType storeType) {
-        return storeMemberRepository.getFoodTypeList(pageable,storeType);
+        return storeMemberRepository.getFoodTypeList(pageable, storeType);
     }
 
     //storeMyInfo 리뷰
@@ -127,19 +127,17 @@ public class StoreMemberServiceImpl implements StoreMemberService {
 
     //가게정보 수정
     @Override
-    public StoreDto storeInfo(Long id, StoreDto storeDto) {
+    public StoreDto getStoreInfo(Long id, StoreDto storeDto) {
         StoreMember storeMember = storeMemberRepository.findById(id).orElseThrow();
-        StoreDto info = new StoreDto(storeMember.getStoreName(), storeMember.getStoreType(),
+        return new StoreDto(storeMember.getStoreName(), storeMember.getStoreType(),
                 storeMember.getStoreInfo().getStorePhoneNumber(), storeMember.getStoreInfo().getOpenTime(),
                 storeMember.getStoreInfo().getCloseTime(), storeMember.getStoreInfo().getStoreDescription(),
                 storeMember.getStoreInfo().getSocialAddress1(), storeMember.getStoreInfo().getSocialAddress2());
-
-        return info;
     }
 
     @Transactional
     @Override
-    public void updateStore(Long id, StoreDto storeDto, List<StoreImageFile> storeImageFile){
+    public void updateStore(Long id, StoreDto storeDto, List<StoreImageFile> storeImageFile) {
         StoreMember storeMember = storeMemberRepository.findById(id).orElseThrow();
         //더티 체킹
         storeMember.getStoreInfo().setStorePhoneNumber(storeDto.getStorePhoneNumber());
@@ -186,8 +184,8 @@ public class StoreMemberServiceImpl implements StoreMemberService {
         RegisterFile registerFile1 = new RegisterFile("testFile", "testFile", "testFile");
         return storeMemberRepository.save(new StoreMember(storeMember.getUsername(), storeMember.getPhoneNumber(),
                         encPassword, UserRole.STORE, storeMember.getStoreName(), storeMember.getStoreRegNum(), storeMember.getStoreType(), storeMember.getStoreInfo().getPostalCode(),
-                        storeMember.getStoreInfo().getStoreAddress(), storeMember.getStoreInfo().getStoreDetailAddress(),storeMember.getStoreInfo().getStorePhoneNumber(),
-                        storeMember.getStoreInfo().getStoreDescription(), storeMember.getStoreInfo().getSocialAddress1() ,storeMember.getStoreInfo(). getSocialAddress2(),
+                        storeMember.getStoreInfo().getStoreAddress(), storeMember.getStoreInfo().getStoreDetailAddress(), storeMember.getStoreInfo().getStorePhoneNumber(),
+                        storeMember.getStoreInfo().getStoreDescription(), storeMember.getStoreInfo().getSocialAddress1(), storeMember.getStoreInfo().getSocialAddress2(),
                         storeMember.getStoreInfo().getOpenTime(), storeMember.getStoreInfo().getCloseTime(), registerFile1))
                 .getId();
     }
