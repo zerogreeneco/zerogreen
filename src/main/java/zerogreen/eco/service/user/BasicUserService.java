@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import zerogreen.eco.dto.member.FindMemberDto;
 import zerogreen.eco.dto.member.PasswordUpdateDto;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
+import zerogreen.eco.dto.store.StoreUpdateDto;
 import zerogreen.eco.entity.userentity.BasicUser;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public interface BasicUserService {
 
     Page<NonApprovalStoreDto> nonApprovalStoreSearch(NonApprovalStoreDto SearchCond, Pageable pageable);
 
+    StoreUpdateDto getStoreMember(Long id, StoreUpdateDto storeUpdateDto);
+    void updateStoreMember(Long id, StoreUpdateDto storeUpdateDto);
     void passwordChange(Long id, PasswordUpdateDto passwordUpdateDto);
 
     int countByPhoneNumber(String phoneNumber);

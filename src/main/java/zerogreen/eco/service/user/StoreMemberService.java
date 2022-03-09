@@ -32,7 +32,7 @@ public interface StoreMemberService {
     List<DetailReviewDto> getReviewByStore(Long id);
 
     //StoreUpdate
-    StoreDto storeInfo(Long id, StoreDto storeDto);
+    StoreDto getStoreInfo(Long id, StoreDto storeDto);
     void updateStore(Long id, StoreDto storeDto, List<StoreImageFile> storeImageFile);
 
     int countByStoreRegNum(String storeRegNum);

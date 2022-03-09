@@ -24,10 +24,10 @@
                               th:onclick="|location.href='@{/page/detail/{sno}(sno=${info.sno})}'|">내 가게</span>
                     </div>
                     <div class="profile-div">
-                        <span class="editMyInfo profile-btn inline" th:onclick="|location.href='@{/stores/account}'|">내 회원 정보 수정</span>
+                        <span class="editMyInfo profile-btn inline" th:onclick="|location.href='@{/stores/update/account}'|">내 회원 정보 수정</span>
                     </div>
                     <div class="profile-div">
-                        <span class="chatting profile-btn inline" th:onclick="|location.href='@{/stores/update}'|">내 가게 정보 수정</span>
+                        <span class="chatting profile-btn inline" th:onclick="|location.href='@{/stores/update/info}'|">내 가게 정보 수정</span>
                     </div>
                 </div>
 
@@ -63,7 +63,7 @@
                                          th:onclick="|location.href='@{/page/detail/{sno}(sno=${info.sno})}'|">
                                         <div class="card-header" th:if="${#strings.isEmpty(review.reviewThumbnail)}">
                                             <span class="sorry-emoji">😅</span>
-                                            <span class="sorry-text">아직 등록된 사진이 없어요</span>
+                                            <span class="sorry-text">등록된 사진이 없어요</span>
                                         </div>
                                         <div class="card-header" th:if="${not #strings.isEmpty(review.reviewThumbnail)}">
                                             <img th:src="@{/page/detail/images/{review}(review=*{review.reviewThumbnail})}"
