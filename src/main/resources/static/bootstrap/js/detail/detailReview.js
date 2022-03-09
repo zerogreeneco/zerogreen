@@ -184,12 +184,10 @@ $(document).ready(function(e){
     $("#image-right").click(function() {
         $(".image-slider").animate({marginLeft: "-130px"},
         function() {
-            $(".image-slider .card:first").appendTo(".image-slider");
             $(".image-slider").css({marginLeft: 0 });
         });
     });
     $("#image-left").click(function() {
-        $(".image-slider .card:last").prependTo(".image-slider");
         $(".image-slider").css({ "marginLeft": "-130px"});
         $(".image-slider").animate({ marginLeft: 0 });
     });
@@ -208,7 +206,7 @@ $(document).ready(function(e){
     let imageList = $(".rv-imageOnly");
     let mImage = $(".mImage-fr");
 
-    //이미지(list) 모달 띄우기 + 모달 슬라이드 ** on working **
+    //이미지(list) 모달 띄우기 + 모달 슬라이드
     $(".rv-img-list").click(function () {
         let i = $(this).index();
         let imgSrc = $(this).find(".rv-imageOnlyOrigin").attr("src");
@@ -272,10 +270,10 @@ $(document).ready(function(e){
             if (i2 == 0) {
                 i2 = 0;
             } else {
-            i2--;
-            console.log("12-- " + i2)
-            let nextImg2 = $(".rv-img").eq(i2).find(".mImageOrigin").attr("src");
-            $(".modal_content").attr("src", nextImg2);
+                i2--;
+                console.log("12-- " + i2)
+                let nextImg2 = $(".rv-img").eq(i2).find(".mImageOrigin").attr("src");
+                $(".modal_content").attr("src", nextImg2);
             }
         }); //end click modal right
 
