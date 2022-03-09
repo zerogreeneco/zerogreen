@@ -210,65 +210,85 @@ $(document).ready(function(e){
 
     //이미지(list) 모달 띄우기 + 모달 슬라이드 ** on working **
     $(".rv-img-list").click(function () {
-        let idx = $(this).index();
-        let next = idx + 1;
-        let prev = idx - 1;
+        let i = $(this).index();
         let imgSrc = $(this).find(".rv-imageOnlyOrigin").attr("src");
-        let nextImg = $(".rv-img-list").eq(next).find(".rv-imageOnlyOrigin").attr("src");
-        let prevImg = $(".rv-img-list").eq(prev).find(".rv-imageOnlyOrigin").attr("src");
+        let length = $(".rv-img-list").length;
 
         $(".modal_content").attr("src", imgSrc);
-        //console.log("imgSrc  " + imgSrc);
         $(".modal").show();
 
         //모달 슬라이드
         $("#modal-right").click(function() {
-            $(".modal-slider").animate({marginLeft: "-700px"},
-            function() {
-                $(".modal-slider .card:first").appendTo(".modal-slider");
-                $(".modal-slider").css({marginLeft: 0 });
-                $(".modal_content").attr("src", nextImg);
-            });
-        });
+            if (i == length-1) {
+                i = length-1;
+            } else {
+                i++;
+                let nextImg = $(".rv-img-list").eq(i).find(".rv-imageOnlyOrigin").attr("src");
+//                console.log("1++ " + i)
+
+                $(".modal-slider").animate({marginLeft: "-700px"},
+                function() {
+                    $(".modal-slider").css({marginLeft: 0 });
+                    $(".modal_content").attr("src", nextImg);
+//                    $(".modal-slider .card:first").appendTo(".modal-slider");
+                });
+            }
+        }); //end click modal right
+
         $("#modal-left").click(function() {
-            $(".modal-slider .card:last").prependTo(".modal-slider");
-            $(".modal-slider").css({ "marginLeft": "-700px"});
-            $(".modal-slider").animate({ marginLeft: 0 });
-            $(".modal_content").attr("src", prevImg);
-        });
+            if (i == 0) {
+                i = 0;
+            } else {
+                i--;
+                let prevImg = $(".rv-img-list").eq(i).find(".rv-imageOnlyOrigin").attr("src");
+//                console.log("1-- " + i)
+
+                $(".modal-slider").animate({ "marginRight": "-700px" },
+                function() {
+                    $(".modal-slider").css({ marginRight: 0});
+                    $(".modal_content").attr("src", prevImg);
+//                    $(".modal-slider").css({ "marginLeft": "-700px"});
+//                    $(".modal-slider .card:last").prependTo(".modal-slider");
+                });
+            }
+        }); //end click modal left
     }); //end 이미지 리스트 모달 띄우기 + 모달 슬라이드
 
 
     //이미지(withReview) 모달 띄우기 + 모달 슬라이드 ** on working **
     $(".rv-img").click(function () {
-        let idx = $(this).index();
-        console.log("idx " + idx)
-        let next = idx + 1;
-        let prev = idx - 1;
-
-        let imgSrc2 = $(this).children(".mImageOrigin").attr("src");
-        console.log("imgSrc2" + imgSrc2)
-        let nextImg = $(".rv-img").eq(next).find(".mImageOrigin").attr("src");
-        let prevImg = $(".rv-img").eq(prev).find(".mImageOrigin").attr("src");
+        let i2 = $(this).index();
+        let imgSrc2 = $(this).find(".mImageOrigin").attr("src");
+        let length2 = $(".rv-img").length;
 
         $(".modal_content").attr("src", imgSrc2);
         $(".modal").show();
 
+        console.log("12?? " + i2)
+        console.log("l22 " + length2);
+
         //모달 슬라이드
         $("#modal-right").click(function() {
-            $(".modal-slider").animate({marginLeft: "-700px"},
-            function() {
-                $(".modal-slider .card:first").appendTo(".modal-slider");
-                $(".modal-slider").css({marginLeft: 0 });
-                $(".modal_content").attr("src", prevImg);
-            });
-        });
+            if (i2 == 0) {
+                i2 = 0;
+            } else {
+            i2--;
+            console.log("12-- " + i2)
+            let nextImg2 = $(".rv-img").eq(i2).find(".mImageOrigin").attr("src");
+            $(".modal_content").attr("src", nextImg2);
+            }
+        }); //end click modal right
+
         $("#modal-left").click(function() {
-            $(".modal-slider .card:last").prependTo(".modal-slider");
-            $(".modal-slider").css({ "marginLeft": "-700px"});
-            $(".modal-slider").animate({ marginLeft: 0 });
-            $(".modal_content").attr("src", nextImg);
-        });
+            if (i2 == length2-1) {
+                i2 = length2-1;
+            } else {
+                i2++;
+                let prevImg2 = $(".rv-img").eq(i2).find(".mImageOrigin").attr("src");
+                console.log("12++ " + i2)
+                $(".modal_content").attr("src", prevImg2);
+            }
+        }); //end click modal left
     }); //end 이미지 (review) 모달 띄우기 + 모달 슬라이드
 
 
