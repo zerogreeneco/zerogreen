@@ -5,7 +5,7 @@
         <link rel="stylesheet" th:href="@{/bootstrap/css/register.css}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-        <script th:src="@{/bootstrap/js/store/storeInfo.js}"></script>
+        <script th:src="@{/bootstrap/js/store/accountUpdate.js}"></script>
         <div class="container" sec:authorize="isAuthenticated()">
             <div class="center-box">
                 <div sec:authorize="hasAnyRole('ROLE_STORE','ROLE_UN_STORE')">
@@ -53,15 +53,12 @@
                             <div class="check-error"></div>
                         </div>
                         <!-- 비밀번호 변경, 회원탈퇴 button -->
-                        <div>
-                            <button class="modify-btn" onclick="pwdChange()">비밀번호 변경</button>
-                            <a class="text-btn" href="#deleteModal" rel="modal:open">회원탈퇴를 하시겠습니까?</a>
-                        </div>
                     </form>
+                    <div>
+                        <button class="modify-btn" onclick="pwdChange()">비밀번호 변경</button>
+                        <a class="text-btn" href="#deleteModal" rel="modal:open">회원탈퇴를 하시겠습니까?</a>
+                    </div>
                 </div>
-
-                <!--회원 정보수정 input-->
-                <h2 class="title">회원 정보 수정</h2>
             </div>
         </div>
         <!-- 회원탈퇴 모달창 -->
