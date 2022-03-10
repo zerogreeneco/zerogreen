@@ -18,15 +18,17 @@ $(document).ready(function(e){
     // 대댓글 추가
    $(".srv-adding").click(function () {
         let parent = $(this).parent().parent()
-        let reviewText = parent.children("#storeReviewText");
+        let reviewText = parent.children().children("#storeReviewText");
+        let sno2 = parent.children().children(".js-sno").text();
         let rno = parent.parent().children(".rno").text();
         let btn = parent.parent().children().children(".srv-toAdd");
+        console.log("dd " + sno2)
 
         $.ajax({
-            url: contextPath+"/page/detail/addReview/"+sno+"/"+rno,
+            url: contextPath+"/page/detail/addReview/"+sno2+"/"+rno,
             method: "post",
             data: {
-                sno: sno,
+                sno: sno2,
                 rno: rno,
                 reviewText: reviewText.val()
             },
@@ -41,9 +43,9 @@ $(document).ready(function(e){
     //edit member reviews
    $(".mrv-modify").on("click", function(){
         let rno = $(this).parent().parent().children(".rno").text();
-        let editText = $(this).parent().parent().children().children(".mrv-textarea");
+        let editText = $(this).parent().parent().children().children().children(".mrv-textarea");
         let deleteBtn = $(this).parent().children(".rv-delete");
-        let textCnt = $(this).parent().parent().children().children(".hidden-text-count");
+        let textCnt = $(this).parent().parent().children().children(".div14").children(".hidden-text-count");
         count++;
 
        if (count == 1) {
@@ -162,14 +164,25 @@ $(document).ready(function(e){
     //textarea 자동 늘이기
    $('textarea').on('keyup',function (e) {
         $(this).css('height', 'auto');
-        $(this).height(this.scrollHeight);
+        $(this).height(this.scrollHeight + 10);
    });
    $('textarea').keyup();
 
 
     //리뷰 이미지 등록시 textarea 마진 + div13 height 재설정
+   $('.div14').on('change',function (e) {
+       let img = $(this).parent().parent().find('.div12').find('.rv-img').val();
+       let div13 = $(this).parent('.div13');
+
+        if (img != null) {
+            $(this).css('marginLeft','130px');
+            div13.css('min-height','8em');
+        }
+   });
+   $('.div14').change();
+/*
    $('.mrv-textarea').on('change',function (e) {
-       let img = $(this).parent().find('.div12').find('.rv-img').val();
+       let img = $(this).parent().parent().find('.div12').find('.rv-img').val();
        let div13 = $(this).parent('.div13');
 
         if (img != null) {
@@ -178,6 +191,7 @@ $(document).ready(function(e){
         }
    });
    $('.mrv-textarea').change();
+*/
 
 
     //리뷰이미지 슬라이드

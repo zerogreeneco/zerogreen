@@ -327,7 +327,7 @@ textarea:focus {
 }
 
 .rv-img {
-    margin: 3px;
+    margin: 5px 3px 3px 3px;
     position: absolute;
 }
 
@@ -338,8 +338,8 @@ textarea:focus {
 .mrv-textarea {
     background: none;
     border: none;
-    width: 100%;
-    margin: 8px 8px 3px 16px;
+    width: 95%;
+    margin: 0px 8px 3px 16px;
 }
 
 .hidden-text-count {
@@ -347,6 +347,9 @@ textarea:focus {
 }
 
 /*스토어 리뷰*/
+.sr-count-div {
+    width: 57.7em;
+}
 .sReview-Box {
     border-top: 1px solid #dedede;
 }

@@ -19,15 +19,15 @@
 
             <!-- 1열 -->
             <div class="detail-top">
-                <div class="div21" style="position: relative;" th:if="${#lists.size(getStore.imageList) >= 1}">
+                <div class="div21" style="position: relative;" th:if="${#lists.size(storeImageList) >= 1}">
                     <span id="image-left-top" class="arrow-left-top arrow"
-                          th:if="${#lists.size(getStore.imageList) >= 5}">&#139;</span>
+                          th:if="${#lists.size(storeImageList) >= 5}">&#139;</span>
                     <span id="image-right-top" class="arrow-right-top arrow"
-                          th:if="${#lists.size(getStore.imageList) >= 5}">&#155;</span>
+                          th:if="${#lists.size(storeImageList) >= 5}">&#155;</span>
                     <div class="slider-container">
                         <div class="image-slider-top slider">
-                            <div class="card sImg-list" th:each="sImg: ${getStore.imageList}">
-                                <img class="inline " th:src="@{/page/detail/image/} + ${getStore.storeName} + ${sImg.storeFileName}"
+                            <div class="card sImg-list" th:each="sImg: ${storeImageList}">
+                                <img class="inline" th:src="@{/page/detail/image/} + ${getStore.storeName} + ${sImg.thumbnailName}"
                                      th:value="${sImg.fileName}"
                                      width="200px" height="200px">
                             </div>
@@ -51,12 +51,10 @@
 
                                 <div th:if="${cntLike} == 0">
                                     <img class="liking dislike" th:attr="src = @{/bootstrap/images/like/disLike.png}">
-                                    <!--                                <span class="countLikes">[[${cntLike}]]</span>-->
                                 </div>
 
                                 <div  th:if="${cntLike} == 1">
                                     <img class="liking like" th:attr="src = @{/bootstrap/images/like/like.png}">
-                                    <!--                                <span class="countLikes">[[${cntLike}]]</span>-->
                                 </div>
                             </div>
                             <!-- 비회원 좋아요 -->
@@ -91,7 +89,7 @@
                 <!-- 3열 좌측 -->
                 <div class="thr-thr inline">
                     <div class="thr thr-left inline">
-                        <div th:each="menu: ${getStore.menuList}">
+                        <div th:each="menu: ${menuList}">
                             <span th:if="${menu.vegetarianGrade} != null">
                                 <img th:src="@{'/bootstrap/images/profile/' +${menu.vegetarianGrade}+'.png'}"
                                  class="veganImg">
@@ -102,6 +100,7 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- 3열 우측 -->
                 <div class="thr-thr inline">
                     <div class="thr thr-right inline" th:object="${getStore}">
@@ -126,11 +125,11 @@
             </div>
 
             <!-- 리뷰작성칸 -->
-            <div class="rv" sec:authorize="hasRole('ROLE_USER')">
+            <div class="rv" sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_AUTH_USER')">
 
                 <!-- preview -->
-                    <div id="preview">
-                    </div>
+                <div id="preview">
+                </div>
 
                 <!-- 리뷰작성 textarea -->
                 <form id="replyForm" method="POST" th:object="${review}" enctype="multipart/form-data"
@@ -217,11 +216,12 @@
                                     </div>
                                 </div>
                                 <!-- div12 end-->
-
-                                <textarea class="mrv-textarea" name="reviewText" onkeyup="limitTextInput(this)" readonly>[[${mReview.reviewText}]]</textarea>
-                                <div class="text-count-div hidden-text-count" style="display:none;">
-                                    <span>띄어쓰기 포함 최대 500자까지 입력이 가능합니다. </span>
-                                    <span class="text-count">0 / 500</span>
+                                <div class="div14">
+                                    <textarea class="mrv-textarea" name="reviewText" onkeyup="limitTextInput(this)" readonly>[[${mReview.reviewText}]]</textarea>
+                                    <div class="text-count-div hidden-text-count" style="display:none;">
+                                        <span>띄어쓰기 포함 최대 500자까지 입력이 가능합니다. </span>
+                                        <span class="text-count">0 / 500</span>
+                                    </div>
                                 </div>
                             </div>
                             <!-- div13 end -->
@@ -234,11 +234,14 @@
 
                             <!-- 스토어 리뷰 입력창 -->
                             <div class="srv-input" style="display:none;">
-                                <textarea class="srv-input-textarea" name="storeReviewText" id="storeReviewText"
-                                          onkeyup="limitTextInput(this)" placeholder="답글을 입력해주세요"></textarea>
-                                <div class="text-count-div">
-                                    <span>띄어쓰기 포함 최대 500자까지 입력이 가능합니다. </span>
-                                    <span class="text-count">0 / 500</span>
+                                <div class="div15">
+                                    <span class="js-sno" style="display:none;">[[${mReview.sno}]]</span>
+                                    <textarea class="srv-input-textarea" name="storeReviewText" id="storeReviewText"
+                                              onkeyup="limitTextInput(this)" placeholder="답글을 입력해주세요"></textarea>
+                                    <div class="text-count-div sr-count-div">
+                                        <span>띄어쓰기 포함 최대 500자까지 입력이 가능합니다. </span>
+                                        <span class="text-count">0 / 500</span>
+                                    </div>
                                 </div>
                                 <div class="btn-Box">
                                     <span class="srv-adding inline mrv-btn" id="srv-adding">등록</span>

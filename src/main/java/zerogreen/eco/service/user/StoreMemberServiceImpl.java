@@ -17,9 +17,7 @@ import zerogreen.eco.entity.userentity.StoreMember;
 import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.entity.userentity.UserRole;
 import zerogreen.eco.repository.detail.DetailReviewRepository;
-import zerogreen.eco.repository.detail.LikesRepository;
 import zerogreen.eco.repository.file.StoreImageFileRepository;
-import zerogreen.eco.repository.store.StoreMenuRepository;
 import zerogreen.eco.repository.user.StoreMemberRepository;
 
 import java.util.List;
@@ -31,8 +29,6 @@ public class StoreMemberServiceImpl implements StoreMemberService {
 
     private final StoreMemberRepository storeMemberRepository;
     private final StoreImageFileRepository storeImageFileRepository;
-    private final StoreMenuRepository storeMenuRepository;
-    private final LikesRepository likesRepository;
     private final DetailReviewRepository detailReviewRepository;
     @Lazy
     private final PasswordEncoder passwordEncoder;
@@ -63,34 +59,11 @@ public class StoreMemberServiceImpl implements StoreMemberService {
                 .getId();
     }
 
-    //상세페이지 ** 작업중 **
-    //query dsl
-//    @Override
-//    public StoreDto getStore2(Long sno) {
-//        return storeMemberRepository.getStoreById(sno);
-//    }
-
-    //orm
-//    public StoreDto getStore3(Long sno) {
-//        StoreMember storeMember = storeMemberRepository.getStore2(sno);
-//        return new StoreDto(storeMember);
-//    }
-
+    //상세페이지 DB
     @Override
     public StoreDto getStore(Long sno) {
-        StoreMember storeMember = storeMemberRepository.findById(sno).orElseThrow();
-        return StoreDto.builder()
-                .sno(storeMember.getId())
-                .storeName(storeMember.getStoreName())
-                .storeType(storeMember.getStoreType())
-                .storeInfo(storeMember.getStoreInfo())
-                .imageFile(storeMember.getImageFile())
-                .menuList(storeMember.getMenuList())
-                .likesCount(likesRepository.counting(storeMember.getId()))
-                .reviewCount(detailReviewRepository.counting(sno))
-                .build();
+        return storeMemberRepository.getStoreById(sno);
     }
-    //여기까지**************************
 
 
     @Override
