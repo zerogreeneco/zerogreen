@@ -118,14 +118,20 @@
 
             <!-- 4열 -->
             <div class="detail-map">
-                <div id="map" style="width:100%;height:350px;border-radius: 10px;"></div>
+                <div id="map" style="width:80%;height:350px;border-radius: 10px;"></div>
                 <script type="text/javascript" th:src="@{/bootstrap/js/detail/detailMap.js}"></script>
                 <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac&libraries=services"></script>
                 <input hidden id="mapAddress" type="text" th:value="${getStore.storeInfo.storeAddress}">
             </div>
 
+            <!-- 5열 -->
+            <div class="textList" sec:authorize="isAnonymous()">
+                <span class="no-data inline ">로그인 후 리뷰를 남겨주세요!</span>
+            </div>
+
             <!-- 리뷰작성칸 -->
             <div class="rv" sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_AUTH_USER')">
+                <div class="div16 inline">
 
                 <!-- preview -->
                 <div id="preview">
@@ -155,13 +161,13 @@
                         <!--                    <span typeof="button" class="rvrv-btn inline" id="rv-btn">리뷰등록</span>-->
                     </div>
                 </form>
-
+                </div>
             </div>
 
             <!-- 리뷰 이미지+텍스트 리스트 -->
             <div class="wrapper-review-list">
                 <!-- 리뷰리스트 -->
-                <div id="reviewList" class="reviewList">
+                <div id="reviewList" class="reviewList inline">
                     <!-- 리뷰 이미지 리스트 -->
                     <div class="rv-images" style="position: relative;" th:if="${reviewImageList != null}">
                         <span id="image-left" class="arrow-left arrow">&#139;</span>
@@ -223,6 +229,7 @@
                                         <span class="text-count">0 / 500</span>
                                     </div>
                                 </div>
+                                <!-- div14 end-->
                             </div>
                             <!-- div13 end -->
 
@@ -293,8 +300,8 @@
                 </button>
             </div>
 
-            <!-- image modal -->
-            <div class="modal image-model" style="display:none;">
+            <!-- review image list modal1 -->
+            <div class="modal modal1" style="display:none;">
                 <span class="close">&times;</span>
                 <span id="modal-left" class="modal-arrow-left arrow">&#139;</span>
                 <span id="modal-right"  class="modal-arrow-right arrow">&#155;</span>
@@ -307,7 +314,23 @@
                 </div>
                 <!-- end slider-container -->
             </div>
-            <!-- end modal -->
+            <!-- end modal1 -->
+
+            <!-- review image modal2 -->
+            <div class="modal modal2" style="display:none;">
+                <span class="close">&times;</span>
+                <span id="modal-left2" class="modal-arrow-left arrow">&#139;</span>
+                <span id="modal-right2"  class="modal-arrow-right arrow">&#155;</span>
+                <div class="slider-container">
+                    <div class="modal-slider slider">
+                        <div class="card modalEach">
+                            <img class="modal_content">
+                        </div>
+                    </div>
+                </div>
+                <!-- end slider-container -->
+            </div>
+            <!-- end modal2 -->
 
         </div>
         <!-- end of page-->

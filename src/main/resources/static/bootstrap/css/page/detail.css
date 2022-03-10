@@ -47,7 +47,7 @@
 }
 
 .div21 {
-    width: 60em;
+    width: 90%;
 }
 
 .arrow-left-top {
@@ -88,7 +88,7 @@
 .store-name {
     font-size: 1.8em;
     text-align: center;
-    margin: 15px 0 15px 0;
+    margin: 30px 0 15px 0;
 }
 
 .js-storeName {
@@ -165,6 +165,23 @@
 
 #map {
     display: inline-block;
+}
+
+/* 5열 */
+.no-data {
+    background: lightgray;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    padding: 10px;
+    width: 80%;
+}
+
+.textList {
+    font-size: 1.1em;
+    line-height: 200%;
+    text-align: center;
+    margin: 1rem;
 }
 
 /* 프리뷰 */
@@ -252,6 +269,14 @@ textarea:focus {
 }
 
 /*리뷰 작성*/
+.rv {
+    text-align: center;
+}
+
+.div16 {
+    width: 80%;
+}
+
 .rv-ta {
     margin: 15px 8px 0 0;
 }
@@ -270,12 +295,6 @@ textarea:focus {
 }
 
 /* 리뷰이미지리스트(슬라이더) */
-.rv-images {
-    //background: #5187e0;
-    //height: 100px;
-    width: 59.5em;
-}
-
 .rv-img-list {
     margin: 5px 0 3px 5px;
 }
@@ -290,7 +309,7 @@ textarea:focus {
 
 .arrow-left {
     left: 0;
-    top: 17%;
+    top: 33%;
     font-size: 4em;
     position: absolute;
     z-index: 999;
@@ -299,11 +318,21 @@ textarea:focus {
 
 .arrow-right {
     right: 0;
-    top: 17%;
+    top: 33%;
     font-size: 4em;
     position: absolute;
     z-index: 999;
     color: #3498db;
+}
+
+/* 리뷰 리스트 */
+.wrapper-review-list {
+    display: flex;
+    justify-content: center;
+}
+
+.reviewList {
+    width: 85%
 }
 
 /*멤버 리뷰*/
@@ -343,12 +372,12 @@ textarea:focus {
 }
 
 .hidden-text-count {
-    width: 51em;
+    width: 98%;
 }
 
 /*스토어 리뷰*/
 .sr-count-div {
-    width: 57.7em;
+    width: 83%;
 }
 .sReview-Box {
     border-top: 1px solid #dedede;
@@ -361,7 +390,7 @@ textarea:focus {
 .storeReviewText {
     background: none;
     border: none;
-    width: 50em;
+    width: 85%;
     margin: 8px 8px 3px 60px;
     //border: 1px solid black;
 }
@@ -373,7 +402,7 @@ textarea:focus {
 .srv-input-textarea {
     border: 1px solid #16a085;
     margin: 10px 0 0 15px;
-    width: 50em;
+    width: 80%;
     min-height: 57px;
 }
 
@@ -397,7 +426,8 @@ textarea:focus {
 }
 
 .width60 {
-    width: 60.6em;
+    margin-left: 60px;
+    width: 86%;
 }
 
 /* 탑 버튼 */
