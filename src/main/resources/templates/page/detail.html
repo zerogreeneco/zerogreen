@@ -133,11 +133,11 @@
                     </div>
 
                 <!-- 리뷰작성 textarea -->
-                <form method="POST" th:object="${review}" enctype="multipart/form-data"
+                <form id="replyForm" method="POST" th:object="${review}" enctype="multipart/form-data"
                 th:action="@{'/page/detail/addReview/'}+${getStore.sno}">
                     <span class="js-storeId" style="display:none;">[[${getStore.sno}]]</span>
 
-                    <div class="rv-area" >
+                    <div class="insert-sec" >
                         <textarea th:field="*{reviewText}" name="reviewText" id="reviewText" class="reviewText"
                                   onkeyup="limitTextInput(this)" placeholder="리뷰를 남겨보세요!"></textarea>
                         <div class="text-count-div">
@@ -146,7 +146,7 @@
                         </div>
                     </div>
 
-                    <div class="rv-area">
+                    <div class="button-sec">
                         <label class="img-input rvrv-btn" for="img-input">사진선택</label><br>
                         <input class="img-input" id="img-input" th:field="*{imageFiles}" name="reviewImages" type="file"
                                accept="image/jpg,image/png,image/jpeg"
