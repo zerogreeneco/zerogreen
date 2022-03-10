@@ -18,15 +18,17 @@ $(document).ready(function(e){
     // 대댓글 추가
    $(".srv-adding").click(function () {
         let parent = $(this).parent().parent()
-        let reviewText = parent.children("#storeReviewText");
+        let reviewText = parent.children().children("#storeReviewText");
+        let sno2 = parent.children().children(".js-sno").text();
         let rno = parent.parent().children(".rno").text();
         let btn = parent.parent().children().children(".srv-toAdd");
+        console.log("dd " + sno2)
 
         $.ajax({
-            url: contextPath+"/page/detail/addReview/"+sno+"/"+rno,
+            url: contextPath+"/page/detail/addReview/"+sno2+"/"+rno,
             method: "post",
             data: {
-                sno: sno,
+                sno: sno2,
                 rno: rno,
                 reviewText: reviewText.val()
             },
@@ -41,9 +43,9 @@ $(document).ready(function(e){
     //edit member reviews
    $(".mrv-modify").on("click", function(){
         let rno = $(this).parent().parent().children(".rno").text();
-        let editText = $(this).parent().parent().children().children(".mrv-textarea");
+        let editText = $(this).parent().parent().children().children().children(".mrv-textarea");
         let deleteBtn = $(this).parent().children(".rv-delete");
-        let textCnt = $(this).parent().parent().children().children(".hidden-text-count");
+        let textCnt = editText.next(".hidden-text-count");
         count++;
 
        if (count == 1) {
@@ -52,7 +54,8 @@ $(document).ready(function(e){
             editText.css('border','solid 1px #3498db');
             editText.css('cursor','text');
             deleteBtn.css('display','none');
-            textCnt.css('display','show');
+            textCnt.removeAttr('style');
+//            textCnt.css('display','show');
             editText.focus();
 
        } else if (count == 2) {
@@ -72,7 +75,8 @@ $(document).ready(function(e){
             .done(function (fragment) {
                 editText.replaceWith("<textarea class='mrv-textarea' name='reviewText' readonly>" + editText.val() + "</textarea>");
                 textCnt.css('display','none');
-                deleteBtn.css('display','show');
+                deleteBtn.removeAttr('style');
+//                deleteBtn.css('display','show');
             });
             count = 0;
         } //end else if
@@ -92,7 +96,7 @@ $(document).ready(function(e){
             editText.css('border','solid 1px #3498db');
             editText.css('cursor','text');
             deleteBtn.css('display','none');
-            textCnt.css('display','show');
+            textCnt.removeAttr('style');
             editText.focus();
 
        } else if (count == 2) {
@@ -111,7 +115,7 @@ $(document).ready(function(e){
             .done(function (fragment) {
                 editText.replaceWith("<textarea class='storeReviewText' name='storeReviewText' readonly>" + editText.val() + "</textarea>");
                 textCnt.css('display','none');
-                deleteBtn.css('display','show');
+                deleteBtn.removeAttr('style');
             });
             count = 0;
         } //end else if
@@ -162,32 +166,34 @@ $(document).ready(function(e){
     //textarea 자동 늘이기
    $('textarea').on('keyup',function (e) {
         $(this).css('height', 'auto');
-        $(this).height(this.scrollHeight);
+        $(this).height(this.scrollHeight + 10);
    });
    $('textarea').keyup();
 
 
-    //리뷰 이미지 등록시 textarea 마진 + div13 height 재설정
-   $('.mrv-textarea').on('change',function (e) {
-       let img = $(this).parent().find('.div12').find('.rv-img').val();
+    //리뷰 이미지 등록시 div14 css 재설정
+   $('.div14').on('change',function (e) {
+       let img = $(this).parent().parent().find('.div12').find('.rv-img').val();
        let div13 = $(this).parent('.div13');
 
         if (img != null) {
             $(this).css('marginLeft','130px');
-            div13.css('height','8em');
+            div13.css('min-height','8em');
         }
    });
-   $('.mrv-textarea').change();
+   $('.div14').change();
 
 
     //리뷰이미지 슬라이드
     $("#image-right").click(function() {
         $(".image-slider").animate({marginLeft: "-130px"},
         function() {
+            $(".image-slider .card:first").appendTo(".image-slider");
             $(".image-slider").css({marginLeft: 0 });
         });
     });
     $("#image-left").click(function() {
+        $(".image-slider .card:last").prependTo(".image-slider");
         $(".image-slider").css({ "marginLeft": "-130px"});
         $(".image-slider").animate({ marginLeft: 0 });
     });
@@ -200,20 +206,18 @@ $(document).ready(function(e){
 
 
     //이미지 모달
-    let modal = $(".modal");
-    let close = $(".close");
     let modalImage = $(".modal_content");
     let imageList = $(".rv-imageOnly");
     let mImage = $(".mImage-fr");
 
-    //이미지(list) 모달 띄우기 + 모달 슬라이드
+    //이미지(list) 모달 띄우기 + 모달 슬라이드 ** on working **
     $(".rv-img-list").click(function () {
         let i = $(this).index();
         let imgSrc = $(this).find(".rv-imageOnlyOrigin").attr("src");
         let length = $(".rv-img-list").length;
 
         $(".modal_content").attr("src", imgSrc);
-        $(".modal").show();
+        $(".modal1").show();
 
         //모달 슬라이드
         $("#modal-right").click(function() {
@@ -260,13 +264,13 @@ $(document).ready(function(e){
         let length2 = $(".rv-img").length;
 
         $(".modal_content").attr("src", imgSrc2);
-        $(".modal").show();
+        $(".modal2").show();
 
         console.log("12?? " + i2)
         console.log("l22 " + length2);
 
         //모달 슬라이드
-        $("#modal-right").click(function() {
+        $("#modal-right2").click(function() {
             if (i2 == 0) {
                 i2 = 0;
             } else {
@@ -277,7 +281,7 @@ $(document).ready(function(e){
             }
         }); //end click modal right
 
-        $("#modal-left").click(function() {
+        $("#modal-left2").click(function() {
             if (i2 == length2-1) {
                 i2 = length2-1;
             } else {

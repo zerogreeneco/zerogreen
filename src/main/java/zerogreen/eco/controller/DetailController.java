@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.detail.ReviewImageDto;
 import zerogreen.eco.dto.store.StoreDto;
+import zerogreen.eco.dto.store.StoreMenuDto;
 import zerogreen.eco.entity.detail.ReviewImage;
 import zerogreen.eco.entity.userentity.BasicUser;
 import zerogreen.eco.security.auth.PrincipalDetails;
@@ -24,6 +25,7 @@ import zerogreen.eco.service.detail.LikesService;
 import zerogreen.eco.service.detail.ReviewImageService;
 import zerogreen.eco.service.file.FileService;
 import zerogreen.eco.service.store.StoreImageService;
+import zerogreen.eco.service.store.StoreMenuService;
 import zerogreen.eco.service.user.StoreMemberService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +48,7 @@ public class DetailController {
     private final DetailReviewService detailReviewService;
     private final StoreImageService storeImageService;
     private final FileService fileService;
+    private final StoreMenuService storeMenuService;
 
 
     //상세페이지
@@ -61,7 +64,6 @@ public class DetailController {
         log.info("<<<<< " + storeDto.getSno());
         log.info("<<<<< " + storeDto.getLikesCount());
         log.info("<<<<< " + storeDto.getReviewCount());
-        log.info("<<<<< " + storeDto.getMenuName());
 
         if (principalDetails == null) {
             model.addAttribute("getStore",storeDto);
@@ -79,6 +81,14 @@ public class DetailController {
 //            log.info("REVIEW ERROR={}", bindingResult.hasErrors());
 //            return "page/detail";
 //        }
+
+        //스토어 이미지 리스트
+        List<StoreDto> image = storeImageService.getImageByStore(sno);
+        model.addAttribute("storeImageList", image);
+
+        //메뉴 리스트
+        List<StoreMenuDto> menuList = storeMenuService.getStoreMenu(sno);
+        model.addAttribute("menuList", menuList);
 
         //리뷰 텍스트 리스트
         List<DetailReviewDto> result = detailReviewService.findByStore(sno);
