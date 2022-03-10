@@ -57,22 +57,19 @@
                           th:object="${password}">
                         <div>
                             <label for="password" class="join-label">현재 비밀번호</label>
-                            <input id="password" type="password" th:field="*{password}" class="form-control input-box">
-                            <div th:errors="*{password}">
-                                비밀번호가 일치하지 않습니다.
-                            </div>
+                            <input type="password" class="form-control input-box" id="password"
+                                   th:field="*{password}">
+                            <div class="password-error"></div>
                         </div>
                         <div>
                             <label for="newPassword" class="join-label">새로운 비밀번호</label>
-                            <input id="newPassword" type="password" th:field="*{newPassword}"
-                                   class="form-control input-box">
-                            <div th:errors="*{newPassword}">
-                                비밀번호 수정 불가
-                            </div>
+                            <input type="password" class="form-control input-box" id="newPassword"
+                                   th:field="*{newPassword}">
+                            <div class="re-password-error"></div>
                         </div>
                         <div>
                             <label for="re-newPassword" class="join-label">새로운 비밀번호 확인</label>
-                            <input id="re-newPassword" type="password" class="form-control input-box">
+                            <input type="password" class="form-control input-box" id="re-newPassword">
                         </div>
                     </form>
                     <!-- 비밀번호 변경, 회원탈퇴 button -->

@@ -30,7 +30,7 @@ public class CommunityReplyDto {
     private String text;
     private String nickname;
     private String username;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime createdTime;
     private VegetarianGrade vegetarianGrade;
 
