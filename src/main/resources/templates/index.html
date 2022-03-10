@@ -25,7 +25,8 @@
                             <div class="card" th:each="temp : ${approval}" th:unless="${temp.storeType.toString().equals('ECO_SHOP')}"
                                  th:onclick="|javascript: goStore('${temp.memberId}')|">
                                 <div class="card-header">
-                                    <img src="https://via.placeholder.com/300"/>
+                                    <span class="mini-sorry">😅</span>
+                                    <span class="mini-text">아직 등록된 사진이 없어요</span>
                                 </div>
                                 <div class="shopList-box">
                                     <div class="card-body">
@@ -47,7 +48,8 @@
                             <div class="card" th:each="temp : ${approval}" th:if="${temp.storeType.toString().equals('ECO_SHOP')}"
                                  th:onclick="|javascript: goStore('${temp.memberId}')|">
                                 <div class="card-header">
-                                    <img src="https://via.placeholder.com/300"/>
+                                    <span class="mini-sorry">😅</span>
+                                    <span class="mini-text">아직 등록된 사진이 없어요</span>
                                 </div>
                                 <div class="shopList-box">
                                     <div class="card-body">
