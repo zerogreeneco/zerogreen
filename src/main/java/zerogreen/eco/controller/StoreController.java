@@ -215,7 +215,6 @@ public class StoreController {
                                StoreUpdateDto storeUpdateDto) {
         model.addAttribute("member",
                 basicUserService.getStoreMember(principalDetails.getBasicUser().getId(), storeUpdateDto));
-       
       return "store/updateStoreMember";
     }
 
@@ -236,7 +235,7 @@ public class StoreController {
     @PatchMapping("/update/password")
     @ResponseBody
     public ResponseEntity<Map<String, String>> passwordChange(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                                              @Validated @ModelAttribute("password") PasswordUpdateDto passwordDto, BindingResult bindingResult,
+                                                              @Validated @ModelAttribute("password") PasswordUpdateDto passwordDto,
                                                               HttpSession session) {
         Map<String, String> resultMap = new HashMap<>();
 
@@ -244,9 +243,11 @@ public class StoreController {
             basicUserService.passwordChange(principalDetails.getId(), passwordDto);
             resultMap.put("result", "success");
             session.invalidate();
+
             return new ResponseEntity<>(resultMap, HttpStatus.OK);
         }else{
             resultMap.put("result", "fail");
+
             return new ResponseEntity<>(resultMap, HttpStatus.OK);
         }
     }

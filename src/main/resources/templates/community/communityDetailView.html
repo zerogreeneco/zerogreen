@@ -84,10 +84,10 @@
         </div>
 
         <!-- 상세보기 리뷰 작성 -->
+        <input type="hidden" th:value="${session.loginUser}" id="login-user" style="display: none;">
         <div id="cm-review-wrapper" class="성cm-main-wrapper">
             <div class="review-send" sec:authorize="isAuthenticated()">
                 <form th:object="${reply}" method="post">
-                    <input type="hidden" th:field="*{replyId}">
                     <p id="cm-input-name">[[${session.loginUserNickname}]]<span id="text-count" class="cm-text-count">0 / 100</span>
                     </p>
                     <textarea th:field="*{text}" class="review-text" placeholder="댓글을 남겨주세요."></textarea>
@@ -96,7 +96,7 @@
             </div>
             <!-- 댓글 리스트 -->
             <div id="review-table" class="cm-main-wrapper">
-                <div th:each="replyList : ${replyList}">
+<!--/*                <div th:each="replyList : ${replyList}">
                     <div class="comment-wrapper" th:style="${replyList.depth} == 2 ? 'padding-left:30px;' : ''">
                         <div class="nest-list" >
                             <span>[[${replyList.depth}]]</span>
@@ -133,7 +133,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*/-->
             </div>
         </div>
         <script th:src="@{/bootstrap/js/chat/custom.js}"></script>
