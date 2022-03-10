@@ -255,7 +255,7 @@ public class TestDataInit {
             storeMenuService.saveStoreMenuTest(storeMenu11);
             StoreMenu storeMenu2 = new StoreMenu("menu2-1","5,000",VegetarianGrade.PLEXITARIAN, generalTest1);
             storeMenuService.saveStoreMenuTest(storeMenu2);
-            StoreMenu storeMenu22 = new StoreMenu("menu2-2 XOXO","5,000",VegetarianGrade.PLEXITARIAN, generalTest1);
+            StoreMenu storeMenu22 = new StoreMenu("menu2-2 XO","5,000",VegetarianGrade.PLEXITARIAN, generalTest1);
             storeMenuService.saveStoreMenuTest(storeMenu22);
 
             em.flush();

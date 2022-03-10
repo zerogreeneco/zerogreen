@@ -9,7 +9,6 @@
         <div class="container" sec:authorize="isAuthenticated()">
             <div class="center-box">
                 <div sec:authorize="hasAnyRole('ROLE_STORE','ROLE_UN_STORE')">
-
                     <!--회원 정보수정 input-->
                     <h2 class="title">회원 정보 수정</h2>
 
@@ -60,6 +59,9 @@
                         </div>
                     </form>
                 </div>
+
+                <!--회원 정보수정 input-->
+                <h2 class="title">회원 정보 수정</h2>
             </div>
         </div>
         <!-- 회원탈퇴 모달창 -->

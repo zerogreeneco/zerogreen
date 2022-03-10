@@ -30,7 +30,7 @@ public class CommunityApiController {
     private final CommunityReplyService replyService;
 
     @GetMapping(value = "/communityList", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiReturnDto communityHomeFormV2(@RequestParam(value = "category", required = false) Category category,
+    public ApiReturnDto<Slice<CommunityResponseDto>> communityHomeFormV2(@RequestParam(value = "category", required = false) Category category,
                                             RequestPageSortDto requestPageDto, Model model) {
 
         Pageable pageable = requestPageDto.getPageableSort(Sort.by("title").descending());
@@ -49,7 +49,7 @@ public class CommunityApiController {
     }
 
     @GetMapping(value = "/communityReplyList", produces = MediaType.APPLICATION_JSON_VALUE)
-    private ApiReturnDto communityReplyList(@RequestParam(value = "boardId") Long boardId) {
+    private ApiReturnDto<List<CommunityReplyDto>> communityReplyList(@RequestParam(value = "boardId") Long boardId) {
         List<CommunityReplyDto> replyList = replyService.findReplyByBoardId(boardId);
         int size = replyList.size();
         return new ApiReturnDto<>(size, replyList);

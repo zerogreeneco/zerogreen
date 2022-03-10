@@ -215,8 +215,8 @@ public class StoreController {
                                StoreUpdateDto storeUpdateDto) {
         model.addAttribute("member",
                 basicUserService.getStoreMember(principalDetails.getBasicUser().getId(), storeUpdateDto));
-
-        return "store/updateStoreMember";
+       
+      return "store/updateStoreMember";
     }
 
     @PostMapping("/update/account")
@@ -268,5 +268,4 @@ public class StoreController {
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
-
 }

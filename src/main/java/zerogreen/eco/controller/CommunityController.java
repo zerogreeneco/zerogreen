@@ -247,22 +247,21 @@ public class CommunityController {
         Map<String, String> resultMap = new HashMap<>();
 
         replyService.replySave(replyDto.getText(), boardId, principalDetails.getBasicUser());
-        List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
-        for (CommunityReplyDto communityReplyDto : replyByBoardId) {
-            System.out.println("REPLY communityReplyDto = " + communityReplyDto.getNickname());
-        }
-        model.addAttribute("replyList", replyByBoardId);
+//        List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
+//        for (CommunityReplyDto communityReplyDto : replyByBoardId) {
+//            System.out.println("REPLY communityReplyDto = " + communityReplyDto.getNickname());
+//        }
 
+        resultMap.put("result", "success");
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     /*
      * 댓글 수정
      * */
-    @PostMapping("/{boardId}/replyModify/{replyId}")
+    @PostMapping("/replyModify/{replyId}")
     @ResponseBody
-    public ResponseEntity<Map<String, String>> modifyReply(@PathVariable("boardId") Long boardId,
-                                                           @PathVariable("replyId") Long replyId,
+    public ResponseEntity<Map<String, String>> modifyReply(@PathVariable("replyId") Long replyId,
                                                            HttpServletRequest request) {
         Map<String, String> resultMap = new HashMap<>();
         String text = request.getParameter("text");
@@ -291,26 +290,40 @@ public class CommunityController {
     /*
      * 대댓글
      * */
+//    @PostMapping("/{boardId}/{replyId}/nestedReply")
+//    public String nestedReplySend(@PathVariable("boardId") Long boardId, @PathVariable("replyId") Long replyId,
+//                                  @ModelAttribute("nestedReplyForm") CommunityReplyDto replyDto,
+//                                  Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request, HttpServletResponse response) {
+//
+//        String text = request.getParameter("text");
+//        replyService.nestedReplySave(text, boardId, principalDetails.getBasicUser(), replyId);
+//
+//        List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
+//        for (CommunityReplyDto communityReplyDto : replyByBoardId) {
+//            System.out.println("NEST communityReplyDto = " + communityReplyDto.getNickname());
+//        }
+//        model.addAttribute("replyList", replyByBoardId);
+//
+//        return "community/communityDetailView :: #review-table";
+//    }
+
     @PostMapping("/{boardId}/{replyId}/nestedReply")
-    public String nestedReplySend(@PathVariable("boardId") Long boardId, @PathVariable("replyId") Long replyId,
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> nestedReplySend(@PathVariable("boardId") Long boardId, @PathVariable("replyId") Long replyId,
                                   @ModelAttribute("nestedReplyForm") CommunityReplyDto replyDto,
                                   Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request, HttpServletResponse response) {
+        Map<String, String> resultMap = new HashMap<>();
 
         String text = request.getParameter("text");
         replyService.nestedReplySave(text, boardId, principalDetails.getBasicUser(), replyId);
-
-        List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
-        for (CommunityReplyDto communityReplyDto : replyByBoardId) {
-            System.out.println("NEST communityReplyDto = " + communityReplyDto.getNickname());
-        }
-        model.addAttribute("replyList", replyByBoardId);
-
-        return "community/communityDetailView :: #review-table";
+        resultMap.put("result", "success");
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     @GetMapping("/api/replyList/{boardId}")
     @ResponseBody
-    public ApiReturnDto replyList(@PathVariable("boardId") Long boardId) {
+    public ApiReturnDto<List<CommunityReplyDto>> replyList(@PathVariable("boardId") Long boardId) {
+
         List<CommunityReplyDto> replyList = replyService.findReplyByBoardId(boardId);
 
         return new ApiReturnDto<>(replyList);
