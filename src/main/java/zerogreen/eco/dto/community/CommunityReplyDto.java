@@ -26,6 +26,7 @@ public class CommunityReplyDto {
     private Long replyId;
     private Long boardId;
     private Long parentReplyId;
+    private Long memberId;
     private int depth;
     private String text;
     private String nickname;
@@ -52,6 +53,7 @@ public class CommunityReplyDto {
 
         this.replyId = boardReply.getId();
         this.boardId = boardReply.getBoard().getId();
+        this.memberId = boardReply.getReplier().getId();
         this.text = boardReply.getReplyContent();
         this.username = boardReply.getReplier().getUsername();
         this.createdTime = boardReply.getModifiedDate();
