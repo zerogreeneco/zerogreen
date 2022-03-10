@@ -207,11 +207,6 @@ textarea:focus {
     padding: 15px 20px;
 }
 
-.wrapper-review-list {
-    display: flex;
-    justify-content: center;
-}
-
 .text-count-div {
     text-align: right;
     color: #969696;
@@ -299,7 +294,6 @@ textarea:focus {
 
 .reviewBox {
     border-top: 1px solid #3498db;
-    width: 59.5em;
 }
 
 .mrv-textarea {
