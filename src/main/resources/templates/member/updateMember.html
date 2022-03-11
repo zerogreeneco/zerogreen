@@ -11,7 +11,7 @@
                 <h2 class="title">회원 정보 수정</h2>
 
                 <!--회원 정보수정 input-->
-                <div sec:authorize="hasRole('ROLE_USER')">
+                <div>
                     <form id="memberUpdate" action="" th:action="@{/members/account}" method="post"
                           th:object="${member}">
                         <input type="hidden">
@@ -20,14 +20,14 @@
                             <input type="text" id="username" th:field="*{username}" class="form-control input-box"
                                    disabled>
                         </div>
-                        <div>
+                        <div sec:authorize="hasRole('ROLE_USER')">
                             <label for="nickname" class="join-label">닉네임</label>
                             <input id="nickname" type="text" th:field="*{nickname}" class="form-control input-box">
                             <div th:errors="*{nickname}">
                                 닉네임 오류
                             </div>
                         </div>
-                        <div>
+                        <div sec:authorize="hasRole('ROLE_USER')">
                             <label for="phoneNumber" class="join-label">전화번호</label>
                             <input id="phoneNumber" type="text" th:field="*{phoneNumber}"
                                    class="form-control input-box">
@@ -45,8 +45,11 @@
                     </form>
                 </div>
                 <!-- 정보수정 button -->
-                <div>
-                    <button id="info-submit" class="modify-btn" type="submit">정보 수정</button>
+                <div sec:authorize="hasRole('ROLE_USER')">
+                    <button id="info-submit" class="modify-btn" type="button">정보 수정</button>
+                </div>
+                <div sec:authorize="hasRole('ROLE_AUTH_USER')">
+                    <button id="auth-info-submit" class="modify-btn" type="button">정보 수정</button>
                 </div>
 
                 <hr class="my-4">

@@ -1,10 +1,8 @@
 package zerogreen.eco.service.user;
 
-import org.springframework.transaction.annotation.Transactional;
-import zerogreen.eco.dto.member.MemberAuthDto;
 import zerogreen.eco.dto.member.MemberUpdateDto;
-import zerogreen.eco.dto.member.PasswordUpdateDto;
 import zerogreen.eco.entity.userentity.Member;
+import zerogreen.eco.entity.userentity.VegetarianGrade;
 
 import java.util.Optional;
 
@@ -13,10 +11,10 @@ public interface MemberService {
     Long save(Member member);
     Long saveV2(Member member);
     void changeAuthState(Long id);
-    void memberUpdate(Long id, MemberUpdateDto memberUpdateDto);
+    void memberUpdate(Long id, String nickName, String phoneNumber, VegetarianGrade vegetarianGrade);
     MemberUpdateDto detailMemberInfo(String username);
     MemberUpdateDto toMemberUpdateDto(String username, MemberUpdateDto memberUpdateDto);
-    void kakaoMemberUpdate(Long id, Member member);
+    void oauthMemberUpdate(Long id, VegetarianGrade vegetarianGrade);
     Optional<Member> findById(Long id);
     Long findAuthMember(String username);
 

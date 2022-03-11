@@ -17,6 +17,8 @@ import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.detail.LikesDto;
 import zerogreen.eco.dto.member.MemberUpdateDto;
 import zerogreen.eco.dto.member.PasswordUpdateDto;
+import zerogreen.eco.entity.userentity.UserRole;
+import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.detail.DetailReviewService;
 import zerogreen.eco.service.detail.LikesService;
@@ -73,19 +75,31 @@ public class MemberController {
     @PatchMapping("/account")
     @ResponseBody
     public ResponseEntity<Map<String, String>> memberInfoUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                                                @Validated @ModelAttribute("member") MemberUpdateDto memberUpdateResponse,
-                                                                BindingResult bindingResult, HttpSession session) {
+                                                                @RequestBody Map<String, Object> params, HttpSession session) {
         Map<String, String> resultMap = new HashMap<>();
 
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(resultMap, HttpStatus.OK);
-        }
-        session.removeAttribute("veganGrade");
-        memberService.memberUpdate(principalDetails.getId(), memberUpdateResponse);
-        session.setAttribute("veganGrade", memberUpdateResponse.getVegetarianGrade());
+        String vegetarianGrade = params.get("vegetarianGrade").toString();
+        VegetarianGrade parseVegan = VegetarianGrade.valueOf(vegetarianGrade);
 
-        session.removeAttribute("loginUserNickname");
-        session.setAttribute("loginUserNickname", memberUpdateResponse.getNickname());
+        if (principalDetails.getBasicUser().getUserRole().equals(UserRole.USER)) {
+            String nickname = params.get("nickname").toString();
+            String phoneNumber = params.get("phoneNumber").toString();
+
+            if (nickname.equals("") || phoneNumber.equals("")) {
+                resultMap.put("result", "fail");
+                return new ResponseEntity<>(resultMap, HttpStatus.OK);
+            }
+
+            session.removeAttribute("veganGrade");
+            session.removeAttribute("loginUserNickname");
+            memberService.memberUpdate(principalDetails.getId(), nickname, phoneNumber, parseVegan);
+            session.setAttribute("veganGrade", vegetarianGrade);
+            session.setAttribute("loginUserNickname", nickname);
+        } else if (principalDetails.getBasicUser().getUserRole().equals(UserRole.AUTH_USER)) {
+            session.removeAttribute("veganGrade");
+            memberService.oauthMemberUpdate(principalDetails.getId(), parseVegan);
+            session.setAttribute("veganGrade", vegetarianGrade);
+        }
 
         resultMap.put("result", "success");
         log.info("회원 정보 수정 성공!!!!!");
