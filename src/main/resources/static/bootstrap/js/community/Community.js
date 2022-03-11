@@ -49,7 +49,7 @@ $(function () {
                 alert("댓글이 등록되었습니다.");
                 $("#text").val("");
                 $("#text-count").text("0 / 100");
-                $("#review-table").html("");
+                // $("#review-table").html("");
                 getReplyData();
                 return false;
             }
@@ -119,10 +119,11 @@ function getReplyData() {
             html += "<span>" + value.nickname + "</span>";
             html += "<span style='font-size: 0.8em; float: right; color: #969696; margin-right: 4px;'>" + value.createdTime + "</span>";
             html += "<div id='text-count-wrapper'>";
-            html += "<span class='cm-text-count' style='display: none; float:right;'>0 / 100</span>";
+            html += "<span class='cm-text-count' style='display: none; float:right; margin-bottom: 5px;'>0 / 100</span>";
             html += "</div>";
             html += "<p class='rp-text' style='margin-bottom: 10px;'>" + value.text + "</p>";
-            html += "<a class='modify-test-btn' style='display: none;' onclick='modifyReply(this)'>수정</a>";
+            html += "<a class='modify-test-btn' style='display: none;' onclick='modifyReply(this)'>수정!</a>";
+            html += "<a class='cancel-test-btn' style='display: none;' onclick='modifyCancel(this)'>취소</a>";
             html += "<div class='reply-btn-wrapper' style='margin-bottom: 60px;'>";
             if (value.depth === 1) {
                 html += "<a class='nested-reply-btn' onclick='nestedReplyInput(this)'>답글</a>";
@@ -155,11 +156,28 @@ function replaceTag(event) {
     let rpText = parent.find(".rp-text:first");
     let text = rpText.text();
 
-    rpText.replaceWith("<textarea class='modify-test' name='text' onkeyup='limitTextInput(this)'>" + text + "</textarea>");
+    rpText.replaceWith("<textarea class='modify-test' style='margin-bottom: 5px;' name='text' onkeyup='limitTextInput(this)'>" + text + "</textarea>");
     parent.find(".modify-test-btn:first").show();
+    parent.find(".cancel-test-btn:first").show();
     parent.find(".cm-text-count").show();
     thisBtn.parent().find(".rp-cancel-btn").hide();
     thisBtn.parent().find(".nested-reply-btn").hide();
+    thisBtn.hide();
+}
+// 댓글 수정 취소 버튼
+function modifyCancel(event) {
+    let thisBtn = $(event);
+    let parent = thisBtn.parent().parent();
+    let $textArea = parent.find(".modify-test");
+    let text = $textArea.text();
+
+    $textArea.replaceWith("<p class='rp-text' style='margin-bottom: 10px;'>" + text + "</p>");
+    parent.find(".modify-test-btn:first").show();
+    parent.find(".cm-text-count").hide();
+    parent.find(".modify-test-btn").hide();
+    thisBtn.parent().find(".rp-cancel-btn").show();
+    thisBtn.parent().find(".rp-modify-btn").show();
+    thisBtn.parent().find(".nested-reply-btn").show();
     thisBtn.hide();
 }
 
@@ -188,7 +206,7 @@ function modifyReply(event) {
     })
         .done(function (data) {
             if (data.result === "success") {
-                alert("성공");
+                alert("수정되었습니다.");
                 text.replaceWith("<p class='rp-text'>" + text.val() + "</p>")
                 // $(".rp-text:eq(1)").remove();
                 $(".replyId").next(".modify-test").hide();
@@ -224,10 +242,8 @@ function nestedReplySend(event) {
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data),
     }).done(function (data) {
-        // $("#review-table").replaceWith(fragment);
         if (data.result === "success") {
             alert("대댓글");
-            $("#review-table").html("");
             getReplyData();
         }
     });
