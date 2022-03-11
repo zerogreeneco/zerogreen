@@ -11,7 +11,7 @@ $(document).ready(function () {
             error.css("color", "#dc3545")
         } else {
             $.ajax({
-                url: "/zerogreen/stores/phoneNumber",
+                url: "/zerogreen/members/phoneNumber",
                 method: "post",
                 dataType: "json",
                 data: {
@@ -43,53 +43,53 @@ $(document).ready(function () {
 });
 
 //비밀번호 변경
-function pwdChange(){
-    const password = $("#pwd");
-    const newPassword = $("#newPwd");
-    const checkNewPassword = $("#checkNewPwd");
-    const error = $(".pwd-error");
-    const re_error = $(".rePwd-error");
-    const check = $(".check-error");
-
-    if(password.val() === "" || newPassword.val() === "" || checkNewPassword.val() === ""){
+function pwdChange() {
+    let password = $("#storePassword");
+    let newPassword = $("#newPassword");
+    let checkNewPassword = $("#checkNewPassword");
+    let error = $(".pwd-error");
+    let re_error = $(".rePwd-error");
+    let check = $(".check-error");
+    console.log(password.val());
+    if (password.val() === "" || newPassword.val() === "" || checkNewPassword.val() === "") {
         check.html("비밀번호를 입력해 주세요");
-        check.css("color","#dc3545");
+        check.css("color", "#dc3545");
         return false;
-    }else if(password.val() === newPassword.val()){
+    } else if (password.val() === newPassword.val()) {
         re_error.html("현재 비밀번호로 변경할 수 없어요");
-        re_error.css("color","#dc3545");
+        re_error.css("color", "#dc3545");
         return false;
-    }else if(!passwordRegCheck(newPassword.val())){
-        re_error.html("숫자/대,소문자/특수기호를 포함한\n8~12자리로 변경해 주세요");
-        re_error.css("color","#dc3545");
+    } else if (!passwordRegCheck(newPassword.val())) {
+        re_error.html("숫자/대,소문자/특수기호를 포함한<br/>8~12자리로 변경해 주세요");
+        re_error.css("color", "#dc3545");
         return false;
     }
 
-    if(newPassword.val() !== checkNewPassword.val()){
+    if (newPassword.val() !== checkNewPassword.val()) {
         re_error.html("");
         check.html("비밀번호가 일치하지 않아요");
-        check.css("color","#dc3545");
+        check.css("color", "#dc3545");
         checkNewPassword.val("");
         checkNewPassword.focus();
-    }else{
+    } else {
         $.ajax({
-            url: "/zerogreen/stores/update/password",
+            url: "/zerogreen/members/account/pwdChange",
             type: "patch",
-            data:{
+            data: {
                 password: password.val(),
                 newPassword: newPassword.val()
             },
             dataType: "json"
         })
-            .done(function (data){
-                if(data.result === "success"){
-                    alert("비밀번호가 변경되었습니다\n다시 로그인해 주세요");
+            .done(function (data) {
+                if (data.result === "success") {
+                    alert("비밀번호가 변경되었어요\n다시 로그인해 주세요");
                     location.replace("/zerogreen/login");
-                }else if(data.result === "fail"){
+                } else if (data.result === "fail") {
                     re_error.html("");
                     check.html("");
                     error.html("비밀번호가 일치하지 않아요");
-                    error.css("color","#dc3545");
+                    error.css("color", "#dc3545");
                     password.val("");
                     password.focus();
                 }
@@ -101,4 +101,32 @@ function pwdChange(){
 function passwordRegCheck(password) {
     let regExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,12}/;
     return regExp.test(password);
+}
+
+//회원 탈퇴
+function storeMemberDel() {
+    let password = $("#password").val();
+    let error = $(".del-error");
+    if (password === "") {
+        error.html("비밀번호를 입력해 주세요");
+        error.css("color", "#dc3545");
+        error.css("margin-bottom", "0.5rem");
+    } else{
+        $.ajax({
+            url: "/zerogreen/members/account/deleteMember",
+            type: "delete",
+            dataType: "json",
+            data: {
+                password: password
+            }
+        }).done(function (data) {
+            if (data.result === "success") {
+                location.replace("/zerogreen");
+            } else if (data.result === "fail") {
+                error.html("비밀번호가 일치하지 않아요");
+                error.css("color", "#dc3545");
+                error.css("margin-bottom", "0.5rem");
+            }
+        });
+    }
 }

@@ -30,7 +30,6 @@ import zerogreen.eco.service.user.BasicUserService;
 import zerogreen.eco.service.user.StoreMemberService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collections;
@@ -212,10 +211,11 @@ public class StoreController {
     //회원 정보 수정
     @GetMapping("/update/account")
     public String storeAccount(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model,
-                               StoreUpdateDto storeUpdateDto) {
+                               StoreUpdateDto storeUpdateDto, PasswordUpdateDto passwordUpdateDto) {
         model.addAttribute("member",
                 basicUserService.getStoreMember(principalDetails.getBasicUser().getId(), storeUpdateDto));
-      return "store/updateStoreMember";
+        model.addAttribute("password", passwordUpdateDto);
+        return "store/updateStoreMember";
     }
 
     @PostMapping("/update/account")
@@ -230,43 +230,5 @@ public class StoreController {
         basicUserService.updateStoreMember(principalDetails.getId(), storeUpdateDto);
 
         return "redirect:/stores/myInfo";
-    }
-
-    @PatchMapping("/update/password")
-    @ResponseBody
-    public ResponseEntity<Map<String, String>> passwordChange(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                                              @Validated @ModelAttribute("password") PasswordUpdateDto passwordDto,
-                                                              HttpSession session) {
-        Map<String, String> resultMap = new HashMap<>();
-
-        if(passwordEncoder.matches(passwordDto.getPassword(), principalDetails.getPassword())){
-            basicUserService.passwordChange(principalDetails.getId(), passwordDto);
-            resultMap.put("result", "success");
-            session.invalidate();
-
-            return new ResponseEntity<>(resultMap, HttpStatus.OK);
-        }else{
-            resultMap.put("result", "fail");
-
-            return new ResponseEntity<>(resultMap, HttpStatus.OK);
-        }
-    }
-
-    /*
-     * 연락처 중복 확인
-     * */
-    @PostMapping("/phoneNumber")
-    @ResponseBody
-    public ResponseEntity<Map<String, Integer>> phoneNumberDuplicateCheck(String phoneNumber) {
-
-        HashMap<String, Integer> resultMap = new HashMap<>();
-
-        Integer count = basicUserService.countByPhoneNumber(phoneNumber);
-
-        if (count == 1) {
-            resultMap.put("result", count);
-        }
-
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 }

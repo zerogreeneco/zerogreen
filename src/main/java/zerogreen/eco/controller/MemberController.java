@@ -72,9 +72,8 @@ public class MemberController {
      * */
     @PatchMapping("/account")
     @ResponseBody
-    public ResponseEntity<Map<String, String>> memberInfoUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                                                @Validated @ModelAttribute("member") MemberUpdateDto memberUpdateResponse,
-                                                                BindingResult bindingResult, HttpSession session) {
+    public ResponseEntity<Map<String, String>> memberInfoUpdate(@Validated @ModelAttribute("member") MemberUpdateDto memberUpdateResponse, BindingResult bindingResult,
+                                                                @AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session) {
         Map<String, String> resultMap = new HashMap<>();
 
         if (bindingResult.hasErrors()) {
@@ -98,29 +97,35 @@ public class MemberController {
      * */
     @PatchMapping("/account/pwdChange")
     @ResponseBody
-    public ResponseEntity<Map<String, String>> passwordChange(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                                              @Validated @ModelAttribute("password") PasswordUpdateDto passwordDto, BindingResult bindingResult,
-                                                              HttpSession session) {
-        Map<String, String> resultMap = new HashMap<>();
+    public ResponseEntity<Map<String, String>> passwordChange(@Validated @ModelAttribute("password") PasswordUpdateDto passwordDto, BindingResult bindingResult,
+                                                              @AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session) {
 
-        if (passwordEncoder.matches(passwordDto.getPassword(), principalDetails.getPassword())) {
+        // dto로 넘어 온 데이터와 로그인 회원의 인코딩된 비밀번호 일치여부 확인
+        boolean matches = passwordEncoder.matches(passwordDto.getPassword(), principalDetails.getPassword());
+
+        if (bindingResult.hasErrors()) {
+            if (!matches) {
+                bindingResult.reject("discordPassword", null);
+            }
+        }
+
+        Map<String, String> resultMap = new HashMap<>();
+        if (matches) {
             basicUserService.passwordChange(principalDetails.getId(), passwordDto);
             resultMap.put("result", "success");
             session.invalidate(); // 비밀번호 변경 후 강제 로그아웃 후 다시 로그인
             log.info("비밀번호 변경 성공!!!!!");
-            return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } else {
             resultMap.put("result", "fail");
             log.info("비밀번호 변경 실패....ㅠㅠ");
-            return new ResponseEntity<>(resultMap, HttpStatus.OK);
         }
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     @DeleteMapping("/account/deleteMember")
     @ResponseBody
     public ResponseEntity<Map<String, String>> deleteMember(@Validated @ModelAttribute("password") PasswordUpdateDto passwordUpdateDto,
                                                             BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session) {
-        Map<String, String> resultMap = new HashMap<>();
 
         // dto로 넘어 온 데이터와 로그인 회원의 인코딩된 비밀번호 일치여부 확인
         boolean matches = passwordEncoder.matches(passwordUpdateDto.getPassword(), principalDetails.getPassword());
@@ -131,12 +136,12 @@ public class MemberController {
             }
         }
 
+        Map<String, String> resultMap = new HashMap<>();
         if (matches) {
             basicUserService.memberDelete(principalDetails.getId());
             resultMap.put("result", "success");
             session.invalidate();
-            return new ResponseEntity<>(resultMap, HttpStatus.OK);
-        } else if (!matches) {
+        } else {
             resultMap.put("result", "fail");
         }
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
