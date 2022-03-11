@@ -6,15 +6,39 @@ $(function (event) {
         const phoneNum = $("#phoneNumber").val();
         const vegetarianGrade = $("#vegetarianGrade").val();
 
+        let data = {
+            nickname: nickname,
+            phoneNumber: phoneNum,
+            vegetarianGrade: vegetarianGrade
+        }
+
         $.ajax({
             url: "/zerogreen/members/account",
             type: 'patch',
             dataType: 'json',
-            data: {
-                nickname: nickname,
-                phoneNumber: phoneNum,
-                vegetarianGrade: vegetarianGrade
-            }
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data)
+        })
+            .done(function (data) {
+                if (data.result === "success") {
+                    alert("회원정보를 수정했습니다.");
+                } else if (data.result === "fail") {
+                    alert("닉네임 또는 연락처를 확인해주세요.");
+                }
+            });
+    });
+
+    $("#auth-info-submit").click(function () {
+
+        let vegetarianGrade = $("#vegetarianGrade").val();
+        let data = {vegetarianGrade: vegetarianGrade};
+
+        $.ajax({
+            url: "/zerogreen/members/account",
+            type: 'patch',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data)
         })
             .done(function (data) {
                 if (data.result === "success") {
