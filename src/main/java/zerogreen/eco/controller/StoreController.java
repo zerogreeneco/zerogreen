@@ -44,7 +44,6 @@ import java.util.Map;
 public class StoreController {
 
     private final BasicUserService basicUserService;
-    private final PasswordEncoder passwordEncoder;
     private final StoreMemberService storeMemberService;
     private final StoreMenuService storeMenuService;
     private final StoreImageService storeImageService;
