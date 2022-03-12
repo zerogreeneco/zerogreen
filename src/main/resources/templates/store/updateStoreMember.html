@@ -39,17 +39,22 @@
                     <form th:object="${password}">
                         <div>
                             <label class="join-label">현재 비밀번호</label>
-                            <input type="password" class="form-control input-box" id="pwd">
+                            <input type="password" class="form-control input-box" id="storePassword"
+                                   th:field="*{password}">
+                            <div th:if="${#fields.hasGlobalErrors()}">
+                                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+                            </div>
                             <div class="pwd-error"></div>
                         </div>
                         <div>
                             <label class="join-label">새로운 비밀번호</label>
-                            <input type="password" class="form-control input-box" id="newPwd">
+                            <input type="password" class="form-control input-box"
+                                   th:field="*{newPassword}">
                             <div class="rePwd-error"></div>
                         </div>
                         <div>
                             <label class="join-label">새로운 비밀번호 확인</label>
-                            <input type="password" class="form-control input-box" id="checkNewPwd">
+                            <input type="password" class="form-control input-box" id="checkNewPassword">
                             <div class="check-error"></div>
                         </div>
                         <!-- 비밀번호 변경, 회원탈퇴 button -->
@@ -63,11 +68,15 @@
         </div>
         <!-- 회원탈퇴 모달창 -->
         <div id="deleteModal" class="modal deleteModal">
-            <div class="modal-section">
+            <div class="modal-section" th:object="${password}">
                 <h3 style="text-align: center;">회원 탈퇴하기</h3>
                 <label class="pw-label">비밀번호</label>
-                <input type="password" class="form-control pw-box">
-                <button type="submit" class="delete-btn" id="fin-delete-btn">회원탈퇴</button>
+                <input type="password" class="form-control pw-box" th:field="*{password}">
+                <div class="del-error"></div>
+                <div th:if="${#fields.hasGlobalErrors()}">
+                    <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+                </div>
+                <button type="submit" class="delete-btn" onclick="storeMemberDel()">회원탈퇴</button>
             </div>
         </div>
     </th:block>

@@ -77,13 +77,16 @@ public class StoreDto {
     }
 
     //List DTO
-    public StoreDto(Long id,String storeName, String storePhoneNumber,
-    String openTime, String closeTime) {
+    public StoreDto(Long id, String storeName, String storePhoneNumber,
+                    String openTime, String closeTime, String thumbnailName, String menuName, Long like) {
         this.id = id;
         this.storeName = storeName;
         this.storePhoneNumber = storePhoneNumber;
         this.openTime = openTime;
         this.closeTime = closeTime;
+        this.thumbnailName = thumbnailName;
+        this.menuName = menuName;
+        this.like = like;
     }
 
     //StoreUpdate

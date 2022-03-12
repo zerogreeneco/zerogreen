@@ -62,6 +62,9 @@
                             <label for="password" class="join-label">현재 비밀번호</label>
                             <input type="password" class="form-control input-box" id="password"
                                    th:field="*{password}">
+                            <div th:if="${#fields.hasGlobalErrors()}">
+                                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+                            </div>
                             <div class="password-error"></div>
                         </div>
                         <div>
@@ -89,6 +92,9 @@
                 <h3 style="text-align: center;">회원 탈퇴하기</h3>
                 <label for="password" class="pw-label">비밀번호</label>
                 <input type="password" id="delete_id" class="form-control pw-box" th:field="*{password}">
+                <div th:if="${#fields.hasGlobalErrors()}">
+                    <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+                </div>
                 <button type="submit" id="delete_id_btn" class="delete-btn">회원탈퇴</button>
             </div>
         </div>

@@ -160,5 +160,18 @@ label{
 }
 .like{
     position: relative;
-    left: 75%;
+    left: 83%;
+}
+
+/* 탑 버튼 */
+#btnTop {
+    position: fixed;
+    bottom: 5%;
+    right: 4%;
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+    background: #f1c40f;
+    padding: 5px;
+    z-index: 999;
 }

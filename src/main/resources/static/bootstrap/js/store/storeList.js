@@ -25,4 +25,10 @@ $(document).ready(function() {
     $('.truncate_icon').click(function () {
         $('#search-input').val('');
     });
+
+    //탑 버튼
+    $("#btnTop").click(function () {
+        $('html, body').animate({scrollTop: 0}, '400');
+    });
+
 });
