@@ -17,6 +17,8 @@ import zerogreen.eco.dto.detail.DetailReviewDto;
 import zerogreen.eco.dto.detail.LikesDto;
 import zerogreen.eco.dto.member.MemberUpdateDto;
 import zerogreen.eco.dto.member.PasswordUpdateDto;
+import zerogreen.eco.entity.userentity.UserRole;
+import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.security.auth.PrincipalDetails;
 import zerogreen.eco.service.detail.DetailReviewService;
 import zerogreen.eco.service.detail.LikesService;
@@ -72,19 +74,32 @@ public class MemberController {
      * */
     @PatchMapping("/account")
     @ResponseBody
-    public ResponseEntity<Map<String, String>> memberInfoUpdate(@Validated @ModelAttribute("member") MemberUpdateDto memberUpdateResponse, BindingResult bindingResult,
-                                                                @AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session) {
+    public ResponseEntity<Map<String, String>> memberInfoUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                                                @RequestBody Map<String, Object> params, HttpSession session) {
         Map<String, String> resultMap = new HashMap<>();
 
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(resultMap, HttpStatus.OK);
-        }
-        session.removeAttribute("veganGrade");
-        memberService.memberUpdate(principalDetails.getId(), memberUpdateResponse);
-        session.setAttribute("veganGrade", memberUpdateResponse.getVegetarianGrade());
+        String vegetarianGrade = params.get("vegetarianGrade").toString();
+        VegetarianGrade parseVegan = VegetarianGrade.valueOf(vegetarianGrade);
 
-        session.removeAttribute("loginUserNickname");
-        session.setAttribute("loginUserNickname", memberUpdateResponse.getNickname());
+        if (principalDetails.getBasicUser().getUserRole().equals(UserRole.USER)) {
+            String nickname = params.get("nickname").toString();
+            String phoneNumber = params.get("phoneNumber").toString();
+
+            if (nickname.equals("") || phoneNumber.equals("")) {
+                resultMap.put("result", "fail");
+                return new ResponseEntity<>(resultMap, HttpStatus.OK);
+            }
+
+            session.removeAttribute("veganGrade");
+            session.removeAttribute("loginUserNickname");
+            memberService.memberUpdate(principalDetails.getId(), nickname, phoneNumber, parseVegan);
+            session.setAttribute("veganGrade", vegetarianGrade);
+            session.setAttribute("loginUserNickname", nickname);
+        } else if (principalDetails.getBasicUser().getUserRole().equals(UserRole.AUTH_USER)) {
+            session.removeAttribute("veganGrade");
+            memberService.oauthMemberUpdate(principalDetails.getId(), parseVegan);
+            session.setAttribute("veganGrade", vegetarianGrade);
+        }
 
         resultMap.put("result", "success");
         log.info("회원 정보 수정 성공!!!!!");
@@ -97,35 +112,29 @@ public class MemberController {
      * */
     @PatchMapping("/account/pwdChange")
     @ResponseBody
-    public ResponseEntity<Map<String, String>> passwordChange(@Validated @ModelAttribute("password") PasswordUpdateDto passwordDto, BindingResult bindingResult,
-                                                              @AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session) {
-
-        // dto로 넘어 온 데이터와 로그인 회원의 인코딩된 비밀번호 일치여부 확인
-        boolean matches = passwordEncoder.matches(passwordDto.getPassword(), principalDetails.getPassword());
-
-        if (bindingResult.hasErrors()) {
-            if (!matches) {
-                bindingResult.reject("discordPassword", null);
-            }
-        }
-
+    public ResponseEntity<Map<String, String>> passwordChange(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                                              @Validated @ModelAttribute("password") PasswordUpdateDto passwordDto, BindingResult bindingResult,
+                                                              HttpSession session) {
         Map<String, String> resultMap = new HashMap<>();
-        if (matches) {
+
+        if (passwordEncoder.matches(passwordDto.getPassword(), principalDetails.getPassword())) {
             basicUserService.passwordChange(principalDetails.getId(), passwordDto);
             resultMap.put("result", "success");
             session.invalidate(); // 비밀번호 변경 후 강제 로그아웃 후 다시 로그인
             log.info("비밀번호 변경 성공!!!!!");
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } else {
             resultMap.put("result", "fail");
             log.info("비밀번호 변경 실패....ㅠㅠ");
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
         }
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     @DeleteMapping("/account/deleteMember")
     @ResponseBody
     public ResponseEntity<Map<String, String>> deleteMember(@Validated @ModelAttribute("password") PasswordUpdateDto passwordUpdateDto,
                                                             BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session) {
+        Map<String, String> resultMap = new HashMap<>();
 
         // dto로 넘어 온 데이터와 로그인 회원의 인코딩된 비밀번호 일치여부 확인
         boolean matches = passwordEncoder.matches(passwordUpdateDto.getPassword(), principalDetails.getPassword());
@@ -136,12 +145,12 @@ public class MemberController {
             }
         }
 
-        Map<String, String> resultMap = new HashMap<>();
         if (matches) {
             basicUserService.memberDelete(principalDetails.getId());
             resultMap.put("result", "success");
             session.invalidate();
-        } else {
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } else if (!matches) {
             resultMap.put("result", "fail");
         }
         return new ResponseEntity<>(resultMap, HttpStatus.OK);

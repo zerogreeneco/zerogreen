@@ -238,7 +238,10 @@ public class CommunityController {
 //        return "community/communityDetailView :: #review-table";
 //    }
 
-    @PostMapping("/{boardId}/reply")
+    /*
+    * 댓글
+    * */
+    @PostMapping(value = "/{boardId}/reply", produces = "application/json; charset=utf-8")
     @ResponseBody
     public ResponseEntity<Map<String, String>> replySend(@PathVariable("boardId") Long boardId, Model model,
                                                          @ModelAttribute("reply") CommunityReplyDto replyDto,
@@ -247,10 +250,6 @@ public class CommunityController {
         Map<String, String> resultMap = new HashMap<>();
 
         replyService.replySave(replyDto.getText(), boardId, principalDetails.getBasicUser());
-//        List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
-//        for (CommunityReplyDto communityReplyDto : replyByBoardId) {
-//            System.out.println("REPLY communityReplyDto = " + communityReplyDto.getNickname());
-//        }
 
         resultMap.put("result", "success");
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
@@ -259,13 +258,13 @@ public class CommunityController {
     /*
      * 댓글 수정
      * */
-    @PostMapping("/replyModify/{replyId}")
+    @PutMapping("/replyModify/{replyId}")
     @ResponseBody
     public ResponseEntity<Map<String, String>> modifyReply(@PathVariable("replyId") Long replyId,
-                                                           HttpServletRequest request) {
+                                                           @RequestBody Map<String, Object> params) {
         Map<String, String> resultMap = new HashMap<>();
-        String text = request.getParameter("text");
 
+        String text = params.get("text").toString();
         replyService.modifyReply(replyId, text);
 
         resultMap.put("result", "success");
@@ -276,15 +275,14 @@ public class CommunityController {
     /*
      * 댓글 삭제
      * */
-    @DeleteMapping("/{replyId}/delete")
-    public String deleteReply(@PathVariable("replyId") Long replyId, Model model, HttpServletRequest request) {
+    @DeleteMapping(value = "/{replyId}/delete")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> deleteReply(@PathVariable("replyId") Long replyId) {
 
-        String boardId = request.getParameter("boardId");
+        Map<String, String> resultMap = new HashMap<>();
         replyService.deleteReply(replyId);
-
-        model.addAttribute("replyList", replyService.findReplyByBoardId(Long.valueOf(boardId)));
-
-        return "community/communityDetailView :: #review-table";
+        resultMap.put("result", "success");
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     /*
@@ -307,19 +305,19 @@ public class CommunityController {
 //        return "community/communityDetailView :: #review-table";
 //    }
 
-    @PostMapping("/{boardId}/{replyId}/nestedReply")
+    // 대댓글
+    @PostMapping(value = "/{boardId}/{replyId}/nestedReply", produces = "application/json; charset=utf-8")
     @ResponseBody
     public ResponseEntity<Map<String, String>> nestedReplySend(@PathVariable("boardId") Long boardId, @PathVariable("replyId") Long replyId,
-                                  @ModelAttribute("nestedReplyForm") CommunityReplyDto replyDto,
-                                  Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request, HttpServletResponse response) {
+                                  @AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody Map<Object, Object> params) {
         Map<String, String> resultMap = new HashMap<>();
-
-        String text = request.getParameter("text");
+        String text = params.get("text").toString();
         replyService.nestedReplySave(text, boardId, principalDetails.getBasicUser(), replyId);
         resultMap.put("result", "success");
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
+    // 댓글 리스트 API
     @GetMapping("/api/replyList/{boardId}")
     @ResponseBody
     public ApiReturnDto<List<CommunityReplyDto>> replyList(@PathVariable("boardId") Long boardId) {
