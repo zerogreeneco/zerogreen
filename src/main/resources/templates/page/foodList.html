@@ -43,9 +43,13 @@
         <div id="card-align">
             <div class="card" th:each="list : ${list}"
                  th:onclick="|location.href='@{/page/detail/{id}(id=${list.id})}'|">
-                <div class="card-header">
+                <div class="card-header" th:if="${#strings.isEmpty(list.thumbnailName)}">
                     <span class="mini-sorry">😅</span>
                     <span class="mini-text">아직 등록된 사진이 없어요</span>
+                </div>
+                <div class="card-header" th:if="${not #strings.isEmpty(list.thumbnailName)}">
+                    <img th:src="@{/page/detail/image/} + ${list.storeName} + ${list.thumbnailName}"
+                         th:value="${list.thumbnailName}" width="300px" height="300px"/>
                 </div>
                 <div class="shopList-box">
                     <div class="card-body">

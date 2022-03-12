@@ -78,12 +78,13 @@ public class StoreDto {
 
     //List DTO
     public StoreDto(Long id,String storeName, String storePhoneNumber,
-    String openTime, String closeTime) {
+                    String openTime, String closeTime, String thumbnailName) {
         this.id = id;
         this.storeName = storeName;
         this.storePhoneNumber = storePhoneNumber;
         this.openTime = openTime;
         this.closeTime = closeTime;
+        this.thumbnailName = thumbnailName;
     }
 
     //StoreUpdate
