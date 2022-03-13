@@ -175,3 +175,15 @@ label{
     padding: 5px;
     z-index: 999;
 }
+
+/* 더보기 버튼 */
+.nextPage {
+    display: flex;
+    margin: 20px auto;
+    width: 100px;
+    height: 40px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 25px;
+    font-weight: 400;
+    padding: 0 15px !important;
+}
