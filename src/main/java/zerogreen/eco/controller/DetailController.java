@@ -75,12 +75,6 @@ public class DetailController {
             //가게별 개별 라이크
             model.addAttribute("cntLike", likesService.cntMemberLike(sno, principalDetails.getId()));
         }
-//
-//        //review 유효성검사
-//        if (bindingResult.hasErrors()) {
-//            log.info("REVIEW ERROR={}", bindingResult.hasErrors());
-//            return "page/detail";
-//        }
 
         //스토어 이미지 리스트
         List<StoreDto> image = storeImageService.getImageByStore(sno);
@@ -111,6 +105,22 @@ public class DetailController {
     public String addReview(@PathVariable("sno") Long sno, Model model,
                             @Validated @ModelAttribute("review") DetailReviewDto reviewDto, BindingResult bindingResult,
                             @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+
+//        안되는데요.. 조금 눈물나네요..
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("storeImageList", storeImageService.getImageByStore(sno));
+            model.addAttribute("getStore",storeMemberService.getStore(sno));
+            model.addAttribute("menuList", storeMenuService.getStoreMenu(sno));
+            model.addAttribute("memberReview", detailReviewService.findByStore(sno));
+            model.addAttribute("cntLike", likesService.cntMemberLike(sno, principalDetails.getId()));
+            List<ReviewImageDto> reviewImages = reviewImageService.findByStore(sno);
+            if (reviewImages.size() > 0) {
+                model.addAttribute("reviewImageList", reviewImages);
+                Collections.reverse(reviewImages);
+            }
+
+            return "page/detail";
+        }
 
         List<ReviewImage> reviewImages = fileService.reviewImageFiles(reviewDto.getImageFiles());
         detailReviewService.saveImageReview(reviewDto.getReviewText(), sno, principalDetails.getBasicUser(), reviewImages);
