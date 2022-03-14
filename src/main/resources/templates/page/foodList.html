@@ -43,13 +43,17 @@
         <div id="card-align">
             <div class="card" th:each="list : ${list}"
                  th:onclick="|location.href='@{/page/detail/{id}(id=${list.id})}'|">
-                <div class="card-header">
-                    <span class="sorry-emoji">😅</span>
-                    <span class="sorry-text">아직 등록된 사진이 없어요</span>
+                <div class="card-header" th:if="${#strings.isEmpty(list.thumbnailName)}">
+                    <span class="mini-sorry">😅</span>
+                    <span class="mini-text">아직 등록된 사진이 없어요</span>
+                </div>
+                <div class="card-header" th:if="${not #strings.isEmpty(list.thumbnailName)}">
+                    <img th:src="@{/page/detail/image/} + ${list.storeName} + ${list.thumbnailName}"
+                         th:value="${list.thumbnailName}" width="300px" height="300px"/>
                 </div>
                 <div class="shopList-box">
                     <div class="card-body">
-                        <span class="like"><img class="icon" th:src="@{/bootstrap/images/list/heart.png}"> 1230</span>
+                        <span class="like"><img class="icon" th:src="@{/bootstrap/images/list/heart.png}">[[${list.like}]]</span>
                         <span class="shop-name">[[${list.storeName}]]</span>
                         <span>
                             <img class="icon" th:src="@{/bootstrap/images/list/call.png}"> [[${list.storePhoneNumber}]]</span>
@@ -57,11 +61,21 @@
                             <img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> 매장 확인 필요</span>
                         <span th:unless="${#strings.isEmpty(list.openTime)}">
                             <img class="icon" th:src="@{/bootstrap/images/list/clock.png}"> [[${list.openTime}]] ~ [[${list.closeTime}]]</span>
-                        <span><img class="icon" th:src="@{/bootstrap/images/list/dish.png}"> 감자뇨끼</span>
+                        <span th:if="${#strings.isEmpty(list.menuName)}">
+                                    <img class="icon" th:src="@{/bootstrap/images/list/box.png}"> 매장 확인 필요</span>
+                        <span th:if="${not #strings.isEmpty(list.menuName)}">
+                                    <img class="icon" th:src="@{/bootstrap/images/list/box.png}"> [[${list.menuName}]]</span>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div>
+            <button id="btnTop">
+                <img th:src="@{/bootstrap/images/arrowup.png}" style="width: 35px;"/>
+            </button>
+        </div>
+
         <script th:inline="javascript">
             //전체 리스트 이동
             function getFoodList(page) {

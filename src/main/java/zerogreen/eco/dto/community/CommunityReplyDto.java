@@ -26,11 +26,12 @@ public class CommunityReplyDto {
     private Long replyId;
     private Long boardId;
     private Long parentReplyId;
+    private Long memberId;
     private int depth;
     private String text;
     private String nickname;
     private String username;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime createdTime;
     private VegetarianGrade vegetarianGrade;
 
@@ -52,6 +53,7 @@ public class CommunityReplyDto {
 
         this.replyId = boardReply.getId();
         this.boardId = boardReply.getBoard().getId();
+        this.memberId = boardReply.getReplier().getId();
         this.text = boardReply.getReplyContent();
         this.username = boardReply.getReplier().getUsername();
         this.createdTime = boardReply.getModifiedDate();

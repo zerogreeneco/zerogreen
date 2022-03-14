@@ -143,13 +143,13 @@ hr {
 }
 
 .comment-wrapper {
-    padding: 20px 0;
+    padding: 10px 0;
 }
 
 .rp-text {
+    height: 40px;
     margin-top: 10px;
-    margin-bottom: 0;
-    margin-bottom: 0;
+    margin-bottom: 10px;
 }
 
 .modify-test {
@@ -183,8 +183,9 @@ hr {
 }
 
 .nest-list {
-    padding-bottom: 20px;
+    padding-bottom: 50px;
     border-bottom: 1px solid lightgray;
+    height: 50px;
 }
 
 .nested-list {

@@ -28,3 +28,26 @@
 .profile:hover {
     cursor: pointer;
 }
+
+.card-header{
+    height: 180px;
+    background-color: #c7c7c73b;
+    text-align: center;
+}
+
+.mini-sorry {
+    font-size: 2em;
+    display: inline-block;
+    margin-bottom: 10px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.mini-text {
+    display: block;
+    font-size: 1em;
+    color: lightgrey;
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.5;
+    text-align: center;
+}

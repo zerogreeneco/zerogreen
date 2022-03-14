@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+    // 영업시간
     for (var i = 0; i <= 47; i++) {
         var hour = "";
         var min = ":00";
@@ -33,7 +33,7 @@ $(document).ready(function () {
         $(".closeTime").append("<option value="
             + ((hour >= 10) ? hour : ('0' + hour)) + min + ">" + ((hour >= 10) ? hour : ("0" + hour)) + min + "</option>");
     }
-
+    // 이미지 슬라이더
     $("#img-right").click(function() {
         $(".img-slider").animate({marginLeft: "-150px"
         }, function() {
@@ -47,6 +47,8 @@ $(document).ready(function () {
         $(".img-slider").animate({ marginLeft: 0 });
     });
 
+    // 업로드 미리보기
+    $(".input-box").on('change', selectedImageFile);
 }); //end Update
 
 // 글자수 제한
@@ -135,7 +137,7 @@ function tableAdd() {
         return null;
     }
 
-        $.ajax({
+    $.ajax({
         url: "/zerogreen/stores/update/table",
         method: "post",
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -208,11 +210,7 @@ function imgDel(event) {
             }
         });
 }
-$(function () {
-    $(".input-box").on('change', selectedImageFile);
-});
-
-//크기, 확장자 확인
+// 크기, 확장자 확인
 function selectedImageFile(e) {
     selFiles = [];
     $("#selectedImg").empty();
@@ -236,11 +234,11 @@ function selectedImageFile(e) {
 
             return;
         }else if(totalSize > 10485760){
-                check.html("최대 10MB까지 첨부할 수 있습니다");
-                check.css("color","#dc3545");
-                $(".input-box").val("");
+            check.html("최대 10MB까지 첨부할 수 있습니다");
+            check.css("color","#dc3545");
+            $(".input-box").val("");
 
-                return;
+            return;
         } else{
             selFiles.push(file);
             let reader = new FileReader();
@@ -251,6 +249,6 @@ function selectedImageFile(e) {
                 index++;
             };
             reader.readAsDataURL(file);
-       }
+        }
     });
 }

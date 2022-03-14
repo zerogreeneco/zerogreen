@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.member.MemberUpdateDto;
 import zerogreen.eco.entity.userentity.Member;
 import zerogreen.eco.entity.userentity.UserRole;
+import zerogreen.eco.entity.userentity.VegetarianGrade;
 import zerogreen.eco.repository.user.BasicUserRepository;
 import zerogreen.eco.repository.user.MemberRepository;
 
@@ -91,26 +92,24 @@ public class MemberServiceImpl implements MemberService {
      * */
     @Transactional
     @Override
-    public void memberUpdate(Long id, MemberUpdateDto memberUpdateResponse) {
+    public void memberUpdate(Long id, String nickName, String phoneNumber, VegetarianGrade vegetarianGrade) {
         Member updateMember = memberRepository.findById(id).orElseThrow();
 
         // 더티 체킹
-        updateMember.setNickname(memberUpdateResponse.getNickname());
-        updateMember.setPhoneNumber(memberUpdateResponse.getPhoneNumber());
-        updateMember.setVegetarianGrade(memberUpdateResponse.getVegetarianGrade());
+        updateMember.setNickname(nickName);
+        updateMember.setPhoneNumber(phoneNumber);
+        updateMember.setVegetarianGrade(vegetarianGrade);
     }
 
     /*
-     * 카카오 회원가입 추가 정보
+     * Oauth 회원 정보 수정
      * */
     @Transactional
     @Override
-    public void kakaoMemberUpdate(Long id, Member member) {
+    public void oauthMemberUpdate(Long id, VegetarianGrade vegetarianGrade) {
         Member updateMember = memberRepository.findById(id).orElseThrow();
 
-        updateMember.setPhoneNumber(member.getPhoneNumber());
-        updateMember.setVegetarianGrade(member.getVegetarianGrade());
-        updateMember.setSocialType("KAKAO");
+        updateMember.setVegetarianGrade(vegetarianGrade);
     }
 
     @Override

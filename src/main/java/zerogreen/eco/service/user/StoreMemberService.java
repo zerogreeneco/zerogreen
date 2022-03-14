@@ -17,10 +17,10 @@ public interface StoreMemberService {
     //스토어 회원가입
     Long save(StoreMember storeMember, RegisterFile registerFile);
 
+    //이친구뭐예용
     List<NonApprovalStoreDto> findByApprovalStore(UserRole userRole);
-    //스토어 db 불러오기
-//    StoreDto getStore2(Long sno);
-//    StoreDto getStore3(Long sno);
+
+    //스토어 db (Detail)
     StoreDto getStore(Long sno);
 
     //List 출력
