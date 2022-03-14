@@ -13,13 +13,12 @@
                 <div class="form-area">
 
                     <form method="get" th:action="@{/food/list}" id="foodSearchForm">
-                        <input type="hidden" name="page" value="1">
                         <select class="dropdown" name="type">
                             <option>식당 이름</option>
                             <option>메뉴</option>
                         </select>
                         <div class="search-bar">
-                            <input id="search-input" name="keyword">
+                            <input id="search-input" name="keyword" th:value="${keyword}">
                             <img class="truncate_icon" th:src="@{/bootstrap/images/list/close.png}"/>
                         </div>
                         <button class="btn_search">
@@ -29,17 +28,19 @@
 
                     <!-- 사업장 종류 -->
                     <div class="listNav">
-                        <input type="radio" class="form-check-input storeType" name="storeType">
-                        <label class="form-check-label" th:onclick="getFoodList('1')">전체</label>
+                        <label class="form-check-label" th:onclick="getFoodList()">
+                            <input type="radio" class="form-check-input storeType" th:name="storeType">
+                        전체</label>
 
-                        <input type="radio" class="form-check-input storeType" name="storeType">
                         <label class="form-check-label" value="VEGAN_FOOD"
-                               th:onclick="getTypeList('VEGAN_FOOD','1')">비건 음식점</label>
-
+                               th:onclick="getTypeList('VEGAN_FOOD')">
                         <input type="radio" class="form-check-input storeType" name="storeType">
-                        <label class="form-check-label" value="GENERAL_FOOD"
-                               th:onclick="getTypeList('GENERAL_FOOD','1')">친환경 포장</label>
+                        비건 음식점</label>
 
+                        <label class="form-check-label" value="GENERAL_FOOD"
+                               th:onclick="getTypeList('GENERAL_FOOD')">
+                        <input type="radio" class="form-check-input storeType" name="storeType">
+                        친환경 포장</label>
                     </div>
                 </div>
             </div>
@@ -85,20 +86,19 @@
 
         <script th:inline="javascript">
             //전체 리스트 이동
-            function getFoodList(page) {
+            function getFoodList() {
                 /*[+
-                const url = [[@{/food/list}]] +
-                    "?page=" + page;
+                const url = [[@{/food/list}]];
                 +]*/
 
                 location.href = url;
             }
 
             //카테고리 리스트 이동
-            function getTypeList(name, page) {
+            function getTypeList(name) {
                 /*[+
                 const url = [[@{/food/list}]] +
-                    "?type=" +name + "&page=" + page;
+                    "?type=" +name;
                 +]*/
 
                 location.href = url;

@@ -34,19 +34,17 @@ $(document).ready(function() {
 
     // 더보기
     $("#nextShop").click(function () {
+        let keyword = getParameter("keyword");
+        let searchType = getParameter("searchType");
         ++page;
-        // let keyword = getParameterByName("keyword");
-        // let category = getParameterByName("category");
-        // let searchType = getParameterByName("searchType");
 
         $.ajax({
             url: "/zerogreen/shop/list",
             method: "post",
             data: {
-                page: page
-                // category: category,
-                // keyword: keyword,
-                // searchType: searchType
+                page: page,
+                keyword: keyword,
+                searchType: searchType
             }
         })
             .done(function (fragment) {
@@ -56,19 +54,18 @@ $(document).ready(function() {
 
     // 더보기
     $("#nextFood").click(function () {
+        let storeType = getParameter("type");
+        // let searchType = getParameter("searchType");
+        // let keyword = getParameter("keyword");
         ++page;
-        // let keyword = getParameterByName("keyword");
-        // let category = getParameterByName("category");
-        // let searchType = getParameterByName("searchType");
-
         $.ajax({
             url: "/zerogreen/food/list",
             method: "post",
             data: {
-                page: page
-                // category: category,
-                // keyword: keyword,
+                page: page,
+                type: storeType
                 // searchType: searchType
+                // keyword: keyword,
             }
         })
             .done(function (fragment) {
@@ -76,3 +73,10 @@ $(document).ready(function() {
             });
     });
 });
+
+// parameter 값 불러오기
+function getParameter(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    let regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
