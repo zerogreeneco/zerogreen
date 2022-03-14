@@ -34,7 +34,9 @@ $(document).ready(function(e){
             },
         })
             .done(function (fragment) {
-                $("#reviewList").replaceWith(fragment);
+//                $("#reviewList").replaceWith(fragment);
+                self.location.reload();
+
             })
             //btn.attr('style',"display:none;");
     }); //end save comment
@@ -54,7 +56,7 @@ $(document).ready(function(e){
             editText.css('border','solid 1px #3498db');
             editText.css('cursor','text');
             deleteBtn.css('display','none');
-            textCnt.removeAttr('style');
+            textCnt.removeAttr('style','display:none;');
 //            textCnt.css('display','show');
             editText.focus();
 
@@ -75,7 +77,7 @@ $(document).ready(function(e){
             .done(function (fragment) {
                 editText.replaceWith("<textarea class='mrv-textarea' name='reviewText' readonly>" + editText.val() + "</textarea>");
                 textCnt.css('display','none');
-                deleteBtn.removeAttr('style');
+                deleteBtn.removeAttr('style','display:none;');
 //                deleteBtn.css('display','show');
             });
             count = 0;
@@ -226,14 +228,8 @@ $(document).ready(function(e){
             } else {
                 i++;
                 let nextImg = $(".rv-img-list").eq(i).find(".rv-imageOnlyOrigin").attr("src");
+                $(".modal_content").attr("src", nextImg);
 //                console.log("1++ " + i)
-
-                $(".modal-slider").animate({marginLeft: "-700px"},
-                function() {
-                    $(".modal-slider").css({marginLeft: 0 });
-                    $(".modal_content").attr("src", nextImg);
-//                    $(".modal-slider .card:first").appendTo(".modal-slider");
-                });
             }
         }); //end click modal right
 
@@ -243,15 +239,8 @@ $(document).ready(function(e){
             } else {
                 i--;
                 let prevImg = $(".rv-img-list").eq(i).find(".rv-imageOnlyOrigin").attr("src");
+                $(".modal_content").attr("src", prevImg);
 //                console.log("1-- " + i)
-
-                $(".modal-slider").animate({ "marginRight": "-700px" },
-                function() {
-                    $(".modal-slider").css({ marginRight: 0});
-                    $(".modal_content").attr("src", prevImg);
-//                    $(".modal-slider").css({ "marginLeft": "-700px"});
-//                    $(".modal-slider .card:last").prependTo(".modal-slider");
-                });
             }
         }); //end click modal left
     }); //end 이미지 리스트 모달 띄우기 + 모달 슬라이드
@@ -266,8 +255,8 @@ $(document).ready(function(e){
         $(".modal_content").attr("src", imgSrc2);
         $(".modal2").show();
 
-        console.log("12?? " + i2)
-        console.log("l22 " + length2);
+//        console.log("12?? " + i2)
+//        console.log("l22 " + length2);
 
         //모달 슬라이드
         $("#modal-right2").click(function() {
@@ -275,9 +264,9 @@ $(document).ready(function(e){
                 i2 = 0;
             } else {
                 i2--;
-                console.log("12-- " + i2)
                 let nextImg2 = $(".rv-img").eq(i2).find(".mImageOrigin").attr("src");
                 $(".modal_content").attr("src", nextImg2);
+//                console.log("12-- " + i2)
             }
         }); //end click modal right
 
@@ -287,8 +276,8 @@ $(document).ready(function(e){
             } else {
                 i2++;
                 let prevImg2 = $(".rv-img").eq(i2).find(".mImageOrigin").attr("src");
-                console.log("12++ " + i2)
                 $(".modal_content").attr("src", prevImg2);
+//                console.log("12++ " + i2)
             }
         }); //end click modal left
     }); //end 이미지 (review) 모달 띄우기 + 모달 슬라이드
@@ -337,6 +326,21 @@ $(document).ready(function(e){
         previewImg.empty();
 
     });
+
+
+    //리뷰 유효성 검사 ** 작업중 **
+/*
+    $("#rv-btn").on("click", function () {
+    console.log("btn ");
+        let review = $("#reviewText");
+        let message = $(".errorMessage");
+        if (review.val() === "") {
+            message.text("내용을 입력해주세요");
+        } else {
+            $("#replyForm").submit();
+        }
+    });
+*/
 
 
     // save Reviews
