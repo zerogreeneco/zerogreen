@@ -10,35 +10,37 @@
         <div>
             <!--검색-->
             <div style="position: relative;">
-                <form class="form-area" th:action="@{/shop/list}" method="get" id="shopSearchForm">
-                    <input type="hidden" name="page" value="1">
-                    <select class="dropdown" name="type">
-                        <option>가게 이름</option>
-                        <option>상품</option>
-                    </select>
-                    <div class="search-bar">
-                        <input id="search-input" name="keyword">
-                        <img class="truncate_icon" th:src="@{/bootstrap/images/list/close.png}"/>
-                    </div>
-                    <button class="btn_search">
-                       <img class="search_icon" th:src="@{/bootstrap/images/list/search.png}">
-                    </button>
-                </form>
+                <div class="form-area">
+                    <form method="get" th:action="@{/shop/list}" id="shopSearchForm">
+                        <input type="hidden" name="page" value="1">
+                        <select class="dropdown" name="type">
+                            <option>가게 이름</option>
+                            <option>상품</option>
+                        </select>
+                        <div class="search-bar">
+                            <input id="search-input" name="keyword">
+                            <img class="truncate_icon" th:src="@{/bootstrap/images/list/close.png}"/>
+                        </div>
+                        <button class="btn_search">
+                            <img class="search_icon" th:src="@{/bootstrap/images/list/search.png}">
+                        </button>
+                    </form>
+                </div>
             </div>
 
             <div style="position: relative;">
-                <div id="card-align">
+                <div id="shop-align">
                     <!-- 가게 리스트 -->
                     <div class="card" th:each="list : ${list}"
                          th:onclick="|location.href='@{/page/detail/{id}(id=${list.id})}'|">
                         <div class="card-header" th:if="${#strings.isEmpty(list.thumbnailName)}">
-                                <span class="mini-sorry">😅</span>
-                                <span class="mini-text">아직 등록된 사진이 없어요</span>
+                            <span class="mini-sorry">😅</span>
+                            <span class="mini-text">아직 등록된 사진이 없어요</span>
                         </div>
-                            <div class="card-header" th:if="${not #strings.isEmpty(list.thumbnailName)}">
-                                <img th:src="@{/page/detail/image/} + ${list.storeName} + ${list.thumbnailName}"
-                                     th:value="${list.thumbnailName}" width="300px" height="300px"/>
-                            </div>
+                        <div class="card-header" th:if="${not #strings.isEmpty(list.thumbnailName)}">
+                            <img th:src="@{/page/detail/image/} + ${list.storeName} + ${list.thumbnailName}"
+                                 th:value="${list.thumbnailName}" width="300px" height="300px"/>
+                        </div>
                         <div class="shopList-box">
                             <div class="card-body">
                                 <span class="like"><img class="icon" th:src="@{/bootstrap/images/list/heart.png}">[[${list.like}]]</span>
@@ -51,19 +53,18 @@
                                 <span th:if="${#strings.isEmpty(list.menuName)}">
                                     <img class="icon" th:src="@{/bootstrap/images/list/box.png}"> 매장 확인 필요</span>
                                 <span th:if="${not #strings.isEmpty(list.menuName)}">
-                                    <img class="icon" th:src="@{/bootstrap/images/list/box.png}"> [[${list.menuName}]]</span>
+                                    <img class="icon"
+                                         th:src="@{/bootstrap/images/list/box.png}"> [[${list.menuName}]]</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <button type="button" class="nextPage" id="nextShop">더보기</button>
         </div>
-
-        <div>
-            <button id="btnTop">
-                <img th:src="@{/bootstrap/images/arrowup.png}" style="width: 35px;"/>
-            </button>
-        </div>
+        <button id="btnTop">
+            <img th:src="@{/bootstrap/images/arrowup.png}" style="width: 35px;"/>
+        </button>
 
     </th:block>
 </th:block>

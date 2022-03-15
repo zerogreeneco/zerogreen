@@ -15,7 +15,7 @@ public class RequestPageSortDto {
 
     public RequestPageSortDto() {
         this.page = 1;
-        this.size = 10;
+        this.size = 12;
     }
 
     public Pageable getPageableSort(Sort sort) {
