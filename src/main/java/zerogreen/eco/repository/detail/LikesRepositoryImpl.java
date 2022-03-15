@@ -10,6 +10,7 @@ import zerogreen.eco.entity.file.QStoreImageFile;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static zerogreen.eco.entity.detail.QDetailReview.detailReview;
 import static zerogreen.eco.entity.detail.QLikes.likes;
 import static zerogreen.eco.entity.userentity.QBasicUser.basicUser;
 import static zerogreen.eco.entity.userentity.QStoreMember.storeMember;
@@ -40,11 +41,12 @@ public class LikesRepositoryImpl implements LikesRepositoryCustom{
                                                                 .select(subImage.id.min())
                                                                 .from(subImage, subImage)
                                                                 .where(subImage.storeMember.id.eq(storeMember.id)))), "thumbImage")
-
                 ))
                 .from(likes, likes)
                 .innerJoin(likes.storeMember, storeMember).on(storeMember.id.eq(likes.storeMember.id))
                 .innerJoin(likes.basicUser, basicUser).on(basicUser.id.eq(likes.basicUser.id))
+                .orderBy(likes.id.desc())
+                .limit(10)
                 .where(likes.basicUser.id.eq(id))
                 .fetch();
         return content;

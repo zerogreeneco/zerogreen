@@ -167,11 +167,9 @@ public class MemberController {
         //회원별 리뷰 남긴 가게 리스트(memberMyInfo)
         List<DetailReviewDto> userReview = detailReviewService.getReviewByUser(principalDetails.getId());
         model.addAttribute("listOfReview", userReview);
-        Collections.reverse(userReview);
         //회원별 찜한 가게 리스트 (memberMyInfo)
         List<LikesDto> likes = likesService.getLikesByUser(principalDetails.getId());
         model.addAttribute("listOfLikes", likes);
-        Collections.reverse(likes);
 
         return "member/memberMyInfo";
     }
