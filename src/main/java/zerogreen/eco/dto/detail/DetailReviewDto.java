@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class DetailReviewDto {
 
     private Long rno;
-    @NotBlank
+    @NotBlank(message = "내용을 입력해 주세요")
     private String reviewText;
 
     private Long parentReview;
