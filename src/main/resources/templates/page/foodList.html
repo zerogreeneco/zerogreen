@@ -13,9 +13,9 @@
                 <div class="form-area">
 
                     <form method="get" th:action="@{/food/list}" id="foodSearchForm">
-                        <select class="dropdown" name="type">
-                            <option>식당 이름</option>
-                            <option>메뉴</option>
+                        <select class="dropdown" name="searchType">
+                            <option value="store_name">식당 이름</option>
+<!--                            <option value="item">메뉴</option>-->
                         </select>
                         <div class="search-bar">
                             <input id="search-input" name="keyword" th:value="${keyword}">
@@ -46,8 +46,7 @@
             </div>
 
             <div style="position: relative">
-                <div id="food-align">
-
+                <div class="align" id="food-align">
                     <div class="card" th:each="list : ${list}"
                          th:onclick="|location.href='@{/page/detail/{id}(id=${list.id})}'|">
                         <div class="card-header" th:if="${#strings.isEmpty(list.thumbnailName)}">
@@ -83,7 +82,10 @@
         <button id="btnTop">
             <img th:src="@{/bootstrap/images/arrowup.png}" style="width: 35px;"/>
         </button>
-
+        <div class="list-none">
+            <span id="sorry-emoji">😅</span>
+            <span id="sorry-text">찾으시는 가게가 없네요</span>
+        </div>
         <script th:inline="javascript">
             //전체 리스트 이동
             function getFoodList() {

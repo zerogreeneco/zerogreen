@@ -12,13 +12,12 @@
             <div style="position: relative;">
                 <div class="form-area">
                     <form method="get" th:action="@{/shop/list}" id="shopSearchForm">
-                        <input type="hidden" name="page" value="1">
-                        <select class="dropdown" name="type">
-                            <option>가게 이름</option>
-                            <option>상품</option>
+                        <select class="dropdown" name="searchType">
+                            <option value="store_name">가게 이름</option>
+<!--                            <option value="item">상품</option>-->
                         </select>
                         <div class="search-bar">
-                            <input id="search-input" name="keyword">
+                            <input id="search-input" name="keyword" th:value="${keyword}">
                             <img class="truncate_icon" th:src="@{/bootstrap/images/list/close.png}"/>
                         </div>
                         <button class="btn_search">
@@ -29,7 +28,7 @@
             </div>
 
             <div style="position: relative;">
-                <div id="shop-align">
+                <div class="align" id="shop-align">
                     <!-- 가게 리스트 -->
                     <div class="card" th:each="list : ${list}"
                          th:onclick="|location.href='@{/page/detail/{id}(id=${list.id})}'|">
@@ -65,6 +64,9 @@
         <button id="btnTop">
             <img th:src="@{/bootstrap/images/arrowup.png}" style="width: 35px;"/>
         </button>
-
+        <div class="list-none">
+            <span id="sorry-emoji">😅</span>
+            <span id="sorry-text">찾으시는 가게가 없네요</span>
+        </div>
     </th:block>
 </th:block>
