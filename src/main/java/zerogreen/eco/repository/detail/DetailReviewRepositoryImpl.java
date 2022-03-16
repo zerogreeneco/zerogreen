@@ -47,15 +47,17 @@ public class DetailReviewRepositoryImpl implements DetailReviewRepositoryCustom{
                                                         .select(subImage.id.min())
                                                         .from(subImage, subImage)
                                                         .where(subImage.storeMember.id.eq(storeMember.id)))), "thumbImage")
-
                         ))
                 .from(detailReview, detailReview)
                 .innerJoin(detailReview.storeMember, storeMember).on(storeMember.id.eq(detailReview.storeMember.id))
                 .innerJoin(detailReview.reviewer, basicUser).on(basicUser.id.eq(detailReview.reviewer.id))
+                .orderBy(detailReview.id.desc())
+                .limit(10)
                 .where(detailReview.reviewer.id.eq(id))
                 .fetch();
         return content;
     }
+
 
     @Override
     public List<DetailReviewDto> getReviewByStore(Long id) {
