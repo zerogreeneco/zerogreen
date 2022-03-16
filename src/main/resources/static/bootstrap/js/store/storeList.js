@@ -37,7 +37,6 @@ $(document).ready(function() {
         let keyword = getParameter("keyword");
         let searchType = getParameter("searchType");
         ++page;
-
         $.ajax({
             url: "/zerogreen/shop/list",
             method: "post",
@@ -72,6 +71,15 @@ $(document).ready(function() {
                 $("#food-align").append(fragment);
             });
     });
+
+    // 게시물이 없을 경우
+    if ($("div").hasClass("card")) {
+        $(".list-none").css('display', 'none');
+        $(".align").css('display', 'block');
+    } else {
+        $(".list-none").css('display', 'block');
+        $(".nextPage").css('display', 'none');
+    }
 });
 
 // parameter 값 불러오기

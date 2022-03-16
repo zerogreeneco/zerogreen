@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zerogreen.eco.dto.detail.DetailReviewDto;
+import zerogreen.eco.dto.search.SearchCondition;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
@@ -73,16 +74,24 @@ public class StoreMemberServiceImpl implements StoreMemberService {
 
     //Shop List 출력
     @Override
-    @Transactional
     public Slice<StoreDto> getShopList(Pageable pageable) {
         return storeMemberRepository.getShopList(pageable);
     }
 
+    @Override
+    public Slice<StoreDto> getShopList(Pageable pageable, SearchCondition searchCondition) {
+        return storeMemberRepository.getShopList(pageable, searchCondition);
+    }
+
     //Food List 출력
     @Override
-    @Transactional
     public Slice<StoreDto> getFoodList(Pageable pageable) {
         return storeMemberRepository.getFoodList(pageable);
+    }
+
+    @Override
+    public Slice<StoreDto> getFoodList(Pageable pageable, SearchCondition searchCondition) {
+        return storeMemberRepository.getFoodList(pageable, searchCondition);
     }
 
     @Override
@@ -91,8 +100,6 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     }
 
     //storeMyInfo 리뷰
-
-
     @Override
     public List<DetailReviewDto> getReviewByStore(Long id) {
         return detailReviewRepository.getReviewByStore(id);
