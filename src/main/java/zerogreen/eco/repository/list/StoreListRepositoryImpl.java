@@ -153,13 +153,11 @@ public class StoreListRepositoryImpl implements StoreListRepository {
                                                         .select(storeMenu.id.min())
                                                         .from(storeMenu, storeMenu)
                                                         .where(storeMenu.storeMember.id.eq(storeMember.id)))), "menuName"),
-                        ExpressionUtils.as(
-                                JPAExpressions
-                                        .select(likes.id.count())
-                                        .from(likes, likes)
-                                        .where(likes.storeMember.id.eq(storeMember.id)), "likes")
-                ))
-                .from(storeMember, storeMember);
+                        likes.id.count()))
+                .from(storeMember, storeMember)
+                .leftJoin(likes).on(likes.storeMember.id.eq(storeMember.id))
+                .groupBy(storeMember.id)
+                .orderBy(likes.id.count().desc().nullsLast());
     }
 
     private JPAQuery<StoreDto> foodProjections() {
@@ -188,23 +186,12 @@ public class StoreListRepositoryImpl implements StoreListRepository {
                                                         .select(storeMenu.id.min())
                                                         .from(storeMenu, storeMenu)
                                                         .where(storeMenu.storeMember.id.eq(storeMember.id)))), "menuName"),
-                        ExpressionUtils.as(
-                                JPAExpressions
-                                        .select(likes.id.count())
-                                        .from(likes, likes)
-                                        .where(likes.storeMember.id.eq(storeMember.id)), "likes")
-                ))
-                .from(storeMember, storeMember);
+                        likes.id.count()))
+                .from(storeMember, storeMember)
+                .leftJoin(likes).on(likes.storeMember.id.eq(storeMember.id))
+                .groupBy(storeMember.id)
+                .orderBy(likes.id.count().desc().nullsLast());
     }
-
-//    private Expression<Long> likesCount() {
-//        return ExpressionUtils.as(
-//                JPAExpressions
-//                        .select(likes.id.count())
-//                        .from(likes, likes)
-//                        .where(likes.storeMember.id.eq(storeMember.id)), "likes");
-//
-//    }
 
     /*
      * 검색 조건
