@@ -2,7 +2,6 @@
 <th:block th:replace="~{basic/basicTemplate :: setContent(~{this::content})}" xmlns:th="http://www.w3.org/1999/xhtml">
     <th:block th:fragment="content">
         <link rel="stylesheet" th:href="@{/bootstrap/css/chat/chatRoom.css}"/>
-        <!--        <script type="text/javascript" th:src="@{/bootstrap/js/chat/chatRoom.js}"></script>-->
 
         <strong class="alert alert-success" id="successMessage" style="display : none; color:red;">메세지 전송에
             성공했습니다.</strong>
@@ -49,135 +48,6 @@
         <textarea id="message" class="form-control" placeholder="메시지를 입력하세요" maxlength="100"></textarea>
         <button type="button" onclick="send()">전송하기</button>
         <div class="clearfix"></div>
-
-
-        <!--        <div class='chat-wrapper'>-->
-        <!--            <div id="space" class='chat-message padding' th:each="message:${messages}">-->
-
-        <!--                <div class='chat-message chat-message-recipient'>-->
-        <!--                    <div class='chat-message-wrapper'>-->
-        <!--                        <div class='chat-message-content'>-->
-        <!--                            <h4 class='media-heading pull-left'-->
-        <!--                                th:if="${message.writer.username.toString().equals(receiver.toString())}"-->
-        <!--                                th:text="${message.writer.username}"></h4>-->
-        <!--                            <br>-->
-        <!--                            <p class="pull-left" th:text="${message.message}"-->
-        <!--                               th:if="${message.writer.username.toString().equals(receiver.toString())}"></p>-->
-        <!--                        </div>-->
-        <!--                        <div class='chat-details'>-->
-        <!--                            <span class='time-left chat-message-read-status font-size-small'-->
-        <!--                                  th:if="${message.writer.username.toString().equals(receiver.toString())}"-->
-        <!--                                  th:text="${#temporals.format(message.time, 'yyyy-MM-dd HH:mm:ss')}"></span>-->
-        <!--                        </div>-->
-        <!--                    </div>-->
-        <!--                </div>-->
-
-        <!--                <div class='chat-message chat-message-sender'>-->
-        <!--                    <div class='chat-message-wrapper'>-->
-        <!--                        <div class='chat-message-content'>-->
-        <!--                            <h4 class='media-heading pull-right'-->
-        <!--                                th:if="${!message.writer.username.toString().equals(receiver.toString())}"-->
-        <!--                                th:text="${message.writer.username}"></h4>-->
-        <!--                            <br>-->
-        <!--                            <p class="pull-right" th:text="${message.message}"-->
-        <!--                               th:if="${!message.writer.username.toString().equals(receiver.toString())}"></p>-->
-        <!--                        </div>-->
-        <!--                        <div class='chat-details'>-->
-        <!--                            <span class='time-right chat-message-read-status font-size-small'-->
-        <!--                                  th:if="${!message.writer.username.toString().equals(receiver.toString())}"-->
-        <!--                                  th:text="${#temporals.format(message.time, 'yyyy-MM-dd HH:mm:ss')}"></span>-->
-        <!--                        </div>-->
-        <!--                    </div>-->
-        <!--                </div>-->
-
-        <!--            </div>-->
-        <!--        </div>-->
-        <!--        <textarea id="message" class="form-control" placeholder="메시지를 입력하세요" maxlength="100"></textarea>-->
-        <!--        <button type="button" onclick="send()">전송하기</button>-->
-
-
-        <!--        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">-->
-        <!--        <div class="container">-->
-        <!--            <div class="col-md-12 col-lg-6">-->
-        <!--                <div class="panel">-->
-        <!--                    &lt;!&ndash;Heading&ndash;&gt;-->
-        <!--                    <div class="panel-heading">-->
-        <!--                        <h3 class="panel-title" th:text="${receiver}"></h3>-->
-        <!--                    </div>-->
-        <!--                    &lt;!&ndash;Widget body&ndash;&gt;-->
-        <!--                    <div class="portlet-body chat-widget"-->
-        <!--                         style="overflow-y : auto; width:auto; height:400px;">-->
-        <!--                        <div id="demo-chat-body" class="collapse in">-->
-        <!--                            <div class="nano has-scrollbar" style="height:500px">-->
-        <!--                                <div id="space" class="nano-content pad-all" tabindex="0" style="right: -17px;">-->
-        <!--                                    <ul class="list-unstyled media-block" th:each="message:${messages}">-->
-        <!--                                        <li class="mar-btm">-->
-        <!--                                            <div class="media-left">-->
-        <!--                                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png"-->
-        <!--                                                     class="img-circle img-sm" alt="Profile Picture">-->
-        <!--                                            </div>-->
-        <!--                                            <div class="media-body pad-hor">-->
-        <!--                                                <div class="speech">-->
-        <!--                                                    <p class="media-heading"-->
-        <!--                                                       th:if="${message.writer.username.toString().equals(receiver.toString())}"-->
-        <!--                                                       th:text="${message.writer.username}"></p>-->
-        <!--                                                    <p class="pull-left" th:text="${message.message}"-->
-        <!--                                                       th:if="${!message.writer.username.toString().equals(receiver.toString())}"></p>-->
-        <!--                                                    <p class="speech-time">-->
-        <!--                                                        <i class="fa fa-clock-o fa-fw"></i>-->
-        <!--                                                    <p th:if="${message.writer.username.toString().equals(receiver.toString())}"-->
-        <!--                                                       th:text="${#temporals.format(message.time, 'yyyy-MM-dd HH:mm:ss')}"></p>-->
-        <!--                                                    </p>-->
-        <!--                                                </div>-->
-        <!--                                            </div>-->
-        <!--                                        </li>-->
-
-        <!--                                        <li class="mar-btm">-->
-        <!--                                            <div class="media-right">-->
-        <!--                                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png"-->
-        <!--                                                     class="img-circle img-sm" alt="Profile Picture">-->
-        <!--                                            </div>-->
-        <!--                                            <div class="media-body pad-hor speech-right">-->
-        <!--                                                <div class="speech">-->
-        <!--                                                    <p class="media-heading"-->
-        <!--                                                       th:if="${!message.writer.username.toString().equals(receiver.toString())}"-->
-        <!--                                                       th:text="${message.writer.username}"></p>-->
-        <!--                                                    <p class="pull-right"-->
-        <!--                                                       th:if="${!message.writer.username.toString().equals(receiver.toString())}"-->
-        <!--                                                       th:text="${message.writer.username}"></p>-->
-        <!--                                                    <p class="speech-time">-->
-        <!--                                                        <i class="fa fa-clock-o fa-fw"></i>-->
-        <!--                                                    <p th:if="${!message.writer.username.toString().equals(receiver.toString())}"-->
-        <!--                                                       th:text="${#temporals.format(message.time, 'yyyy-MM-dd HH:mm:ss')}"></p>-->
-        <!--                                                    </p>-->
-        <!--                                                </div>-->
-        <!--                                            </div>-->
-        <!--                                        </li>-->
-        <!--                                    </ul>-->
-        <!--                                </div>-->
-        <!--                                <div class="nano-pane">-->
-        <!--                                    <div class="nano-slider"-->
-        <!--                                         style="height: 141px; transform: translate(0px, 0px);"></div>-->
-        <!--                                </div>-->
-        <!--                            </div>-->
-        <!--                        </div>-->
-        <!--                        &lt;!&ndash;Widget footer&ndash;&gt;-->
-        <!--                        <div class="panel-footer">-->
-        <!--                            <div class="row">-->
-        <!--                                <div class="col-xs-9">-->
-        <!--                                    <textarea id="message" placeholder="메시지를 입력하세요" maxlength="100"-->
-        <!--                                              class="form-control chat-input"></textarea>-->
-        <!--                                </div>-->
-        <!--                                <div class="col-xs-3">-->
-        <!--                                    <button class="btn btn-primary btn-block" type="button" onclick="send()">전송하기-->
-        <!--                                    </button>-->
-        <!--                                </div>-->
-        <!--                            </div>-->
-        <!--                        </div>-->
-        <!--                    </div>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </div>-->
 
         <script th:inline="javascript">
         /* <![CDATA[*/
@@ -296,21 +166,6 @@
         function goLink(e){
             window.location.href = e;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         </script>
     </th:block>

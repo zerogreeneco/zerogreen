@@ -26,7 +26,7 @@ public interface CommunityBoardService {
     CommunityResponseDto findDetailView(Long boardId, HttpServletRequest request, HttpServletResponse response);
     CommunityRequestDto boardModifyRequest(Long boardId);
 
-    void boardModify(Long boardId, Category category, String text, boolean chatCheck);
+    void boardModify(Long boardId, Category category, String text);
     void boardDelete(Long boardId);
     int boardCount(Long boardId);
 

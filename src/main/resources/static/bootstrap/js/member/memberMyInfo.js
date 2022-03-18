@@ -27,6 +27,5 @@ $(document).ready(function(e){
         $(".like-slider").css({ "marginLeft": "-180px"});
         $(".like-slider").animate({ marginLeft: 0 });
     });
-
 }); //end script
 
