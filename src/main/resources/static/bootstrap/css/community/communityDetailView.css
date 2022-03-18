@@ -226,9 +226,14 @@ like-btn {
 
 
 #category {
-    width: 532px;
+    width: 400px;
     height: 35px;
     margin: 0 auto;
+}
+#chatCheck{
+    width: 125px;
+    margin-left: 7px;
+
 }
 
 .rg-input {

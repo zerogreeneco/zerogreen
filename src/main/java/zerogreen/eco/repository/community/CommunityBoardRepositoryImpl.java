@@ -146,6 +146,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                         communityBoard.text,
                         member.nickname,
                         member.username,
+                        communityBoard.chatCheck,
                         member.vegetarianGrade,
                         member.id,
                         communityBoard.category,
@@ -181,7 +182,8 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
         return queryFactory
                 .select(Projections.constructor(CommunityRequestDto.class,
                         communityBoard.text,
-                        communityBoard.category
+                        communityBoard.category,
+                        communityBoard.chatCheck
                 ))
                 .from(communityBoard, communityBoard)
                 .where(communityBoard.id.eq(boardId))

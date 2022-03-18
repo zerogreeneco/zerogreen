@@ -44,6 +44,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
         CommunityBoard saveBoard = boardRepository.save(CommunityBoard.builder()
                 .text(dto.getText())
                 .category(dto.getCategory())
+                .chatCheck(dto.isChatCheck())
                 .member(writer)
                 .isChat(dto.isChat())
                 .build());
@@ -93,9 +94,9 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     /* 게시글 수정 */
     @Override
     @Transactional
-    public void boardModify(Long boardId, Category category, String text) {
+    public void boardModify(Long boardId, Category category, String text, boolean chatCheck) {
         CommunityBoard communityBoard = boardRepository.findById(boardId).orElseThrow();
-        communityBoard.changeBoard(category, text);
+        communityBoard.changeBoard(category, text, chatCheck);
     }
 
     /* 게시글 삭제 */
