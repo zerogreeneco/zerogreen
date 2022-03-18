@@ -51,13 +51,13 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
         List<CommunityResponseDto> content =
                 dtoProjections(subLike.board.id.eq(
                         communityBoard.id), subReply.board.id.eq(communityBoard.id), subImage.board.id.eq(communityBoard.id))
-                .where(
-                        isSearch(condition.getSearchType(), condition.getContent())
-                )
-                .orderBy(communityBoard.createdDate.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+                        .where(
+                                isSearch(condition.getSearchType(), condition.getContent())
+                        )
+                        .orderBy(communityBoard.createdDate.desc())
+                        .offset(pageable.getOffset())
+                        .limit(pageable.getPageSize())
+                        .fetch();
 
         List<CommunityBoard> countQuery = queryFactory
                 .selectFrom(communityBoard)
@@ -72,10 +72,10 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
         List<CommunityResponseDto> content =
                 dtoProjections(subLike.board.id.eq(
                         communityBoard.id), subReply.board.id.eq(communityBoard.id), subImage.board.id.eq(communityBoard.id))
-                .orderBy(communityBoard.createdDate.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+                        .orderBy(communityBoard.createdDate.desc())
+                        .offset(pageable.getOffset())
+                        .limit(pageable.getPageSize())
+                        .fetch();
 
         List<CommunityBoard> countQuery = queryFactory
                 .selectFrom(communityBoard)
@@ -93,11 +93,11 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
         List<CommunityResponseDto> content =
                 dtoProjections(subLike.board.id.eq(
                         communityBoard.id), subReply.board.id.eq(communityBoard.id), subImage.board.id.eq(communityBoard.id))
-                .where(communityBoard.category.eq(category))
-                .orderBy(communityBoard.createdDate.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+                        .where(communityBoard.category.eq(category))
+                        .orderBy(communityBoard.createdDate.desc())
+                        .offset(pageable.getOffset())
+                        .limit(pageable.getPageSize())
+                        .fetch();
 
         List<CommunityBoard> countQuery = queryFactory
                 .selectFrom(communityBoard)
@@ -137,8 +137,8 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
 //    }
 
     /*
-    * 공통 SELECT절
-    * */
+     * 공통 SELECT절
+     * */
     private JPAQuery<CommunityResponseDto> dtoProjections(BooleanExpression id, BooleanExpression id1, BooleanExpression id2) {
         return queryFactory
                 .select(Projections.constructor(CommunityResponseDto.class,
@@ -146,7 +146,6 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                         communityBoard.text,
                         member.nickname,
                         member.username,
-                        communityBoard.chatCheck,
                         member.vegetarianGrade,
                         member.id,
                         communityBoard.category,
@@ -168,10 +167,10 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
                                         .select(subImage.thumbnailName)
                                         .from(subImage, subImage)
                                         .where(id2.and(subImage.id.eq(
-                                                        JPAExpressions
-                                                                .select(subImage.id.min())
-                                                                .from(subImage, subImage)
-                                                                .where(subImage.board.id.eq(communityBoard.id))))), "thumbImage")
+                                                JPAExpressions
+                                                        .select(subImage.id.min())
+                                                        .from(subImage, subImage)
+                                                        .where(subImage.board.id.eq(communityBoard.id))))), "thumbImage")
                 ))
                 .from(communityBoard, communityBoard)
                 .join(communityBoard.member, member);
@@ -182,8 +181,7 @@ public class CommunityBoardRepositoryImpl implements CommunityBoardRepositoryCus
         return queryFactory
                 .select(Projections.constructor(CommunityRequestDto.class,
                         communityBoard.text,
-                        communityBoard.category,
-                        communityBoard.chatCheck
+                        communityBoard.category
                 ))
                 .from(communityBoard, communityBoard)
                 .where(communityBoard.id.eq(boardId))

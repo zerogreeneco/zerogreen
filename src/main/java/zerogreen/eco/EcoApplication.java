@@ -19,7 +19,4 @@ public class EcoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EcoApplication.class, args);
 	}
-
-
-
 }
