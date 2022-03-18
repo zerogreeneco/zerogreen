@@ -9,6 +9,7 @@ cp $REPOSITORY/zip/build/libs/*.war $REPOSITORY/
 
 echo "> 현재 구동중인 애플리케이션 pid 확인"
 
+
 CURRENT_PID=$(pgrep -fl zerogreen | grep war | awk '{print $1}')
 
 echo "현재 구동중인 어플리케이션 pid: $CURRENT_PID"
