@@ -5,12 +5,10 @@ branches:
   only:
   - main
 before_install:
-- openssl aes-256-cbc -K $encrypted_d0342899247a_key -iv $encrypted_d0342899247a_iv
-  -in app2.tar.enc -out app2.tar -d
-- openssl aes-256-cbc -K $encrypted_d02348a37f13_key -iv $encrypted_d02348a37f13_iv
-  -in app1.tar.enc -out app1.tar -d
-- tar xvf app1.tar
-- tar xvf app2.tar
+- openssl aes-256-cbc -K $encrypted_b846c1a3db1c_key -iv $encrypted_b846c1a3db1c_iv
+  -in application-oauth.properties.enc -out application-oauth.properties -d
+- openssl aes-256-cbc -K $encrypted_2f692484526a_key -iv $encrypted_2f692484526a_iv
+  -in application.properties.enc -out application.properties -d
 - chmod +x gradlew
 cache:
   directories:
