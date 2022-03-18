@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
+import zerogreen.eco.dto.search.SearchCondition;
+import zerogreen.eco.dto.search.StoreSearchType;
 import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.service.user.StoreMemberService;
 
@@ -23,45 +25,70 @@ public class ListController {
     private final StoreMemberService storeMemberService;
 
     @GetMapping("/shop/list")
-    public String shopList(Model model, RequestPageSortDto requestPageDto) {
+    public String shopList(RequestPageSortDto requestPageDto, Model model,
+                           StoreSearchType searchType, String keyword) {
 
-        Pageable pageable = requestPageDto.getPageableSort(Sort.by("like").descending());
-        model.addAttribute("list", storeMemberService.getShopList(pageable));
 
+        getShopList(requestPageDto, searchType, keyword, model);
         return "page/shopList";
     }
 
     // 더보기
     @PostMapping("/shop/list")
-    public String nextShop(RequestPageSortDto requestPageDto, Model model) {
+    public String nextShop(@RequestParam(value = "searchType", required = false) StoreSearchType searchType,
+                           @RequestParam(value = "keyword", required = false) String keyword,
+                           RequestPageSortDto requestPageDto, Model model) {
 
-        Pageable pageable = requestPageDto.getPageableSort(Sort.by("like").descending());
-        model.addAttribute("list", storeMemberService.getShopList(pageable));
+        getShopList(requestPageDto, searchType, keyword, model);
 
         return "page/shopList :: #shop-align";
     }
 
     @GetMapping("/food/list")
     public String foodList(@RequestParam(value = "type", required = false) StoreType storeType,
-                           Model model, RequestPageSortDto requestPageDto) {
+                           @RequestParam(value = "searchType", required = false) StoreSearchType searchType,
+                           @RequestParam(value = "keyword", required = false) String keyword,
+                           RequestPageSortDto requestPageDto, Model model) {
 
-        Pageable pageable = requestPageDto.getPageableSort(Sort.by("like").descending());
-        if (storeType == null) {
-            model.addAttribute("list", storeMemberService.getFoodList(pageable));
-        } else {
-            model.addAttribute("list", storeMemberService.getFoodTypeList(pageable, storeType));
-        }
+        getFoodList(requestPageDto, storeType, searchType, keyword, model);
 
         return "page/foodList";
     }
 
     // 더보기
     @PostMapping("/food/list")
-    public String nextFood(RequestPageSortDto requestPageDto, Model model) {
+    public String nextFood(@RequestParam(value = "type", required = false) StoreType storeType,
+                           @RequestParam(value = "searchType", required = false) StoreSearchType searchType,
+                           @RequestParam(value = "keyword", required = false) String keyword,
+                           RequestPageSortDto requestPageDto, Model model) {
 
-        Pageable pageable = requestPageDto.getPageableSort(Sort.by("like").descending());
-        model.addAttribute("list", storeMemberService.getShopList(pageable));
+        getFoodList(requestPageDto, storeType, searchType, keyword, model);
 
         return "page/foodList :: #food-align";
+    }
+
+    // Paging List
+    private void getShopList(RequestPageSortDto requestPageDto, StoreSearchType searchType, String keyword, Model model) {
+        model.addAttribute("keyword", keyword);
+        Pageable pageable = requestPageDto.getPageableSort();
+        if (searchType == null) {
+            model.addAttribute("list", storeMemberService.getShopList(pageable));
+        } else {
+            model.addAttribute("list", storeMemberService.getShopList(pageable, new SearchCondition(searchType, keyword)));
+        }
+    }
+
+    private void getFoodList(RequestPageSortDto requestPageDto, StoreType storeType, StoreSearchType searchType,
+                             String keyword, Model model) {
+        model.addAttribute("keyword", keyword);
+        Pageable pageable = requestPageDto.getPageableSort();
+        if(storeType == null){
+        if (searchType == null) {
+            model.addAttribute("list", storeMemberService.getFoodList(pageable));
+        }else {
+            model.addAttribute("list", storeMemberService.getFoodList(pageable, new SearchCondition(searchType, keyword)));
+        }}else {
+            model.addAttribute("list", storeMemberService.getFoodTypeList(pageable, storeType));
+        }
     }
 }

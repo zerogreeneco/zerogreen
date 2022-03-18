@@ -3,6 +3,7 @@ package zerogreen.eco.service.user;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import zerogreen.eco.dto.detail.DetailReviewDto;
+import zerogreen.eco.dto.search.SearchCondition;
 import zerogreen.eco.dto.store.NonApprovalStoreDto;
 import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.file.RegisterFile;
@@ -25,7 +26,9 @@ public interface StoreMemberService {
 
     //List 출력
     Slice<StoreDto> getShopList(Pageable pageable);
+    Slice<StoreDto> getShopList(Pageable pageable, SearchCondition searchCondition);
     Slice<StoreDto> getFoodList(Pageable pageable);
+    Slice<StoreDto> getFoodList(Pageable pageable, SearchCondition searchCondition);
     Slice<StoreDto> getFoodTypeList(Pageable pageable, StoreType storeType);
 
     //storeMyInfo
