@@ -7,6 +7,7 @@ branches:
 before_install:
 - openssl aes-256-cbc -K $encrypted_e558ecafaec6_key -iv $encrypted_e558ecafaec6_iv
   -in properties.tar.enc -out properties.tar -d
+- tar xvf properties.tar
 - chmod +x gradlew
 cache:
   directories:
