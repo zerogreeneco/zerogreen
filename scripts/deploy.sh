@@ -7,6 +7,14 @@ echo "> Build 파일 복사"
 
 cp $REPOSITORY/zip/build/libs/*.war $REPOSITORY/
 
+mv $REPOSITORY/zip/eco-0.0.1-SNAPSHOT.war $REPOSITORY/zip/$PROJECT_NAME.war
+
+mv $REPOSITORY/zip/$PROJECT_NAME.war /home/ec2-user/apache-tomcat-9.0.60/webapps
+
+rm -r -f zerogreen
+
+
+
 echo "> 현재 구동중인 애플리케이션 pid 확인"
 
 
