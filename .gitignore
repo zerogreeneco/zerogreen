@@ -6,7 +6,8 @@ build/
 !**/src/test/**/build/
 application.properties
 application-oauth.properties
-properties.tar
+app1.tar
+app2.tar
 
 ### STS ###
 .apt_generated
@@ -39,5 +40,3 @@ out/
 ### VS Code ###
 .vscode/
 
-/src/main/resources/app1.tar
-/src/main/resources/app2.tar
