@@ -9,6 +9,9 @@ before_install:
   -in properties.tar.enc -out properties.tar -d
 - echo "압축 풀기 전"
 - tar -xvf properties.tar
+- pwd
+- ls -al
+# 압축푼 파일을 보내줘서 war로 만들면 최고!
 - chmod +x gradlew
 cache:
   directories:
