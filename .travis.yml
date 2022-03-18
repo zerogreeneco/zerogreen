@@ -25,14 +25,13 @@ cache:
 script:
   - "./gradlew clean build"
 
-## 새롭게 추가된 부분
 before_deploy:
   # 현재 위치의 모든 파일을 springboot-test로 압축한다.
-  - zip -r springboot-test *
+  - zip -r zerogreen *
   # deploy 디렉토리를 Travis가 실행 중인 위치에 생성한다.
   - mkdir -p deploy
   # 생성한 .zip 파일을 deploy 아래로 이동한다.
-  - mv springboot-test.zip deploy/springboot-test.zip
+  - mv zerogreen.zip deploy/zerogreen.zip
 
 # 외부 서비스와 연동할 행위들을 선언한다.
 deploy:
@@ -47,8 +46,18 @@ deploy:
     wait-until-deployed: true
     on:
       branch: main
-## 새롭게 추가된 부분
-
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
+    secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
+    bucket: skhuedin-build # S3 버킷
+    key: skhuedin.zip # 빌드 파일을 압축해서 전달
+    bundle_type: zip # 압축 확장자
+    application: skhuedin # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
+    deployment_group: skhuedin-group # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
+    region: ap-northeast-2
+    wait-until-deployed: true
+    on:
+      branch: main
 
 # CI 실행 완료 시 작성한 이메일로 알람
 notifications:
