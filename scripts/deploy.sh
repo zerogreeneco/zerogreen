@@ -13,8 +13,6 @@ mv $REPOSITORY/zip/$PROJECT_NAME.war /home/ec2-user/apache-tomcat-9.0.60/webapps
 
 rm -r -f zerogreen
 
-
-
 echo "> 현재 구동중인 애플리케이션 pid 확인"
 
 

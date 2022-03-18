@@ -39,4 +39,5 @@ out/
 ### VS Code ###
 .vscode/
 
-/src/main/resources/zerogreenset.tar
+/src/main/resources/app1.tar
+/src/main/resources/app2.tar
