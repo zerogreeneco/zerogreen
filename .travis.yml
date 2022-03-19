@@ -10,7 +10,7 @@ before_install:
 - echo "압축 풀기 전"
 - tar -xvf properties.tar
 - pwd
-- ls -al
+- ls
 # 압축푼 파일을 보내줘서 war로 만들면 최고!
 - chmod +x gradlew
 cache:
@@ -25,7 +25,7 @@ before_deploy:
 - cp appspec.yml before-deploy/
 - cp build/libs/*.war before-deploy/
 - pwd
-- ls -al
+- ls
 - echo "copy end"
 - cd before-deploy && zip -r before-deploy *
 - cd ../ && mkdir -p deploy
