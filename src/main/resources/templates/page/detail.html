@@ -105,14 +105,16 @@
                 <div class="thr-thr inline">
                     <div class="thr thr-right inline" th:object="${getStore}">
                         <span th:if="*{storeInfo.storePhoneNumber} != null" >전화번호 : </span><span th:text="*{storeInfo.storePhoneNumber}"></span><br>
-                        <span th:if="*{storeInfo.openTime} != null">영업시간 : [[*{storeInfo.openTime}]] - [[*{storeInfo.closeTime}]]</span><br>
-                        <span th:if="*{storeInfo.socialAddress1} != null">소&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;셜 : [[${getStore.storeInfo.socialAddress1}]]</span><br>
-                        <span th:if="${getStore.storeInfo.socialAddress2 != null}">소&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;셜 : [[${getStore.storeInfo.socialAddress2}]]</span>
+                        <span th:if="*{not #strings.isEmpty(storeInfo.openTime) and not #strings.isEmpty(storeInfo.closeTime)}">
+                            영업시간 : [[*{storeInfo.openTime}]] - [[*{storeInfo.closeTime}]]<br></span>
+                        <span th:if="*{not #strings.isEmpty(storeInfo.socialAddress1)}">소&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;셜 : [[${getStore.storeInfo.socialAddress1}]]<br></span>
+                        <span th:if="${not #strings.isEmpty(getStore.storeInfo.socialAddress2)}">소&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;셜 : [[${getStore.storeInfo.socialAddress2}]]<br/></span>
+                        <span th:if="${not #strings.isEmpty(getStore.storeInfo.storeAddress)}">가게주소 : [[${getStore.storeInfo.storeAddress}]]</span>
                     </div>
                 </div>
             </div>
             <!-- 3.5열  -->
-            <div class="thr-bottom">
+            <div class="thr-bottom" th:if="${not #strings.isEmpty(getStore.storeInfo.storeDescription)}">
                 <span>[[${getStore.storeInfo.storeDescription}]]</span>
             </div>
 
@@ -120,8 +122,8 @@
             <div class="detail-map">
                 <div id="map" style="width:80%;height:350px;border-radius: 10px;"></div>
                 <script type="text/javascript" th:src="@{/bootstrap/js/detail/detailMap.js}"></script>
-                <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac&libraries=services"></script>
-                <input hidden id="mapAddress" type="text" th:value="${getStore.storeInfo.storeAddress}">
+                <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8b90a59d1c1c795a8266f3f47ebfd1ac&libraries=services"></script><br>
+                <input hidden id="mapAddress" type="text" th:value="${getStore.storeInfo.storeAddress}" th:text="${getStore.storeInfo.storeAddress}">
             </div>
 
             <!-- 5열 -->
