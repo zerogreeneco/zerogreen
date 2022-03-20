@@ -11,6 +11,8 @@ before_install:
 - tar -xvf properties.tar
 - pwd
 - ls
+- cp application.properties src/main/resources
+- cp application-oauth.properties src/main/resources
 # 압축푼 파일을 보내줘서 war로 만들면 최고!
 - chmod +x gradlew
 cache:
@@ -26,10 +28,6 @@ before_deploy:
 - cp build/libs/*.war before-deploy/
 - pwd
 - ls
-#- cd /home/travis/build/zerogreeneco/zerogreen
-#- ls
-#- cp application.properties src/main/resources
-#- cp application-oauth.properties src/main/resources
 - echo "copy end"
 - cd before-deploy && zip -r before-deploy *
 - cd ../ && mkdir -p deploy
