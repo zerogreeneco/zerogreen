@@ -3,6 +3,7 @@ package zerogreen.eco.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import zerogreen.eco.dto.paging.RequestPageSortDto;
 import zerogreen.eco.dto.search.SearchCondition;
 import zerogreen.eco.dto.search.StoreSearchType;
+import zerogreen.eco.dto.store.StoreDto;
 import zerogreen.eco.entity.userentity.StoreType;
 import zerogreen.eco.service.user.StoreMemberService;
 
@@ -25,9 +27,9 @@ public class ListController {
     private final StoreMemberService storeMemberService;
 
     @GetMapping("/shop/list")
-    public String shopList(RequestPageSortDto requestPageDto, Model model,
-                           StoreSearchType searchType, String keyword) {
-
+    public String shopList(@RequestParam(value = "searchType", required = false) StoreSearchType searchType,
+                           @RequestParam(value = "keyword", required = false) String keyword,
+                           RequestPageSortDto requestPageDto, Model model) {
 
         getShopList(requestPageDto, searchType, keyword, model);
         return "page/shopList";
@@ -69,25 +71,30 @@ public class ListController {
 
     // Paging List
     private void getShopList(RequestPageSortDto requestPageDto, StoreSearchType searchType, String keyword, Model model) {
+        model.addAttribute("searchType", searchType);
         model.addAttribute("keyword", keyword);
         Pageable pageable = requestPageDto.getPageableSort();
+
         if (searchType == null) {
             model.addAttribute("list", storeMemberService.getShopList(pageable));
         } else {
-            model.addAttribute("list", storeMemberService.getShopList(pageable, new SearchCondition(searchType, keyword)));
+            model.addAttribute("list", storeMemberService.getShopSearchList(pageable, new SearchCondition(searchType, keyword)));
         }
     }
 
     private void getFoodList(RequestPageSortDto requestPageDto, StoreType storeType, StoreSearchType searchType,
                              String keyword, Model model) {
+        model.addAttribute("searchType", searchType);
         model.addAttribute("keyword", keyword);
         Pageable pageable = requestPageDto.getPageableSort();
-        if(storeType == null){
-        if (searchType == null) {
-            model.addAttribute("list", storeMemberService.getFoodList(pageable));
-        }else {
-            model.addAttribute("list", storeMemberService.getFoodList(pageable, new SearchCondition(searchType, keyword)));
-        }}else {
+
+        if (storeType == null) {
+            if (searchType == null) {
+                model.addAttribute("list", storeMemberService.getFoodList(pageable));
+            } else {
+                model.addAttribute("list", storeMemberService.getFoodSearchList(pageable, new SearchCondition(searchType, keyword)));
+            }
+        } else {
             model.addAttribute("list", storeMemberService.getFoodTypeList(pageable, storeType));
         }
     }

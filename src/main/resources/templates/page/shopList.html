@@ -12,9 +12,9 @@
             <div style="position: relative;">
                 <div class="form-area">
                     <form method="get" th:action="@{/shop/list}" id="shopSearchForm">
-                        <select class="dropdown" name="searchType">
-                            <option value="store_name">가게 이름</option>
-<!--                            <option value="item">상품</option>-->
+                        <select class="dropdown" name="searchType" th:value="${searchType}">
+                            <option th:each="searchType : ${T(zerogreen.eco.dto.search.StoreSearchType).values()}"
+                                    th:value="${searchType}" th:text="${searchType}"/>
                         </select>
                         <div class="search-bar">
                             <input id="search-input" name="keyword" th:value="${keyword}">

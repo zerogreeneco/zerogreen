@@ -79,8 +79,8 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     }
 
     @Override
-    public Slice<StoreDto> getShopList(Pageable pageable, SearchCondition searchCondition) {
-        return storeMemberRepository.getShopList(pageable, searchCondition);
+    public Slice<StoreDto> getShopSearchList(Pageable pageable, SearchCondition searchCondition) {
+        return storeMemberRepository.getShopSearchList(pageable, searchCondition);
     }
 
     //Food List 출력
@@ -90,13 +90,13 @@ public class StoreMemberServiceImpl implements StoreMemberService {
     }
 
     @Override
-    public Slice<StoreDto> getFoodList(Pageable pageable, SearchCondition searchCondition) {
-        return storeMemberRepository.getFoodList(pageable, searchCondition);
+    public Slice<StoreDto> getFoodTypeList(Pageable pageable, StoreType storeType) {
+        return storeMemberRepository.getFoodTypeList(pageable, storeType);
     }
 
     @Override
-    public Slice<StoreDto> getFoodTypeList(Pageable pageable, StoreType storeType) {
-        return storeMemberRepository.getFoodTypeList(pageable, storeType);
+    public Slice<StoreDto> getFoodSearchList(Pageable pageable, SearchCondition searchCondition) {
+        return storeMemberRepository.getFoodSearchList(pageable, searchCondition);
     }
 
     //storeMyInfo 리뷰
