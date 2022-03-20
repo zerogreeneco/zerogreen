@@ -157,12 +157,12 @@ public class CommunityController {
         if (principalDetails != null) {
             model.addAttribute("likeCount", boardService.countLike(boardId, principalDetails.getBasicUser().getId()));
             session.setAttribute("loginUser", principalDetails.getBasicUser().getUsername());
+            model.addAttribute("myId",principalDetails.getUsername());
         }
 
         model.addAttribute("detailView", boardService.findDetailView(boardId, request, response));
         List<CommunityReplyDto> replyByBoardId = replyService.findReplyByBoardId(boardId);
         model.addAttribute("replyList", replyByBoardId);
-        model.addAttribute("myId",principalDetails.getUsername());
         List<ImageFileDto> imageList = boardImageService.findByBoardId(boardId);
         if (imageList.size() > 0) {
             model.addAttribute("images", imageList);
