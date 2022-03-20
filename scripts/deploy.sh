@@ -7,6 +7,12 @@ echo "> Build 파일 복사"
 
 cp $REPOSITORY/zip/build/libs/*.war $REPOSITORY/
 
+mv $REPOSITORY/zip/eco-0.0.1-SNAPSHOT.war $REPOSITORY/zip/$PROJECT_NAME.war
+
+mv $REPOSITORY/zip/$PROJECT_NAME.war /home/ec2-user/apache-tomcat-9.0.60/webapps
+
+rm -r -f zerogreen
+
 echo "> 현재 구동중인 애플리케이션 pid 확인"
 
 
@@ -35,6 +41,6 @@ chmod +x $WAR_NAME
 echo "> $WAR_NAME 실행"
 
 nohup java -jar \
-    -Dspring.config.location=classpath:/application.properties,classpath:/application-real.properties,/home/ec2-user/app/application-oauth.properties,/home/ec2-user/app/application-real-db.properties \
+    -Dspring.config.location=/home/ec2-user/app/application.properties,classpath:/application-real.properties,/home/ec2-user/app/application-oauth.properties,/home/ec2-user/app/application-real-db.properties \
     -Dspring.profiles.active=real \
     $WAR_NAME > $REPOSITORY/nohup.out 2>&1 &

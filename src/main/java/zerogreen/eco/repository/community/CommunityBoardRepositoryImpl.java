@@ -10,7 +10,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.util.StringUtils;
-import zerogreen.eco.dto.community.CommunityReplyDto;
 import zerogreen.eco.dto.community.CommunityRequestDto;
 import zerogreen.eco.dto.community.CommunityResponseDto;
 import zerogreen.eco.dto.search.SearchCondition;
@@ -19,7 +18,6 @@ import zerogreen.eco.entity.community.*;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.function.Supplier;
 
 import static com.querydsl.core.types.ExpressionUtils.count;
 import static zerogreen.eco.entity.community.QCommunityBoard.communityBoard;
