@@ -76,6 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/storeUsers/**").access("hasRole('ROLE_STORE') or hasRole('ROLE_ADMIN')")
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/profile").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
