@@ -13,7 +13,6 @@ before_install:
 - ls
 - cp application.properties src/main/resources
 - cp application-oauth.properties src/main/resources
-# 압축푼 파일을 보내줘서 war로 만들면 최고!
 - chmod +x gradlew
 cache:
   directories:
