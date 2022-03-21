@@ -5,7 +5,7 @@ branches:
   only:
   - main
 before_install:
-- openssl aes-256-cbc -K  -iv $encrypted_e558ecafaec6_iv
+- openssl aes-256-cbc -K -iv $encrypted_e558ecafaec6_iv
   -in properties.tar.enc -out properties.tar -d
 - echo "압축 풀기 전"$encrypted_e558ecafaec6_key
 - tar -xvf properties.tar
