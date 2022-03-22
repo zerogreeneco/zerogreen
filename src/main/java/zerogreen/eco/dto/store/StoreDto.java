@@ -78,14 +78,14 @@ public class StoreDto {
 
     //List DTO
     public StoreDto(Long id, String storeName, String storePhoneNumber,
-                    String openTime, String closeTime, Long like, String menuName,  String thumbnailName) {
+                    String openTime, String closeTime, Long like, String menuName, String thumbnailName) {
         this.id = id;
         this.storeName = storeName;
         this.storePhoneNumber = storePhoneNumber;
         this.openTime = openTime;
         this.closeTime = closeTime;
-        this.menuName = menuName;
         this.like = like;
+        this.menuName = menuName;
         this.thumbnailName = thumbnailName;
     }
 
