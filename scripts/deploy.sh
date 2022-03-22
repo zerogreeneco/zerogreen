@@ -41,6 +41,4 @@ chmod +x $WAR_NAME
 echo "> $WAR_NAME 실행"
 
 nohup java -jar \
-    -Dspring.config.location=/home/ec2-user/app/application.properties,classpath:/application-real.properties,/home/ec2-user/app/application-oauth.properties,/home/ec2-user/app/application-real-db.properties \
-    -Dspring.profiles.active=real \
     $WAR_NAME > $REPOSITORY/nohup.out 2>&1 &
