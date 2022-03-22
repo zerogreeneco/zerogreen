@@ -23,7 +23,8 @@ cache:
   - "$HOME/.m2/repository"
   - "$HOME/.gradle"
 script:
-- "./gradlew clean build"
+#- "./gradlew clean build"
+- "./gradlew bootWar"
 before_deploy:
 - mkdir -p before-deploy
 - cp scripts/*.sh before-deploy/
