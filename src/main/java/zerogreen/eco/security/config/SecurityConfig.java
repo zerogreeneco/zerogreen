@@ -75,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/**").authenticated()
                 .antMatchers("/storeUsers/**").access("hasRole('ROLE_STORE') or hasRole('ROLE_ADMIN')")
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/h2-console/**", "/profile").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
@@ -106,9 +106,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/h2-console/**")
+        web.ignoring().antMatchers("/h2-console/**", "/profile")
                 .antMatchers("/css/**", "/js/**","/img/**","/members/bootstrap/**");
-
     }
 
 }
