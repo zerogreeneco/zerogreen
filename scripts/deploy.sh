@@ -7,7 +7,8 @@ echo "> Build 파일 복사"
 
 cp $REPOSITORY/zip/build/libs/*.war $REPOSITORY/
 
-mv $REPOSITORY/zip/eco-0.0.1-SNAPSHOT.war $REPOSITORY/zip/$PROJECT_NAME.war
+#mv $REPOSITORY/zip/eco-0.0.1-SNAPSHOT.war $REPOSITORY/zip/$PROJECT_NAME.war
+mv $REPOSITORY/zip/$PROJECT_NAME.war $REPOSITORY/zip/$PROJECT_NAME.war
 
 mv $REPOSITORY/zip/$PROJECT_NAME.war /home/ec2-user/apache-tomcat-9.0.60/webapps
 
