@@ -58,7 +58,7 @@ function deleteImageDB(event) {
     let filePath = thisBtn.parent().find(".file-path").val();
 
     $.ajax({
-        url: "/zerogreen/community/" + imageId + "/imageDelete",
+        url: "/community/" + imageId + "/imageDelete",
         method: "delete",
         dataType: "json",
         data: {
