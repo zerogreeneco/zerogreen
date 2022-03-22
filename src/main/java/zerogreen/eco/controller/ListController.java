@@ -32,6 +32,7 @@ public class ListController {
                            RequestPageSortDto requestPageDto, Model model) {
 
         getShopList(requestPageDto, searchType, keyword, model);
+
         return "page/shopList";
     }
 
@@ -71,7 +72,7 @@ public class ListController {
 
     // Paging List
     private void getShopList(RequestPageSortDto requestPageDto, StoreSearchType searchType, String keyword, Model model) {
-        model.addAttribute("searchType", searchType);
+        model.addAttribute("selectedType", searchType);
         model.addAttribute("keyword", keyword);
         Pageable pageable = requestPageDto.getPageableSort();
 
@@ -84,7 +85,7 @@ public class ListController {
 
     private void getFoodList(RequestPageSortDto requestPageDto, StoreType storeType, StoreSearchType searchType,
                              String keyword, Model model) {
-        model.addAttribute("searchType", searchType);
+        model.addAttribute("selectedType", searchType);
         model.addAttribute("keyword", keyword);
         Pageable pageable = requestPageDto.getPageableSort();
 
@@ -95,6 +96,7 @@ public class ListController {
                 model.addAttribute("list", storeMemberService.getFoodSearchList(pageable, new SearchCondition(searchType, keyword)));
             }
         } else {
+            log.info("Kgh"+storeType);
             model.addAttribute("list", storeMemberService.getFoodTypeList(pageable, storeType));
         }
     }
