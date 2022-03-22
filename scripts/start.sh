@@ -19,6 +19,9 @@ find . -name "*-plain.war" -exec rm {} \;
 mv $REPOSITORY/zip/*.war $REPOSITORY/zerogreen.war
 
 cp $REPOSITORY/zerogreen.war /home/ec2-user/apache-tomcat-9.0.60/webapps
+
+rm -r -f /home/ec2-user/apache-tomcat-9.0.60/webapps/zerogreen
+
 echo "> webappss로 복사"
 echo "> 새 애플리케이션 배포"
 
