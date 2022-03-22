@@ -13,7 +13,8 @@ plugins {
 }
 
 group = 'zerogreen'
-version = '0.0.1-SNAPSHOT-' + new Date().format("yyyyMMddHHmmss")
+//version = '0.0.1-SNAPSHOT-' + new Date().format("yyyyMMddHHmmss")
+version = 'zerogreen'
 sourceCompatibility = '11'
 
 configurations {
