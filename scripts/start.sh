@@ -7,6 +7,7 @@ source ${ABSDIR}/profile.sh
 REPOSITORY=/home/ec2-user/app/step3
 PROJECT_NAME=zerogreen
 
+echo "> START.sh 시작"
 echo "> Build 파일 복사"
 echo "> cp $REPOSITORY/zip/*.war $REPOSITORY/"
 
