@@ -37,6 +37,6 @@ IDLE_PROFILE=$(find_idle_profile)
 
 echo "> $WAR_NAME 를 profile=$IDLE_PROFILE로 실행합니다."
 nohup java -jar \
-#  -Dspring.config.location=/application.properties,/application-$IDLE_PROFILE.properties,/application-oauth.properties,/application-real-db.properties \
-#  -Dspring.profiles.active=$IDLE_PROFILE \
+  -Dspring.config.location=/application.properties,/application-$IDLE_PROFILE.properties,/application-oauth.properties,/application-real-db.properties \
+  -Dspring.profiles.active=$IDLE_PROFILE \
   $WAR_NAME > $REPOSITORY/nohup.out 2>&1 &
