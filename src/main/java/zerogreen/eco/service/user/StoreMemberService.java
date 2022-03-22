@@ -26,10 +26,10 @@ public interface StoreMemberService {
 
     //List 출력
     Slice<StoreDto> getShopList(Pageable pageable);
-    Slice<StoreDto> getShopList(Pageable pageable, SearchCondition searchCondition);
+    Slice<StoreDto> getShopSearchList(Pageable pageable, SearchCondition searchCondition);
     Slice<StoreDto> getFoodList(Pageable pageable);
-    Slice<StoreDto> getFoodList(Pageable pageable, SearchCondition searchCondition);
     Slice<StoreDto> getFoodTypeList(Pageable pageable, StoreType storeType);
+    Slice<StoreDto> getFoodSearchList(Pageable pageable, SearchCondition searchCondition);
 
     //storeMyInfo
     List<DetailReviewDto> getReviewByStore(Long id);

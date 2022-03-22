@@ -53,7 +53,7 @@ public class StoreListRepositoryImpl implements StoreListRepository {
     }
 
     @Override
-    public Slice<StoreDto> getShopList(Pageable pageable, SearchCondition searchCondition) {
+    public Slice<StoreDto> getShopSearchList(Pageable pageable, SearchCondition searchCondition) {
         List<StoreDto> shopList =
                 shopProjections()
                         .where(storeMember._super.userRole.eq(STORE),
@@ -87,27 +87,6 @@ public class StoreListRepositoryImpl implements StoreListRepository {
     }
 
     @Override
-    public Slice<StoreDto> getFoodList(Pageable pageable, SearchCondition searchCondition) {
-        List<StoreDto> foodList = foodProjections()
-                .where(storeMember._super.userRole.eq(STORE),
-                        storeMember.storeType.ne(StoreType.ECO_SHOP),
-                        isSearch(searchCondition.getStoreSearchType(), searchCondition.getContent()))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        List<StoreMember> countQuery = jpaQueryFactory
-                .selectFrom(storeMember)
-                .where(storeMember._super.userRole.eq(STORE),
-                        storeMember.storeType.ne(StoreType.ECO_SHOP),
-                        isSearch(searchCondition.getStoreSearchType(), searchCondition.getContent()))
-                .fetch();
-
-        return new PageImpl<>(foodList, pageable, countQuery.size());
-    }
-
-
-    @Override
     public Slice<StoreDto> getFoodTypeList(Pageable pageable, StoreType storeType) {
         List<StoreDto> foodTypeList = foodProjections()
                 .where(storeMember._super.userRole.eq(STORE),
@@ -127,6 +106,26 @@ public class StoreListRepositoryImpl implements StoreListRepository {
         return new PageImpl<>(foodTypeList, pageable, countQuery.size());
     }
 
+    @Override
+    public Slice<StoreDto> getFoodSearchList(Pageable pageable, SearchCondition searchCondition) {
+        List<StoreDto> foodList = foodProjections()
+                .where(storeMember._super.userRole.eq(STORE),
+                        storeMember.storeType.ne(StoreType.ECO_SHOP),
+                        isSearch(searchCondition.getStoreSearchType(), searchCondition.getContent()))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        List<StoreMember> countQuery = jpaQueryFactory
+                .selectFrom(storeMember)
+                .where(storeMember._super.userRole.eq(STORE),
+                        storeMember.storeType.ne(StoreType.ECO_SHOP),
+                        isSearch(searchCondition.getStoreSearchType(), searchCondition.getContent()))
+                .fetch();
+
+        return new PageImpl<>(foodList, pageable, countQuery.size());
+    }
+
     private JPAQuery<StoreDto> shopProjections() {
         return jpaQueryFactory
                 .select(Projections.constructor(StoreDto.class,
@@ -135,15 +134,7 @@ public class StoreListRepositoryImpl implements StoreListRepository {
                         storeMember.storeInfo.storePhoneNumber,
                         storeMember.storeInfo.openTime,
                         storeMember.storeInfo.closeTime,
-                        ExpressionUtils.as(
-                                JPAExpressions
-                                        .select(storeImage.thumbnailName)
-                                        .from(storeImage, storeImage)
-                                        .where(storeImage.id.eq(
-                                                JPAExpressions
-                                                        .select(storeImage.id.min())
-                                                        .from(storeImage, storeImage)
-                                                        .where(storeImage.storeMember.id.eq(storeMember.id)))), "listThumbnail"),
+                        likes.id.count(),
                         ExpressionUtils.as(
                                 JPAExpressions
                                         .select(storeMenu.menuName)
@@ -153,9 +144,19 @@ public class StoreListRepositoryImpl implements StoreListRepository {
                                                         .select(storeMenu.id.min())
                                                         .from(storeMenu, storeMenu)
                                                         .where(storeMenu.storeMember.id.eq(storeMember.id)))), "menuName"),
-                        likes.id.count()))
+
+                        ExpressionUtils.as(
+                                JPAExpressions
+                                        .select(storeImage.thumbnailName)
+                                        .from(storeImage, storeImage)
+                                        .where(storeImage.id.eq(
+                                                JPAExpressions
+                                                        .select(storeImage.id.min())
+                                                        .from(storeImage, storeImage)
+                                                        .where(storeImage.storeMember.id.eq(storeMember.id)))), "listThumbnail")))
                 .from(storeMember, storeMember)
                 .leftJoin(likes).on(likes.storeMember.id.eq(storeMember.id))
+                .leftJoin(storeMenu).on(storeMenu.storeMember.id.eq(storeMember.id))
                 .groupBy(storeMember.id)
                 .orderBy(likes.id.count().desc().nullsLast());
     }
@@ -168,15 +169,7 @@ public class StoreListRepositoryImpl implements StoreListRepository {
                         storeMember.storeInfo.storePhoneNumber,
                         storeMember.storeInfo.openTime,
                         storeMember.storeInfo.closeTime,
-                        ExpressionUtils.as(
-                                JPAExpressions
-                                        .select(storeImage.thumbnailName)
-                                        .from(storeImage, storeImage)
-                                        .where(storeImage.id.eq(
-                                                JPAExpressions
-                                                        .select(storeImage.id.min())
-                                                        .from(storeImage, storeImage)
-                                                        .where(storeImage.storeMember.id.eq(storeMember.id)))), "listThumbnail"),
+                        likes.id.count(),
                         ExpressionUtils.as(
                                 JPAExpressions
                                         .select(storeMenu.menuName)
@@ -186,9 +179,19 @@ public class StoreListRepositoryImpl implements StoreListRepository {
                                                         .select(storeMenu.id.min())
                                                         .from(storeMenu, storeMenu)
                                                         .where(storeMenu.storeMember.id.eq(storeMember.id)))), "menuName"),
-                        likes.id.count()))
+
+                        ExpressionUtils.as(
+                                JPAExpressions
+                                        .select(storeImage.thumbnailName)
+                                        .from(storeImage, storeImage)
+                                        .where(storeImage.id.eq(
+                                                JPAExpressions
+                                                        .select(storeImage.id.min())
+                                                        .from(storeImage, storeImage)
+                                                        .where(storeImage.storeMember.id.eq(storeMember.id)))), "listThumbnail")))
                 .from(storeMember, storeMember)
                 .leftJoin(likes).on(likes.storeMember.id.eq(storeMember.id))
+                .leftJoin(storeMenu).on(storeMenu.storeMember.id.eq(storeMember.id))
                 .groupBy(storeMember.id)
                 .orderBy(likes.id.count().desc().nullsLast());
     }
@@ -206,7 +209,6 @@ public class StoreListRepositoryImpl implements StoreListRepository {
 
     private BooleanExpression isSearch(StoreSearchType searchType, String searchText) {
         if (searchType.equals(StoreSearchType.store_name)) {
-
             return eqStoreName(searchText);
         } else if (searchType.equals(StoreSearchType.item)) {
             return eqMenuName(searchText);
