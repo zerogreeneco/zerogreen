@@ -16,10 +16,10 @@ pwd
 ls -al
 cd $REPOSITORY/
 find . -name "*-plain.war" -exec rm {} \;
-mv $REPOSITORY/*.war $REPOSITORY/zerogreen.war
+mv $REPOSITORY/zip/*.war $REPOSITORY/zerogreen.war
 
 mv $REPOSITORY/zerogreen.war /home/ec2-user/apache-tomcat-9.0.60/webapps
-
+echo "> webappss로 이동"
 echo "> 새 애플리케이션 배포"
 
 WAR_NAME=$(ls -tr $REPOSITORY/*.war | tail -n 1)
