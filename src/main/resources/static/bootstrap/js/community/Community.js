@@ -10,7 +10,7 @@ $(function () {
     $("#like-btn").click(function () {
 
         $.ajax({
-            url: "/zerogreen/community/like/" + boardId,
+            url: "/community/like/" + boardId,
             method: "post",
             dataType: "json",
             data: {
@@ -34,7 +34,7 @@ $(function () {
         let item = sessionStorage.getItem('LoginUser');
         console.log(item);
         $.ajax({
-            url: "/zerogreen/community/" + boardId + "/reply",
+            url: "/community/" + boardId + "/reply",
             method: "post",
             dataType: "json",
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -59,7 +59,7 @@ $(function () {
     // 게시물 삭제
     $("#delete-board").click(function () {
         actionForm
-            .attr("action", "/zerogreen/community/" + boardId + "/delete")
+            .attr("action", "/community/" + boardId + "/delete")
             .attr("method", "post");
         if (confirm("정말 삭제하시겠습니까?") === true) {
             actionForm.submit();
@@ -100,7 +100,7 @@ function getReplyData() {
     let $id = $("#id").val();
     let $username = $("#login-user").val();
 
-    $.getJSON("/zerogreen/community/api/replyList/" + $id, function (list) {
+    $.getJSON("/community/api/replyList/" + $id, function (list) {
         let html = "";
 
         console.log(list.data);
@@ -114,7 +114,7 @@ function getReplyData() {
             html += "<div class='nest-list'>";
             html += "<input type='hidden' class='replyId' value='" + value.replyId + "'>";
             html += "<span>";
-            html += "<img src='/zerogreen/bootstrap/images/profile/" + value.vegetarianGrade + ".png' width='15px' height='15px'>";
+            html += "<img src='/bootstrap/images/profile/" + value.vegetarianGrade + ".png' width='15px' height='15px'>";
             html += "</span>";
             html += "<span>" + value.nickname + "</span>";
             html += "<span style='font-size: 0.8em; float: right; color: #969696; margin-right: 4px;'>" + value.createdTime + "</span>";
@@ -198,7 +198,7 @@ function modifyReply(event) {
     }
 
     $.ajax({
-        url: "/zerogreen/community/replyModify/" + replyId,
+        url: "/community/replyModify/" + replyId,
         method: "put",
         dataType: "json",
         contentType: 'application/json; charset=utf-8',
@@ -236,7 +236,7 @@ function nestedReplySend(event) {
     }
     console.log(text);
     $.ajax({
-        url: "/zerogreen/community/" + boardId + "/" + replyId + "/nestedReply",
+        url: "/community/" + boardId + "/" + replyId + "/nestedReply",
         method: "post",
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
@@ -260,7 +260,7 @@ function deleteReply(replyId) {
     }
     if (confirm("댓글을 삭제하시겠습니까?") === true) {
         $.ajax({
-            url: "/zerogreen/community/" + replyId + "/delete",
+            url: "/community/" + replyId + "/delete",
             method: "delete",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
@@ -289,7 +289,7 @@ $(function () {
         let searchType = getParameterByName("searchType");
 
         $.ajax({
-            url: "/zerogreen/community",
+            url: "/community",
             method: "post",
             data: {
                 page: page,
@@ -313,7 +313,7 @@ $(function () {
         let boardId = likeBtn.closest("#list-wrapper").children(".list-board-id").val();
 
         $.ajax({
-            url: "/zerogreen/community/like/" + boardId,
+            url: "/community/like/" + boardId,
             method: "post",
             dataType: "json",
             data: {

@@ -13,7 +13,7 @@ $(function (event) {
         }
 
         $.ajax({
-            url: "/zerogreen/members/account",
+            url: "/members/account",
             type: 'patch',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -34,7 +34,7 @@ $(function (event) {
         let data = {vegetarianGrade: vegetarianGrade};
 
         $.ajax({
-            url: "/zerogreen/members/account",
+            url: "/members/account",
             type: 'patch',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -70,7 +70,7 @@ $(function (event) {
             reNewPassword.focus();
         } else {
             $.ajax({
-                url: "/zerogreen/members/account/pwdChange",
+                url: "/members/account/pwdChange",
                 type: "patch",
                 data: {
                     password: password.val(),
@@ -94,7 +94,7 @@ $(function (event) {
         const password = $("#delete_id").val();
 
         $.ajax({
-            url: "/zerogreen/members/account/deleteMember",
+            url: "/members/account/deleteMember",
             type: "delete",
             dataType: "json",
             data: {
