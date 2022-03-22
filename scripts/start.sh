@@ -14,6 +14,11 @@ echo "> cp $REPOSITORY/zip/*.war $REPOSITORY/"
 cp $REPOSITORY/zip/*.war $REPOSITORY/
 pwd
 ls -al
+cd $REPOSITORY/
+find . -name "*-plain.war" -exec rm {} \;
+mv $REPOSITORY/*.war $REPOSITORY/zerogreen.war
+
+mv $REPOSITORY/zerogreen.war /home/ec2-user/apache-tomcat-9.0.60/webapps
 
 echo "> 새 애플리케이션 배포"
 
