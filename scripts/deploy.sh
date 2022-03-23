@@ -32,7 +32,7 @@ echo "> 새 어플리케이션 배포"
 
 WAR_NAME=$(ls -tr $REPOSITORY/*.war | tail -n 1)
 
-echo "> JAR Name: $WAR_NAME"
+echo "> WAR Name: $WAR_NAME"
 
 echo "> $WAR_NAME 에 실행권한 추가"
 
