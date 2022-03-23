@@ -39,7 +39,7 @@ echo "> $WAR_NAME 실행"
 IDLE_PROFILE=$(find_idle_profile)
 
 echo "> $WAR_NAME 를 profile=$IDLE_PROFILE로 실행합니다."
-nohup java -jar zerogreen.war \
+nohup java -jar $REPOSITORY/zerogreen.war \
   -Dspring.config.location=classpath:/home/ec2-user/app/application.properties,classpath:/application-$IDLE_PROFILE.properties,/home/ec2-user/app/application-oauth.properties,/home/ec2-user/app/application-real-db.properties \
   -Dspring.profiles.active=$IDLE_PROFILE \
   $WAR_NAME > $REPOSITORY/nohup.out 2>&1 &
