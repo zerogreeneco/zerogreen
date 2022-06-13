@@ -34,16 +34,16 @@ $(document).ready(function() {
 
     // 더보기
     $("#nextShop").click(function () {
-        let keyword = getParameter("keyword");
-        let searchType = getParameter("searchType");
+        //let keyword = getParameter("keyword");
+        //let searchType = getParameter("searchType");
         ++page;
         $.ajax({
             url: "/zerogreen/shop/list",
             method: "post",
             data: {
                 page: page,
-                keyword: keyword,
-                searchType: searchType
+                //keyword: keyword,
+                //searchType: searchType
             }
         })
             .done(function (fragment) {
